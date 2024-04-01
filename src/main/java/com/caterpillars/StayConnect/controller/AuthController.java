@@ -1,5 +1,6 @@
 package com.caterpillars.StayConnect.controller;
 
+import com.caterpillars.StayConnect.dto.UserDto;
 import com.caterpillars.StayConnect.model.User;
 import com.caterpillars.StayConnect.service.AuthService;
 import org.springframework.stereotype.Controller;
@@ -19,13 +20,18 @@ public class AuthController {
 
     @GetMapping("/signup")
     public String showSignUpForm(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new UserDto());
         return "auth/signup";
     }
 
     @PostMapping("signup")
-    public String signUp(@ModelAttribute("user") User user) {
-        authService.register(user);
+    public String signUp(@ModelAttribute("user")UserDto userDto, Model model) {
+        try {
+            authService.register(userDto);
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "auth/signup";
+        }
         return "redirect:/";
     }
 }
