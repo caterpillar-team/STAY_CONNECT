@@ -7,15 +7,22 @@
 <h1>회원가입</h1>
 <form th:action="@{/signup}" th:object="${user}" method="post">
     <input type="text" th:field="*{realName}" placeholder="실명" />
+    <p th:if="${#fields.hasErrors('realName')}" th:errors="*{realName}">Incorrect Date</p>
     <input type="date" th:field="*{birth}" placeholder="생년월일"  />
+    <p th:if="${#fields.hasErrors('birth')}" th:errors="*{birth}">Incorrect Date</p>
     <select th:field="*{gender}">
         <option value="Male">남자</option>
         <option value="Female">여자</option>
     </select>
+    <p th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Incorrect Date</p>
     <input type="text" th:field="*{phoneNumber}" placeholder="전화번호"  />
+    <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">Incorrect Date</p>
     <input type="text" th:field="*{username}" placeholder="사용자 이름"  />
+    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Incorrect Date</p>
     <input type="password" th:field="*{password}" placeholder="비밀번호"  />
+    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect Date</p>
     <input type="password" th:field="*{confirmPassword}" placeholder="비밀번호 확인"  />
+    <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">Incorrect Date</p>
     <button type="submit">가입하기</button>
 </form>
 </body>

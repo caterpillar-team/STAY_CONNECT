@@ -27,9 +27,12 @@ public class AuthController {
 
     @PostMapping("signup")
     public String signUp(@Valid @ModelAttribute("user") UserSignUpDto userSignUpDto, BindingResult bindingResult, Model model) {
-
+        if (bindingResult.hasErrors()){
+            return "auth/signup";
+        } else {
             authService.register(userSignUpDto);
-        return "redirect:/";
+            return "redirect:/";
+        }
     }
 
     @GetMapping("/signin")
