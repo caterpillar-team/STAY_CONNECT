@@ -6,20 +6,17 @@
 <body>
 <h1>회원가입</h1>
 <form th:action="@{/signup}" th:object="${user}" method="post">
-    <input type="text" th:field="*{realName}" placeholder="실명" required />
-    <input type="date" th:field="*{birth}" placeholder="생년월일" required />
+    <input type="text" th:field="*{realName}" placeholder="실명" />
+    <input type="date" th:field="*{birth}" placeholder="생년월일"  />
     <select th:field="*{gender}">
         <option value="Male">남자</option>
         <option value="Female">여자</option>
     </select>
-    <input type="text" th:field="*{phoneNumber}" placeholder="전화번호" required />
-    <input type="text" th:field="*{username}" placeholder="사용자 이름" required />
-    <input type="password" th:field="*{password}" placeholder="비밀번호" required />
-    <input type="password" th:field="*{confirmPassword}" placeholder="비밀번호 확인" required />
+    <input type="text" th:field="*{phoneNumber}" placeholder="전화번호"  />
+    <input type="text" th:field="*{username}" placeholder="사용자 이름"  />
+    <input type="password" th:field="*{password}" placeholder="비밀번호"  />
+    <input type="password" th:field="*{confirmPassword}" placeholder="비밀번호 확인"  />
     <button type="submit">가입하기</button>
 </form>
-<div th:if="${error}">
-    <p th:text="${error}"></p>
-</div>
 </body>
 </html>

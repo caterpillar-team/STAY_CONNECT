@@ -5,9 +5,8 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
-public class UserDto {
+@Getter @Setter
+public class UserSignUpDto {
     private String realName;
     private LocalDate birth;
     private String gender;
