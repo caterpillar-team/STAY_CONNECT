@@ -1,29 +1,178 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Sign Up</title>
+
+    <!-- Google Icon -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                    'FILL' 0,
+                    'wght' 400,
+                    'GRAD' 0,
+                    'opsz' 24
+        }
+    </style>
+
+    <!-- signup.css -->
+    <link href="/signup.css" rel="stylesheet">
+
 </head>
+
 <body>
-<h1>회원가입</h1>
-<form th:action="@{/signup}" th:object="${user}" method="post">
-    <input type="text" th:field="*{realName}" placeholder="실명" />
-    <p th:if="${#fields.hasErrors('realName')}" th:errors="*{realName}">Incorrect Date</p>
-    <input type="date" th:field="*{birth}" placeholder="생년월일"  />
-    <p th:if="${#fields.hasErrors('birth')}" th:errors="*{birth}">Incorrect Date</p>
-    <select th:field="*{gender}">
-        <option value="Male">남자</option>
-        <option value="Female">여자</option>
-    </select>
-    <p th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">Incorrect Date</p>
-    <input type="text" th:field="*{phoneNumber}" placeholder="전화번호"  />
-    <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">Incorrect Date</p>
-    <input type="text" th:field="*{username}" placeholder="사용자 이름"  />
-    <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Incorrect Date</p>
-    <input type="password" th:field="*{password}" placeholder="비밀번호"  />
-    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect Date</p>
-    <input type="password" th:field="*{confirmPassword}" placeholder="비밀번호 확인"  />
-    <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">Incorrect Date</p>
-    <button type="submit">가입하기</button>
-</form>
+<div class="wrapper">
+    <div class="top-header">
+        <div class="left">
+            <a href="/main">
+                <img src="img/StayConnect-logo.png">
+            </a>
+        </div>
+        <div class="right">
+            <ul>
+                <li><a href="/login">로그인</a></li>
+                <li><a href="/join">회원가입</a></li>
+                <li>
+                    <a href="">
+                        <span class="material-symbols-outlined">account_circle</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="join-logo"><img src="img/StayConnect-logo.png"></div>
+    <div class="container">
+        <form action="/joinProc" method="post" class="joinForm">
+            <div class="joinTitle"><h2>회원가입</h2></div>
+            <div class="top-join">
+                <div class="user-input">
+                    <!-- 이름 입력 -->
+                    <div class="user-input">
+                        <span><h6 class="list">이름</h6></span>
+                        <span>
+                            <input type="text" id="name" class="input-blank" placeholder="이름을 입력하세요">
+                        </span>
+                    </div>
+                    <!-- 생년월일/성별 -->
+                    <div class="user-input">
+                        <span><h6 class="list">생년월일/성별</h6></span>
+                        <div class="id-no">
+                            <div class="id-no-space">
+                                <input type="text" class="input-blank" placeholder="생년월일 6자리" >
+                            </div>
+                            <div class="id-no-space">-</div>
+                            <div class="id-no-space">
+                                <select class="fm">
+                                    <option value="male">1</option>
+                                    <option value="female">2</option>
+                                </select>
+                                <span>●●●●●●</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 전화번호 입력 -->
+                    <div class="user-input">
+                        <span><h6 class="list">전화번호</h6></span>
+                        <span><input type="text" class="input-blank" placeholder="전화번호를 입력하세요"></span>
+                    </div>
+                    <!-- 아이디 입력 -->
+                    <div class="user-input">
+                        <span><h6 class="list">아이디</h6></span>
+                        <span><input type="text" class="input-blank" placeholder="아이디를 입력하세요"></span>
+                    </div>
+                    <!-- 비밀번호 입력 -->
+                    <div class="user-input">
+                        <span><h6 class="list">비밀번호</h6></span>
+                        <span><input type="password" class="input-blank" placeholder="영어, 숫자, 특수문자를 조합한 8자리 이상"></span>
+                    </div>
+                    <!-- 비밀번호 확인 입력 -->
+                    <div class="user-input">
+                        <span><h6 class="list">비밀번호 확인</h6></span>
+                        <span><input type="password" class="input-blank" placeholder="동일한 비밀번호를 입력하세요"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="mid-join">
+                <div class="all-agree">
+                    <div class="agree-list"><h6 class="list">약관 동의</h6></div>
+                    <div class="agree-list"><input type="checkbox" class=""> 전체 약관 동의</div>
+                </div>
+                <div class="agree">
+                    <div class="agree-list"><input type="checkbox" class=""> [필수] 이용 약관에 동의합니다.</div>
+                    <div class="agree-list"><input type="checkbox" class=""> [필수] 개인정보 수집 및 이용에 동의합니다.</div>
+                    <div class="agree-list-select"><input type="checkbox" class=""> [선택] 프로모션 수신에 동의합니다.</div>
+                </div>
+            </div>
+            <div class="bot-join">
+                <div class="join-kakao">
+                    <a href="" class="join-oth">
+                        <span><img src="img/kakao_logo.png" class="join-oth-logo"></span>
+                        <span>카카오로 시작하기</span>
+                    </a>
+                </div>
+                <div class="join-naver">
+                    <a href="" class="join-oth">
+                        <span><img src="img/naver_logo.png" class="join-oth-logo"></span>
+                        <span>네이버로 시작하기</span>
+                    </a>
+                </div>
+                <div class="join-google">
+                    <a href="" class="join-oth">
+                        <span><img src="img/google_logo.png" class="join-oth-logo"></span>
+                        <span>구글로 시작하기</span>
+                    </a>
+                </div>
+            </div>
+            <div class="foot-join">
+                <div class="back-or-join"><a href="/main" >돌아가기</a></div>
+                <div class="back-or-join"><a href="" >가입하기</a></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <div class="footer">
+        <div class="member">
+            <p>강지영</p>
+            <a href="https://github.com/jiyoung79">
+                <img src="img/github_logo.png" alt="github">
+            </a>
+            <a href="https://glowing-windscreen-f69.notion.site/STUDY-LOG-9ab0b9f9c33640689b07920514af02fc?pvs=4">
+                <img src="img/notion_logo.png" alt="notion">
+            </a>
+        </div>
+        <div class="member">
+            <p>윤지원</p>
+            <a href="https://github.com/JIWON55">
+                <img src="img/github_logo.png" alt="github">
+            </a>
+            <a href="https://www.notion.so/697efc2d82a14e6eb5765cdb29c2f688?pvs=16">
+                <img src="img/notion_logo.png" alt="notion">
+            </a>
+        </div>
+        <div class="member">
+            <p>이재형</p>
+            <a href="https://github.com/koonlx">
+                <img src="img/github_logo.png" alt="github">
+            </a>
+            <a href="https://www.notion.so/Koonlx-Logs-0abf877a435e42b3a51a20417528de35?pvs=4
+                ">
+                <img src="img/notion_logo.png" alt="notion">
+            </a>
+        </div>
+        <div class="member">
+            <p>조은파</p>
+            <a href="https://github.com/silverywaves">
+                <img src="img/github_logo.png" alt="github">
+            </a>
+            <a href="https://www.notion.so/buttered-submarine-e5a">
+                <img src="img/notion_logo.png" alt="notion">
+            </a>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
