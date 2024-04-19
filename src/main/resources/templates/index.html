@@ -19,6 +19,7 @@
                 <img th:src="@{/img/StayConnect-logo.png}">
             </a>
         </div>
+
         <div class="right">
             <ul>
                 <li class="line"><a th:href="@{/login}">로그인</a></li>
@@ -32,13 +33,10 @@
         </div>
     </div>
 </div>
-<div class="section1">
+<div th:replace="fragments/section1 :: section1Fragment" >
     <img th:src="@{/img/StayConnect-main.jpg}">
     <div class="section1-left">
         <div class="title">
-            <span class="material-symbols-outlined">location_on</span>
-            <div class="underline"></div>
-            <p>지도로 검색하기</p>
         </div>
         <div class="select-city">
             <div class="select-1" id="selectedItem">
@@ -82,44 +80,7 @@
 
     </div>
 </div>
-<section class="section2">
-    <div class="search">
-        <div class="underline"></div>
-        <p>조건으로 검색하기</p>
-        <form action="">
-            <!-- 숙소검색 -->
-            <div class="room">
-                <span class="material-symbols-outlined">search</span>
-                <input type="text" class="form-control" placeholder="이름 검색하기" aria-describedby="basic-addon1">
-            </div>
-            <!-- 날짜검색 -->
-            <div class="date">
-                <span class="material-symbols-outlined">event_available</span>
-                <input type="date">
-            </div>
-            <!-- 인원 -->
-            <div class="people">
-                <span class="material-symbols-outlined">group</span>
-                <select class="form-select" id="inputGroupSelect01">
-                    <option selected>인원선택</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                </select>
-            </div>
-            <!-- 버튼 -->
-            <button type="button" class="btn btn-outline-primary">조회하기</button>
-        </form>
-
-    </div>
-</section>
+<section th:replace="fragments/section2 :: section2Fragment"></section>
 <section class="section3">
 
 
