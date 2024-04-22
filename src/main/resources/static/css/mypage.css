@@ -190,7 +190,3 @@ section .reservation_chk .reservation_info div h4 {
 .btn:hover {
   background-color: rgb(71, 117, 201);
 }
-
-footer {
-  /* margin-top: 700px; */
-}
