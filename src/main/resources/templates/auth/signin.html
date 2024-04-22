@@ -1,150 +1,93 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Login</title>
     <!-- google icon  -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
     <!--  css file  -->
-    <link th:href="@{/css/Login.css}" rel="stylesheet" />
-</head>
-<body>
-<div th:class="${wrapper}">
-    <div th:class="${top-header}" >
-        <div th:class="${left}">
+    <link th:href="@{/css/signin.css}" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div th:replace="fragments/top-header-fragment :: top-header"></div>
+    </div>
+    <div th:class="main">
+      <div th:class="login">
+        <div th:class="logo-area">
+          <div th:class="logo">
             <a href="@{/}">
-                <img th:src="@{/img/StayConnect-logo.png}">
+              <img th:src="@{/img/StayConnect-logo.png}" alt="" />
             </a>
+          </div>
         </div>
-        <div th:class="${right}">
-            <ul >
-                <li><a href="@{/login}">로그인</a></li>
-                <li><a href="@{/join}">회원가입</a></li>
-                <li>
-                    <a href="@{/mypage}">
-                        <span th:class="${material-symbols-outlined}">account_circle</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div th:class="${main}">
 
-        <div th:class="${login}">
-            <div th:class="${logo-area}">
-                <div th:class="${logo}">
-                    <a href="@{/}">
-                        <img th:src="@{/img/StayConnect-logo.png}" alt="">
-                    </a>
+        <div th:class="login-area">
+          <div th:class="contents">
+            <form action="">
+              <div th:class="insert">
+                <div th:class="id">
+                  <span>아이디</span>
+                  <input type="text" th:placeholder="'아이디를 입력하세요'" />
                 </div>
-            </div>
-            
-            <div th:class="${login-area}">
-                <div th:class="${contents}">
-                    <form action="">
-                        <div th:class="${insert}">
-                            <div th:class="${id}">
-                        
-                                <span>아이디</span>   
-                                <input type="text" th:placeholder="${아이디를 입력하세요}">
-                                
-                            </div>
-                            <div th:class="${pw}">
-                                
-                                <span>비밀번호</span>
-                                <input type="text" th:placeholder="${비밀번호를 입력하세요}">
-                                
-                            </div>
-                        </div>
+                <div th:class="pw">
+                  <span>비밀번호</span>
+                  <input type="text" th:placeholder="'비밀번호를 입력하세요'" />
+                </div>
+              </div>
 
-                        <div th:class="${id_save}">
-                            <div>
-                                <input type="checkbox" name="아이디저장" th:id="${save}">
-                                <a th:href="@{}">아이디저장</a>
-                            </div>
-                            <div>
-                                <ul>
-                                    <li th:class="${search_id}"><a href="@{}">아이디 찾기</a></li>
-                                    <li th:class="${split}"> | </li>
-                                    <li th:class="${search_pw}"><a href="@{}">비밀번호 찾기</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div th:id="${kakao}">
-                            
-                            <div th:id="${kakao_customBtn}" th:class="${customKPlusSignIn}">
-                            <span th:class="${K_icon}"></span>
-                            <span th:class="${buttonText}">카카오로 시작하기</span>
-                            </div>
-                        </div>
-                        
-                        <div th:id="${naver}">
-                            
-                            <div th:id="${naver_customBtn}" th:class="${customNPlusSignIn}">
-                            <span th:class="${N_icon}"></span>
-                            <span th:class="${buttonText}">네이버로 시작하기</span>
-                            </div>
-                        </div>
-                        
-                        <div th:id="${google}">
-                            
-                            <div th:id="${google_customBtn}" th:class="${customGPlusSignIn}">
-                            <span th:class="${G_icon}"></span>
-                            <span th:class="${buttonText}">Google로 시작하기</span>
-                            </div>
-                        </div>
-                        <div th:class="${button-login}">
-                            <div>
-                                <a th:href="@{}">로그인</a>
-                            </div>
-                        </div> 
-                    </form>
+              <div th:class="id_save">
+                <div>
+                  <input type="checkbox" name="아이디저장" th:id="save" />
+                  <a th:href="@{/}">아이디저장</a>
                 </div>
-            </div>
+                <div>
+                  <ul>
+                    <li th:class="search_id">
+                      <a href="@{/}">아이디 찾기</a>
+                    </li>
+                    <li th:class="split">|</li>
+                    <li th:class="search_pw">
+                      <a href="@{/}">비밀번호 찾기</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div th:id="kakao">
+                <div th:id="kakao_customBtn" th:class="customKPlusSignIn">
+                  <span th:class="K_icon"></span>
+                  <span th:class="buttonText">카카오로 시작하기</span>
+                </div>
+              </div>
+
+              <div th:id="naver">
+                <div th:id="naver_customBtn" th:class="customNPlusSignIn">
+                  <span th:class="N_icon"></span>
+                  <span th:class="buttonText">네이버로 시작하기</span>
+                </div>
+              </div>
+
+              <div th:id="google">
+                <div th:id="google_customBtn" th:class="customGPlusSignIn">
+                  <span th:class="G_icon"></span>
+                  <span th:class="buttonText">Google로 시작하기</span>
+                </div>
+              </div>
+              <div th:class="button-login">
+                <div>
+                  <a th:href="@{/}">로그인</a>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-    <footer>
-        <div th:class="${footer}">
-            <div th:class="${member}">
-                <p>강지영</p>
-                <a th:href="@{https://github.com/jiyoung79}">
-                    <img th:src="@{/img/github_logo.png}" alt="github">
-                </a>
-                <a th:href="@{https://glowing-windscreen-f69.notion.site/STUDY-LOG-9ab0b9f9c33640689b07920514af02fc?pvs=4}">
-                    <img th:src="@{/img/notion_logo.png}" alt="notion">
-                </a>
-            </div>
-            <div th:class="${member}">
-                <p>윤지원</p>
-                <a th:href="@{https://github.com/JIWON55}">
-                    <img th:src="@{/img/github_logo.png}" alt="github">
-                </a>
-                <a th:href="@{https://vanilla-grip-15e.notion.site/Project-d7748292b4fd4449a72b1dbf64b6596f?pvs=4}">
-                    <img th:src="@{/img/notion_logo.png}" alt="notion">
-                </a>
-                
-            </div>
-            <div th:class="${member}">
-                <p>이재형</p>
-                <a th:href="@{https://github.com/koonlx}">
-                    <img th:src="@{/img/github_logo.png}"alt="github">
-                </a>
-                <a th:href="@{https://www.notion.so/Koonlx-Logs-0abf877a435e42b3a51a20417528de35?pvs=4}">
-                    <img th:src="@{/img/notion_logo.png}" alt="notion">
-                </a>
-            </div>
-            <div th:class="${member}">
-                <p>조은파</p>
-                <a th:href="@{https://github.com/silverywaves}">
-                    <img th:src="@{/img/github_logo.png}" alt="github">
-                </a>
-                <a th:href="@{https://www.notion.so/buttered-submarine-e5a}">
-                    <img th:src="@{/img/notion_logo.png}" alt="notion">
-                </a>
-            </div>
-        </div>
-        </footer>
-     
+      </div>
+      <footer>
+        <div th:replace="fragments/footer-fragment :: footer"></div>
+      </footer>
     </div>
-</div>
-</body>
+  </body>
 </html>

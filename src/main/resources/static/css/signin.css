@@ -1,87 +1,81 @@
 @font-face {
-    font-family: 'SUIT-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'SUIT-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-style: normal;
 }
 
-*{
-    /* border: 1px solid; */
-    list-style: none;
-    
+* {
+  /* border: 1px solid; */
+  list-style: none;
 }
-a{text-decoration: none;}
-
+a {
+  text-decoration: none;
+}
 
 .material-symbols-outlined {
-    font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24
-  }
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
 
-
-body{
-    width : 100%;
-    height : 100vh;
-    background-color : white;
-   
+body {
+  width: 100%;
+  height: 100vh;
+  background-color: white;
 }
 
 /* header */
-.wrapper{
-  position : relative;
+.wrapper {
+  position: relative;
 }
 
-.wrapper .top-header{
-  height:120px;
+.wrapper .top-header {
+  height: 120px;
   /* border : 1px solid; */
-  display:flex;
+  display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.wrapper>.top-header>.left{
-  width : 90px;
-  height:100%;
-  margin-left : 10px;
+.wrapper > .top-header > .left {
+  width: 90px;
+  height: 100%;
+  margin-left: 10px;
   margin-top: 15px;
-  
 }
 
-.wrapper .top-header .left a{
-  width : 100%;
-  height : 100%;
+.wrapper .top-header .left a {
+  width: 100%;
+  height: 100%;
   padding: 10px;
 }
 
-.wrapper .top-header .left a img{
-  width : 100%;
-  height : 100%;
+.wrapper .top-header .left a img {
+  width: 100%;
+  height: 100%;
 }
 
-.wrapper .top-header .right ul{
+.wrapper .top-header .right ul {
   justify-content: space-between;
   align-items: center;
   list-style-type: none;
   padding: 0;
   margin: 0;
   display: flex;
-  margin-right : 15px;
+  margin-right: 15px;
   font-family: 'SUIT-Regular';
 }
 
-.wrapper .top-header> .right ul li{
+.wrapper .top-header > .right ul li {
   list-style-type: none;
-  margin-right:30px;
-  text-align:right;
-  font-size : 1.2rem;
+  margin-right: 30px;
+  text-align: right;
+  font-size: 1.2rem;
 }
 
-.wrapper .top-header> .right ul li a{
+.wrapper .top-header > .right ul li a {
   text-decoration: none;
-  color : gray;
+  color: gray;
 }
 
 .top-header ul li a {
@@ -107,289 +101,235 @@ body{
   transform: scaleX(1);
 }
 
-
 /* 메인 - 로고 영역*/
 
-
-.main>.login {
+.main > .login {
   margin-top: 100px;
-
 }
-.logo-area>.logo{
-    display: flex;
-    justify-content: center;
+.logo-area > .logo {
+  display: flex;
+  justify-content: center;
 }
-.logo-area>.logo>a{
-    display: inline-block;
-    padding: 50px;
-    
-
-    
+.logo-area > .logo > a {
+  display: inline-block;
+  padding: 50px;
 }
-.logo-area>.logo>a>img{
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    margin: 20px 0 10px 0;
-
-
+.logo-area > .logo > a > img {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 10px 0;
 }
-
-
-
 
 /* 메인 - 로그인 영역 */
 
-.login-area{
-    display: flex;
-    justify-content: center;
-    
-
+.login-area {
+  display: flex;
+  justify-content: center;
 }
-.login-area>.contents{
-   width: 35%;
-   background-color: rgb(255, 253, 245);
-   box-shadow: 2px 2px 10px 4px #888;
-   
-   
-   
+.login-area > .contents {
+  width: 35%;
+  background-color: rgb(255, 253, 245);
+  box-shadow: 2px 2px 10px 4px #888;
 }
 
-
-
-
-.login-area>.contents>form{
+.login-area > .contents > form {
   margin: 15%;
 }
-.login-area>.contents>form>.insert{
-   
+.login-area > .contents > form > .insert {
 }
-
 
 /* 아이디 인풋 */
 
-.login-area>.contents>form>.insert>.id{
-  
+.login-area > .contents > form > .insert > .id {
   margin: 5% 0;
   padding: 0;
 }
 
-
-.id>span{
-  font-family: 'SUIT-Regular'; 
-  display: block;
-  margin-bottom: 5px;
-    
-}
-.id>input{
-  width: 100%;
-  height: 50px;
-  padding-left: 10px;`
-  
-    
-}
-
-
-
-/* 비밀번호 인풋 */
-
-
-.pw{
-    
-    padding: 0;
-}
-
-
-.pw>span{
+.id > span {
   font-family: 'SUIT-Regular';
   display: block;
   margin-bottom: 5px;
 }
-.pw>input{
-    width: 100%;
-    height: 50px;
-    padding-left: 10px;
-    
-    
+.id > input {
+  width: 100%;
+  height: 50px;
+  padding-left: 10px;
+}
+
+/* 비밀번호 인풋 */
+
+.pw {
+  padding: 0;
+}
+
+.pw > span {
+  font-family: 'SUIT-Regular';
+  display: block;
+  margin-bottom: 5px;
+}
+.pw > input {
+  width: 100%;
+  height: 50px;
+  padding-left: 10px;
 }
 
 /* 아이디 저장여부 및 정보 찾기 */
 
-.id_save{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px 0;
+.id_save {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
 }
-.id_save>div{
-    margin-bottom: 50px;
-    
+.id_save > div {
+  margin-bottom: 50px;
 }
-.id_save>div>input{
-
+.id_save > div > input {
 }
-#save~a{
+#save ~ a {
   font-family: 'SUIT-Regular';
   font-size: 18px;
-  
-
 }
-.id_save>div>ul{
-    display: flex;
-    
-    
-
+.id_save > div > ul {
+  display: flex;
 }
-.id_save>div>ul>li{
-  
+.id_save > div > ul > li {
 }
-.split{
+.split {
   font-family: 'SUIT-Regular';
   font-size: 18px;
   margin: 0 10px;
 }
-.search_id a{
+.search_id a {
   font-family: 'SUIT-Regular';
   font-size: 18px;
-  
-  
 }
 
-.search_pw a{
+.search_pw a {
   font-family: 'SUIT-Regular';
   font-size: 18px;
-  
 }
-
-
 
 /* 카카오로 시작하기 */
 #kakao_customBtn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #FEE500;
-    color: #191919;
-    border-radius: 12px;
-    padding: 0.5em 1em;
-    margin: 5% 0;
-    
-    
-    
-  }
-  #kakao_customBtn:hover {
-    cursor: pointer;
-  }
-  
-  span.K_icon {
-    background: url('/img/kakao_symbol.png') ;
-    background-size: contain;
-    display: inline-block;
-    vertical-align: middle;
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fee500;
+  color: #191919;
+  border-radius: 12px;
+  padding: 0.5em 1em;
+  margin: 5% 0;
+}
+#kakao_customBtn:hover {
+  cursor: pointer;
+}
 
-  /* 네이버로 시작하기 */
+span.K_icon {
+  background: url('/img/kakao_symbol.png');
+  background-size: contain;
+  display: inline-block;
+  vertical-align: middle;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+}
 
-  #naver_customBtn {
-    padding: 0.5em 1em;
-    border-radius: 0.25em;
-    font-size: 0.8rem;
-    margin: 5% 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 400;
-    box-shadow: var(--shadow-1);
-    background-color: #03C75A;
-    color: white;
-   
+/* 네이버로 시작하기 */
 
-  }
-  #naver_customBtn:hover {
-    cursor: pointer;
-  }
-  
-  span.N_icon {
-    background: url('/img/naver_symbol.png') ;
-    background-size: contain;
-    display: inline-block;
-    vertical-align: middle;
-    width: 42px;
-    height: 42px;
-    
-  }
- 
+#naver_customBtn {
+  padding: 0.5em 1em;
+  border-radius: 0.25em;
+  font-size: 0.8rem;
+  margin: 5% 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  box-shadow: var(--shadow-1);
+  background-color: #03c75a;
+  color: white;
+}
+#naver_customBtn:hover {
+  cursor: pointer;
+}
+
+span.N_icon {
+  background: url('/img/naver_symbol.png');
+  background-size: contain;
+  display: inline-block;
+  vertical-align: middle;
+  width: 42px;
+  height: 42px;
+}
+
 /* 구글로 시작하기 */
 
-  #google_customBtn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: white;
-    color: #444;
-    margin: 5% 0;
-    border-radius: 5px;
-    border: thin solid #888;
-    box-shadow: 1px 1px 1px grey;
-    white-space: nowrap;
-    padding: 0.2em 1em;
-    
-  }
-  #google_customBtn:hover {
-    cursor: pointer;
-  }
-  
-  span.G_icon {
-    background: url('/img/google_symbol.png') ;
-    background-size: contain;
-    display: inline-block;
-    vertical-align: middle;
-    width: 42px;
-    height: 42px;
-    border-radius: 100%;
-  }
+#google_customBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  color: #444;
+  margin: 5% 0;
+  border-radius: 5px;
+  border: thin solid #888;
+  box-shadow: 1px 1px 1px grey;
+  white-space: nowrap;
+  padding: 0.2em 1em;
+}
+#google_customBtn:hover {
+  cursor: pointer;
+}
 
-  span.buttonText {
-    display: inline-block;
-    vertical-align: middle;
-    padding-left: 42px;
-    padding-right: 42px;
-    font-size: 14px;
-    font-weight: bold;
-    /* Use the Roboto font that is loaded in the <head> */
-    font-family: 'Roboto', sans-serif;
-  }
+span.G_icon {
+  background: url('/img/google_symbol.png');
+  background-size: contain;
+  display: inline-block;
+  vertical-align: middle;
+  width: 42px;
+  height: 42px;
+  border-radius: 100%;
+}
 
-  .button-login{
-    margin: 50px;
-  }
-  .button-login div{
-    display: flex;
-    justify-content: center;
-    border: 1px solid;
-    border-radius: 25px;
-    background-color: rgb(255, 250, 239);
-  }
-  .button-login div a{
-    font-size: 38px;
-  }
+span.buttonText {
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 42px;
+  padding-right: 42px;
+  font-size: 14px;
+  font-weight: bold;
+  /* Use the Roboto font that is loaded in the <head> */
+  font-family: 'Roboto', sans-serif;
+}
+
+.button-login {
+  margin: 50px;
+}
+.button-login div {
+  display: flex;
+  justify-content: center;
+  border: 1px solid;
+  border-radius: 25px;
+  background-color: rgb(255, 250, 239);
+}
+.button-login div a {
+  font-size: 38px;
+}
 
 /* footer */
-.footer{
-  width : 100%;
-  height : 110px;
-  margin-top : 150px;
+.footer {
+  width: 100%;
+  height: 110px;
+  margin-top: 150px;
   /* border : 1px solid black; */
   display: flex;
   justify-content: space-around;
   background-color: rgb(255, 248, 232);
 }
 
-.footer .member{
+.footer .member {
   width: 200px;
   height: 110px;
   display: flex;
@@ -399,17 +339,16 @@ body{
   position: relative;
 }
 
-.footer .member p{
+.footer .member p {
   font-family: 'SUIT-Regular';
   color: black;
   display: flex;
   margin-top: 10px;
 }
 
-.footer .member a{
+.footer .member a {
   width: 30px;
   height: 30px;
   display: flex;
   margin-left: 40px;
 }
-

@@ -1,204 +1,196 @@
-body{
-    height: auto;
+body {
+  height: auto;
 }
 @font-face {
-    font-family: 'SUIT-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'SUIT-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-style: normal;
 }
-
-
-
 
 .menu {
-    width: 300px;
-    position: relative;
-    align-items: center;
-    justify-content: center;
-    /* display: flex; */
-    position: absolute;
-    margin-top: 25px;
+  width: 300px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  /* display: flex; */
+  position: absolute;
+  margin-top: 25px;
 }
 
-.menu h3{
-    text-align: center;
-    font-weight: 300;
-    font-family: 'SUIT-Regular';
-    padding: 15px;
+.menu h3 {
+  text-align: center;
+  font-weight: 300;
+  font-family: 'SUIT-Regular';
+  padding: 15px;
 }
 
 .menu div {
-    width: 100%; 
-    display: flex;
-    justify-content: center;
-    
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-.menu div a{
-    width: 220px;
-    height: 50px;
-    border: 1px solid lightgray;
-    display: flex;
-    align-items: center;
-    /* justify-content: center; */
-    text-align: left;
-    font-family: 'SUIT-Regular';
-    border-radius: 5px;
-    text-decoration: none;
-    color: black;
+.menu div a {
+  width: 220px;
+  height: 50px;
+  border: 1px solid lightgray;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  text-align: left;
+  font-family: 'SUIT-Regular';
+  border-radius: 5px;
+  text-decoration: none;
+  color: black;
 }
 
-section{
-    margin-top: 30px;
-    width: 600ox;
-    height: 600px;
-    /* border: 1px solid lightgray; */
-    display: flex;
-    position: relative;
-    margin-left: 300px;
+section {
+  margin-top: 30px;
+  width: 600ox;
+  height: 600px;
+  /* border: 1px solid lightgray; */
+  display: flex;
+  position: relative;
+  margin-left: 300px;
 }
 
 /* myinfo */
-section .myinfo{
-    width: 900px;
-    margin-left: 30px;
+section .myinfo {
+  width: 900px;
+  margin-left: 30px;
 }
 
-section .myinfo h3{
-    /* text-align: center; */
-    font-weight: 400;
-    font-family: 'SUIT-Regular';
-    padding: 15px 15px 15px 0px;
+section .myinfo h3 {
+  /* text-align: center; */
+  font-weight: 400;
+  font-family: 'SUIT-Regular';
+  padding: 15px 15px 15px 0px;
 }
 
-section .myinfo .underline{
-    width: 165px;
-    height: 3px;
-    background-color: rgb(143, 175, 236);
-    margin-top: -15px;
+section .myinfo .underline {
+  width: 165px;
+  height: 3px;
+  background-color: rgb(143, 175, 236);
+  margin-top: -15px;
 }
 
-section .myinfo p{
-    font-family: 'SUIT-Regular';
-    font-size: 1.4rem;
-    /* font-weight: 500; */
-    margin-top: 60px;
-    margin-bottom: 20px;
+section .myinfo p {
+  font-family: 'SUIT-Regular';
+  font-size: 1.4rem;
+  /* font-weight: 500; */
+  margin-top: 60px;
+  margin-bottom: 20px;
 }
 
 section .myinfo form {
-    display: flex;
-    flex-wrap: wrap;
-
+  display: flex;
+  flex-wrap: wrap;
 }
 
 section .myinfo form > div {
-    width: 350px;
-    margin-right: 100px;
-    margin-bottom: 10%;
+  width: 350px;
+  margin-right: 100px;
+  margin-bottom: 10%;
 }
 
 section .myinfo form > div:last-child {
-    margin-right: 0;
+  margin-right: 0;
 }
 
-section .myinfo form > div label{
-    font-size: 0.9rem;
+section .myinfo form > div label {
+  font-size: 0.9rem;
 }
-
 
 /* reservation_chk */
-section .reservation_chk{
-    width: 900px;
-    margin-left: 30px;
+section .reservation_chk {
+  width: 900px;
+  margin-left: 30px;
 }
 
-section .reservation_chk h3{
-    /* text-align: center; */
-    font-weight: 400;
-    font-family: 'SUIT-Regular';
-    padding: 15px 15px 15px 0px;
+section .reservation_chk h3 {
+  /* text-align: center; */
+  font-weight: 400;
+  font-family: 'SUIT-Regular';
+  padding: 15px 15px 15px 0px;
 }
 
-section .reservation_chk .underline{
-    width: 100px;
-    height: 3px;
-    background-color: rgb(143, 175, 236);
-    margin-top: -15px;
+section .reservation_chk .underline {
+  width: 100px;
+  height: 3px;
+  background-color: rgb(143, 175, 236);
+  margin-top: -15px;
 }
 
-section .reservation_chk h4{
-    margin-top: 25px;
-    font-family: 'SUIT-Regular';
-    font-weight: bold;
+section .reservation_chk h4 {
+  margin-top: 25px;
+  font-family: 'SUIT-Regular';
+  font-weight: bold;
 }
 
-section .reservation_chk p{
-    font-family: 'SUIT-Regular';
-    font-size: 1.3rem;
-    /* font-weight: 500; */
-    margin-top: 20px;
-    margin-bottom: 20px;
+section .reservation_chk p {
+  font-family: 'SUIT-Regular';
+  font-size: 1.3rem;
+  /* font-weight: 500; */
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
-section .reservation_chk .reservation_date{
-    display: flex;
-    height: 60px;
-    width: auto;
+section .reservation_chk .reservation_date {
+  display: flex;
+  height: 60px;
+  width: auto;
 }
 
-section .reservation_chk .reservation_date .material-symbols-outlined{
-    margin-top: -3px;
-    /* font-weight: 100; */
-    color: rgb(255, 78, 78);
+section .reservation_chk .reservation_date .material-symbols-outlined {
+  margin-top: -3px;
+  /* font-weight: 100; */
+  color: rgb(255, 78, 78);
 }
 
-section .reservation_chk .reservation_date p{
-    margin-left: 10px;
-    margin-top: -1px;
+section .reservation_chk .reservation_date p {
+  margin-left: 10px;
+  margin-top: -1px;
 }
 
-section .reservation_chk .room{
-    width: 700px;
-    height: 400px;
-    border: 1px solid black;
-    margin-top: 30px;
+section .reservation_chk .room {
+  width: 700px;
+  height: 400px;
+  border: 1px solid black;
+  margin-top: 30px;
 }
 
-section .reservation_chk .reservation_info{
-    width: auto;
-    height: auto;
-
+section .reservation_chk .reservation_info {
+  width: auto;
+  height: auto;
 }
 
-section .reservation_chk .reservation_info div{
-    margin-top: 50px;
+section .reservation_chk .reservation_info div {
+  margin-top: 50px;
 }
 
-section .reservation_chk .reservation_info div h4{
-    font-weight: bolder;
+section .reservation_chk .reservation_info div h4 {
+  font-weight: bolder;
 }
 
-.btn{
-    width: 200px;
-    height: 60px;
-    display: block;
-    margin: 0 auto;
-    /* border: 1px solid black; */
-    color: white;
-    background-color: rgb(143, 175, 236);
-    font-size: 1.2rem;
-    margin-top: 150px;
-    /* left: 30px; */
+.btn {
+  width: 200px;
+  height: 60px;
+  display: block;
+  margin: 0 auto;
+  /* border: 1px solid black; */
+  color: white;
+  background-color: rgb(143, 175, 236);
+  font-size: 1.2rem;
+  margin-top: 150px;
+  /* left: 30px; */
 }
 
-.btn:hover{
-    background-color: rgb(71, 117, 201);
+.btn:hover {
+  background-color: rgb(71, 117, 201);
 }
 
-footer{
-    /* margin-top: 700px; */
-    
+footer {
+  /* margin-top: 700px; */
 }
-
