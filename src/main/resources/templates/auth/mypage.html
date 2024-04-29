@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <!-- bootstrap -->
-    <link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/bootstrap.min.css}" />
     <script th:src="@{/bootstrap/bootstrap.min.js}"></script>
     <!-- google icon  -->
     <link
@@ -13,63 +13,63 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
     <!--  css file  -->
-    <link th:href="@{/css/main.css}" rel="stylesheet" />
     <link th:href="@{/css/mypage.css}" rel="stylesheet" />
+    <link th:href="@{/css/module/header.module.css}" rel="stylesheet" />
+    <link th:href="@{/css/module/footer.module.css}" rel="stylesheet" />
   </head>
   <body>
     <!-- header -->
 
     <div class="wrapper">
       <div th:replace="fragments/top-header-fragment :: top-header"></div>
+
+      <!-- menu -->
+      <div class="menu">
+        <h3>마이페이지</h3>
+        <div><a href="">&nbsp;&nbsp;&nbsp;&nbsp;예약목록</a></div>
+        <div><a href="">&nbsp;&nbsp;&nbsp;&nbsp;개인 정보 수정</a></div>
+      </div>
+
+      <section>
+        <div
+          th:replace="fragments/reservation_chk-fragment :: reservation_chk"
+        ></div>
+        <!-- <div th:replace="fragments/myinfo-fragment :: myinfo"></div> -->
+      </section>
+
+      <!-- footer -->
+      <footer>
+        <div th:replace="fragments/footer-fragment :: footer"></div>
+      </footer>
     </div>
-
-    <!-- menu -->
-    <div class="menu">
-      <h3>마이페이지</h3>
-      <div><a href="">&nbsp;&nbsp;&nbsp;&nbsp;예약목록</a></div>
-      <div><a href="">&nbsp;&nbsp;&nbsp;&nbsp;개인 정보 수정</a></div>
-    </div>
-
-    <section>
-      <div
-        th:replace="fragments/reservation_chk-fragment :: reservation_chk"
-      ></div>
-      <!-- <div th:replace="fragments/myinfo-fragment :: myinfo"></div> -->
-    </section>
-
-    <!-- footer -->
-    <footer>
-      <div th:replace="fragments/footer-fragment :: footer"></div>
-    </footer>
-
-    <script>
-      document.getElementById('phone').addEventListener('input', function (e) {
-        var target = e.target;
-        var phone = target.value.replace(/[^0-9]/g, ''); // 숫자만 남김
-        var formattedPhone = '';
-
-        if (phone.length < 4) {
-          formattedPhone = phone;
-        } else if (phone.length < 7) {
-          formattedPhone = phone.substring(0, 3) + '-' + phone.substring(3);
-        } else if (phone.length < 11) {
-          formattedPhone =
-            phone.substring(0, 3) +
-            '-' +
-            phone.substring(3, 6) +
-            '-' +
-            phone.substring(6);
-        } else {
-          formattedPhone =
-            phone.substring(0, 3) +
-            '-' +
-            phone.substring(3, 7) +
-            '-' +
-            phone.substring(7, 11);
-        }
-
-        target.value = formattedPhone;
-      });
-    </script>
   </body>
+  <script>
+    document.getElementById('phone').addEventListener('input', function (e) {
+      var target = e.target;
+      var phone = target.value.replace(/[^0-9]/g, ''); // 숫자만 남김
+      var formattedPhone = '';
+
+      if (phone.length < 4) {
+        formattedPhone = phone;
+      } else if (phone.length < 7) {
+        formattedPhone = phone.substring(0, 3) + '-' + phone.substring(3);
+      } else if (phone.length < 11) {
+        formattedPhone =
+          phone.substring(0, 3) +
+          '-' +
+          phone.substring(3, 6) +
+          '-' +
+          phone.substring(6);
+      } else {
+        formattedPhone =
+          phone.substring(0, 3) +
+          '-' +
+          phone.substring(3, 7) +
+          '-' +
+          phone.substring(7, 11);
+      }
+
+      target.value = formattedPhone;
+    });
+  </script>
 </html>
