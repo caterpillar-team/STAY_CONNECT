@@ -25,5 +25,10 @@ public class URIController {
   public String getUserList() {
     return "admin_user";
   }
+  @GetMapping("/test")
+  public String test() {
+    return "test";
+  }
+  
 
 }
