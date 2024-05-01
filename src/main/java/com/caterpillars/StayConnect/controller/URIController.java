@@ -3,6 +3,8 @@ package com.caterpillars.StayConnect.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+
+
 @Controller
 public class URIController {
 
@@ -23,12 +25,16 @@ public class URIController {
 
   @GetMapping("/admin/user/list")
   public String getUserList() {
-    return "admin_user";
+    return "admin_userList";
   }
 
   @GetMapping("/test")
   public String test() {
     return "test/test";
   }
-
+  
+  @GetMapping("/admin/review/list")
+  public String getReviewList() {
+    return "admin_reviewList";
+  }
 }
