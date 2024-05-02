@@ -23,7 +23,7 @@ public class URIController {
 
   @GetMapping("/admin/user/list")
   public String getUserList() {
-    return "admin_user";
+    return "admin_userList";
   }
 
   @GetMapping("/test")
@@ -31,4 +31,8 @@ public class URIController {
     return "test/test";
   }
 
+  @GetMapping("/admin/review/list")
+  public String getReviewList() {
+    return "admin_reviewList";
+  }
 }
