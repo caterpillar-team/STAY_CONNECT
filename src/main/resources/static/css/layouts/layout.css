@@ -1,0 +1,60 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0px;
+}
+
+html,
+body {
+  height: 100vh;
+}
+
+.layoutContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+section {
+  flex: 1;
+  display: flex;
+}
+
+main {
+  flex: 4;
+}
+aside {
+  flex: 1;
+}
+
+header,
+main,
+aside,
+footer {
+  text-align: center;
+}
+
+header {
+  border-color: hsl(360deg 100% 50%);
+  background-color: hsl(360deg 100% 50% / 0.2);
+}
+
+nav {
+  border-color: hsl(30deg 100% 50%);
+  background-color: hsl(30deg 100% 50% / 0.2);
+}
+
+main {
+  border-color: hsl(180deg 100% 30%);
+  background-color: hsl(180deg 100% 30% / 0.2);
+}
+
+aside {
+  border-color: hsl(210deg 100% 50%);
+  background-color: hsl(210deg 100% 50% / 0.2);
+}
+
+footer {
+  border-color: hsl(300deg 100% 50%);
+  background-color: hsl(300deg 100% 50% / 0.2);
+}
