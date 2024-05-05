@@ -1,0 +1,34 @@
+.indexContainer {
+  background-color: white;
+}
+.indexContainer > .main-section {
+  position: relative;
+}
+.main-section > .main-image {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.indexContainer > .main-section > .main-image > img {
+  width: 100%;
+  height: auto;
+  border-radius: 28% 35% 83% 52% / 20% 75% 60% 40%;
+  background-color: rgba(255, 255, 255);
+  opacity: 0.82;
+}
+.indexContainer > .main-section > .map-searchCard {
+  position: absolute;
+  top: 20%;
+  left: 55%;
+  width: 30%;
+  height: 70%;
+  z-index: 2;
+  background-color: rgba(255, 255, 255);
+  opacity: 0.9;
+}
+
+.indexContainer > .main-section > .map-searchCard > #map {
+  width: 100%;
+  height: 100%;
+}
