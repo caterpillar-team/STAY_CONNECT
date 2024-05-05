@@ -5,12 +5,13 @@
   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{layouts/layout}"
 >
-  <!-- <th:block layout:fragment="javascript">
+  <th:block layout:fragment="javascript">
+    <!-- 지도 api -->
     <script
       type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_APP_KEY"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b8f20a221506b373bac69207f38af4f7"
     ></script>
-  </th:block> -->
+  </th:block>
   <th:block layout:fragment="title">
     <title>index page</title>
   </th:block>
@@ -24,39 +25,83 @@
           <img th:src="@{/img/StayConnect-main.jpg}" alt="main image" />
         </div>
         <div class="map-searchCard">
+          <form class="search__form" action="">
+            <input type="text" />
+            <button class="btn btn-primary">search</button>
+          </form>
           <div id="map"></div>
         </div>
         <div class="conditional-searchCard"></div>
       </section>
-      <section></section>
+      <!-- <section class="conditional-section"></section> -->
+      <section class="conditional-section">
+        <div>
+          <p>조건으로 검색하기</p>
+        </div>
+        <form>
+          <div class="row">
+            <!-- 숙소검색 -->
+            <div class="col-md-4">
+              <div class="input-group">
+                <span class="input-group-text material-symbols-outlined"
+                  >search</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="이름 검색하기"
+                  aria-label="Room search"
+                />
+              </div>
+            </div>
+            <!-- 날짜검색 -->
+            <div class="col-md-3">
+              <div class="input-group">
+                <span class="input-group-text material-symbols-outlined"
+                  >event_available</span
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  aria-label="Date picker"
+                />
+              </div>
+            </div>
+            <!-- 인원 -->
+            <div class="col-md-3">
+              <div class="input-group">
+                <span class="input-group-text material-symbols-outlined"
+                  >group</span
+                >
+                <select
+                  class="form-select"
+                  id="inputGroupSelect01"
+                  aria-label="People select"
+                >
+                  <option selected>인원 선택</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
+            <!-- 버튼 -->
+            <div class="col-md-2">
+              <button type="button" class="btn btn-primary">조회하기</button>
+            </div>
+          </div>
+        </form>
+      </section>
+
       <section></section>
     </div>
-
-    <!-- 지도 api -->
-    <script
-      type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b8f20a221506b373bac69207f38af4f7"
-    ></script>
-    <script type="text/javascript">
-      var container = document.getElementById('map');
-      var options = {
-        center: new kakao.maps.LatLng(35.8664929, 128.5935208),
-        level: 3,
-      };
-
-      //컨트롤러 표시
-      var map = new kakao.maps.Map(container, options);
-      var mapTypeControl = new kakao.maps.MapTypeControl();
-
-      map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-
-      var zoomControl = new kakao.maps.ZoomControl();
-      map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-
-      // 지도 중심좌표에 마커를 생성합니다
-      var marker = new kakao.maps.Marker({
-        position: map.getCenter(),
-      });
-    </script>
+    <script th:src="@{/js/kakaoMapAPI.js}"></script>
   </th:block>
 </html>
