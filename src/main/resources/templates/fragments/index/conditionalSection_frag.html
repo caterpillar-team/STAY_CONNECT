@@ -1,0 +1,49 @@
+<section class="conditional-section" th:fragment="conditionalSection">
+  <div>
+    <p>조건으로 검색하기</p>
+  </div>
+  <form>
+    <div>
+      <!-- 숙소검색 -->
+      <div class="input-group">
+        <span class="input-group-text material-symbols-outlined">search</span>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="이름 검색하기"
+          aria-label="Room search"
+        />
+      </div>
+      <!-- 날짜검색 -->
+      <div class="input-group">
+        <span class="input-group-text material-symbols-outlined"
+          >event_available</span
+        >
+        <input type="date" class="form-control" aria-label="Date picker" />
+      </div>
+      <!-- 인원 -->
+      <div class="input-group">
+        <span class="input-group-text material-symbols-outlined">group</span>
+        <select
+          class="form-select"
+          id="inputGroupSelect01"
+          aria-label="People select"
+        >
+          <option selected>인원 선택</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+      </div>
+      <!-- 버튼 -->
+      <button type="button" class="btn btn-primary">조회하기</button>
+    </div>
+  </form>
+</section>
