@@ -12,8 +12,10 @@
     ><link rel="stylesheet" th:href="@{/css/pages/auth/signIn.css}"
   /></th:block>
   <th:block layout:fragment="main">
-    <div class="join-logo"><img th:src="@{/img/logo.svg}" width="100px" height="100px"/></div>
     <div class="container">
+      <div class="join-logo">
+        <img th:src="@{/img/logo.svg}" width="100px" height="100px" />
+      </div>
       <form th:action="@{/joinProc}" method="post" class="joinForm">
         <div class="joinTitle"><h2>회원가입</h2></div>
         <div class="top-join">

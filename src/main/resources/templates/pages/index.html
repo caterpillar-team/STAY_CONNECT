@@ -20,10 +20,12 @@
   /></th:block>
   <th:block layout:fragment="main">
     <div class="indexContainer">
-      <section th:replace="~{fragments/index/mainSection_frag::mainSection}"></section>
-      <section th:replace="~{fragments/index/conditionalSection_frag::conditionalSection}"></section>
-      
-
+      <section
+        th:replace="~{fragments/index/mainSection_frag::mainSection}"
+      ></section>
+      <section
+        th:replace="~{fragments/index/conditionalSection_frag::conditionalSection}"
+      ></section>
       <section></section>
     </div>
     <script th:src="@{/js/kakaoMapAPI.js}"></script>
