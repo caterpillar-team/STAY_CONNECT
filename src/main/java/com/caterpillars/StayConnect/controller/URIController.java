@@ -6,33 +6,33 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class URIController {
 
+  @GetMapping("/")
+  public String index() {
+    return "pages/index";
+  }
+
   @GetMapping("/signup")
-  public String showSignUpForm() {
-    return "auth/signup";
+  public String getSignUp() {
+    return "pages/auth/signUp";
   }
 
   @GetMapping("/signin")
-  public String signin() {
-    return "auth/signin";
+  public String getSignIn() {
+    return "pages/auth/signIn";
   }
 
   @GetMapping("/mypage")
-  public String myPage() {
-    return "auth/mypage";
+  public String getMyPage() {
+    return "pages/user/myPage";
   }
 
-  @GetMapping("/admin/user/list")
-  public String getUserList() {
-    return "admin_userList";
+  @GetMapping("/admin/reviewList")
+  public String getAdminReviewList() {
+    return "pages/admin/reviewList";
   }
 
-  @GetMapping("/test")
-  public String test() {
-    return "test/test";
-  }
-
-  @GetMapping("/admin/review/list")
-  public String getReviewList() {
-    return "admin_reviewList";
+  @GetMapping("/admin/userList")
+  public String getAdminUserList() {
+    return "pages/admin/userList";
   }
 }

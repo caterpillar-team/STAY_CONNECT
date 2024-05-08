@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/layout}"
+>
+  <th:block layout:fragment="title">
+    <title>signIn page</title>
+  </th:block>
+  <th:block layout:fragment="css"
+    ><link rel="stylesheet" th:href="@{/css/pages/auth/signIn.css}"
+  /></th:block>
+  <th:block layout:fragment="main">
+    <div class="signIn-container">
+      <div class="signIn-card">
+        <a th:href="@{/}">
+          <img
+            class="logo--image"
+            th:src="@{/img/StayConnect-logo.png}"
+            alt=""
+          />
+        </a>
+        <form action="">
+          <span>아이디</span>
+          <input type="text" placeholder="'아이디를 입력하세요'" />
+          <span>비밀번호</span>
+          <input type="text" placeholder="'비밀번호를 입력하세요'" />
+
+          <input type="checkbox" name="아이디저장" id="save" />
+          <a th:href="@{/}">아이디저장</a>
+          <div>
+            <ul>
+              <li class="search_id">
+                <a href="@{/}">아이디 찾기</a>
+              </li>
+              <li class="split">|</li>
+              <li class="search_pw">
+                <a th:href="@{/}">비밀번호 찾기</a>
+              </li>
+            </ul>
+          </div>
+
+          <span class="K_icon"></span>
+          <span class="buttonText">카카오로 시작하기</span>
+
+          <span class="N_icon"></span>
+          <span class="buttonText">네이버로 시작하기</span>
+
+          <span class="G_icon"></span>
+          <span class="buttonText">Google로 시작하기</span>
+
+          <button>signIn</button>
+        </form>
+      </div>
+    </div>
+  </th:block>
+</html>

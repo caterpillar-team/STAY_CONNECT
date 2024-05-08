@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block layout:fragment="title"></th:block>
+    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="javascript"></th:block>
+    <link rel="stylesheet" th:href="@{/css/common/footer.css}" />
+    <link rel="stylesheet" th:href="@{/css/common/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/layouts/layout.css}" />
+    <link rel="stylesheet" th:href="@{/libs/bootstrap/bootstrap.min.css}" />
+    <script th:src="@{/libs/bootstrap/bootstrap.min.js}"></script>
+    <script th:src="@{/libs/ajax/popper.min.js}"></script>
+    <script th:src="@{/libs/jquery/jquery.min.js}"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+  </head>
+  <body>
+    <div class="layoutContainer">
+      <header>
+        <div th:insert="~{fragments/common/header_frag::header}"></div>
+      </header>
+      <section>
+        <aside>
+          <th:block layout:fragment="leftAside">LeftAside</th:block>
+        </aside>
+        <main><th:block layout:fragment="main">Main</th:block></main>
+        <aside>
+          <th:block layout:fragment="rightAside">RightAside</th:block>
+        </aside>
+      </section>
+      <footer>
+        <div th:insert="~{fragments/common/footer_frag::footer}"></div>
+      </footer>
+    </div>
+  </body>
+</html>

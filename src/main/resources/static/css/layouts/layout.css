@@ -1,0 +1,51 @@
+@font-face {
+  font-family: 'SUIT-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+html,
+body {
+  height: 100vh;
+}
+
+.layoutContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+section {
+  flex: 1;
+  display: flex;
+}
+
+header,
+main,
+aside,
+footer {
+  text-align: center;
+}
+
+main {
+  flex: 4;
+}
+
+aside {
+  flex: 1;
+  flex-shrink: 0;
+  border-color: hsl(210deg 100% 50%);
+  background-color: hsl(210deg 100% 50% / 0.2);
+}
