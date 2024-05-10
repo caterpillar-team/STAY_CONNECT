@@ -16,41 +16,56 @@
       <div class="signIn-card">
         <a th:href="@{/}">
           <img
-            class="logo--image"
-            th:src="@{/img/StayConnect-logo.png}"
-            alt=""
+            class="logo__image"
+            th:src="@{/img/logo.svg}"
+            style="height: 180px"
+            alt="logo image"
           />
         </a>
         <form action="">
-          <span>아이디</span>
-          <input type="text" placeholder="'아이디를 입력하세요'" />
-          <span>비밀번호</span>
-          <input type="text" placeholder="'비밀번호를 입력하세요'" />
-
-          <input type="checkbox" name="아이디저장" id="save" />
-          <a th:href="@{/}">아이디저장</a>
-          <div>
-            <ul>
-              <li class="search_id">
-                <a href="@{/}">아이디 찾기</a>
-              </li>
-              <li class="split">|</li>
-              <li class="search_pw">
-                <a th:href="@{/}">비밀번호 찾기</a>
-              </li>
-            </ul>
+          <div class="id">
+            <span>아이디</span>
+            <input type="text" placeholder="'아이디를 입력하세요'" />
+          </div>
+          <div class="pw">
+            <span>비밀번호</span>
+            <input type="text" placeholder="'비밀번호를 입력하세요'" />
+          </div>
+          <div class="id__save">
+            <div>
+              <input type="checkbox" name="아이디저장" id="save" />
+              <a th:href="@{/}">아이디저장</a>
+            </div>
+            <div>
+              <ul>
+                <li class="search_id">
+                  <a href="@{/}">아이디 찾기</a>
+                </li>
+                <li class="split">|</li>
+                <li class="search_pw">
+                  <a th:href="@{/}">비밀번호 찾기</a>
+                </li>
+              </ul>
+            </div>
           </div>
 
-          <span class="K_icon"></span>
-          <span class="buttonText">카카오로 시작하기</span>
-
-          <span class="N_icon"></span>
-          <span class="buttonText">네이버로 시작하기</span>
-
-          <span class="G_icon"></span>
-          <span class="buttonText">Google로 시작하기</span>
-
-          <button>signIn</button>
+          <div th:id="kakao_customBtn" th:class="customKPlusSignIn">
+            <span class="K_icon"></span>
+            <span class="buttonText">카카오로 시작하기</span>
+          </div>
+          <div th:id="naver_customBtn" th:class="customNPlusSignIn">
+            <span class="N_icon"></span>
+            <span class="buttonText">네이버로 시작하기</span>
+          </div>
+          <div th:id="google_customBtn" th:class="customGPlusSignIn">
+            <span class="G_icon"></span>
+            <span class="buttonText">Google로 시작하기</span>
+          </div>
+          <div class="button-login">
+            <div>
+              <a th:href="@{/}">로그인</a>
+            </div>
+          </div>
         </form>
       </div>
     </div>

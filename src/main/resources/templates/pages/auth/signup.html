@@ -16,7 +16,12 @@
       <div class="join-logo">
         <img th:src="@{/img/logo.svg}" width="100px" height="100px" />
       </div>
-      <form th:action="@{/joinProc}" method="post" class="joinForm">
+      <form
+        th:action="@{/signup}"
+        method="post"
+        class="joinForm"
+        th:object="${user}"
+      >
         <div class="joinTitle"><h2>회원가입</h2></div>
         <div class="top-join">
           <div class="user-input">
@@ -29,6 +34,7 @@
                 <input
                   type="text"
                   id="name"
+                  th:field="*{realName}"
                   class="input-blank"
                   placeholder="이름을 입력하세요"
                 />
@@ -42,16 +48,17 @@
               <div class="id-no">
                 <div class="id-no-space">
                   <input
-                    type="text"
+                    type="date"
                     class="input-blank"
+                    th:field="*{birth}"
                     placeholder="생년월일 6자리"
                   />
                 </div>
                 <div class="id-no-space">-</div>
                 <div class="id-no-space">
-                  <select class="fm">
-                    <option value="male">1</option>
-                    <option value="female">2</option>
+                  <select class="fm" th:field="*{gender}">
+                    <option th:value="true">1</option>
+                    <option th:value="false">2</option>
                   </select>
                   <span>●●●●●●</span>
                 </div>
@@ -66,6 +73,7 @@
                 ><input
                   type="text"
                   id="phone"
+                  th:field="*{phoneNumber}"
                   class="input-blank"
                   placeholder="전화번호를 입력하세요(- 제외)"
               /></span>
@@ -79,6 +87,7 @@
                 ><input
                   type="text"
                   class="input-blank"
+                  th:field="*{email}"
                   placeholder="이메일을 입력하세요"
               /></span>
             </div>
@@ -91,6 +100,7 @@
                 ><input
                   type="text"
                   class="input-blank"
+                  th:field="*{username}"
                   placeholder="아이디를 입력하세요"
               /></span>
             </div>
@@ -103,6 +113,7 @@
                 ><input
                   type="password"
                   class="input-blank"
+                  th:field="*{password}"
                   placeholder="영어, 숫자, 특수문자를 조합한 8자리 이상"
               /></span>
             </div>
@@ -115,6 +126,7 @@
                 ><input
                   type="password"
                   class="input-blank"
+                  th:field="*{confirmPassword}"
                   placeholder="동일한 비밀번호를 입력하세요"
               /></span>
             </div>
@@ -169,12 +181,21 @@
         </div>
         <div class="foot-join">
           <div class="back-or-join"><a th:href="@{/static}">돌아가기</a></div>
-          <div class="back-or-join"><a th:href="@{#}">가입하기</a></div>
+          <div class="back-or-join">
+            <a th:href="'javascript:void(0);'" onclick="submitForm()"
+              >가입하기</a
+            >
+          </div>
         </div>
       </form>
     </div>
 
     <script>
+      // 회원가입 전송 form
+      function submitForm() {
+        document.querySelector('.joinForm').submit(); // 폼 ID를 사용하여 제출
+        console.log('회원가입~~~');
+      }
       // 휴대폰정보 '-' 자동 생성
       document.getElementById('phone').addEventListener('input', function (e) {
         var target = e.target;
@@ -213,12 +234,12 @@
         const evtBtnTag4 = document.getElementById('id_e');
 
         ckTag.addEventListener('click', (event) => {
-          const chckValue = event.currentTarget.checked;
+          const checkValue = event.currentTarget.checked;
 
-          evtBtnTag1.checked = chckValue;
-          evtBtnTag2.checked = chckValue;
-          evtBtnTag3.checked = chckValue;
-          evtBtnTag4.checked = chckValue;
+          evtBtnTag1.checked = checkValue;
+          evtBtnTag2.checked = checkValue;
+          evtBtnTag3.checked = checkValue;
+          evtBtnTag4.checked = checkValue;
         });
 
         evtBtnTag1.addEventListener('click', (event) => {
