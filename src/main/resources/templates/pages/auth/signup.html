@@ -9,130 +9,128 @@
     <title>signUp page</title>
   </th:block>
   <th:block layout:fragment="css"
-    ><link rel="stylesheet" th:href="@{/css/pages/auth/signIn.css}"
+    ><link rel="stylesheet" th:href="@{/css/pages/auth/signUp.css}"
   /></th:block>
   <th:block layout:fragment="main">
     <div class="container">
-      <div class="join-logo">
-        <img th:src="@{/img/logo.svg}" width="100px" height="100px" />
-      </div>
       <form
         th:action="@{/signup}"
         method="post"
-        class="joinForm"
+        class="join-form"
         th:object="${user}"
       >
-        <div class="joinTitle"><h2>회원가입</h2></div>
-        <div class="top-join">
-          <div class="user-input">
-            <!-- 이름 입력 -->
-            <div class="user-input">
-              <span class="listBox">
-                <h6 class="list">이름</h6>
-              </span>
-              <span>
+        <div class="join__logo">
+          <img th:src="@{/img/logo.svg}" />
+        </div>
+        <div class="join__title"><h2>회원가입</h2></div>
+        <div class="top__join">
+          <!-- 이름 입력 -->
+          <div class="user__input">
+            <span class="listBox">
+              <h6 class="list">이름</h6>
+            </span>
+            <span>
+              <input
+                type="text"
+                id="name"
+                th:field="*{realName}"
+                class="input-blank"
+                placeholder="이름을 입력하세요"
+              />
+            </span>
+          </div>
+          <!-- 생년월일/성별 -->
+          <div class="user__input">
+            <span class="listBox">
+              <h6 class="list">생년월일/성별</h6>
+            </span>
+            <div class="id__no">
+              <div class="id-no-space">
                 <input
-                  type="text"
-                  id="name"
-                  th:field="*{realName}"
+                  type="date"
                   class="input-blank"
-                  placeholder="이름을 입력하세요"
+                  th:field="*{birth}"
+                  placeholder="생년월일 6자리"
                 />
-              </span>
-            </div>
-            <!-- 생년월일/성별 -->
-            <div class="user-input">
-              <span class="listBox">
-                <h6 class="list">생년월일/성별</h6>
-              </span>
-              <div class="id-no">
-                <div class="id-no-space">
-                  <input
-                    type="date"
-                    class="input-blank"
-                    th:field="*{birth}"
-                    placeholder="생년월일 6자리"
-                  />
-                </div>
-                <div class="id-no-space">-</div>
-                <div class="id-no-space">
-                  <select class="fm" th:field="*{gender}">
-                    <option th:value="true">1</option>
-                    <option th:value="false">2</option>
-                  </select>
-                  <span>●●●●●●</span>
-                </div>
+              </div>
+              <div class="id-no-space">-</div>
+              <div class="id-no-space">
+                <select class="fm" th:field="*{gender}">
+                  <option th:value="true">1</option>
+                  <option th:value="false">2</option>
+                </select>
+                <span>●●●●●●</span>
               </div>
             </div>
-            <!-- 전화번호 입력 -->
-            <div class="user-input">
-              <span class="listBox">
-                <h6 class="list">전화번호</h6>
-              </span>
-              <span
-                ><input
-                  type="text"
-                  id="phone"
-                  th:field="*{phoneNumber}"
-                  class="input-blank"
-                  placeholder="전화번호를 입력하세요(- 제외)"
-              /></span>
-            </div>
-            <!-- 이메일 입력 -->
-            <div class="user-input">
-              <span class="listBox">
-                <h6 class="list">이메일</h6>
-              </span>
-              <span
-                ><input
-                  type="text"
-                  class="input-blank"
-                  th:field="*{email}"
-                  placeholder="이메일을 입력하세요"
-              /></span>
-            </div>
-            <!-- 아이디 입력 -->
-            <div class="user-input">
-              <span class="listBox">
-                <h6 class="list">아이디</h6>
-              </span>
-              <span
-                ><input
-                  type="text"
-                  class="input-blank"
-                  th:field="*{username}"
-                  placeholder="아이디를 입력하세요"
-              /></span>
-            </div>
-            <!-- 비밀번호 입력 -->
-            <div class="user-input">
-              <span class="listBox">
-                <h6 class="list">비밀번호</h6>
-              </span>
-              <span
-                ><input
-                  type="password"
-                  class="input-blank"
-                  th:field="*{password}"
-                  placeholder="영어, 숫자, 특수문자를 조합한 8자리 이상"
-              /></span>
-            </div>
-            <!-- 비밀번호 확인 입력 -->
-            <div class="user-input">
-              <span class="listBox">
-                <h6 class="list">비밀번호 확인</h6>
-              </span>
-              <span
-                ><input
-                  type="password"
-                  class="input-blank"
-                  th:field="*{confirmPassword}"
-                  placeholder="동일한 비밀번호를 입력하세요"
-              /></span>
-            </div>
+          </div>
+          <!-- 전화번호 입력 -->
+          <div class="user__input">
+            <span class="listBox">
+              <h6 class="list">전화번호</h6>
+            </span>
+            <span
+              ><input
+                type="text"
+                id="phone"
+                th:field="*{phoneNumber}"
+                class="input-blank"
+                placeholder="전화번호를 입력하세요(- 제외)"
+            /></span>
+          </div>
+          <!-- 이메일 입력 -->
+          <div class="user__input">
+            <span class="list__box">
+              <h6 class="list">이메일</h6>
+            </span>
+            <span
+              ><input
+                type="text"
+                class="input-blank"
+                th:field="*{email}"
+                placeholder="이메일을 입력하세요"
+            /></span>
+          </div>
+          <!-- 아이디 입력 -->
+          <div class="user__input">
+            <span class="list__box">
+              <h6 class="list">아이디</h6>
+            </span>
+            <span
+              ><input
+                type="text"
+                class="input-blank"
+                th:field="*{username}"
+                placeholder="아이디를 입력하세요"
+            /></span>
+          </div>
+          <!-- 비밀번호 입력 -->
+          <div class="user__input">
+            <span class="list__box">
+              <h6 class="list">비밀번호</h6>
+            </span>
+            <span
+              ><input
+                type="password"
+                class="input-blank"
+                th:field="*{password}"
+                placeholder="영어, 숫자, 특수문자를 조합한 8자리 이상"
+            /></span>
+          </div>
+          <!-- 비밀번호 확인 입력 -->
+          <div class="user__input">
+            <span class="list__box">
+              <h6 class="list">비밀번호 확인</h6>
+            </span>
+            <span
+              ><input
+                type="password"
+                class="input-blank"
+                th:field="*{confirmPassword}"
+                placeholder="동일한 비밀번호를 입력하세요"
+            /></span>
           </div>
         </div>
-        <div class="mid-join">
+        <div class="mid__join">
           <div class="all-agree">
             <div class="agree-list"><h6 class="list">약관 동의</h6></div>
             <div class="agree-list">
@@ -153,7 +151,7 @@
             </div>
           </div>
         </div>
-        <div class="bot-join">
+        <div class="bot__join">
           <div class="join-kakao">
             <a th:href="@{#}" class="join-oth">
               <span
@@ -179,7 +177,7 @@
             </a>
           </div>
         </div>
-        <div class="foot-join">
+        <div class="foot__join">
           <div class="back-or-join"><a th:href="@{/static}">돌아가기</a></div>
           <div class="back-or-join">
             <a th:href="'javascript:void(0);'" onclick="submitForm()"
@@ -189,80 +187,14 @@
         </div>
       </form>
     </div>
-
+    <script th:src="@{/js/signUp/formatPhoneNumber.js}"></script>
+    <script th:src="@{/js/signUp/checkBoxConsent.js}"></script>
     <script>
       // 회원가입 전송 form
       function submitForm() {
         document.querySelector('.joinForm').submit(); // 폼 ID를 사용하여 제출
         console.log('회원가입~~~');
       }
-      // 휴대폰정보 '-' 자동 생성
-      document.getElementById('phone').addEventListener('input', function (e) {
-        var target = e.target;
-        var phone = target.value.replace(/[^0-9]/g, '');
-        var formattedPhone = '';
-
-        if (phone.length < 4) {
-          formattedPhone = phone;
-        } else if (phone.length < 7) {
-          formattedPhone = phone.substring(0, 3) + '-' + phone.substring(3);
-        } else if (phone.length < 11) {
-          formattedPhone =
-            phone.substring(0, 3) +
-            '-' +
-            phone.substring(3, 6) +
-            '-' +
-            phone.substring(6);
-        } else {
-          formattedPhone =
-            phone.substring(0, 3) +
-            '-' +
-            phone.substring(3, 7) +
-            '-' +
-            phone.substring(7, 11);
-        }
-
-        target.value = formattedPhone;
-      });
-
-      // 체크박스 전체동의
-      document.addEventListener('DOMContentLoaded', () => {
-        const ckTag = document.getElementById('id_a');
-        const evtBtnTag1 = document.getElementById('id_b');
-        const evtBtnTag2 = document.getElementById('id_c');
-        const evtBtnTag3 = document.getElementById('id_d');
-        const evtBtnTag4 = document.getElementById('id_e');
-
-        ckTag.addEventListener('click', (event) => {
-          const checkValue = event.currentTarget.checked;
-
-          evtBtnTag1.checked = checkValue;
-          evtBtnTag2.checked = checkValue;
-          evtBtnTag3.checked = checkValue;
-          evtBtnTag4.checked = checkValue;
-        });
-
-        evtBtnTag1.addEventListener('click', (event) => {
-          if (event.currentTarget.checked == false) {
-            ckTag.checked = false;
-          }
-        });
-        evtBtnTag1.addEventListener('click', (event) => {
-          if (event.currentTarget.checked == false) {
-            ckTag.checked = false;
-          }
-        });
-        evtBtnTag3.addEventListener('click', (event) => {
-          if (event.currentTarget.checked == false) {
-            ckTag.checked = false;
-          }
-        });
-        evtBtnTag4.addEventListener('click', (event) => {
-          if (event.currentTarget.checked == false) {
-            ckTag.checked = false;
-          }
-        });
-      });
     </script>
   </th:block>
 </html>

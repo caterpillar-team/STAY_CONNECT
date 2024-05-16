@@ -32,12 +32,12 @@ section {
   display: flex;
 }
 
-header,
+/* header,
 main,
 aside,
 footer {
   text-align: center;
-}
+} */
 
 main {
   flex: 4;

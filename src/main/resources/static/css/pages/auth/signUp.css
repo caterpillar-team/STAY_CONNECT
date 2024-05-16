@@ -1,0 +1,151 @@
+/* signup */
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.join-form {
+  border-radius: 10px;
+  background-color: rgba(246, 246, 246, 0.5);
+  padding: 0;
+  width: 70%;
+  margin: 10% 0%;
+  box-shadow: 3px 3px 3px lightgray;
+}
+.join-form > .join__logo {
+  width: 100%;
+  height: 120px;
+  /* margin: 50px 0 10px 0; */
+  text-align: center;
+}
+.join-form > .join__logo img {
+  width: auto;
+  height: 100%;
+}
+
+.join-form > .join__title {
+  text-align: center;
+  margin: 0;
+}
+.top__join {
+  padding: 0px 70px 15px;
+}
+.top__join .user__input {
+  margin-bottom: 10px;
+}
+
+.id__no {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.id__no > .id-no-space {
+  display: flex;
+}
+.list {
+  margin-bottom: 5px;
+  color: gray;
+  font-size: 0.9rem;
+}
+.input-blank {
+  width: 100%;
+  height: 35px;
+  margin: 0;
+  padding: 5px;
+}
+.mid__join {
+  margin: 0 70px;
+  /*border: 1px solid black;*/
+}
+.mid__join .agree-list {
+  padding: 0 70px;
+  margin: 10px;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.mid__join .agree-list-select {
+  padding: 0 100px;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+.mid__join > .agree > .agree-list {
+  padding: 0 90px;
+  font-size: 1.1rem;
+}
+.bot__join {
+  margin: 20px 70px;
+  padding: 0 50px;
+  /*border: 1px solid black;*/
+}
+.mid__join > .all-agree {
+  width: 100%;
+  border-bottom: 1px solid #a7d0de;
+}
+
+.bot__join > div {
+  margin-bottom: 10px;
+  height: 60px;
+  border-radius: 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+.join-oth-logo {
+  margin: 5px 5px 0 0;
+  height: 40px;
+  line-height: 50px;
+}
+.bot__join > .join-kakao {
+  background-color: #f9e000;
+}
+.bot__join > .join-kakao span {
+  color: #3c1e1e;
+}
+.bot__join > .join-naver {
+  background-color: #00c73c;
+  color: white;
+}
+.bot__join > .join-naver span {
+  color: white;
+}
+.bot__join > .join-google {
+  background-color: white;
+  border: 1px solid lightgray;
+  color: #3c1e1e;
+}
+.bot__join > .join-google span {
+  color: gray;
+}
+.bot__join > .join-google .join-oth-logo {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+.join-oth {
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+  color: black;
+}
+.foot__join {
+  display: flex;
+  height: 70px;
+  border-top: 2px solid #a7d0de;
+}
+.foot__join > .back-or-join {
+  width: 50%;
+  text-align: center;
+}
+
+.foot__join > .back-or-join a {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: #a7d0de;
+  line-height: 70px;
+}

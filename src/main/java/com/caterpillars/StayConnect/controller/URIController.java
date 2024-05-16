@@ -1,10 +1,7 @@
 package com.caterpillars.StayConnect.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import com.caterpillars.StayConnect.dto.UserSignUpDto;
 
 @Controller
 public class URIController {
@@ -13,8 +10,6 @@ public class URIController {
   public String index() {
     return "pages/index";
   }
-
-  
 
   @GetMapping("/signin")
   public String getSignIn() {

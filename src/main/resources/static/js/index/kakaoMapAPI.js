@@ -18,6 +18,6 @@ map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
 // 마커 생성
 var marker = new kakao.maps.Marker({
-  position: map.getCenter()
+  position: map.getCenter(),
 });
 marker.setMap(map); // 마커를 지도 위에 표시

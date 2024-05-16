@@ -1,0 +1,130 @@
+/* leftAside */
+
+.menu {
+  /* width: 250px; */
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-right: 1px solid #dee2e6;
+  height: 100%;
+}
+.menu h3 {
+  color: #495057;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #dee2e6;
+  margin-bottom: 20px;
+}
+.menu div {
+  margin-bottom: 10px;
+}
+.menu a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #495057;
+  font-size: 16px;
+  transition: background-color 0.3s, color 0.3s;
+}
+.menu a:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+/* reservation card */
+.reservation-chk {
+  max-width: 100%; /* 컨테이너의 최대 너비 설정 */
+  margin: auto;
+}
+h3 {
+  text-align: center;
+  margin: 3%;
+}
+.reservation-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+.reservation-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1 1 45%; /* 카드가 flexbox 안에서 자동으로 크기 조정 */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 220px;
+}
+.reservation-card h4,
+.reservation-card p {
+  margin: 5px 0;
+}
+.reservation-details,
+.reservation-info {
+  display: flex;
+  justify-content: space-between;
+}
+.material-symbols-outlined {
+  vertical-align: middle;
+}
+.underline {
+  height: 2px;
+  background-color: #000;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.my-info {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1 1 45%; /* 카드가 flexbox 안에서 자동으로 크기 조정 */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.underline {
+  height: 2px;
+  background-color: #007bff;
+  width: 100%;
+  margin: 20px 0;
+}
+label {
+  font-weight: bold;
+}
+.form-control {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+.btn:hover {
+  background-color: #0056b3;
+}
+
+/* selected */
+.reservation__list,
+.modify__info,
+.reservation-chk,
+.my-info {
+  display: none;
+}
+.selected {
+  display: block;
+}
+.menu a.selected {
+  background-color: #007bff;
+  color: white;
+}
