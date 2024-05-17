@@ -15,7 +15,6 @@ public class URIController {
   public String getSignUp() {
     return "pages/auth/signUp";
   }
-
   @GetMapping("/signin")
   public String getSignIn() {
     return "pages/auth/signIn";

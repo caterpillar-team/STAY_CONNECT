@@ -18,7 +18,7 @@
 
 html,
 body {
-  height: 100vh;
+  height: 100%;
 }
 
 .layoutContainer {
@@ -31,14 +31,6 @@ section {
   flex: 1;
   display: flex;
 }
-
-header,
-main,
-aside,
-footer {
-  text-align: center;
-}
-
 main {
   flex: 4;
 }
@@ -46,6 +38,6 @@ main {
 aside {
   flex: 1;
   flex-shrink: 0;
-  border-color: hsl(210deg 100% 50%);
-  background-color: hsl(210deg 100% 50% / 0.2);
+  /* border-color: hsl(210deg 100% 50%);
+  background-color: hsl(210deg 100% 50% / 0.2); */
 }
