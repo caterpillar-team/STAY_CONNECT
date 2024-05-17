@@ -16,9 +16,6 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
-  resolutionStrategy {
-    force 'org.apache.commons:commons-compress:1.26.0'
-  }
 }
 
 repositories {
