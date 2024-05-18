@@ -14,7 +14,7 @@
   <th:block layout:fragment="main">
     <div class="container">
       <form
-        th:action="@{/signup}"
+        th:action="@{/auth/signup}"
         method="post"
         class="join-form"
         th:object="${user}"
@@ -171,7 +171,7 @@
           <div class="join-google">
             <a th:href="@{#}" class="join-oth">
               <span
-                ><img th:src="@{img/google_logo.png}" class="join-oth-logo"
+                ><img th:src="@{/img/google_logo.png}" class="join-oth-logo"
               /></span>
               <span>구글로 시작하기</span>
             </a>
@@ -192,8 +192,7 @@
     <script>
       // 회원가입 전송 form
       function submitForm() {
-        document.querySelector('.joinForm').submit(); // 폼 ID를 사용하여 제출
-        console.log('회원가입~~~');
+        document.querySelector('.join-form').submit();
       }
     </script>
   </th:block>

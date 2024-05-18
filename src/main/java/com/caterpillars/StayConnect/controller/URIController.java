@@ -11,23 +11,4 @@ public class URIController {
     return "pages/index";
   }
 
-  @GetMapping("/signin")
-  public String getSignIn() {
-    return "pages/auth/signIn";
-  }
-
-  @GetMapping("/mypage")
-  public String getMyPage() {
-    return "pages/user/myPage";
-  }
-
-  @GetMapping("/admin/reviewList")
-  public String getAdminReviewList() {
-    return "pages/admin/reviewList";
-  }
-
-  @GetMapping("/admin/userList")
-  public String getAdminUserList() {
-    return "pages/admin/userList";
-  }
 }
