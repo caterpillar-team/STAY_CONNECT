@@ -10,16 +10,31 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private String realName;
 
     @Column(nullable = false)
     private LocalDate birth;
@@ -28,16 +43,7 @@ public class User {
     private Boolean gender;
 
     @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
     private String phoneNumber;
-
-    @Column(nullable = false)
-    private String realName;
-
-    @Column(nullable = false)
-    private String username;
 
     @Column(nullable = false)
     private String email;

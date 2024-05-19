@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.caterpillars.StayConnect.dto.UserSignUpDto;
 import com.caterpillars.StayConnect.model.User;
-import com.caterpillars.StayConnect.service.UserService;
+import com.caterpillars.StayConnect.service.AuthService;
 
 import jakarta.validation.Valid;
 
@@ -24,7 +24,7 @@ public class AuthController {
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   @Autowired
-  private UserService userService;
+  private AuthService userService;
 
   @GetMapping("/signin")
   public String getSignIn() {

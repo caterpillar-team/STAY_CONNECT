@@ -7,19 +7,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.caterpillars.StayConnect.dto.UserSignUpDto;
+import com.caterpillars.StayConnect.model.Role;
 import com.caterpillars.StayConnect.model.User;
+import com.caterpillars.StayConnect.repository.RoleRepository;
 import com.caterpillars.StayConnect.repository.UserRepository;
 
 @Service
-public class UserService {
+public class AuthService {
   // private final Logger log = LoggerFactory.getLogger(getClass());
 
   @Autowired
   private UserRepository userRepository;
   @Autowired
+  private RoleRepository roleRepository;
+  @Autowired
   private PasswordEncoder passwordEncoder;
 
   public User signUp(UserSignUpDto signUpDto) {
+    Role role = roleRepository.findByRoleName("USER")
+        .orElseGet(() -> roleRepository.save(new Role(null, "USER")));
     if (emailExist(signUpDto.getEmail())) {
       throw new RuntimeException("이미 해당 email로 등록된 계정이 존재합니다. : " + signUpDto.getEmail());
     }
@@ -27,14 +33,16 @@ public class UserService {
       throw new RuntimeException("비밀번호가 일치하지 않습니다.");
     }
 
-    User user = new User();
-    user.setRealName(signUpDto.getRealName());
-    user.setBirth(signUpDto.getBirth());
-    user.setGender(signUpDto.getGender());
-    user.setPhoneNumber(signUpDto.getPhoneNumber());
-    user.setEmail(signUpDto.getEmail());
-    user.setUsername(signUpDto.getUsername());
-    user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
+    User user = User.builder()
+        .username(signUpDto.getUsername())
+        .password(passwordEncoder.encode(signUpDto.getPassword()))
+        .email(signUpDto.getEmail())
+        .birth(signUpDto.getBirth())
+        .gender(signUpDto.getGender())
+        .phoneNumber(signUpDto.getPhoneNumber())
+        .realName(signUpDto.getRealName())
+        .role(role)
+        .build();
 
     return userRepository.save(user);
   }
