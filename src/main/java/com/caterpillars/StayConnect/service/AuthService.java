@@ -24,7 +24,7 @@ public class AuthService {
   private PasswordEncoder passwordEncoder;
 
   public User signUp(UserSignUpDto signUpDto) {
-    Role role = roleRepository.findByRoleName("USER")
+    Role role = roleRepository.findByName("USER")
         .orElseGet(() -> roleRepository.save(new Role(null, "USER")));
     if (emailExist(signUpDto.getEmail())) {
       throw new RuntimeException("이미 해당 email로 등록된 계정이 존재합니다. : " + signUpDto.getEmail());

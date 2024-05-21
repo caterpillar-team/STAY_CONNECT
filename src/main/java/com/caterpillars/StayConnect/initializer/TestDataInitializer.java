@@ -26,9 +26,9 @@ public class TestDataInitializer implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    Role userRole = roleRepository.findByRoleName("USER").orElseGet(() -> roleRepository.save(new Role(null, "USER")));
+    Role userRole = roleRepository.findByName("USER").orElseGet(() -> roleRepository.save(new Role(null, "USER")));
 
-    Role adminRole = roleRepository.findByRoleName("ADMIN")
+    Role adminRole = roleRepository.findByName("ADMIN")
         .orElseGet(() -> roleRepository.save(new Role(null, "ADMIN")));
 
     User user = User.builder()

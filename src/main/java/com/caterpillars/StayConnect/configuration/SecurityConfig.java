@@ -35,7 +35,8 @@ public class SecurityConfig {
         // .build();
 
         // return new InMemoryUserDetailsManager(user, admin, princess);
-        // } InMemoryUserDetailsService를 제외시키고 서버 실행시 test user를 만들도록 TestDataInitializer를 생성
+        // } InMemoryUserDetailsService를 제외시키고 서버 실행시 test user를 만들도록
+        // TestDataInitializer를 생성
 
         @Bean
         public UserDetailsService userDetailsService(UserRepository userRepository) {
@@ -46,7 +47,7 @@ public class SecurityConfig {
                         return User.builder()
                                         .username(user.getUsername())
                                         .password(user.getPassword())
-                                        .roles(user.getRole().getRoleName())
+                                        .roles(user.getRole().getName())
                                         .build();
                 };
         };
@@ -74,7 +75,8 @@ public class SecurityConfig {
                                                 .defaultSuccessUrl("/", true))
 
                                 .logout(logout -> logout
-                                                .logoutUrl("/user/logout"));
+                                                .logoutUrl("/user/logout")
+                                                .logoutSuccessUrl("/"));
 
                 return http.build();
         }
