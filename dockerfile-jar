@@ -1,5 +1,9 @@
 # Step 1: Build Stage
 FROM gradle:8.7-jdk21 AS build-stage
+
+# Add Maintainer Info
+LABEL maintainer="ljh1223582317@gmail.com"
+
 WORKDIR /app
 
 # Copy the Gradle project files

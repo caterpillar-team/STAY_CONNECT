@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.3
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: princess
+      MYSQL_DATABASE: stayconnect
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  app-jar:
+    build:
+      context: .
+      dockerfile: dockerfile-jar
+    container_name: spring_app_jar
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/stayconnect
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: princess
+    volumes:
+      - .:/app
+
+  app-bootrun:
+    build:
+      context: .
+      dockerfile: dockerfile-bootrun
+    container_name: spring_app_bootrun
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/stayconnect
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: princess
+    volumes:
+      - .:/app
+
+volumes:
+  mysql_data:
