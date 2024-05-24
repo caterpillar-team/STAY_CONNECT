@@ -1,0 +1,273 @@
+.
+├── SECURITY.md
+├── build
+│   ├── classes
+│   │   └── java
+│   │       ├── main
+│   │       │   └── com
+│   │       │       └── caterpillars
+│   │       │           └── StayConnect
+│   │       │               ├── StayConnectApplication.class
+│   │       │               ├── configuration
+│   │       │               │   └── SecurityConfig.class
+│   │       │               ├── controller
+│   │       │               │   ├── AdminController.class
+│   │       │               │   ├── AuthController.class
+│   │       │               │   ├── URIController.class
+│   │       │               │   └── UserController.class
+│   │       │               ├── dto
+│   │       │               │   └── UserSignUpDto.class
+│   │       │               ├── initializer
+│   │       │               │   └── TestDataInitializer.class
+│   │       │               ├── model
+│   │       │               │   ├── Accommodation.class
+│   │       │               │   ├── Category.class
+│   │       │               │   ├── Role$RoleBuilder.class
+│   │       │               │   ├── Role.class
+│   │       │               │   ├── User$UserBuilder.class
+│   │       │               │   └── User.class
+│   │       │               ├── repository
+│   │       │               │   ├── CategoryRepository.class
+│   │       │               │   ├── RoleRepository.class
+│   │       │               │   └── UserRepository.class
+│   │       │               └── service
+│   │       │                   └── AuthService.class
+│   │       └── test
+│   │           └── com
+│   │               └── caterpillars
+│   │                   └── StayConnect
+│   │                       └── StayConnectApplicationTests.class
+│   ├── generated
+│   │   └── sources
+│   │       ├── annotationProcessor
+│   │       │   └── java
+│   │       │       ├── main
+│   │       │       └── test
+│   │       └── headers
+│   │           └── java
+│   │               ├── main
+│   │               └── test
+│   ├── libs
+│   │   ├── StayConnect-0.1-plain.jar
+│   │   └── StayConnect-0.1.jar
+│   ├── reports
+│   │   └── tests
+│   │       └── test
+│   │           ├── classes
+│   │           │   └── com.caterpillars.StayConnect.StayConnectApplicationTests.html
+│   │           ├── css
+│   │           │   ├── base-style.css
+│   │           │   └── style.css
+│   │           ├── index.html
+│   │           ├── js
+│   │           │   └── report.js
+│   │           └── packages
+│   │               └── com.caterpillars.StayConnect.html
+│   ├── resolvedMainClassName
+│   ├── resolvedMainTestClassName
+│   ├── resources
+│   │   ├── main
+│   │   │   ├── application.properties
+│   │   │   ├── static
+│   │   │   │   ├── css
+│   │   │   │   │   ├── common
+│   │   │   │   │   │   ├── footer.css
+│   │   │   │   │   │   └── header.css
+│   │   │   │   │   ├── layouts
+│   │   │   │   │   │   └── layout.css
+│   │   │   │   │   └── pages
+│   │   │   │   │       ├── admin
+│   │   │   │   │       │   ├── reviewList.css
+│   │   │   │   │       │   └── userList.css
+│   │   │   │   │       ├── auth
+│   │   │   │   │       │   ├── signIn.css
+│   │   │   │   │       │   └── signUp.css
+│   │   │   │   │       ├── index.css
+│   │   │   │   │       └── user
+│   │   │   │   │           └── myPage.css
+│   │   │   │   ├── img
+│   │   │   │   │   ├── StayConnect-main.jpg
+│   │   │   │   │   ├── github_logo.png
+│   │   │   │   │   ├── google_logo.png
+│   │   │   │   │   ├── kakao_logo.png
+│   │   │   │   │   ├── logo.svg
+│   │   │   │   │   ├── naver_logo.png
+│   │   │   │   │   └── notion_logo.png
+│   │   │   │   ├── js
+│   │   │   │   │   ├── index
+│   │   │   │   │   │   └── kakaoMapAPI.js
+│   │   │   │   │   └── signUp
+│   │   │   │   │       ├── checkBoxConsent.js
+│   │   │   │   │       └── formatPhoneNumber.js
+│   │   │   │   └── lib
+│   │   │   │       ├── ajax
+│   │   │   │       │   └── popper.min.js
+│   │   │   │       ├── bootstrap
+│   │   │   │       │   ├── bootstrap.min.css
+│   │   │   │       │   └── bootstrap.min.js
+│   │   │   │       └── jquery
+│   │   │   │           └── jquery.min.js
+│   │   │   └── templates
+│   │   │       ├── fragments
+│   │   │       │   ├── common
+│   │   │       │   │   ├── footer_frag.html
+│   │   │       │   │   └── header_frag.html
+│   │   │       │   └── index
+│   │   │       │       ├── conditionalSection_frag.html
+│   │   │       │       └── mainSection_frag.html
+│   │   │       ├── layouts
+│   │   │       │   └── layout.html
+│   │   │       └── pages
+│   │   │           ├── admin
+│   │   │           │   ├── reviewList.html
+│   │   │           │   └── userList.html
+│   │   │           ├── auth
+│   │   │           │   ├── signIn.html
+│   │   │           │   └── signup.html
+│   │   │           ├── index.html
+│   │   │           └── user
+│   │   │               └── myPage.html
+│   │   └── test
+│   ├── test-results
+│   │   └── test
+│   │       ├── TEST-com.caterpillars.StayConnect.StayConnectApplicationTests.xml
+│   │       └── binary
+│   │           ├── output.bin
+│   │           ├── output.bin.idx
+│   │           └── results.bin
+│   └── tmp
+│       ├── bootJar
+│       │   └── MANIFEST.MF
+│       ├── bootWar
+│       │   └── MANIFEST.MF
+│       ├── compileJava
+│       │   ├── compileTransaction
+│       │   │   ├── backup-dir
+│       │   │   └── stash-dir
+│       │   │       ├── Accommodation.class.uniqueId2
+│       │   │       ├── AuthController.class.uniqueId0
+│       │   │       └── AuthService.class.uniqueId1
+│       │   └── previous-compilation-data.bin
+│       ├── compileTestJava
+│       │   ├── compileTransaction
+│       │   │   ├── backup-dir
+│       │   │   └── stash-dir
+│       │   └── previous-compilation-data.bin
+│       ├── jar
+│       │   └── MANIFEST.MF
+│       ├── test
+│       └── war
+│           └── MANIFEST.MF
+├── build.gradle
+├── docker
+│   ├── docker-compose.yml
+│   └── dockerfile
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradlew
+├── gradlew.bat
+├── makefile
+├── settings.gradle
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── caterpillars
+│   │   │           └── StayConnect
+│   │   │               ├── StayConnectApplication.java
+│   │   │               ├── configuration
+│   │   │               │   ├── JpaConfig.java
+│   │   │               │   └── SecurityConfig.java
+│   │   │               ├── controller
+│   │   │               │   ├── AdminController.java
+│   │   │               │   ├── AuthController.java
+│   │   │               │   ├── URIController.java
+│   │   │               │   └── UserController.java
+│   │   │               ├── dto
+│   │   │               │   └── UserSignUpDto.java
+│   │   │               ├── initializer
+│   │   │               │   └── TestDataInitializer.java
+│   │   │               ├── model
+│   │   │               │   ├── Accommodation.java
+│   │   │               │   ├── Category.java
+│   │   │               │   ├── Role.java
+│   │   │               │   └── User.java
+│   │   │               ├── repository
+│   │   │               │   ├── AccommodationRepository.java
+│   │   │               │   ├── CategoryRepository.java
+│   │   │               │   ├── RoleRepository.java
+│   │   │               │   └── UserRepository.java
+│   │   │               └── service
+│   │   │                   └── AuthService.java
+│   │   └── resources
+│   │       ├── application.properties
+│   │       ├── static
+│   │       │   ├── css
+│   │       │   │   ├── common
+│   │       │   │   │   ├── footer.css
+│   │       │   │   │   └── header.css
+│   │       │   │   ├── layouts
+│   │       │   │   │   └── layout.css
+│   │       │   │   └── pages
+│   │       │   │       ├── admin
+│   │       │   │       │   ├── reviewList.css
+│   │       │   │       │   └── userList.css
+│   │       │   │       ├── auth
+│   │       │   │       │   ├── signIn.css
+│   │       │   │       │   └── signUp.css
+│   │       │   │       ├── index.css
+│   │       │   │       └── user
+│   │       │   │           └── myPage.css
+│   │       │   ├── img
+│   │       │   │   ├── StayConnect-main.jpg
+│   │       │   │   ├── github_logo.png
+│   │       │   │   ├── google_logo.png
+│   │       │   │   ├── kakao_logo.png
+│   │       │   │   ├── logo.svg
+│   │       │   │   ├── naver_logo.png
+│   │       │   │   └── notion_logo.png
+│   │       │   ├── js
+│   │       │   │   ├── index
+│   │       │   │   │   └── kakaoMapAPI.js
+│   │       │   │   └── signUp
+│   │       │   │       ├── checkBoxConsent.js
+│   │       │   │       └── formatPhoneNumber.js
+│   │       │   └── lib
+│   │       │       ├── ajax
+│   │       │       │   └── popper.min.js
+│   │       │       ├── bootstrap
+│   │       │       │   ├── bootstrap.min.css
+│   │       │       │   └── bootstrap.min.js
+│   │       │       └── jquery
+│   │       │           └── jquery.min.js
+│   │       └── templates
+│   │           ├── fragments
+│   │           │   ├── common
+│   │           │   │   ├── footer_frag.html
+│   │           │   │   └── header_frag.html
+│   │           │   └── index
+│   │           │       ├── conditionalSection_frag.html
+│   │           │       └── mainSection_frag.html
+│   │           ├── layouts
+│   │           │   └── layout.html
+│   │           └── pages
+│   │               ├── admin
+│   │               │   ├── reviewList.html
+│   │               │   └── userList.html
+│   │               ├── auth
+│   │               │   ├── signIn.html
+│   │               │   └── signup.html
+│   │               ├── index.html
+│   │               └── user
+│   │                   └── myPage.html
+│   └── test
+│       └── java
+│           └── com
+│               └── caterpillars
+│                   └── StayConnect
+│                       └── StayConnectApplicationTests.java
+└── tree.txt
+
+129 directories, 142 files

@@ -1,0 +1,38 @@
+# Use gradle base image for building the application
+FROM gradle:8.7-jdk21 AS build
+
+# Set the working directory
+WORKDIR /app
+
+# Copy Gradle wrapper and settings files
+COPY ../gradlew ./gradlew
+COPY ../gradle ./gradle
+
+# Grant execute permission for gradlew
+RUN chmod +x gradlew
+
+# Pre-download the Gradle distribution to cache it
+RUN ./gradlew wrapper --gradle-version 8.7 --distribution-type bin
+
+# Copy Gradle build files
+COPY ../build.gradle ../settings.gradle ./
+
+# Download dependencies without running the full build
+RUN ./gradlew build -x test --parallel --no-daemon
+
+# Copy the source code
+COPY ../src ./src
+
+# Build the application
+RUN ./gradlew build --no-daemon
+
+# Use openjdk:21 base image for final stage
+FROM openjdk:21-slim
+
+# Set the working directory
+WORKDIR /app
+
+EXPOSE 8080
+
+# Run the application
+ENTRYPOINT ["./gradlew", "bootRun"]
