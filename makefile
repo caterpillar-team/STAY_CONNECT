@@ -11,3 +11,6 @@ docker-start:
 
 docker-stop:
 		docker-compose -f ./docker/docker-compose.yml stop app-bootrun mysql
+
+docker-clean:
+		docker-compose -f ./docker/docker-compose.yml down --rmi all --volumes --remove-orphans
