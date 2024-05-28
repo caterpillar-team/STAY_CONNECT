@@ -1,15 +1,16 @@
 package com.caterpillars.StayConnect.model;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
-import groovy.transform.builder.Builder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,15 +21,24 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Category {
-
+public class Review {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private long id;
 
-  @Column(nullable = false, unique = true)
-  private String name;
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private User user;
 
-  @OneToMany(mappedBy = "category")
-  private List<Accommodation> accommodations;
+  @ManyToOne
+  @JoinColumn(name = "roomInfo_id")
+  private RoomInfo roomInfo;
+
+  @Column(length = 45)
+  private String contents;
+
+  private LocalDateTime createdAt;
+  private int rate;
+
+  // Getters and Setters
 }
