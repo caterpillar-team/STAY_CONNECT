@@ -13,7 +13,7 @@ import com.caterpillars.StayConnect.repository.RoleRepository;
 import com.caterpillars.StayConnect.repository.UserRepository;
 
 @Component
-public class TestDataInitializer implements CommandLineRunner {
+public class TestUserDataInitializer implements CommandLineRunner {
 
   @Autowired
   UserRepository userRepository;
