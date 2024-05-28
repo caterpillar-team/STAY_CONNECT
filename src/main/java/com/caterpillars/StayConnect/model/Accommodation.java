@@ -28,15 +28,20 @@ public class Accommodation {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  @Column(nullable = false)
-  private String name;
+
   @ManyToOne
   @JoinColumn(name = "category_id")
   private Category category;
+
+  @Column(nullable = false)
+  private String name;
+
   @Column(nullable = false)
   private String address;
+
   @Column(nullable = false)
   private Double latitude;
+
   @Column(nullable = false)
   private Double longitude;
 
