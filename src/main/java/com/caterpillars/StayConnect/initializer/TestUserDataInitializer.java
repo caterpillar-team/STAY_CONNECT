@@ -7,10 +7,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.caterpillars.StayConnect.model.Role;
-import com.caterpillars.StayConnect.model.User;
-import com.caterpillars.StayConnect.repository.RoleRepository;
-import com.caterpillars.StayConnect.repository.UserRepository;
+import com.caterpillars.StayConnect.model.entities.Role;
+import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.model.repository.RoleRepository;
+import com.caterpillars.StayConnect.model.repository.UserRepository;
 
 @Component
 public class TestUserDataInitializer implements CommandLineRunner {

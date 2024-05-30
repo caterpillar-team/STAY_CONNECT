@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.caterpillars.StayConnect.dto.UserSignUpDto;
-import com.caterpillars.StayConnect.model.Role;
-import com.caterpillars.StayConnect.model.User;
-import com.caterpillars.StayConnect.repository.RoleRepository;
-import com.caterpillars.StayConnect.repository.UserRepository;
+import com.caterpillars.StayConnect.model.dto.UserSignUpDto;
+import com.caterpillars.StayConnect.model.entities.Role;
+import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.model.repository.RoleRepository;
+import com.caterpillars.StayConnect.model.repository.UserRepository;
 
 @Service
 public class AuthService {

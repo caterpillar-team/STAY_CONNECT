@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.caterpillars.StayConnect.repository.UserRepository;
+import com.caterpillars.StayConnect.model.repository.UserRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -41,7 +41,7 @@ public class SecurityConfig {
         @Bean
         public UserDetailsService userDetailsService(UserRepository userRepository) {
                 return username -> {
-                        com.caterpillars.StayConnect.model.User user = userRepository.findByUsername(username)
+                        com.caterpillars.StayConnect.model.entities.User user = userRepository.findByUsername(username)
                                         .orElseThrow(() -> new UsernameNotFoundException(
                                                         "User not found. : " + username));
                         return User.builder()

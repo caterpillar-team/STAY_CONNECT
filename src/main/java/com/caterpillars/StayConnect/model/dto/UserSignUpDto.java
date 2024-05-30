@@ -1,4 +1,4 @@
-package com.caterpillars.StayConnect.dto;
+package com.caterpillars.StayConnect.model.dto;
 
 import java.time.LocalDate;
 
