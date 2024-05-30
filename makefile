@@ -19,3 +19,15 @@ docker-stop:
 # dockerfile 및 docker-compose.yml로 생겨난 모든 리소스를 삭제한다.
 docker-clean:
 		docker-compose -f ./docker/docker-compose.yml down --rmi all --volumes --remove-orphans
+
+# mysql만 docker로 실행
+docker-mysql:
+		docker-compose -f ./docker/docker-compose.yml up mysql --build
+
+# stop mysql server
+docker-mysql-stop:
+		docker-compose -f ./docker/docker-compose.yml stop mysql
+
+# start mysql server
+docker-mysql-start:
+		docker-compose -f ./docker/docker-compose.yml start mysql

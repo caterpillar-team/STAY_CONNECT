@@ -10,6 +10,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.3
+        env:
+          MYSQL_ROOT_PASSWORD: princess
+          MYSQL_DATABASE: stayconnect
+          MYSQL_USER: princess
+          MYSQL_PASSWORD: princess
+          TZ: Asia/Seoul
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=30s
+          --health-timeout=10s
+          --health-retries=5
+        volumes:
+          - mysql-data:/var/lib/mysql
+        ports:
+          - '33007:3306'
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

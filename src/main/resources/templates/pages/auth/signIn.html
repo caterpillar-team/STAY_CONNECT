@@ -18,18 +18,31 @@
           <img
             class="logo__image"
             th:src="@{/img/logo.svg}"
-            style="height: 180px; width: 100%;"
+            style="height: 180px; width: 100%"
             alt="logo image"
           />
         </a>
         <form class="form-signin" method="post" th:action="@{/auth/signin}">
           <div class="id">
             <span>아이디</span>
-            <input type="text" id="username" name="username" placeholder="'아이디를 입력하세요'" required autofocus/>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="'아이디를 입력하세요'"
+              required
+              autofocus
+            />
           </div>
           <div class="pw">
             <span>비밀번호</span>
-            <input type="password" id="password" name="password" placeholder="'비밀번호를 입력하세요'" required/>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="'비밀번호를 입력하세요'"
+              required
+            />
           </div>
           <div class="id__save">
             <div>
@@ -63,15 +76,17 @@
           </div>
           <div class="button-login">
             <div>
-              <a th:href="'javascript:void(0)'" onclick="submitForm()">로그인</a>
+              <a th:href="'javascript:void(0)'" onclick="submitForm()"
+                >로그인</a
+              >
             </div>
           </div>
         </form>
       </div>
     </div>
     <script>
-        // 로그인 전송 form
-        function submitForm() {
+      // 로그인 전송 form
+      function submitForm() {
         document.querySelector('.form-signin').submit(); // 폼 ID를 사용하여 제출
       }
     </script>

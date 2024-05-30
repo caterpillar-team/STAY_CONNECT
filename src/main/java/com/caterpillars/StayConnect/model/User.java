@@ -2,6 +2,9 @@ package com.caterpillars.StayConnect.model;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -50,5 +53,6 @@ public class User {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "role_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Role role;
 }

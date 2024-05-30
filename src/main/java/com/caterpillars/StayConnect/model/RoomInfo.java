@@ -2,6 +2,9 @@ package com.caterpillars.StayConnect.model;
 
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +32,7 @@ public class RoomInfo {
 
   @ManyToOne
   @JoinColumn(name = "accommodation_id")
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private Accommodation accommodation;
 
   @Column(length = 45)

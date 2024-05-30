@@ -1,5 +1,8 @@
 package com.caterpillars.StayConnect.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import groovy.transform.builder.Builder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,6 +34,7 @@ public class Accommodation {
 
   @ManyToOne
   @JoinColumn(name = "category_id")
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private Category category;
 
   @Column(nullable = false)
