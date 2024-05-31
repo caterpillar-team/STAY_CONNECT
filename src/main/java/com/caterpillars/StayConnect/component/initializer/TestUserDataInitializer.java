@@ -1,4 +1,4 @@
-package com.caterpillars.StayConnect.initializer;
+package com.caterpillars.StayConnect.component.initializer;
 
 import java.time.LocalDate;
 

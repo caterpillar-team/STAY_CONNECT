@@ -17,27 +17,6 @@ import com.caterpillars.StayConnect.model.repository.UserRepository;
 @EnableWebSecurity
 public class SecurityConfig {
 
-        // @Bean
-        // public UserDetailsService userDetailsService() {
-        // UserDetails user = User.withUsername("user")
-        // .password(passwordEncoder().encode("user"))
-        // .roles("USER")
-        // .build();
-
-        // UserDetails admin = User.withUsername("admin")
-        // .password(passwordEncoder().encode("admin"))
-        // .roles("ADMIN")
-        // .build();
-
-        // UserDetails princess = User.withUsername("princess")
-        // .password(passwordEncoder().encode("princess"))
-        // .roles("ADMIN", "USER")
-        // .build();
-
-        // return new InMemoryUserDetailsManager(user, admin, princess);
-        // } InMemoryUserDetailsService를 제외시키고 서버 실행시 test user를 만들도록
-        // TestDataInitializer를 생성
-
         @Bean
         public UserDetailsService userDetailsService(UserRepository userRepository) {
                 return username -> {
@@ -77,6 +56,9 @@ public class SecurityConfig {
                                 .logout(logout -> logout
                                                 .logoutUrl("/user/logout")
                                                 .logoutSuccessUrl("/"));
+                // .authenticationManager(null)
+                // .authenticationProvider(null)
+                // .addFilterBefore(null, UsernamePasswordAuthenticationFilter.class)
 
                 return http.build();
         }
