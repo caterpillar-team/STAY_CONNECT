@@ -18,12 +18,24 @@ header {
 
 .header .logo {
   position: relative;
+  width: auto;
+  height: 120px;
+}
+
+.header div .logo a .img-fluid {
+  width: auto;
+  height: 120px;
+}
+
+.header nav {
+    margin-right : 5%;
 }
 
 .header nav a {
   position: relative;
   text-decoration: none;
   color: black;
+  font-size: 1.2rem;
 }
 
 .header nav a::after {
