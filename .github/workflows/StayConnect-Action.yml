@@ -13,22 +13,17 @@ jobs:
     services:
       mysql:
         image: mysql:8.3
-        env:
-          MYSQL_ROOT_PASSWORD: princess
-          MYSQL_DATABASE: stayconnect
-          MYSQL_USER: princess
-          MYSQL_PASSWORD: princess
-          TZ: Asia/Seoul
-        options: >-
-          --health-cmd="mysqladmin ping -h localhost"
-          --health-interval=30s
-          --health-timeout=10s
-          --health-retries=5
-        volumes:
-          - mysql-data:/var/lib/mysql
         ports:
-          - '33007:3306'
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: testdb
 
+    env:
+      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/testdb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
