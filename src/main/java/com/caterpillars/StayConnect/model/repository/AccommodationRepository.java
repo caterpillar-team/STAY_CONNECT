@@ -1,10 +1,12 @@
 package com.caterpillars.StayConnect.model.repository;
-// package com.caterpillars.StayConnect.repository;
 
-// import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
-// import com.caterpillars.StayConnect.model.Accommodation;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-// public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
+import com.caterpillars.StayConnect.model.entities.Accommodation;
 
-// }
+public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
+
+  Optional<Accommodation> findByNameAndAddress(String name, String address);
+}
