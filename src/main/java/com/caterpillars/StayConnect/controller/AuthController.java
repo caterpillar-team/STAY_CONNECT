@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.caterpillars.StayConnect.dto.UserSignUpDto;
-import com.caterpillars.StayConnect.model.User;
+import com.caterpillars.StayConnect.model.dto.UserSignUpDto;
+import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.service.AuthService;
 
 import jakarta.validation.Valid;

@@ -1,4 +1,4 @@
-package com.caterpillars.StayConnect.model;
+package com.caterpillars.StayConnect.model.entities;
 
 import groovy.transform.builder.Builder;
 import jakarta.persistence.Column;

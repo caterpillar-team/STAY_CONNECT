@@ -1,10 +1,9 @@
-package com.caterpillars.StayConnect.model;
-
-import java.util.List;
+package com.caterpillars.StayConnect.model.entities;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import groovy.transform.builder.Builder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,9 +11,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,33 +24,29 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 @Entity
-public class RoomInfo {
+@Table(name = "accommodation", uniqueConstraints = {
+    @UniqueConstraint(name = "UK_name_address", columnNames = { "name", "address" })
+})
+public class Accommodation {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "accommodation_id")
+  @JoinColumn(name = "category_id")
   @OnDelete(action = OnDeleteAction.CASCADE)
-  private Accommodation accommodation;
+  private Category category;
 
-  @Column(length = 45)
-  private String roomType;
+  @Column(nullable = false)
+  private String name;
 
-  private int count;
+  @Column(nullable = false)
+  private String address;
 
-  private int numberOfPeople;
+  @Column(nullable = false)
+  private Double latitude;
 
-  private int price;
+  @Column(nullable = false)
+  private Double longitude;
 
-  @Column(length = 45)
-  private String roomInfocol;
-
-  @OneToMany(mappedBy = "roomInfo")
-  private List<Review> reviews;
-
-  @OneToMany(mappedBy = "roomInfo")
-  private List<Reservation> reservations;
-
-  // Getters and Setters
 }

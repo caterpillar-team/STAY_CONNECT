@@ -1,4 +1,4 @@
-package com.caterpillars.StayConnect.initializer;
+package com.caterpillars.StayConnect.component.initializer;
 
 import java.time.LocalDate;
 
@@ -7,10 +7,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.caterpillars.StayConnect.model.Role;
-import com.caterpillars.StayConnect.model.User;
-import com.caterpillars.StayConnect.repository.RoleRepository;
-import com.caterpillars.StayConnect.repository.UserRepository;
+import com.caterpillars.StayConnect.model.entities.Role;
+import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.model.repository.RoleRepository;
+import com.caterpillars.StayConnect.model.repository.UserRepository;
 
 @Component
 public class TestUserDataInitializer implements CommandLineRunner {
@@ -26,10 +26,10 @@ public class TestUserDataInitializer implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    Role userRole = roleRepository.findByName("USER").orElseGet(() -> roleRepository.save(new Role(null, "USER")));
+    Role userRole = roleRepository.findByName("ROLE_USER").orElseGet(() -> roleRepository.save(new Role(null, "ROLE_USER")));
 
-    Role adminRole = roleRepository.findByName("ADMIN")
-        .orElseGet(() -> roleRepository.save(new Role(null, "ADMIN")));
+    Role adminRole = roleRepository.findByName("ROLE_ADMIN")
+        .orElseGet(() -> roleRepository.save(new Role(null, "ROLE_ADMIN")));
 
     User user = User.builder()
         .username("user")

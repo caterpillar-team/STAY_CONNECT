@@ -1,3 +1,4 @@
+package com.caterpillars.StayConnect.model.repository;
 // package com.caterpillars.StayConnect.repository;
 
 // import org.springframework.data.jpa.repository.JpaRepository;

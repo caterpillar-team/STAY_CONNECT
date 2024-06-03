@@ -1,4 +1,4 @@
-package com.caterpillars.StayConnect.model;
+package com.caterpillars.StayConnect.model.entities;
 
 import java.time.LocalDateTime;
 
@@ -24,7 +24,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Reservation {
+public class Review {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
@@ -35,20 +35,15 @@ public class Reservation {
   private User user;
 
   @ManyToOne
-  @JoinColumn(name = "room_info_id")
+  @JoinColumn(name = "roomInfo_id")
   @OnDelete(action = OnDeleteAction.CASCADE)
   private RoomInfo roomInfo;
 
-  private LocalDateTime checkIn;
-
-  private LocalDateTime checkOut;
-
-  private LocalDateTime reservationAt;
-
-  private int price;
-
   @Column(length = 45)
-  private String reservationType;
+  private String contents;
+
+  private LocalDateTime createdAt;
+  private int rate;
 
   // Getters and Setters
 }
