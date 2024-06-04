@@ -24,7 +24,7 @@ public class AuthController {
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   @Autowired
-  private AuthService userService;
+  private AuthService authService;
 
   @GetMapping("/signin")
   public String getSignIn() {
@@ -46,7 +46,7 @@ public class AuthController {
       return "pages/auth/signUp";
     }
 
-    User user = userService.signUp(signUpDto);
+    User user = authService.signUp(signUpDto);
     log.info(user.toString());
 
     redirectAttributes.addFlashAttribute("success", true);
