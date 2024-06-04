@@ -35,23 +35,21 @@ public class RoomInfo {
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Accommodation accommodation;
 
-  @Column(length = 45)
+  @Column(nullable = false)
   private String roomType;
 
+  @Column(nullable = false)
   private int count;
 
+  @Column(nullable = false)
   private int numberOfPeople;
 
+  @Column(nullable = false)
   private int price;
-
-  @Column(length = 45)
-  private String roomInfocol;
 
   @OneToMany(mappedBy = "roomInfo")
   private List<Review> reviews;
 
   @OneToMany(mappedBy = "roomInfo")
   private List<Reservation> reservations;
-
-  // Getters and Setters
 }

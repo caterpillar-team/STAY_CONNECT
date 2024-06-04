@@ -39,15 +39,19 @@ public class Reservation {
   @OnDelete(action = OnDeleteAction.CASCADE)
   private RoomInfo roomInfo;
 
+  @Column(nullable = false)
   private LocalDateTime checkIn;
 
+  @Column(nullable = false)
   private LocalDateTime checkOut;
 
+  @Column(nullable = false)
   private LocalDateTime reservationAt;
 
+  @Column(nullable = false)
   private int price;
 
-  @Column(length = 45)
+  @Column(nullable = false)
   private String reservationType;
 
   // Getters and Setters
