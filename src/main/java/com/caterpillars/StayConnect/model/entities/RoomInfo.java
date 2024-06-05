@@ -38,7 +38,7 @@ public class RoomInfo {
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Accommodation accommodation;
 
-  @Column(length = 45)
+  @Column(nullable = false)
   private String roomType;
 
   @Column(length = 45)
@@ -47,24 +47,24 @@ public class RoomInfo {
   @Column(length = 45)
   private String stayType;
 
-  private int count;
-
   private int numberOfPeopleStandard;
   private int numberOfPeopleMax;
 
   private String ckiTime;
   private String ckoTime;
+  
+  @Column(nullable = false)
+  private int count;
 
+  @Column(nullable = false)
+  private int numberOfPeople;
+
+  @Column(nullable = false)
   private int price;
-
-  @Column(length = 45)
-  private String roomInfocol;
 
   @OneToMany(mappedBy = "roomInfo")
   private List<Review> reviews;
 
   @OneToMany(mappedBy = "roomInfo")
   private List<Reservation> reservations;
-
-
 }
