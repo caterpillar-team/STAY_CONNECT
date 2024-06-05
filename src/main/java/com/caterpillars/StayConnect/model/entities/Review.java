@@ -39,11 +39,15 @@ public class Review {
   @OnDelete(action = OnDeleteAction.CASCADE)
   private RoomInfo roomInfo;
 
-  @Column(length = 45)
+  @Column(nullable = false)
+  private String title;
+
+  @Column(nullable = true)
   private String contents;
 
+  @Column(nullable = false)
   private LocalDateTime createdAt;
-  private int rate;
 
-  // Getters and Setters
+  @Column(nullable = false)
+  private int rate;
 }

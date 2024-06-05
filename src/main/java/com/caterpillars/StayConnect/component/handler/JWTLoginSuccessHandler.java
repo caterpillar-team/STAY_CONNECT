@@ -1,4 +1,4 @@
-package com.caterpillars.StayConnect.component.jwt.handler;
+package com.caterpillars.StayConnect.component.handler;
 
 import java.io.IOException;
 
@@ -7,7 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import com.caterpillars.StayConnect.component.jwt.provider.JWTokenProvider;
+import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
