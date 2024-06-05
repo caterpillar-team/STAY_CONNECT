@@ -1,33 +1,29 @@
 <!DOCTYPE html>
 <html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layouts/layout}"
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}"
 >
-  <th:block layout:fragment="javascript">
-    <!-- 지도 api -->
-    <script
-      type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b8f20a221506b373bac69207f38af4f7"
-    ></script>
-  </th:block>
-  <th:block layout:fragment="title">
-    <title>index page</title>
-  </th:block>
-  <th:block layout:fragment="css"
-    ><link rel="stylesheet" th:href="@{/css/pages/index.css}"
-  /></th:block>
-  <th:block layout:fragment="main">
-    <div class="indexContainer">
-      <section
-        th:replace="~{fragments/index/mainSection_frag::mainSection}"
-      ></section>
-      <section
-        th:replace="~{fragments/index/conditionalSection_frag::conditionalSection}"
-      ></section>
-      <section></section>
-    </div>
-    <script th:src="@{/js/index/kakaoMapAPI.js}"></script>
-  </th:block>
+    <th:block layout:fragment="javascript">
+        <!-- 주소 검색 api -->
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <!-- 지도 api -->
+        <script
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b8f20a221506b373bac69207f38af4f7&libraries=services"
+        ></script>
+    </th:block>
+    <th:block layout:fragment="title">
+        <title>index page</title>
+    </th:block>
+    <th:block layout:fragment="css"><link rel="stylesheet" th:href="@{/css/pages/index.css}" /></th:block>
+    <th:block layout:fragment="main">
+        <div class="indexContainer">
+            <section th:replace="~{fragments/index/mainSection_frag::mainSection}"></section>
+            <section th:replace="~{fragments/index/conditionalSection_frag::conditionalSection}"></section>
+            <section></section>
+        </div>
+        <script th:src="@{/js/index/kakaoMapAPI.js}"></script>
+        <script th:src="@{/js/index/index_scroll.js}"></script>
+    </th:block>
 </html>

@@ -1,60 +1,46 @@
 package com.caterpillars.StayConnect.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.caterpillars.StayConnect.repository.UserRepository;
+import com.caterpillars.StayConnect.component.jwt.filter.JwtAuthenticationFilter;
+import com.caterpillars.StayConnect.component.jwt.handler.JWTLoginSuccessHandler;
+import com.caterpillars.StayConnect.component.jwt.handler.JWTLogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
-        // @Bean
-        // public UserDetailsService userDetailsService() {
-        // UserDetails user = User.withUsername("user")
-        // .password(passwordEncoder().encode("user"))
-        // .roles("USER")
-        // .build();
+        @Autowired
+        private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-        // UserDetails admin = User.withUsername("admin")
-        // .password(passwordEncoder().encode("admin"))
-        // .roles("ADMIN")
-        // .build();
+        @Autowired
+        private JWTLoginSuccessHandler jwtLoginSuccessHandler;
 
-        // UserDetails princess = User.withUsername("princess")
-        // .password(passwordEncoder().encode("princess"))
-        // .roles("ADMIN", "USER")
-        // .build();
-
-        // return new InMemoryUserDetailsManager(user, admin, princess);
-        // } InMemoryUserDetailsService를 제외시키고 서버 실행시 test user를 만들도록
-        // TestDataInitializer를 생성
+        @Autowired
+        private JWTLogoutSuccessHandler jwtLogoutSuccessHandler;
 
         @Bean
-        public UserDetailsService userDetailsService(UserRepository userRepository) {
-                return username -> {
-                        com.caterpillars.StayConnect.model.User user = userRepository.findByUsername(username)
-                                        .orElseThrow(() -> new UsernameNotFoundException(
-                                                        "User not found. : " + username));
-                        return User.builder()
-                                        .username(user.getUsername())
-                                        .password(user.getPassword())
-                                        .roles(user.getRole().getName())
-                                        .build();
-                };
-        };
-
-        @Bean
-        PasswordEncoder passwordEncoder() {
+        public PasswordEncoder passwordEncoder() {
                 return new BCryptPasswordEncoder();
+        }
+
+        @Bean
+        public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+                        throws Exception {
+                return authenticationConfiguration.getAuthenticationManager();
         }
 
         @Bean
@@ -62,7 +48,7 @@ public class SecurityConfig {
                 http
                                 .csrf((csrf) -> csrf.disable())
                                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-                                                .requestMatchers("/", "/auth/**").permitAll()
+                                                .requestMatchers("/", "/auth/**", "/accom/**").permitAll()
                                                 .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**").permitAll()
                                                 .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
@@ -72,11 +58,19 @@ public class SecurityConfig {
                                                 .loginPage("/auth/signin")
                                                 .usernameParameter("username")
                                                 .passwordParameter("password")
-                                                .defaultSuccessUrl("/", true))
+                                                .defaultSuccessUrl("/", true)
+                                                .successHandler(jwtLoginSuccessHandler))
 
                                 .logout(logout -> logout
                                                 .logoutUrl("/user/logout")
-                                                .logoutSuccessUrl("/"));
+                                                .logoutSuccessUrl("/")
+                                                .logoutSuccessHandler(jwtLogoutSuccessHandler))
+                                // .authenticationManager(null)
+                                // .authenticationProvider(jwTokenProvider)
+                                .sessionManagement(session -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
                 return http.build();
         }

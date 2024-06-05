@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.caterpillars.StayConnect.dto.UserSignUpDto;
-import com.caterpillars.StayConnect.model.User;
+import com.caterpillars.StayConnect.model.dto.UserSignUpDto;
+import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.service.AuthService;
 
 import jakarta.validation.Valid;
@@ -24,7 +24,7 @@ public class AuthController {
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   @Autowired
-  private AuthService userService;
+  private AuthService authService;
 
   @GetMapping("/signin")
   public String getSignIn() {
@@ -46,7 +46,7 @@ public class AuthController {
       return "pages/auth/signUp";
     }
 
-    User user = userService.signUp(signUpDto);
+    User user = authService.signUp(signUpDto);
     log.info(user.toString());
 
     redirectAttributes.addFlashAttribute("success", true);
