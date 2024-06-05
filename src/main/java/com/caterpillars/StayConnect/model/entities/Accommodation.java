@@ -49,4 +49,5 @@ public class Accommodation {
   @Column(nullable = false)
   private Double longitude;
 
+
 }

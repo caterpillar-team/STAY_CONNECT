@@ -1,7 +1,9 @@
 package com.caterpillars.StayConnect.model.entities;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import groovy.util.logging.Slf4j;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -21,6 +23,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Slf4j
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -38,9 +41,19 @@ public class RoomInfo {
   @Column(length = 45)
   private String roomType;
 
+  @Column(length = 45)
+  private String bedType;
+
+  @Column(length = 45)
+  private String stayType;
+
   private int count;
 
-  private int numberOfPeople;
+  private int numberOfPeopleStandard;
+  private int numberOfPeopleMax;
+
+  private String ckiTime;
+  private String ckoTime;
 
   private int price;
 
@@ -53,5 +66,5 @@ public class RoomInfo {
   @OneToMany(mappedBy = "roomInfo")
   private List<Reservation> reservations;
 
-  // Getters and Setters
+
 }

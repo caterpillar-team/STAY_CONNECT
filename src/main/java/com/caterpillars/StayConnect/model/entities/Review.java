@@ -44,6 +44,4 @@ public class Review {
 
   private LocalDateTime createdAt;
   private int rate;
-
-  // Getters and Setters
 }
