@@ -1,84 +1,83 @@
 <section th:fragment="mainSection">
-    <!-- SWIPER CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <!-- SWIPER CDN -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-    <section class="main-section">
-        <section class="banner-section">
-            <!-- Slider main container -->
-            <div class="swiper">
-                <!-- Additional required wrapper -->
-                <div class="swiper-wrapper">
-                    <!-- Slides -->
-                    <div class="swiper-slide">
-                        <a href="javascript:void(0)"><img th:src="@{/img/StayConnect-main.jpg}" alt="main image" /> </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="javascript:void(0)"
-                            ><img th:src="@{/img/StayConnect-main2.jpg}" alt="main image" />
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="javascript:void(0)"
-                            ><img th:src="@{/img/StayConnect-main3.jpg}" alt="main image" />
-                        </a>
-                    </div>
-                </div>
-                <!-- If we need pagination -->
-                <div class="swiper-pagination"></div>
-
-                <!-- If we need navigation buttons -->
-                <div class="swiper-button-prev">
-                    <span class="material-symbols-outlined">arrow_left</span>
-                </div>
-                <div class="swiper-button-next">
-                    <span class="material-symbols-outlined">arrow_right</span>
-                </div>
-
-                <!-- If we need scrollbar -->
-                <div class="swiper-scrollbar"></div>
-            </div>
-        </section>
-
-        <div class="map-searchCard">
-            <form class="search__form" action="">
-                <label for="searchByAddress" class="form-label">주소로 검색하기</label>
-                <div class="underline"></div>
-                <div class="AddressSearch">
-                    <input type="text" class="form-control" id="searchByAddress" placeholder="어디로 떠나시나요?" />
-                    <input
-                        type="button"
-                        class="btn btn-primary btn_addrSearch"
-                        onclick="sample5_execDaumPostcode()"
-                        value="주소 검색"
-                    />
-                    <button class="btn btn-primary btn_search">검색</button>
-                </div>
-            </form>
-            <div id="map"></div>
+  <section class="main-section">
+    <div
+      id="carouselExampleInterval"
+      class="carousel slide"
+      data-bs-ride="carousel"
+    >
+      <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="4000">
+          <img
+            th:src="@{/img/StayConnect-main.jpg}"
+            alt="main image"
+            class="d-block w-100"
+          />
         </div>
-        <div class="conditional-searchCard"></div>
-    </section>
-</section>
+        <div class="carousel-item" data-bs-interval="4000">
+          <img
+            th:src="@{/img/StayConnect_main2.jpg}"
+            alt="main image"
+            class="d-block w-100"
+          />
+        </div>
+        <div class="carousel-item" data-bs-interval="4000">
+          <img
+            th:src="@{/img/StayConnect_main3.jpg}"
+            alt="main image"
+            class="d-block w-100"
+          />
+        </div>
+      </div>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleInterval"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden"></span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleInterval"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden"></span>
+      </button>
+    </div>
 
-<script>
-    const swiper_banner = new Swiper('section>.main-section>.banner-section>.swiper', {
-        direction: 'horizontal',
-        autoplay: {
-            delay: 2000,
-            pauseOnMouseEnter: true,
-        },
-        loop: true,
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: 'true',
-            type: 'bullets',
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        mousewheel: false,
-        effect: 'scroll',
-    });
-</script>
+    <div class="map-searchCard">
+      <form class="search__form" action="">
+        <span class="material-symbols-outlined"> location_on </span>
+        <label for="searchByAddress" class="form-label">주소로 검색하기</label>
+        <div class="underline"></div>
+        <div class="AddressSearch">
+          <input
+            type="text"
+            class="form-control"
+            id="searchByAddress"
+            placeholder="어디로 떠나시나요?"
+          />
+          <input
+            type="button"
+            class="btn btn-primary btn_addrSearch"
+            onclick="sample5_execDaumPostcode()"
+            value="주소 검색"
+          />
+          <button class="btn btn-primary btn_search">검색</button>
+        </div>
+      </form>
+      <div id="map"></div>
+    </div>
+    <div class="conditional-searchCard"></div>
+  </section>
+</section>
