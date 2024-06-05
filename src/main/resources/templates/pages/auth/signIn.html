@@ -72,13 +72,14 @@
           </div>
           <div th:id="google_customBtn" th:class="customGPlusSignIn">
             <span class="G_icon"></span>
-            <span class="buttonText">Google로 시작하기</span>
+            <span class="buttonText"
+              ><a href="/oauth2/authorization/google"
+                >Google로 시작하기</a
+              ></span
+            >
           </div>
           <div class="button-login">
             <div>
-              <!-- <a th:href="'javascript:void(0)'" onclick="submitForm()"
-                >로그인</a
-              > -->
               <button type="submit">로그인</button>
             </div>
           </div>

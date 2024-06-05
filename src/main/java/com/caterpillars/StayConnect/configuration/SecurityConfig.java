@@ -55,6 +55,11 @@ public class SecurityConfig {
                                                 .defaultSuccessUrl("/", true)
                                                 .successHandler(jwtLoginSuccessHandler))
 
+                                .oauth2Login(oauth -> oauth
+                                                .loginPage("/auth/signin")
+                                                .defaultSuccessUrl("/", true)
+                                                .failureUrl("/auth/signin?error=true"))
+
                                 .logout(logout -> logout
                                                 .logoutUrl("/user/logout")
                                                 .logoutSuccessUrl("/")
