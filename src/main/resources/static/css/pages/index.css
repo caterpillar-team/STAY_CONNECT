@@ -1,252 +1,348 @@
 .indexContainer {
-    background-color: white;
+  background-color: white;
 }
 .main-section {
-    position: relative;
+  position: relative;
+  margin-top: 10%;
 }
-.main-section > .banner-section > .swiper > .swiper-wrapper > .swiper-slide > a > img {
-    margin-top: 10%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: auto;
-    background-color: rgba(255, 255, 255);
-    opacity: 0.82;
+.main-section
+  > .carousel
+  slide
+  > .carousel-inner
+  > .carousel-item
+  active
+  > img {
+  margin-top: 10%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  background-color: rgba(255, 255, 255);
+  opacity: 0.82;
+}
+
+.main-section > .carousel slide > .carousel-item > img {
+  margin-top: 10%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  background-color: rgba(255, 255, 255);
+  opacity: 0.82;
 }
 
 .main-section > .map-searchCard {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    border-radius: 1px solid blue;
-    align-items: center;
-    justify-content: center;
-    top: 30%;
-    left: 55%;
-    width: 50%;
-    height: 80%;
-    z-index: 2;
-    background-color: rgba(255, 255, 255);
-    border-radius: 45px 45px 45px 45px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    opacity: 0.9;
-    padding: 20px 15px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  border-radius: 1px solid blue;
+  align-items: center;
+  justify-content: center;
+  top: 30%;
+  left: 55%;
+  width: 50%;
+  height: 80%;
+  z-index: 2;
+  background-color: rgba(255, 255, 255);
+  border-radius: 45px 45px 45px 45px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  opacity: 0.9;
+  padding: 20px 15px;
 }
 
 .main-section > .map-searchCard > .search__form {
-    width: 100%;
-    height: 10%;
-    padding: 3% 5%;
+  width: 100%;
+  height: 10%;
+  padding: 3% 5%;
+  margin-top: -10px;
 }
+
+.main-section > .map-searchCard > .search__form > span {
+  font-size: 2rem;
+}
+
 .main-section > .map-searchCard > .search__form > .underline {
-    border: 2px solid #007bff;
-    height: 2px;
-    width: 150px;
-    margin-bottom: 20px;
+  border: 2px solid #007bff;
+  height: 2px;
+  width: 185px;
+  margin-bottom: 10px;
+  margin-top: -7px;
 }
 .main-section > .map-searchCard > .search__form > .form-label {
-    font-size: 1.4rem;
-    margin-bottom: 10px;
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  top: -10px;
 }
 .main-section > .map-searchCard > .search__form > .AddressSearch {
-    display: flex;
+  display: flex;
 }
 .main-section > .map-searchCard > .search__form > .AddressSearch > input {
 }
 
-.main-section > .map-searchCard > .search__form > .AddressSearch > .btn_addrSearch {
-    margin: 0 5px;
-    white-space: nowrap;
+.main-section
+  > .map-searchCard
+  > .search__form
+  > .AddressSearch
+  > .btn_addrSearch {
+  margin: 0 5px;
+  white-space: nowrap;
 }
 
 .main-section > .map-searchCard > .search__form > .AddressSearch > .btn_search {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .main-section > .map-searchCard > #map {
-    width: 90%;
-    height: 75%;
-    margin-top: 15%;
-    border-radius: 10px;
+  width: 90%;
+  height: 75%;
+  margin-top: 15%;
+  border-radius: 10px;
 }
 
 .conditional-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    /* border: 1px solid black; */
-    border-radius: 3%;
-    height: auto;
-    margin-top: 20%;
-    margin-bottom: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* border: 1px solid black; */
+  border-radius: 3%;
+  height: auto;
+  margin-top: 20%;
+  margin-bottom: 10%;
 }
 
 .conditional-section > .city-category {
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* border: 1px solid black; */
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* border: 1px solid black; */
 }
 
 .conditional-section > .city-category > .title-1 {
-    font-size: 1.4rem;
-    margin-bottom: 10px;
+  font-size: 1.4rem;
+  margin-bottom: 10px;
 }
 
 .conditional-section > .city-category > .underline1 {
-    border: 2px solid #007bff;
-    height: 2px;
-    width: 200px;
-    margin-bottom: 50px;
+  border: 2px solid #007bff;
+  height: 2px;
+  width: 200px;
+  margin-bottom: 50px;
 }
 
 .conditional-section > .city-category > .city1 {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .conditional-section > .city-category > .city1 > .box {
-    width: 150px;
-    height: 150px;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 5px 5px 5px gray;
-    border-radius: 15%;
+  width: 150px;
+  height: 150px;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 5px 5px 5px gray;
+  border-radius: 15%;
 }
 
 .conditional-section > .city-category > .city1 > .box > a {
-    width: 150px;
-    height: 150px;
-    border-radius: 10%;
+  width: 150px;
+  height: 150px;
+  border-radius: 10%;
 }
 
 .conditional-section > .city-category > .city1 > .box > p {
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    flex-direction: column;
-    margin-top: 10px;
-    text-align: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-direction: column;
+  margin-top: 10px;
+  text-align: center;
 }
 
 .conditional-section > .city-category > .city1 > .box:hover {
-    transform: scale(1.2);
+  transform: scale(1.2);
 }
 
 .conditional-section > .city-category > .city1 > .box > a > img {
-    width: 150px;
-    height: 150px;
-    overflow: hidden;
-    border-radius: 15%;
-    z-index: 1;
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 15%;
+  z-index: 1;
 }
 
 .conditional-section > .city-category > .city2 {
-    margin-top: 100px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+  margin-top: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .conditional-section > .city-category > .city1 > .box {
-    width: 150px;
-    height: 150px;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 5px 5px 5px gray;
-    border-radius: 15%;
+  width: 150px;
+  height: 150px;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 5px 5px 5px gray;
+  border-radius: 15%;
 }
 
 .conditional-section > .city-category > .city2 > .box:hover {
-    transform: scale(1.2);
+  transform: scale(1.2);
 }
 
 .conditional-section > .city-category > .city2 > .box {
-    width: 150px;
-    height: 150px;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 5px 5px 5px gray;
-    border-radius: 15%;
+  width: 150px;
+  height: 150px;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 5px 5px 5px gray;
+  border-radius: 15%;
 }
 
 .conditional-section > .city-category > .city2 > .box > a {
-    width: 150px;
-    height: 150px;
-    border-radius: 10%;
+  width: 150px;
+  height: 150px;
+  border-radius: 10%;
 }
 
 .conditional-section > .city-category > .city2 > .box > a > img {
-    width: 150px;
-    height: 150px;
-    overflow: hidden;
-    border-radius: 10%;
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 10%;
 }
 
 .conditional-section > .city-category > .city2 > .box > p {
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    flex-direction: column;
-    margin-top: 10px;
-    text-align: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-direction: column;
+  margin-top: 10px;
+  text-align: center;
 }
 
 .city1 .box,
 .city2 .box {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s, transform 0.6s;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s, transform 0.6s;
 }
 
 .city1 .box.show,
 .city2 .box.show {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .conditional-section > .search {
-    margin-top: 10%;
-    /* border: 1px solid black; */
-    height: 200px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px; /* 간격 조절 */
-    flex-direction: column;
+  margin-top: 10%;
+  /* border: 1px solid black; */
+  height: 200px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px; /* 간격 조절 */
+  flex-direction: column;
 }
 
 .conditional-section > .search > .title-2 {
-    font-size: 1.4rem;
-    margin-bottom: 4px;
+  font-size: 1.4rem;
+  margin-bottom: 4px;
 }
 
 .conditional-section > .search > .underline2 {
-    border: 2px solid #007bff;
-    height: 2px;
-    width: 170px;
-    margin-bottom: 30px;
+  border: 2px solid #007bff;
+  height: 2px;
+  width: 170px;
+  margin-bottom: 30px;
 }
 
 .conditional-section > .search > form {
-    height: 30px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+  height: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .conditional-section > .search > form > div {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .conditional-section > .search > form > div > .input-group {
-    width: 200px;
+  width: 200px;
+}
+
+.conditional-section > .hotels {
+  width: 100%;
+  height: auto;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+.conditional-section > .hotels > .card {
+  margin: 30px auto;
+  display: flex;
+  flex: 1 1 120px;
+}
+.conditional-section > .hotels > .card > img {
+  width: 120px;
+  margin-right: 20px;
+}
+.conditional-section > .hotels > .card > a {
+  text-decoration: none;
+  margin-top: 10px;
+  line-height: 10px;
+  color: black;
+}
+
+.btn_gotop {
+  position: fixed;
+  bottom: 150px;
+  right: 50px;
+  z-index: 999;
+  width: 90px;
+  height: 90px;
+  border: 3px solid #ccc;
+  outline: none;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.btn_gotop:hover {
+  border: 3px solid #007bff;
+  transform: scale(1.1);
+  transition: 0.3s, tranform 0.3s;
+}
+
+.btn_gotop > span {
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn_gotop > p {
+  font-size: 1rem;
+  line-height: 20px;
+  /* margin: 0; */
+  text-align: center;
 }

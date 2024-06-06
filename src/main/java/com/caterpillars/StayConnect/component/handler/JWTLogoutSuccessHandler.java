@@ -1,4 +1,4 @@
-package com.caterpillars.StayConnect.component.jwt.handler;
+package com.caterpillars.StayConnect.component.handler;
 
 import java.io.IOException;
 

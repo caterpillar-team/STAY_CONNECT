@@ -1,9 +1,5 @@
 package com.caterpillars.StayConnect.model.entities;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,19 +30,14 @@ public class Accommodation {
 
   @ManyToOne
   @JoinColumn(name = "category_id")
-  @OnDelete(action = OnDeleteAction.CASCADE)
   private Category category;
 
-  @Column(nullable = false)
   private String name;
 
-  @Column(nullable = false)
   private String address;
 
-  @Column(nullable = false)
   private Double latitude;
 
-  @Column(nullable = false)
   private Double longitude;
 
 }
