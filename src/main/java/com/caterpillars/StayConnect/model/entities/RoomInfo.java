@@ -1,13 +1,8 @@
 package com.caterpillars.StayConnect.model.entities;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import groovy.util.logging.Slf4j;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,36 +30,31 @@ public class RoomInfo {
 
   @ManyToOne
   @JoinColumn(name = "accommodation_id")
-  @OnDelete(action = OnDeleteAction.CASCADE)
   private Accommodation accommodation;
 
-  @Column(length = 45)
   private String roomType;
 
-  @Column(length = 45)
   private String bedType;
 
-  @Column(length = 45)
   private String stayType;
 
-  private int count;
-
   private int numberOfPeopleStandard;
+
   private int numberOfPeopleMax;
 
   private String ckiTime;
+
   private String ckoTime;
 
-  private int price;
+  private int count;
 
-  @Column(length = 45)
-  private String roomInfocol;
+  private int numberOfPeople;
+
+  private int price;
 
   @OneToMany(mappedBy = "roomInfo")
   private List<Review> reviews;
 
   @OneToMany(mappedBy = "roomInfo")
   private List<Reservation> reservations;
-
-
 }
