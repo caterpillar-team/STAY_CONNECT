@@ -77,7 +77,6 @@ public class TestAccDataInitializer implements CommandLineRunner {
                 .accommodation(acc1)
                 .bedType("twin")
                 .stayType("숙박")
-                .roomInfocol("saf")
                 .roomType("스탠다드")
                 .build();
 
@@ -91,7 +90,6 @@ public class TestAccDataInitializer implements CommandLineRunner {
                 .accommodation(acc1)
                 .bedType("twin")
                 .stayType("대실")
-                .roomInfocol("saf")
                 .roomType("스탠다드")
                 .build();
 
