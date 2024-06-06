@@ -1,23 +1,115 @@
 <!DOCTYPE html>
 <html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layouts/layout}"
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}"
 >
-  <th:block layout:fragment="javascript">
-    <!-- 지도 api -->
-    <script
-      type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b8f20a221506b373bac69207f38af4f7"
-    ></script>
-  </th:block>
-  <th:block layout:fragment="title">
-    <title>reviewList page</title>
-  </th:block>
-  <th:block layout:fragment="css"
-    ><link rel="stylesheet" th:href="@{/css/pages/auth/reviewList.css}"
-  /></th:block>
-  <th:block layout:fragment="main">
-  </th:block>
+    <th:block layout:fragment="javascript">
+        <!-- 지도 api -->
+        <script
+            type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b8f20a221506b373bac69207f38af4f7"
+        ></script>
+    </th:block>
+    <th:block layout:fragment="title">
+        <title>reviewList page</title>
+    </th:block>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/pages/admin/reviewList.css}" />
+    </th:block>
+
+    <th:block layout:fragment="leftAside">
+        <div class="menu">
+            <h3>관리자페이지</h3>
+            <div><a href="">&nbsp;&nbsp;&nbsp;&nbsp;월별 매출</a></div>
+            <div><a href="">&nbsp;&nbsp;&nbsp;&nbsp;사용자 리스트</a></div>
+            <div><a href="">&nbsp;&nbsp;&nbsp;&nbsp;리뷰 리스트</a></div>
+            <div>
+                <a
+                    class="btn"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight"
+                    aria-controls="offcanvasRight"
+                    >&nbsp;&nbsp;문의 관리</a
+                >
+            </div>
+        </div>
+    </th:block>
+    <th:block layout:fragment="main">
+        <h3 class="list-title">REVIEW LIST</h3>
+        <div class="rowCount">
+            <label for="">
+                <select name="" id="">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="list-card">
+            <table class="table align-middle table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">IDENTIFY CODE</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">USER NAME</th>
+                        <th scope="col">내용</th>
+                        <th scope="col">작성 일자</th>
+                        <th scope="col">평점</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>User1</td>
+                        <td>프린세스</td>
+                        <td>좋아요~ 사진 그대로예요</td>
+                        <td>24-01-01 12:12:12</td>
+                        <td>8.0</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>User2</td>
+                        <td>집사1</td>
+                        <td>넓어서 친구들이랑 파티하기 딱이었어요</td>
+                        <td>24-01-01 12:12:12</td>
+                        <td>9.0</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>User3</td>
+                        <td>집사2</td>
+                        <td>호스트가 너무 무례합니다</td>
+                        <td>24-01-01 12:12:12</td>
+                        <td>2.0</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>User4</td>
+                        <td>집사3</td>
+                        <td>근처에 편의시설이 많아서 편했습니다</td>
+                        <td>24-01-01 12:12:12</td>
+                        <td>7.0</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th scope="col">IDENTIFY CODE</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">USER NAME</th>
+                        <th scope="col">내용</th>
+                        <th scope="col">작성 일자</th>
+                        <th scope="col">평점</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </th:block>
 </html>
