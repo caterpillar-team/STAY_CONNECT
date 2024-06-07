@@ -1,4 +1,4 @@
-package com.caterpillars.StayConnect.component.jwt.filter;
+package com.caterpillars.StayConnect.component.filter;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -13,7 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.caterpillars.StayConnect.component.jwt.provider.JWTokenProvider;
+import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
   @Autowired
   private JWTokenProvider jwTokenProvider;
