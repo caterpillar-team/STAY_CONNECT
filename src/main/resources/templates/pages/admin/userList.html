@@ -1,16 +1,20 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layouts/layout}"
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}"
 >
-  <th:block layout:fragment="javascript"> </th:block>
-  <th:block layout:fragment="title">
-    <title>userList page</title>
-  </th:block>
-  <th:block layout:fragment="css"
-    ><link rel="stylesheet" th:href="@{/css/pages/auth/userList.css}"
-  /></th:block>
-  <th:block layout:fragment="main"> </th:block>
-</html>
+    <th:block layout:fragment="javascript"></th:block>
+    <th:block layout:fragment="title">
+        <title>userList page</title>
+    </th:block>
+    <th:block layout:fragment="css"><link rel="stylesheet" th:href="@{/css/pages/auth/userList.css}" /></th:block>
+
+    <th:block layout:fragment="leftAside">
+        <div th:replace="fragments/admin/adminMenu :: adminMenu"></div>
+    </th:block>
+    <th:block layout:fragment="main">
+        <div th:replace="fragments/admin/adminMainSection :: adminMainSection"></div>
+    </th:block>
+</html> -->
