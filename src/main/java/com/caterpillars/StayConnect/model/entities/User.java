@@ -8,7 +8,6 @@ import java.util.Map;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,7 +30,8 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @Builder
 @Entity
-public class User implements UserDetails, OAuth2User {
+public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -51,12 +51,6 @@ public class User implements UserDetails, OAuth2User {
 
     private String email;
 
-    private String googleProviderId;
-
-    private String kakaoProviderId;
-
-    private String naverProviderId;
-
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
@@ -67,15 +61,5 @@ public class User implements UserDetails, OAuth2User {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(role.getName()));
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
-
-    @Override
-    public String getName() {
-        return attributes.get("name").toString();
     }
 }

@@ -6,9 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import com.caterpillars.StayConnect.model.dto.UserSignUpDto;
@@ -20,7 +17,7 @@ import com.caterpillars.StayConnect.model.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service
-public class AuthService implements UserDetailsService, OAuth2UserService<OAuth2UserRequest, User> {
+public class AuthService implements UserDetailsService {
 
   @Autowired
   private UserRepository userRepository;
@@ -78,14 +75,4 @@ public class AuthService implements UserDetailsService, OAuth2UserService<OAuth2
     }
     return user;
   }
-
-  @Override
-  public User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-    // OAuth2UserService<OAuth2UserRequest, User> oAuth2UserService = new
-    // DefaultOAuth2UserService();
-
-    return null;
-
-  }
-
 }
