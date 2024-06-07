@@ -58,7 +58,9 @@ public class SecurityConfig {
                                 .oauth2Login(oauth -> oauth
                                                 .loginPage("/auth/signin")
                                                 .defaultSuccessUrl("/", true)
-                                                .failureUrl("/auth/signin?error=true"))
+                                                .failureUrl("/auth/signin?error=true")
+                                                .redirectionEndpoint(redirection -> redirection.baseUri("/auth/oauth2/google"))
+                                                )
 
                                 .logout(logout -> logout
                                                 .logoutUrl("/user/logout")
