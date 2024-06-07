@@ -87,10 +87,9 @@
       <div class="my-info">
         <div class="myinfo-card">
           <p>회원 정보</p>
-          <form action="#" method="post">
+          <form th:action="@{/user/mypage}" method="post">
             <div class="mb-2">
               <label for="nickname">이름</label>
-              <span>김철수</span>
               <input
                 type="text"
                 name="nickname"
@@ -100,37 +99,18 @@
                 disabled
               />
             </div>
-            <div class="mb-2">
-              <label for="email">이메일</label>
-              <span>user@example.com</span>
-              <input
-                type="email"
-                name="email"
-                class="form-control"
-                placeholder="수정할 이메일 입력"
-                required
-              />
-            </div>
+
             <div class="mb-2">
               <label for="username">아이디</label>
-              <span>user123</span>
               <input
                 type="text"
                 name="username"
                 class="form-control"
                 placeholder="수정할 아이디 입력"
+                th:value="${edit.username}"
               />
             </div>
-            <div class="mb-2">
-              <label for="phone">전화번호</label>
-              <span>010-1234-5678</span>
-              <input
-                id="phone"
-                name="phone"
-                class="form-control"
-                placeholder="- 제외하고 입력"
-              />
-            </div>
+
             <div class="mb-2">
               <label for="password">패스워드</label>
               <input
@@ -138,18 +118,6 @@
                 name="password"
                 class="form-control"
                 placeholder="수정할 패스워드 입력"
-              />
-            </div>
-            <div class="mb-2">
-              <label for="gender">성별</label>
-              <span>여</span>
-              <input
-                class="form-control"
-                name="gender"
-                type="text"
-                placeholder="여"
-                aria-label="Disabled input example"
-                disabled
               />
             </div>
             <div class="mb-2">
@@ -161,6 +129,39 @@
                 placeholder="패스워드 다시입력"
               />
             </div>
+            <div class="mb-2">
+              <label for="email">이메일</label>
+              <input
+                type="email"
+                name="email"
+                class="form-control"
+                placeholder="수정할 이메일 입력"
+                required
+                th:value="${edit.email}"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="phone">전화번호</label>
+              <input
+                id="phone"
+                name="phone"
+                class="form-control"
+                placeholder="- 제외하고 입력"
+                th:value="${edit.phoneNumber}"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="gender">성별</label>
+              <input
+                class="form-control"
+                name="gender"
+                type="text"
+                placeholder="여"
+                aria-label="Disabled input example"
+                disabled
+              />
+            </div>
+
             <button type="submit" class="btn">수정</button>
           </form>
         </div>
