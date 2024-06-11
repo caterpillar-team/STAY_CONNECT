@@ -87,15 +87,38 @@
       <div class="my-info">
         <div class="myinfo-card">
           <p>회원 정보</p>
-          <form th:action="@{/user/mypage}" method="post">
+          <form th:action="@{/user/myPage}" method="post">
             <div class="mb-2">
               <label for="nickname">이름</label>
               <input
                 type="text"
                 name="nickname"
                 class="form-control"
-                placeholder="이름"
                 aria-label="Disabled input example"
+                th:value="${edit.realName}"
+                disabled
+              />
+            </div>
+
+            <div class="mb-2">
+              <label for="birth">생년월일</label>
+              <input
+                class="form-control"
+                name="birth"
+                type="text"
+                aria-label="Disabled input example"
+                th:value="${edit.birth}"
+                disabled
+              />
+            </div>
+
+            <div class="mb-2">
+              <label for="gender">성별</label>
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Disabled input example"
+                th:value="${edit.gender}"
                 disabled
               />
             </div>
@@ -120,6 +143,7 @@
                 placeholder="수정할 패스워드 입력"
               />
             </div>
+
             <div class="mb-2">
               <label for="repassword">패스워드 확인</label>
               <input
@@ -129,6 +153,7 @@
                 placeholder="패스워드 다시입력"
               />
             </div>
+
             <div class="mb-2">
               <label for="email">이메일</label>
               <input
@@ -140,6 +165,7 @@
                 th:value="${edit.email}"
               />
             </div>
+
             <div class="mb-2">
               <label for="phone">전화번호</label>
               <input
@@ -148,17 +174,6 @@
                 class="form-control"
                 placeholder="- 제외하고 입력"
                 th:value="${edit.phoneNumber}"
-              />
-            </div>
-            <div class="mb-2">
-              <label for="gender">성별</label>
-              <input
-                class="form-control"
-                name="gender"
-                type="text"
-                placeholder="여"
-                aria-label="Disabled input example"
-                disabled
               />
             </div>
 

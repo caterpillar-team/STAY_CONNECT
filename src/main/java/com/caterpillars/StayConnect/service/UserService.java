@@ -1,5 +1,6 @@
 package com.caterpillars.StayConnect.service;
 
+import com.caterpillars.StayConnect.model.entities.Role;
 import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,10 +15,14 @@ public class UserService {
     public void temp(HttpServletRequest request) {
         User user = new User();
 
+        user.setRealName(user.getRealName());
         user.setUsername(user.getUsername());
         user.setPassword(user.getPassword());
         user.setPhoneNumber(user.getPhoneNumber());
         user.setEmail(user.getEmail());
+        user.setBirth(user.getBirth());
+        user.setRole(Role.builder().build());
+
 
         userRepository.save(user);
     }

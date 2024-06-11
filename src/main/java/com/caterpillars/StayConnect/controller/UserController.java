@@ -1,6 +1,7 @@
 package com.caterpillars.StayConnect.controller;
 
 import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
+import com.caterpillars.StayConnect.model.entities.Role;
 import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
 import com.caterpillars.StayConnect.service.UserService;
@@ -63,10 +64,14 @@ public class UserController {
   @PostMapping("/myPage")
   public String editUserInfo(String username, String password, String phoneNumber, String email) {
     User user = new User();
-    user.setUsername(username);
-    user.setPassword(password);
-    user.setPhoneNumber(phoneNumber);
-    user.setEmail(email);
+
+    user.setRealName(user.getRealName());
+    user.setUsername(user.getUsername());
+    user.setPassword(user.getPassword());
+    user.setPhoneNumber(user.getPhoneNumber());
+    user.setEmail(user.getEmail());
+    user.setBirth(user.getBirth());
+    user.setRole(Role.builder().build());
 
     userRepository.save(user);
 

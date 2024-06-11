@@ -42,9 +42,9 @@ public class SecurityConfig {
 
                                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                                                 .requestMatchers("/", "/error/**").permitAll()
-                                                .requestMatchers("/auth/**", "/accom/**").not().authenticated()
+                                                .requestMatchers("/auth/**").not().authenticated()
                                                 .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**").permitAll()
-                                                .requestMatchers("/user/**").permitAll()
+                                                .requestMatchers("/user/**", "/accom/**").hasAnyRole("USER", "ADMIN")
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
 
