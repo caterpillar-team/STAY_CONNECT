@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +13,6 @@ import com.caterpillars.StayConnect.model.repository.RoleRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
 
 @Component
-@Order(3)
 public class TestUserDataInitializer implements CommandLineRunner {
 
   @Autowired

@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -42,10 +41,10 @@ public class SecurityConfig {
                                 .csrf((csrf) -> csrf.disable())
 
                                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-
-                                                .requestMatchers("/**").permitAll()
+                                                .requestMatchers("/", "/error/**").permitAll()
+                                                .requestMatchers("/auth/**", "/accom/**").not().authenticated()
                                                 .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**").permitAll()
-                                                .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                                                .requestMatchers("/user/**").permitAll()
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
 
@@ -59,9 +58,7 @@ public class SecurityConfig {
                                 .oauth2Login(oauth -> oauth
                                                 .loginPage("/auth/signin")
                                                 .defaultSuccessUrl("/", true)
-                                                .failureUrl("/auth/signin?error=true")
-                                                .redirectionEndpoint(redirection -> redirection.baseUri("/auth/oauth2/google"))
-                                                )
+                                                .failureUrl("/auth/signin?error=true"))
 
                                 .logout(logout -> logout
                                                 .logoutUrl("/user/logout")

@@ -31,9 +31,6 @@ public class Accommodation {
   @ManyToOne
   @JoinColumn(name = "category_id")
   private Category category;
-  @ManyToOne
-  @JoinColumn(name = "accommodation_grade")
-  private AccommodationGrade accommodationGrade;
 
   private String name;
 
