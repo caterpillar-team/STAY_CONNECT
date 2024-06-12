@@ -20,3 +20,17 @@ document.addEventListener('DOMContentLoaded', function () {
   window.addEventListener('scroll', showBoxes);
   showBoxes();
 });
+
+document.querySelectorAll('.city1 .box a').forEach(function (anchor) {
+  anchor.addEventListener('click', function (event) {
+    event.preventDefault();
+    window.scrollTo(0, document.body.scrollHeight);
+  });
+});
+
+document.querySelectorAll('.city2 .box a').forEach(function (anchor) {
+  anchor.addEventListener('click', function (event) {
+    event.preventDefault();
+    window.scrollTo(0, document.body.scrollHeight);
+  });
+});

@@ -20,27 +20,27 @@ import java.util.Optional;
 @RequestMapping("/accom")
 public class AccommodationController {
 
-@Autowired
-private RoomInfoRepository roomInfoRepository;
-@Autowired
-private ReviewRepository reviewRepository;
+    @Autowired
+    private RoomInfoRepository roomInfoRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
 
-@GetMapping("/detail/{id}")
-public String accom_detail(@PathVariable long id, Model model) {
-Optional<RoomInfo> result = roomInfoRepository.findById(id);
-if(result.isPresent()) {
-RoomInfo roomInfo = result.get();
-if (roomInfo.getAccommodation() != null) {
-List<Review> reviews = reviewRepository.findByRoomInfo(roomInfo);
-model.addAttribute("accom", roomInfo);
-model.addAttribute("reviews", reviews);
-return "pages/accom_detail";
-} else {
-// Accommodation 객체가 null인 경우 처리
-return "redirect:/error";
-}
-} else {
-return "redirect:/";
-}
-}
+    @GetMapping("/detail/{id}")
+    public String accom_detail(@PathVariable long id, Model model) {
+        Optional<RoomInfo> result = roomInfoRepository.findById(id);
+        if (result.isPresent()) {
+            RoomInfo roomInfo = result.get();
+            if (roomInfo.getAccommodation() != null) {
+                List<Review> reviews = reviewRepository.findByRoomInfo(roomInfo);
+                model.addAttribute("accom", roomInfo);
+                model.addAttribute("reviews", reviews);
+                return "pages/accom_detail";
+            } else {
+                // Accommodation 객체가 null인 경우 처리
+                return "redirect:/error";
+            }
+        } else {
+            return "redirect:/";
+        }
+    }
 }
