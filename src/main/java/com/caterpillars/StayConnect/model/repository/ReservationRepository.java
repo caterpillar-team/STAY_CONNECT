@@ -13,7 +13,7 @@ import com.caterpillars.StayConnect.model.entities.Reservation;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long>{
 
-    git
+    
 
     
     

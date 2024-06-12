@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layouts/layout}"
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}"
 >
     <th:block layout:fragment="javascript"></th:block>
     <th:block layout:fragment="title">
@@ -16,24 +16,25 @@
 
     <th:block layout:fragment="leftAside">
         <div class="menu">
-            <h3>리뷰 페이지</h3>
+            <h3>관리자 페이지</h3>
             <div><a href="">&nbsp;&nbsp;&nbsp;&nbsp;월별 매출</a></div>
             <div><a href="">&nbsp;&nbsp;&nbsp;&nbsp;사용자 리스트</a></div>
             <div><a href="">&nbsp;&nbsp;&nbsp;&nbsp;리뷰 리스트</a></div>
             <div>
                 <a
-                    class="btn"
-                    type="button"
+                    class="inquery"
                     data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasRight"
+                    href="#offcanvasRight"
+                    role="button"
                     aria-controls="offcanvasRight"
-                    >&nbsp;&nbsp;문의 관리</a
                 >
+                    &nbsp;&nbsp;&nbsp;&nbsp;문의 관리
+                </a>
             </div>
         </div>
     </th:block>
     <th:block layout:fragment="main">
-        <h3 class="list-title">REVIEW LIST</h3>
+        <h3 class="list-title">USER LIST</h3>
         <div class="rowCount">
             <label for="">
                 <select name="" id="">
@@ -57,40 +58,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>User1</td>
-                        <td>프린세스</td>
-                        <td>남자</td>
-                        <td>princess@naver.com</td>
-                        <td>010-1232-1234</td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>User2</td>
-                        <td>집사1</td>
-                        <td>여자</td>
-                        <td>princess@naver.com</td>
-                        <td>010-1232-1234</td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>User3</td>
-                        <td>집사2</td>
-                        <td>여자</td>
-                        <td>princess@naver.com</td>
-                        <td>010-1232-1234</td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row">4</th>
-                        <td>User4</td>
-                        <td>집사3</td>
-                        <td>여자</td>
-                        <td>princess@naver.com</td>
-                        <td>010-1232-1234</td>
+                    <tr th:each="userList : ${userList}">
+                        <th scope="row" th:text="${userList.id}"></th>
+                        <td th:text="${userList.realName}"></td>
+                        <td th:text="${userList.username}"></td>
+                        <td th:text="${userList.gender}"></td>
+                        <td th:text="${userList.email}"></td>
+                        <td th:text="${userList.phoneNumber}"></td>
                     </tr>
                 </tbody>
                 <tfoot>
@@ -108,17 +82,9 @@
     </th:block>
 
     <th:block layout:fragment="rightAside">
-        <div
-            class="offcanvas offcanvas-end"
-            data-bs-scroll="true"
-            data-bs-backdrop="false"
-            tabindex="-1"
-            id="offcanvasRight"
-            aria-labelledby="offcanvasRightLabel"
-            th:fragment="chatBlock"
-        >
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div class="offcanvas-header">
-                <h5 id="offcanvasRightLabel">나는 문의 채팅창</h5>
+                <h5 id="offcanvasRightLabel">문의창 입니다.</h5>
                 <button
                     type="button"
                     class="btn-close text-reset"
@@ -128,18 +94,15 @@
             </div>
             <div class="offcanvas-body">
                 <div class="chatCard">
-                    <div class="chatLog">
-                        
-                    </div>
+                    <div class="chatLog">대화 창</div>
                     <form id="message" action="">
-                        <input type="text" id="myMessage" placeholder="메시지를 작성해주세요">
+                        <input type="text" id="myMessage" placeholder="메시지를 작성해주세요" />
                         <button onclick="">전송</button>
                         <p>
-                          <span class="notification"></span>
+                            <span class="notification"></span>
                         </p>
-                      </form>
+                    </form>
                 </div>
-                
             </div>
         </div>
     </th:block>

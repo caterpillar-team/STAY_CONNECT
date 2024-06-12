@@ -1,6 +1,7 @@
 * {
     font-family: 'Nunito Sans', sans-serif;
     color: gray;
+    
 }
 
 a {
@@ -48,7 +49,7 @@ li {
     transition: color 0.3s;
 }
 
-.menu > .btn {
+.menu .chatButton {
     display: block;
     padding: 10px 15px;
     text-decoration: none;

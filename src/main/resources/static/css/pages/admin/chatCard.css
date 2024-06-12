@@ -7,5 +7,10 @@
 .chatCard .chatLog {
     border: 1px solid;
     width: auto;
-    height: auto;
+    height: 400px;
+    margin: 10px;
+}
+
+#message {
+    margin: 10px;
 }
