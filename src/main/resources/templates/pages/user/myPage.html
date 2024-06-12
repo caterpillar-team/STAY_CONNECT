@@ -88,7 +88,7 @@
         <div class="myinfo-card">
           <p>회원 정보</p>
           <form th:action="@{/user/myPage}" method="post">
-            <div class="mb-2">
+            <div class="mb-2" th:if="${edit != null}">
               <label for="nickname">이름</label>
               <input
                 type="text"
@@ -100,7 +100,7 @@
               />
             </div>
 
-            <div class="mb-2">
+            <div class="mb-2" th:if="${edit != null}">
               <label for="birth">생년월일</label>
               <input
                 class="form-control"
@@ -112,7 +112,7 @@
               />
             </div>
 
-            <div class="mb-2">
+            <div class="mb-2" th:if="${edit != null}">
               <label for="gender">성별</label>
               <input
                 type="text"
@@ -141,6 +141,7 @@
                 name="password"
                 class="form-control"
                 placeholder="수정할 패스워드 입력"
+                th:value="${edit.password}"
               />
             </div>
 

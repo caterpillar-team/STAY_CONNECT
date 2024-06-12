@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2Res
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,11 +32,15 @@ public class UserController {
 
   @Autowired
   private UserService userService;
+
   @Autowired
   private UserRepository userRepository;
 
   @Autowired
   private JWTokenProvider jwTokenProvider;
+
+  @Autowired
+  private BCryptPasswordEncoder passwordEncoder;
 
   @GetMapping("/myPage")
   public String editUser(Model model, HttpServletRequest request) {
@@ -49,6 +54,7 @@ public class UserController {
           .findAny()
           .orElse(null);
     }
+    log.info("token" + token);
 
     System.out.println("token : " + token);
     String username = jwTokenProvider.extractUsername(token);
@@ -60,27 +66,32 @@ public class UserController {
 
     if (result.isPresent()) {
       model.addAttribute("edit", result.get());
-      return "pages/user/myPage";
     } else {
-      return "pages/user/myPage";
+      model.addAttribute("edit", new User()); // 빈 객체 추가
     }
-
+    return "pages/user/myPage";
   }
 
   @PostMapping("/myPage")
   public String editUserInfo(String username, String password, String phoneNumber, String email) {
-    User user = new User();
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String currentUser = authentication.getName();
+    Optional<User> optionalUser = userRepository.findByUsername(currentUser);
+    if (optionalUser.isPresent()) {
+      User user = optionalUser.get();
+      user.setUsername(username);
+      user.setPassword(passwordEncoder.encode(password));
+      user.setPhoneNumber(phoneNumber);
+      user.setEmail(email);
 
-    user.setRealName(user.getRealName());
-    user.setUsername(user.getUsername());
-    user.setPassword(user.getPassword());
-    user.setPhoneNumber(user.getPhoneNumber());
-    user.setEmail(user.getEmail());
-    user.setBirth(user.getBirth());
-    user.setRole(Role.builder().build());
+      userRepository.save(user);
 
-    userRepository.save(user);
+      return "redirect:/";
 
-    return "pages/user/myPage";
+    } else {
+
+      return "errorPage";
+    }
   }
+
 }
