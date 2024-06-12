@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layouts/layout}"
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}"
 >
     <th:block layout:fragment="title">
         <title>reviewList page</title>
@@ -11,6 +11,9 @@
     <th:block layout:fragment="css">
         <link rel="stylesheet" th:href="@{/css/pages/admin/reviewList.css}" />
         <link rel="stylesheet" th:href="@{/css/pages/admin/chatCard.css}" />
+    </th:block>
+    <th:block layout:fragment="javascript">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
     </th:block>
 
     <th:block layout:fragment="leftAside">
@@ -21,13 +24,14 @@
             <div><a href="">&nbsp;&nbsp;&nbsp;&nbsp;리뷰 리스트</a></div>
             <div>
                 <a
-                    class="btn"
-                    type="button"
+                    class="inquery"
                     data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasRight"
+                    href="#offcanvasRight"
+                    role="button"
                     aria-controls="offcanvasRight"
-                    >&nbsp;문의 관리</a
                 >
+                    &nbsp;&nbsp;&nbsp;&nbsp;문의 관리
+                </a>
             </div>
         </div>
     </th:block>
@@ -57,40 +61,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>User1</td>
-                        <td>프린세스</td>
-                        <td>좋아요~ 사진 그대로예요</td>
-                        <td>24-01-01 12:12:12</td>
-                        <td>8.0</td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>User2</td>
-                        <td>집사1</td>
-                        <td>넓어서 친구들이랑 파티하기 딱이었어요</td>
-                        <td>24-01-01 12:12:12</td>
-                        <td>9.0</td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>User3</td>
-                        <td>집사2</td>
-                        <td>호스트가 너무 무례합니다</td>
-                        <td>24-01-01 12:12:12</td>
-                        <td>2.0</td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row">4</th>
-                        <td>User4</td>
-                        <td>집사3</td>
-                        <td>근처에 편의시설이 많아서 편했습니다</td>
-                        <td>24-01-01 12:12:12</td>
-                        <td>7.0</td>
+                    <tr th:each="reviewList : ${reviewList}">
+                        <th scope="row" th:text="${reviewList.id}"></th>
+                        <td th:text="${reviewList.user.id}"></td>
+                        <td th:text="${reviewList.user.username}"></td>
+                        <td th:text="${reviewList.contents}"></td>
+                        <td th:text="${#temporals.format(reviewList.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                        <td th:text="${reviewList.rate}"></td>
                     </tr>
                 </tbody>
                 <tfoot>
@@ -105,6 +82,55 @@
                 </tfoot>
             </table>
         </div>
+        <div>
+            <h1>Reservation Chart</h1>
+            <canvas id="monthlyReservationsChart" width="400" height="200"></canvas>
+        </div>
+
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            document.addEventListener('DOMContentLoaded', function () {
+                var ctx = document.getElementById('monthlyReservationsChart').getContext('2d');
+
+                var reservationStats = /*[[${reservationStats}]]*/ '[]';
+                console.log('Raw reservationStats:', reservationStats);
+                reservationStats = JSON.parse(reservationStats);
+
+                console.log('Parsed reservationStats: ', reservationStats);
+
+                var labels = reservationStats.map((stat) => stat[0] + '-' + (stat[1] < 10 ? '0' : '') + stat[1]);
+                var data = reservationStats.map((stat) => stat[2]);
+
+                console.log('Labels: ', labels);
+                console.log('Data: ', data);
+
+                var chartData = {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Monthly Reservations',
+                            data: data,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                        },
+                    ],
+                };
+                var options = {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
+                    },
+                };
+                var usageChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: chartData,
+                    options: options,
+                });
+            });
+            /*]]>*/
+        </script>
     </th:block>
 
     <th:block layout:fragment="rightAside">
@@ -128,16 +154,14 @@
             </div>
             <div class="offcanvas-body">
                 <div class="chatCard">
-                    <div class="chatLog">
-                        
-                    </div>
+                    <div class="chatLog"></div>
                     <form id="message" action="">
-                        <input type="text" id="myMessage" placeholder="메시지를 작성해주세요">
+                        <input type="text" id="myMessage" placeholder="메시지를 작성해주세요" />
                         <button onclick="">전송</button>
                         <p>
-                          <span class="notification"></span>
+                            <span class="notification"></span>
                         </p>
-                      </form>
+                    </form>
                 </div>
             </div>
         </div>

@@ -1,5 +1,6 @@
 package com.caterpillars.StayConnect.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.caterpillars.StayConnect.model.dto.UserSignUpDto;
+import com.caterpillars.StayConnect.model.entities.Review;
 import com.caterpillars.StayConnect.model.entities.Role;
 import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.RoleRepository;
@@ -30,6 +32,7 @@ public class AuthService implements UserDetailsService {
 
   @Autowired
   private PasswordEncoder passwordEncoder;
+  
 
   public User signUp(UserSignUpDto signUpDto) {
     Role role = roleRepository.findByName("ROLE_USER")
@@ -75,5 +78,16 @@ public class AuthService implements UserDetailsService {
     }
     return user;
   }
+
+  
+
+public List<User> getAllUsers() {
+    return userRepository.findAll();
+}
+
+public List<Review> getAllReviews() {
+  return ReviewRepository.findAll();
+  
+}
 
 }
