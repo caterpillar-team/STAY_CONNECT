@@ -31,7 +31,7 @@ public class AdminService {
     return reviewRepository.findAll();
     }
 
-    public List<Object[]> getAllUsersCountByAge() {
+    public List<Object[]> getAllUsersByAge() {
         return userRepository.findUserCountByAge();
     }
 }

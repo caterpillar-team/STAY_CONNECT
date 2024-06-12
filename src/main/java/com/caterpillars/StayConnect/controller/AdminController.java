@@ -50,7 +50,7 @@ public class AdminController {
   @GetMapping("/home")
   public String getCharts(Model model) throws JsonProcessingException {
     List<Object[]> reservationStats = reservationService.getMonthlyReservationCount();
-    List<Object[]> userStats = adminService.getAllUsersCountByAge();
+    List<Object[]> userStats = adminService.getAllUsersByAge();
     
     String reservationStatsJson = objectMapper.writeValueAsString(reservationStats);
     String userStatsJson = objectMapper.writeValueAsString(userStats);

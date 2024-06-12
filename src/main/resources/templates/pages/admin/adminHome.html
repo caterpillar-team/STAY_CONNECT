@@ -36,8 +36,7 @@
         </div>
     </th:block>
     <th:block layout:fragment="main">
-        
-        <div class="monthlyReserv col-md-10" >
+        <div class="monthlyReserv col-md-10">
             <h1>Monthly Reservation Chart</h1>
             <canvas id="monthlyReservationsChart" width="200" height="200"></canvas>
         </div>
@@ -97,10 +96,8 @@
                 var ctx = document.getElementById('UsersByAgeChart').getContext('2d');
 
                 var userStats = /*[[${userStats}]]*/ '[]';
-                
-                userStats = JSON.parse(userStats);
 
-        
+                userStats = JSON.parse(userStats);
 
                 var labels = userStats.map((stat) => stat[0] + '/' + (stat[1] < 10 ? '0' : '') + stat[1]);
                 var data = userStats.map((stat) => stat[2]);
