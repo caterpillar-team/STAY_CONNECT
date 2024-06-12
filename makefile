@@ -22,7 +22,7 @@ docker-clean:
 
 # mysql만 docker로 실행
 docker-mysql:
-		docker-compose -f ./docker/docker-compose.yml up mysql --build
+		docker-compose -f ./docker/docker-compose.mysql.yml up --build
 
 # stop mysql server
 docker-mysql-stop:
