@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+import com.caterpillars.StayConnect.service.AdminService;
 import com.caterpillars.StayConnect.service.AuthService;
 import com.caterpillars.StayConnect.service.ReservationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -33,10 +33,15 @@ public class AdminController {
   private ReservationService reservationService;
 
   @Autowired
+  private AdminService adminService;
+
+  @Autowired
     private ObjectMapper objectMapper;
 
   
   
+
+
   
   public AdminController(AuthService authService){
     this.authService=authService;
@@ -44,14 +49,14 @@ public class AdminController {
 
   @GetMapping("/home")
   public String getCharts(Model model) throws JsonProcessingException {
-  //   List<Object[]> reservationStats = reservationService.getMonthlyReservationCount();
-  //   for (Object[] stat : reservationStats) {
-  //     System.out.println("Year: " + stat[0] + ", Month: " + stat[1] + ", Count: " + stat[2]);
-  // }
+    List<Object[]> reservationStats = reservationService.getMonthlyReservationCount();
+    List<Object[]> userStats = adminService.getAllUsersCountByAge();
+    
+    String reservationStatsJson = objectMapper.writeValueAsString(reservationStats);
+    String userStatsJson = objectMapper.writeValueAsString(userStats);
 
-  //   String reservationStatsJson = objectMapper.writeValueAsString(reservationStats);
-
-  //       model.addAttribute("reservationStats", reservationStatsJson);
+        model.addAttribute("reservationStats", reservationStatsJson);
+        model.addAttribute("userStats", userStatsJson);
       
       return "pages/admin/adminHome";
   }
@@ -61,7 +66,7 @@ public class AdminController {
   @GetMapping("/userList")
   public String getAdminUserList(Model model) {
     
-    model.addAttribute("userList",authService.getAllUsers());
+    model.addAttribute("userList",adminService.getAllUsers());
     
     
     return "pages/admin/userList";
@@ -71,18 +76,8 @@ public class AdminController {
 
   @GetMapping("/reviewList")
   public String getAdminReviewList(Model model) throws JsonProcessingException {
-   
-    List<Object[]> reservationStats = reservationService.getMonthlyReservationCount();
-    
 
-    String reservationStatsJson = objectMapper.writeValueAsString(reservationStats);
-    for (Object[] stat : reservationStats) {
-          System.out.println("Year: " + stat[0] + ", Month: " + stat[1] + ", Count: " + stat[2]);
-      }
-
-        model.addAttribute("reservationStats", reservationStatsJson);
-        model.addAttribute("reviewList", authService.getAllReviews());
-    
+    model.addAttribute("reviewList", adminService.getAllReviews());
     
     return "pages/admin/reviewList";
   }

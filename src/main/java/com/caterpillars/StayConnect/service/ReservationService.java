@@ -15,14 +15,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class ReservationService {
+    
+    
     @Autowired
-    ReservationRepository reservationRepository;
+    private ReservationRepository reservationRepository;
 
-    
-    
     public List<Object[]> getMonthlyReservationCount() {
         return reservationRepository.findMonthlyReservationCount();
     }
-
    
 }

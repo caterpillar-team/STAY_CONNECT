@@ -1,6 +1,6 @@
 package com.caterpillars.StayConnect.service;
 
-import java.util.List;
+
 import java.util.Optional;
 
 
@@ -83,13 +83,7 @@ public class AuthService implements UserDetailsService {
     return user;
   }
 
-public List<User> getAllUsers() {
-    return userRepository.findAll();
-}
 
-public List<Review> getAllReviews() {
-  return reviewRepository.findAll();
-}
 
   
 }

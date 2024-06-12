@@ -1,17 +1,173 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"></script>
-    </head>
-    <body>
-        <div>
-            <h1>Reservation Chart</h1>
-            <canvas id="monthlyReservationsChart" width="400" height="200"></canvas>
+<html
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}"
+>
+    <th:block layout:fragment="title">
+        <title>reviewList page</title>
+    </th:block>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/pages/admin/reviewList.css}" />
+        <link rel="stylesheet" th:href="@{/css/pages/admin/chatCard.css}" />
+    </th:block>
+    <th:block layout:fragment="javascript">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    </th:block>
+
+    <th:block layout:fragment="leftAside">
+        <div class="menu">
+            <h3>관리자페이지</h3>
+            <div><a th:href="@{/admin/adminHome}">&nbsp;&nbsp;&nbsp;&nbsp;대시 보드</a></div>
+            <div><a th:href="@{/admin/userList}">&nbsp;&nbsp;&nbsp;&nbsp;사용자 리스트</a></div>
+            <div><a th:href="@{/admin/reviewList}">&nbsp;&nbsp;&nbsp;&nbsp;리뷰 리스트</a></div>
+            <div>
+                <a
+                    class="inquery"
+                    data-bs-toggle="offcanvas"
+                    href="#offcanvasRight"
+                    role="button"
+                    aria-controls="offcanvasRight"
+                >
+                    &nbsp;&nbsp;&nbsp;&nbsp;문의 관리
+                </a>
+            </div>
+        </div>
+    </th:block>
+    <th:block layout:fragment="main">
+        
+        <div class="monthlyReserv col-md-10" >
+            <h1>Monthly Reservation Chart</h1>
+            <canvas id="monthlyReservationsChart" width="200" height="200"></canvas>
+        </div>
+        <div class="monthlyUsers col-md-6">
+            <h1>Users By Age</h1>
+            <canvas id="UsersByAgeChart" width="200" height="200"></canvas>
         </div>
 
-        <script th:src="@{/js/chart.js}"></script>
-    </body>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            document.addEventListener('DOMContentLoaded', function () {
+                var ctx = document.getElementById('monthlyReservationsChart').getContext('2d');
+
+                var reservationStats = /*[[${reservationStats}]]*/ '[]';
+                console.log('Raw reservationStats:', reservationStats);
+                reservationStats = JSON.parse(reservationStats);
+
+                console.log('Parsed reservationStats: ', reservationStats);
+
+                var labels = reservationStats.map((stat) => stat[0] + '-' + (stat[1] < 10 ? '0' : '') + stat[1]);
+                var data = reservationStats.map((stat) => stat[2]);
+
+                console.log('Labels: ', labels);
+                console.log('Data: ', data);
+
+                var chartData = {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Monthly Reservations',
+                            data: data,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                        },
+                    ],
+                };
+                var options = {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
+                    },
+                };
+                var usageChart = new Chart(ctx, {
+                    type: 'line',
+                    data: chartData,
+                    options: options,
+                });
+            });
+            /*]]>*/
+
+            // =========================================================
+
+            /*<![CDATA[*/
+            document.addEventListener('DOMContentLoaded', function () {
+                var ctx = document.getElementById('UsersByAgeChart').getContext('2d');
+
+                var userStats = /*[[${userStats}]]*/ '[]';
+                
+                userStats = JSON.parse(userStats);
+
+        
+
+                var labels = userStats.map((stat) => stat[0] + '/' + (stat[1] < 10 ? '0' : '') + stat[1]);
+                var data = userStats.map((stat) => stat[2]);
+
+                console.log('Labels: ', labels);
+                console.log('Data: ', data);
+
+                var chartData = {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Monthly Reservations',
+                            data: data,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                        },
+                    ],
+                };
+                var options = {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
+                    },
+                };
+                var usageChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: chartData,
+                    options: options,
+                });
+            });
+            /*]]>*/
+        </script>
+    </th:block>
+
+    <th:block layout:fragment="rightAside">
+        <div
+            class="offcanvas offcanvas-end"
+            data-bs-scroll="true"
+            data-bs-backdrop="false"
+            tabindex="-1"
+            id="offcanvasRight"
+            aria-labelledby="offcanvasRightLabel"
+            th:fragment="chatBlock"
+        >
+            <div class="offcanvas-header">
+                <h5 id="offcanvasRightLabel">나는 문의 채팅창</h5>
+                <button
+                    type="button"
+                    class="btn-close text-reset"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="chatCard">
+                    <div class="chatLog"></div>
+                    <form id="message" action="">
+                        <input type="text" id="myMessage" placeholder="메시지를 작성해주세요" />
+                        <button onclick="">전송</button>
+                        <p>
+                            <span class="notification"></span>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </th:block>
 </html>

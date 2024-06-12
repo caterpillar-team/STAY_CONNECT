@@ -4,10 +4,6 @@
     xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{layouts/layout}"
-    lang="en"
-    xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layouts/layout}"
 >
     <th:block layout:fragment="title">
         <title>reviewList page</title>
@@ -23,9 +19,9 @@
     <th:block layout:fragment="leftAside">
         <div class="menu">
             <h3>관리자페이지</h3>
-            <div><a href="">&nbsp;&nbsp;&nbsp;&nbsp;월별 매출</a></div>
-            <div><a href="">&nbsp;&nbsp;&nbsp;&nbsp;사용자 리스트</a></div>
-            <div><a href="">&nbsp;&nbsp;&nbsp;&nbsp;리뷰 리스트</a></div>
+            <div><a th:href="@{/admin/adminHome}">&nbsp;&nbsp;&nbsp;&nbsp;대시 보드</a></div>
+            <div><a th:href="@{/admin/userList}">&nbsp;&nbsp;&nbsp;&nbsp;사용자 리스트</a></div>
+            <div><a th:href="@{/admin/reviewList}">&nbsp;&nbsp;&nbsp;&nbsp;리뷰 리스트</a></div>
             <div>
                 <a
                     class="inquery"
@@ -86,21 +82,21 @@
                 </tfoot>
             </table>
         </div>
-        <div>
+        <!-- <div>
             <h1>Reservation Chart</h1>
             <canvas id="monthlyReservationsChart" width="400" height="200"></canvas>
         </div>
 
         <script th:inline="javascript">
-            /*<![CDATA[*/
+            
             document.addEventListener('DOMContentLoaded', function () {
                 var ctx = document.getElementById('monthlyReservationsChart').getContext('2d');
 
                 var reservationStats = /*[[${reservationStats}]]*/ '[]';
-                console.log('Raw reservationStats:', reservationStats);
+                
                 reservationStats = JSON.parse(reservationStats);
 
-                console.log('Parsed reservationStats: ', reservationStats);
+                
 
                 var labels = reservationStats.map((stat) => stat[0] + '-' + (stat[1] < 10 ? '0' : '') + stat[1]);
                 var data = reservationStats.map((stat) => stat[2]);
@@ -133,8 +129,8 @@
                     options: options,
                 });
             });
-            /*]]>*/
-        </script>
+            
+        </script> -->
     </th:block>
 
     <th:block layout:fragment="rightAside">
