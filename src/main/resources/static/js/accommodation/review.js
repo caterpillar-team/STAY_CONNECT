@@ -112,12 +112,39 @@ document.querySelector("#deleteReviewForm").addEventListener("submit", function(
     }
 });
 
-// 리뷰 수정버튼 이벤트
+// 리뷰 수정 이벤트
+function showEditForm(reviewId) {
+    document.getElementById('editForm' + reviewId).style.display = 'block';
+}
+
+// 수정 취소 이벤트
+function hideEditForm(reviewId) {
+    document.getElementById('editForm' + reviewId).style.display = 'none';
+}
+
+// 별점 설정 이벤트
+function setRating(star, reviewId) {
+    var stars = document.querySelectorAll('#editForm' + reviewId + ' .fa-star');
+    stars.forEach(function(starElement, index) {
+        if (index < star) {
+            starElement.classList.add('fas');
+            starElement.classList.remove('far');
+        } else {
+            starElement.classList.add('far');
+            starElement.classList.remove('fas');
+        }
+    });
+
+    // 별점 입력 필드 업데이트
+    document.querySelector('#editForm' + reviewId + ' .ratingInput').value = star;
+}
+
+// 폼 서브밋 이벤트 리스너
 document.querySelector("#UpdateReviewForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
-    // accomsId 가져오기
-    var accomsId = document.getElementById("accId").value;
+    // accomId 가져오기
+    var accomId = document.getElementById("accId").value;
 
     // reviewId 가져오기
     var reviewId = document.getElementById("reviewId").value;
@@ -131,26 +158,3 @@ document.querySelector("#UpdateReviewForm").addEventListener("submit", function(
         return false;
     }
 });
-
-// 리뷰 수정 이벤트
-function editReview(reviewId) {
-    document.getElementById('editForm' + reviewId).style.display = 'block';
-}
-
-function cancelEdit(reviewId) {
-    document.getElementById('editForm' + reviewId).style.display = 'none';
-}
-
-function rate(star, reviewId) {
-    var stars = document.querySelectorAll('#editForm' + reviewId + ' .reviewInputRatingStar');
-    for (var i = 0; i < stars.length; i++) {
-        if (i < star) {
-            stars[i].classList.add('fas');
-            stars[i].classList.remove('far');
-        } else {
-            stars[i].classList.add('far');
-            stars[i].classList.remove('fas');
-        }
-    }
-    document.querySelector('#editForm' + reviewId + ' .ratingInput').value = star;
-}

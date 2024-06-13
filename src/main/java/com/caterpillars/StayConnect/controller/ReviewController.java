@@ -1,6 +1,7 @@
 package com.caterpillars.StayConnect.controller;
 
 import com.caterpillars.StayConnect.model.dto.ReviewDto;
+import com.caterpillars.StayConnect.model.repository.ReviewRepository;
 import com.caterpillars.StayConnect.service.ReviewService;
 import com.caterpillars.StayConnect.service.UserService;
 import jakarta.validation.Valid;
@@ -23,6 +24,9 @@ public class ReviewController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     // 리뷰 삭제
     @PostMapping("/delete/{reviewId}")
@@ -55,20 +59,17 @@ public class ReviewController {
     @PostMapping("/update/{reviewId}")
     public String postUpdateReview(@PathVariable("reviewId") long reviewId, @Valid @ModelAttribute("reviewDto") ReviewDto dto, BindingResult bindingResult, Model model)
             throws IOException {
-
         log.info("POST /accom/detail/"+dto.getAccId()+"/update/"+dto.getReviewId()+" dto " + dto);
 
         if (bindingResult.hasErrors()) {
             return "redirect:/accom/detail/"+dto.getAccId();
         }
 
-        dto.setReviewId(reviewId);
-
         // 서비스 실행
         boolean isUpdate = reviewService.updateReview(dto);
 
         if (isUpdate) {
-            return "redirect:/accom/detail/" + dto.getRoomInfoId();
+            return "redirect:/accom/detail/" + dto.getAccId();
         }
         return "error/default";
     }

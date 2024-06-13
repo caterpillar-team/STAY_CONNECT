@@ -88,9 +88,16 @@ public class ReviewService {
             review.setTitle(dto.getTitle());
             review.setContents(dto.getContents());
             review.setCreatedAt(LocalDateTime.now());
-            User user = userService.findByUsername(dto.getUsername());
-            review.setUser(user);
 
+            // User 정보
+            User user = userService.findByUsername(dto.getUsername());
+            if(user!=null) {
+                review.setUser(user);
+            } else {
+                log.info("유저 정보가 없습니다");
+            }
+
+            // 리뷰 저장
             review = reviewRepository.save(review);
 
             return review != null;

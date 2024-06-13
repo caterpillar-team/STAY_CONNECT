@@ -51,7 +51,7 @@
     <section class="accomMain">
         <div>
             <span class="category_name" th:text="${accom.accommodation.category.name}">호텔/펜션</span>
-            <span class="category_grade" th:text="${' • '+accom.accommodation.accommodationGrade.getGrade()}">등급</span>
+            <span th:if="${accom.accommodation.accommodationGrade != null}" th:text="| • ${accom.accommodation.accommodationGrade.getGrade()}|"></span>
             <div class="accomName" th:text="${accom.accommodation.name}">숙소이름</div>
         </div>
         <div >

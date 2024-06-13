@@ -1,6 +1,7 @@
 package com.caterpillars.StayConnect.controller;
 
 import com.caterpillars.StayConnect.model.dto.ReviewDto;
+import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.model.entities.Review;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
@@ -33,23 +34,37 @@ private ReviewRepository reviewRepository;
 @Autowired
 private ReviewService reviewService;
 
-    @GetMapping("/detail/{id}")
-    public String accom_detail(@PathVariable long id, Model model) {
-        Optional<RoomInfo> result = roomInfoRepository.findById(id);
+    @GetMapping("/detail/{accId}")
+    public String accom_detail(@PathVariable("accId") long accId, Model model) {
+        log.info("/detail/" + accId + " accId 실행");
+        // accommodationId로 RoomInfo 리스트를 조회
+        List<RoomInfo> result = roomInfoRepository.findByAccommodationId(accId);
+        log.info("DTO: " + result);
 
-        if (result.isPresent()) {
-            RoomInfo roomInfo = result.get();
+        // 조회 결과가 비어있지 않은지 확인
+        if (!result.isEmpty()) {
+            RoomInfo roomInfo = result.get(0); // 첫 번째 RoomInfo 객체를 가져옴
+            log.info("roomInfo ID: " + roomInfo.getId());
+
+            // 해당 객실에 속하는 숙소 정보 조회
+            Accommodation accommodation = roomInfo.getAccommodation();
+            log.info("accommodation ID: " + accommodation.getId());
+
             if (roomInfo.getAccommodation() != null) {
+                // 해당 객실에 대한 리뷰 정보 조회
                 List<Review> reviews = reviewRepository.findByRoomInfo(roomInfo);
+                // 평균 평점 계산
                 double averageRating = reviewService.calculateAverageRating(reviews);
-                List<RoomInfo> accoms = roomInfoRepository.findByAccommodation(roomInfo.getAccommodation());
+                // 해당 숙소에 속하는 모든 객실 정보 조회
+                List<RoomInfo> accoms = roomInfoRepository.findByAccommodation(accommodation);
 
+                // 모델에 필요한 정보 추가
                 model.addAttribute("accom", roomInfo);
                 model.addAttribute("accoms", accoms);
                 model.addAttribute("reviews", reviews);
                 model.addAttribute("averageRating", averageRating);
 
-                // 현재 인증된 사용자 정보 가져오기
+                // 현재 인증된 사용자 정보
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 String currentUser = (authentication != null) ? authentication.getName() : null;
                 model.addAttribute("currentUser", currentUser);
@@ -58,10 +73,10 @@ private ReviewService reviewService;
                 System.out.println("Number of reviews found: " + reviews.size());
                 return "pages/accommodation/accom_detail";
             } else {
-                return "redirect:/error";
+                return "redirect:/";
             }
         } else {
-            return "redirect:/";
+           return "redirect:/";
         }
     }
 
@@ -91,7 +106,7 @@ private ReviewService reviewService;
         boolean isAdd = reviewService.addReview(dto, roomInfo);
 
         if (isAdd) {
-            return "redirect:/accom/detail/" + id;
+            return "redirect:/accom/detail/" + dto.getAccId();
         }
 
         model.addAttribute("errorMessage", "리뷰를 추가하는 도중 오류가 발생했습니다. 다시 시도해주세요.");
