@@ -5,7 +5,6 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layouts/layout}"
 >
-<head>
     <meta charset="UTF-8">
     <th:block layout:fragment="title">
         <title>Accommodation Detail</title>
@@ -22,13 +21,18 @@
             'opsz' 24
         }
     </style>
-    <th:block layout:fragment="script">
+    <th:block layout:fragment="javascript">
         <script th:src="@{/lib/bootstrap/bootstrap.min.js}"></script>
         <script th:src="@{/lib/jquery/jquery.min.js}"></script>
         <script th:src="@{/lib/ajax/popper.min.js}"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script th:src="@{/js/accommodation/accom_detail.js}"></script>
         <script th:src="@{/js/accommodation/review.js}"></script>
+        <script
+                src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b8f20a221506b373bac69207f38af4f7&libraries=services"
+        ></script>
+        <script th:src="@{/js/index/kakaoMapAPI.js}"></script>
+        <script th:src="@{/js/index/index_scroll.js}"></script>
     </th:block>
     <th:block layout:fragment="css">
         <link rel="stylesheet" th:href="@{/css/pages/index.css}">
@@ -37,9 +41,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </th:block>
 
-</head>
 
-<body>
 <!-- fragment main -->
 <th:block layout:fragment="main">
     <section class="conditional-section" th:replace="~{fragments/index/conditionalSection_frag :: conditionalSection}">
@@ -68,7 +70,7 @@
         </div>
         <div class="reviewBox">
             <div class="reviewSlider">
-                <div th:each="review : ${reviews}">
+                 <div th:each="review : ${reviews}">
                     <div class="review">
                         <div class="content" th:text="${review.contents}">리뷰</div>
                         <div class="ratingStar">
@@ -78,7 +80,7 @@
                         </div>
                         <div class="reviewWriter">
                             <div class="user" th:text="${review.user.username}">닉네임</div>
-                            <div class="createdAt" th:text="${#dates.format(review.createdAt, 'yyyy-MM-dd HH:mm')}">시기</div>
+                            <div class="createdAt" th:text="${review.createdAt}">시기</div>
                         </div>
                     </div>
                 </div>
@@ -151,13 +153,14 @@
             <h4>호텔상세</h4>
         </section>
         <section class="tab-pane fade" id="location" role="tabpanel"
-                 aria-labelledby="location-tab">
-            <h4>위치</h4>
+                         aria-labelledby="location-tab">
+                    <h4>위치</h4>
         </section>
-        <section class="accomDetailReview-section" th:replace="~{fragments/accommodatiion/accomDetailReview_frag :: accomDetailReview}">
+        <section class="tab-pane fade accomDetailReview-section" id="review" role="tabpanel"
+                 aria-labelledby="review-tab" th:replace="~{fragments/accommodatiion/accomDetailReview_frag :: accomDetailReview}">
+            <h4>위치</h4>
         </section>
     </div>
 </th:block>
 
-</body>
 </html>

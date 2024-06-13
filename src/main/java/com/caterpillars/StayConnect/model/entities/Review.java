@@ -2,17 +2,13 @@ package com.caterpillars.StayConnect.model.entities;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -23,21 +19,20 @@ public class Review {
   private long id;
 
   @ManyToOne
-  @JoinColumn(name = "user_id")
+  @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
   @ManyToOne
-  @JoinColumn(name = "roomInfo_id")
+  @JoinColumn(name = "roomInfo_id", nullable = false)
   private RoomInfo roomInfo;
 
   private String title;
 
   private String contents;
 
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime createdAt;
-//  @PrePersist
-//  protected void onCreate() {
-//    this.createdAt = LocalDateTime.now();
-//  }
+
   private int rate;
+
 }

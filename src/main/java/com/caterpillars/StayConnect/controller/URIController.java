@@ -14,7 +14,7 @@ public class URIController {
   public URIController(AccommodationRepository accommodationRepository) {
     this.accommodationRepository = accommodationRepository;
   }
-  
+
   @GetMapping("/")
   public String index(Model model) {
 

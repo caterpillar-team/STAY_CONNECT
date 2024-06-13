@@ -10,10 +10,12 @@ import java.util.Optional;
 @Service
 public class RoomInfoService {
 
+
     @Autowired
     private RoomInfoRepository roomInfoRepository;
 
     public Optional<RoomInfo> findById(Long id) {
         return roomInfoRepository.findById(id);
     }
+
 }

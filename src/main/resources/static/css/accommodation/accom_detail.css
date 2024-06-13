@@ -177,6 +177,10 @@ main > div>  .reviewList {
     border-radius: 100px !important;
 }
 
+.reviewInput{
+    display: block;
+}
+
 /*search*/
 .conditional-section{
     margin: 0;

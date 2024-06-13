@@ -15,23 +15,45 @@
             <p th:text="${review.contents}">리뷰 내용</p>
         </div>
         <div class="reviewActions" th:if="${currentUser == review.user.username}">
-            <a th:href="@{'/reviews/' + ${review.id} + '/edit'}">수정</a>
-            <a th:href="@{'/reviews/' + ${review.id} + '/delete'}">삭제</a>
+            <form th:action="@{/accom/detail/{accId}/update/{reviewId}(accId=${accom.id}, reviewId=${review.id})}" method="post" onsubmit="return confirm('수정하시겠습니까?')">
+                <button type="submit">수정</button>
+            </form>
+            <form th:action="@{/accom/detail/{accId}/delete/{reviewId}(accId=${accom.id}, reviewId=${review.id})}" method="post" onsubmit="return confirm('삭제하시겠습니까?')">
+                <button type="submit">삭제</button>
+            </form>
+        </div>
+        <!--  수정폼  -->
+        <div class="reviewEditForm" th:id="'editForm' + ${review.id}" style="display: none;">
+            <form method="POST" th:action="@{/accom/detail/{accId}/update/{reviewId}(accId=${accom.id}, reviewId=${review.id})}">
+                <div class="reviewInputRating">
+                    <span class="reviewInputRatingResult"></span>
+                    <span th:each="star : ${#numbers.sequence(1, 5)}">
+                        <i class="fa" th:classappend="${star <= review.rate} ? 'fas fa-star' : 'far fa-star'" th:onclick="'rate(' + ${star} + ', ' + ${review.id} + ')'"></i>
+                    </span>
+                </div>
+                <input type="hidden" name="rate" th:value="${review.rate}" class="ratingInput">
+                <textarea name="contents" rows="4" cols="50" th:text="${review.contents}">후기를 입력하세요...</textarea>
+                <button type="submit">수정 완료</button>
+                <button type="button" th:onclick="'cancelEdit(' + ${review.id} + ')'">취소</button>
+            </form>
         </div>
     </div>
 
     <!-- 후기 입력란 -->
     <div class="reviewInput col justify-content-center my-1 mx-0">
         <!-- 후기 작성 폼 -->
-        <form id="reviewForm" method="POST" action="/addReview" >
+        <form id="reviewForm" method="POST" action="/accom/detail/{id}/addReview" th:object="${reviewDto}" th:action="@{'/accom/detail/' + ${accom.id} + '/addReview'}">
             <div class="reviewInputRating">
                 <span class="reviewInputRatingResult"></span>
                 <i class="reviewInputRatingStar far fa-star" th:each="star : ${#numbers.sequence(1, 5)}"
                    th:onclick="'rate(' + ${star} + ')'"></i>
             </div>
-            <input type="hidden" name="rating" value="0" id="ratingInput">
+            <input type="hidden" name="rate" value="0" id="ratingInput">
+            <input type="text" name="title" placeholder="제목">
             <input type="hidden" name="roomInfoId" th:value="${accom.id}">
-            <textarea name="content" rows="4" cols="50" placeholder="후기를 입력하세요..."></textarea>
+            <input type="hidden" name="username" th:value="${currentUser}">
+            <input type="hidden" name="createdAt" th:value="${T(java.time.LocalDateTime).now()}">
+            <textarea name="contents" rows="4" cols="50" placeholder="후기를 입력하세요..."></textarea>
             <button type="submit" id="addReview">후기 작성</button>
         </form>
     </div>

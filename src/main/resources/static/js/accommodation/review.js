@@ -1,46 +1,156 @@
-// 후기 작성 버튼에 이벤트 리스너 추가
-document.querySelector("#addReview").addEventListener("click", function(event) {
-    event.preventDefault(); // 폼의 기본 동작인 서버 전송을 중지
+// 리뷰 추가 이벤트
+const addReviewButton = document.querySelector("#addReview");
+if (addReviewButton) {
+    addReviewButton.addEventListener("click", function (event) {
+        event.preventDefault();
 
-    // 후기 데이터 가져오기
-    const contents = document.querySelector('textarea[name="content"]').value;
-    const rate = 5; // 예시로 평점을 5로 설정
+        const contents = document.querySelector('textarea[name="contents"]').value;
+        const rate = document.querySelector('input[name="rate"]').value;
+        const roomInfoId = document.querySelector('input[name="roomInfoId"]').value;
+        const createdAt = document.querySelector('input[name="createdAt"]').value;
 
-    // ReviewDto 객체 생성
-    const reviewDto = {
-        contents: contents,
-        rate: rate
-    };
+        // 서버로부터 받은 사용자 정보 사용하여 리뷰 작성자의 이름 설정
+        const username = response.username;
 
-    // Ajax 요청 보내기
-    $.ajax({
-        type: 'POST',
-        url: '/addReview',
-        contentType: 'application/json',
-        data: JSON.stringify(reviewDto), // ReviewDto 전송
-        success: function(response) {
-            console.log('Success:', response);
-            // 성공적으로 처리된 경우, 다음 작업 수행
-            // 서버로부터 받은 후기 정보를 동적으로 목록에 추가하는 코드 작성
-            const reviewContainer = document.querySelector('.reviewContainer');
-            const newReview = document.createElement('div');
-            newReview.innerHTML = `
-                    <div class="reviewWriter">
-                        <img alt="" th:src="@{/img/StayConnect-main.jpg}">
-                        <span class="user">${response.user.username}</span>
-                    </div>
-                    <div class="reviewContent">
-                        <p>${response.contents}</p>
-                    </div>
-                    <div class="ratingStar">
-                        <span></span> <!-- 별점 표시 -->
-                    </div>
-                `;
-            reviewContainer.appendChild(newReview);
-        },
-        error: function(xhr, status, error) {
-            console.error('Error:', error);
-            // 오류가 발생한 경우, 오류 처리 수행
-        }
+        const reviewDto = {
+            contents: contents,
+            rate: rate,
+            roomInfoId: roomInfoId,
+            username: username,
+            createdAt: createdAt
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/accom/detail/' + roomInfoId + '/addReview',
+            contentType: 'application/json',
+            data: JSON.stringify(reviewDto),
+            success: function (response) {
+                alert(response.message);
+                if (response.message === "리뷰가 성공적으로 추가되었습니다.") {
+                    const reviewContainer = document.querySelector('.reviewContainer');
+                    const newReview = document.createElement('div');
+                    newReview.classList.add('reviewContainer');
+
+                    const userImage = document.createElement('img');
+                    userImage.setAttribute('alt', '');
+                    userImage.setAttribute('src', '/img/StayConnect-main.jpg');
+                    newReview.appendChild(userImage);
+
+                    const usernameSpan = document.createElement('span');
+                    usernameSpan.classList.add('user');
+                    usernameSpan.textContent = response.username; // 서버로부터 받은 사용자 정보 사용하여 리뷰 작성자의 이름 설정
+                    newReview.appendChild(usernameSpan);
+
+                    const ratingStarDiv = document.createElement('div');
+                    ratingStarDiv.classList.add('ratingStar');
+                    for (let i = 1; i <= 5; i++) {
+                        const starIcon = document.createElement('i');
+                        starIcon.classList.add('fa');
+                        if (i <= response.rate) {
+                            starIcon.classList.add('fas', 'fa-star');
+                        } else {
+                            starIcon.classList.add('far', 'fa-star');
+                        }
+                        ratingStarDiv.appendChild(starIcon);
+                    }
+                    newReview.appendChild(ratingStarDiv);
+
+                    const reviewContentDiv = document.createElement('div');
+                    reviewContentDiv.classList.add('reviewContent');
+                    const reviewContentP = document.createElement('p');
+                    reviewContentP.textContent = response.contents;
+                    reviewContentDiv.appendChild(reviewContentP);
+                    newReview.appendChild(reviewContentDiv);
+
+                    const reviewActionsDiv = document.createElement('div');
+                    reviewActionsDiv.classList.add('reviewActions');
+                    if (response.currentUser === response.username) {
+                        const updateLink = document.createElement('a');
+                        updateLink.setAttribute('href', '/reviews/' + response.id + '/update');
+                        updateLink.textContent = '수정';
+                        reviewActionsDiv.appendChild(updateLink);
+
+                        const deleteLink = document.createElement('a');
+                        deleteLink.setAttribute('href', '/reviews/' + response.id + '/delete');
+                        deleteLink.textContent = '삭제';
+                        reviewActionsDiv.appendChild(deleteLink);
+                    }
+                    newReview.appendChild(reviewActionsDiv);
+
+                    reviewContainer.appendChild(newReview);
+                }
+            },
+            error: function (xhr, status, error) {
+                if (xhr.status === 401) {
+                    alert("로그인이 필요합니다.");
+                } else {
+                    console.error('Error:', error);
+                }
+            }
+        });
     });
+}
+
+// 리뷰 삭제버튼 이벤트
+document.querySelector("#deleteReviewForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    // accomsId 가져오기
+    var accomsId = document.getElementById("accId").value;
+
+    // reviewId 가져오기
+    var reviewId = document.getElementById("reviewId").value;
+
+    // 삭제 확인 메시지 표시
+    if (confirm('삭제하시겠습니까?')) {
+        // 삭제를 확인한 경우, 폼 submit
+        this.submit();
+    } else {
+        // 삭제를 취소한 경우, 아무런 작업도 수행하지 않음
+        return false;
+    }
 });
+
+// 리뷰 수정버튼 이벤트
+document.querySelector("#UpdateReviewForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    // accomsId 가져오기
+    var accomsId = document.getElementById("accId").value;
+
+    // reviewId 가져오기
+    var reviewId = document.getElementById("reviewId").value;
+
+    // 삭제 확인 메시지 표시
+    if (confirm('수정하시겠습니까?')) {
+        // 삭제를 확인한 경우, 폼 submit
+        this.submit();
+    } else {
+        // 삭제를 취소한 경우, 아무런 작업도 수행하지 않음
+        return false;
+    }
+});
+
+// 리뷰 수정 이벤트
+function editReview(reviewId) {
+    document.getElementById('editForm' + reviewId).style.display = 'block';
+}
+
+function cancelEdit(reviewId) {
+    document.getElementById('editForm' + reviewId).style.display = 'none';
+}
+
+function rate(star, reviewId) {
+    var stars = document.querySelectorAll('#editForm' + reviewId + ' .reviewInputRatingStar');
+    for (var i = 0; i < stars.length; i++) {
+        if (i < star) {
+            stars[i].classList.add('fas');
+            stars[i].classList.remove('far');
+        } else {
+            stars[i].classList.add('far');
+            stars[i].classList.remove('fas');
+        }
+    }
+    document.querySelector('#editForm' + reviewId + ' .ratingInput').value = star;
+}

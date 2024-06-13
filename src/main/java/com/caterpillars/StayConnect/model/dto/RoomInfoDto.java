@@ -1,6 +1,4 @@
 package com.caterpillars.StayConnect.model.dto;
-
-import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.model.entities.Reservation;
 import com.caterpillars.StayConnect.model.entities.Review;
 import groovy.util.logging.Slf4j;
@@ -16,7 +14,8 @@ import java.util.List;
 @Slf4j
 public class RoomInfoDto {
 
-    private Accommodation accommodation;
+    private long accId;
+    private String name;
     private String roomType;
     private String bedType;
     private String stayType;
@@ -26,7 +25,6 @@ public class RoomInfoDto {
     private String ckiTime;
     private String ckoTime;
     private int price;
-    private String roomInfocol;
     private List<Review> reviews;
     private List<Reservation> reservations;
 
