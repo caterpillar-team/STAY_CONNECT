@@ -14,6 +14,9 @@ public class PortOnePaymentService {
 
     private static final String PORTONE_API_URL = "https://api.portone.io/v1/payments/";
 
+    private String apiKey = "2805168157373551";
+    private String secretKey = "UEQSqfpm3glxMqD9XMgtW3f0vqDOLFlRbLDf6YWJeEgKtp6Ai4J4zT8Ox2X7E1T4IrhZ6isBHUuKJ67e";
+
     public int getPaymentAmount(String paymentId) {
         RestTemplate restTemplate = new RestTemplate();
         PortOnePaymentResponse response = restTemplate.getForObject(PORTONE_API_URL + paymentId, PortOnePaymentResponse.class);

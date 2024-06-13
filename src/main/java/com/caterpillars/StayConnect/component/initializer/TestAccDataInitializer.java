@@ -28,9 +28,6 @@ public class TestAccDataInitializer implements CommandLineRunner {
         @Autowired
         private ReviewRepository reviewRepository;
 
-        @Autowired
-        private TestUserDataInitializer testUserDataInitializer;
-
         @Override
         public void run(String... args) throws Exception {
 
@@ -94,37 +91,31 @@ public class TestAccDataInitializer implements CommandLineRunner {
                         .build();
 
                 Review review1 = Review.builder()
-                        .user(testUserDataInitializer.userRepository.getReferenceById(1L))
                         .roomInfo(room1)
                         .contents("좋았습니다")
                         .rate(4)
                         .build();
                 Review review2 = Review.builder()
-                        .user(testUserDataInitializer.userRepository.getReferenceById(1L))
                         .roomInfo(room1)
                         .contents("좋았습니다")
                         .rate(1)
                         .build();
                 Review review3 = Review.builder()
-                        .user(testUserDataInitializer.userRepository.getReferenceById(1L))
                         .roomInfo(room1)
                         .contents("좋았습니다")
                         .rate(2)
                         .build();
                 Review review4 = Review.builder()
-                        .user(testUserDataInitializer.userRepository.getReferenceById(1L))
                         .roomInfo(room1)
                         .contents("좋았습니다")
                         .rate(5)
                         .build();
                 Review review5 = Review.builder()
-                        .user(testUserDataInitializer.userRepository.getReferenceById(1L))
                         .roomInfo(room1)
                         .contents("좋았습니다")
                         .rate(1)
                         .build();
                 Review review6 = Review.builder()
-                        .user(testUserDataInitializer.userRepository.getReferenceById(1L))
                         .roomInfo(room1)
                         .contents("좋았습니다")
                         .rate(3)
