@@ -36,31 +36,37 @@
         </div>
     </th:block>
     <th:block layout:fragment="main">
-        <div class="monthlyReserv col-md-10">
-            <h1>Monthly Reservation Chart</h1>
-            <canvas id="monthlyReservationsChart" width="200" height="200"></canvas>
+        <div class="monthlyReserv col-md-6">
+            <h1>월별 예약 수</h1>
+            <canvas id="monthlyReservationsChart" width="150" height="100"></canvas>
         </div>
-        <div class="monthlyUsers col-md-6">
-            <h1>Users By Age</h1>
-            <canvas id="UsersByAgeChart" width="200" height="200"></canvas>
+        <div class="ReservByRegionChart col-md-6">
+            <h1>지역별 예약 수</h1>
+            <canvas id="regionChart" width="150" height="100"></canvas>
+        </div>
+        <div class="UserByAgeChart col-md-6">
+            <h1>연령별 이용자 수</h1>
+            <canvas id="ageChart" width="200" height="200"></canvas>
         </div>
 
+        
+
         <script th:inline="javascript">
+
+            //====================================================================================
+            //월별 예약수
+            //====================================================================================
+
             /*<![CDATA[*/
             document.addEventListener('DOMContentLoaded', function () {
                 var ctx = document.getElementById('monthlyReservationsChart').getContext('2d');
 
                 var reservationStats = /*[[${reservationStats}]]*/ '[]';
-                console.log('Raw reservationStats:', reservationStats);
-                reservationStats = JSON.parse(reservationStats);
 
-                console.log('Parsed reservationStats: ', reservationStats);
+                reservationStats = JSON.parse(reservationStats);
 
                 var labels = reservationStats.map((stat) => stat[0] + '-' + (stat[1] < 10 ? '0' : '') + stat[1]);
                 var data = reservationStats.map((stat) => stat[2]);
-
-                console.log('Labels: ', labels);
-                console.log('Data: ', data);
 
                 var chartData = {
                     labels: labels,
@@ -75,6 +81,11 @@
                     ],
                 };
                 var options = {
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
                     scales: {
                         y: {
                             beginAtZero: true,
@@ -89,27 +100,86 @@
             });
             /*]]>*/
 
-            // =========================================================
+            //====================================================================================
+            //지역별 예약 수치
+            //====================================================================================
 
             /*<![CDATA[*/
+
+            var reservationsByRegion = /*[[${reservationsByRegion}]]*/ '[]';
+            console.log(reservationsByRegion);
             document.addEventListener('DOMContentLoaded', function () {
-                var ctx = document.getElementById('UsersByAgeChart').getContext('2d');
+                var ctx = document.getElementById('regionChart').getContext('2d');
 
-                var userStats = /*[[${userStats}]]*/ '[]';
-
-                userStats = JSON.parse(userStats);
-
-                var labels = userStats.map((stat) => stat[0] + '/' + (stat[1] < 10 ? '0' : '') + stat[1]);
-                var data = userStats.map((stat) => stat[2]);
-
-                console.log('Labels: ', labels);
-                console.log('Data: ', data);
+                var labels = reservationsByRegion.map((stat) => stat.region);
+                var data = reservationsByRegion.map((stat) => stat.count);
 
                 var chartData = {
                     labels: labels,
                     datasets: [
                         {
-                            label: 'Monthly Reservations',
+                            label: 'Reservations By Region',
+                            data: data,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                            ],
+                            borderWidth: 1,
+                        },
+                    ],
+                };
+                var options = {
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
+                    },
+                };
+                var reservationsByRegionChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: chartData,
+                    options: options,
+                });
+            });
+            /*]]>*/
+
+            //====================================================================================
+            //연령별 이용자 수
+            //====================================================================================
+
+
+            /*<![CDATA[*/
+
+            var ageStats = /*[[${ageStats}]]*/ '[]';
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var ctx = document.getElementById('ageChart').getContext('2d');
+
+                var labels = ageStats.map((stat) => stat.ageRange);
+                var data = ageStats.map((stat) => stat.count);
+
+                var chartData = {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'UsersByAge',
                             data: data,
                             backgroundColor: 'rgba(75, 192, 192, 0.2)',
                             borderColor: 'rgba(75, 192, 192, 1)',
@@ -118,19 +188,26 @@
                     ],
                 };
                 var options = {
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
                     scales: {
                         y: {
                             beginAtZero: true,
                         },
                     },
                 };
-                var usageChart = new Chart(ctx, {
+                var ageChart = new Chart(ctx, {
                     type: 'bar',
                     data: chartData,
                     options: options,
                 });
             });
             /*]]>*/
+
+            
         </script>
     </th:block>
 

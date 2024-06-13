@@ -4,6 +4,8 @@ package com.caterpillars.StayConnect.controller;
 
 
 import java.util.List;
+import java.util.Map;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.caterpillars.StayConnect.service.AdminService;
+import com.caterpillars.StayConnect.service.ChartDataService;
 import com.caterpillars.StayConnect.service.AuthService;
 import com.caterpillars.StayConnect.service.ReservationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -33,7 +35,7 @@ public class AdminController {
   private ReservationService reservationService;
 
   @Autowired
-  private AdminService adminService;
+  private ChartDataService adminService;
 
   @Autowired
     private ObjectMapper objectMapper;
@@ -50,13 +52,15 @@ public class AdminController {
   @GetMapping("/home")
   public String getCharts(Model model) throws JsonProcessingException {
     List<Object[]> reservationStats = reservationService.getMonthlyReservationCount();
-    List<Object[]> userStats = adminService.getAllUsersByAge();
+    List<Map<String,Object>> ageStats = adminService.getAgeGroupCounts();
+    List<Map<String,Object>> regionStats = reservationService.getReservationsByRegion();
+    
     
     String reservationStatsJson = objectMapper.writeValueAsString(reservationStats);
-    String userStatsJson = objectMapper.writeValueAsString(userStats);
-
+    
         model.addAttribute("reservationStats", reservationStatsJson);
-        model.addAttribute("userStats", userStatsJson);
+        model.addAttribute("ageStats", ageStats);
+        model.addAttribute("reservationsByRegion", regionStats);
       
       return "pages/admin/adminHome";
   }
