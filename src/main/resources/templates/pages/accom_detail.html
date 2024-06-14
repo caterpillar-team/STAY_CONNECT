@@ -20,7 +20,7 @@
         // 결제
         document.addEventListener("DOMContentLoaded", function(){
 
-             IMP.init("imp14397622");
+             IMP.init("imp66857630");
 
             const payBtn = document.querySelector('.pay_btn');
             payBtn.addEventListener('click',function(){
@@ -29,11 +29,22 @@
                 IMP.request_pay({
                 pg: "html5_inicis",
                 pay_method: "card",
-                merchant_uid: "test_lx8ku5m1",
+                merchant_uid: "test_lx7ku3u9",
                 name: "테스트 결제",
                 amount: 100,
                 buyer_tel: "010-0000-0000",
-              }, function(resp){console.log(resp)
+              }, function(resp){
+                console.log(resp)
+
+                const SUCCESS = axios.get("/user/paySuccess?success="+resp.success)
+                const IMP_UID = axios.get("/user/paySuccess?imp_uid="+resp.imp_uid)
+
+                axios.all([SUCCESS, IMP_UID])
+                .then(axios.spread((SUCCESS, IMP_UID) => {
+                   console.log("SUCCESS : ", resp.success);
+                   console.log("IMP_UID : ", resp.imp_uid);
+                }))
+                .catch(err => {console.log(err)})
             })
         })
         });
