@@ -42,9 +42,9 @@ public class RoomInfo {
 
   private int numberOfPeopleMax;
 
-  private String ckiTime;
+  private String checkinTime;
 
-  private String ckoTime;
+  private String checkoutTime;
 
   private int count;
 

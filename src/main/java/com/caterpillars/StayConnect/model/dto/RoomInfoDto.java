@@ -20,8 +20,8 @@ public class RoomInfoDto {
     private int count;
     private int numberOfPeopleStandard;
     private int numberOfPeopleMax;
-    private String ckiTime;
-    private String ckoTime;
+    private String checkinTime;
+    private String checkoutTime;
     private int price;
 
 }

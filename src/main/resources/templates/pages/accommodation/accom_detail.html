@@ -131,9 +131,9 @@
                 <div class="detail">
                     <div class="" th:text="${accom.stayType}">숙박/대실</div>
                     <div class="">
-                        <span th:text="${'체크인 : ' + accom.ckiTime}">체크인시간</span>
+                        <span th:text="${'체크인 : ' + accom.checkinTime}">체크인시간</span>
                         <span>/</span>
-                        <span th:text="${'체크아웃 : ' + accom.ckoTime}">체크아웃시간</span>
+                        <span th:text="${'체크아웃 : ' + accom.checkoutTime}">체크아웃시간</span>
                     </div>
                     <div class="price" th:text="${accom.price + '원'}">가격</div>
                     <div class="cancellationPolicy">취소정책</div>
