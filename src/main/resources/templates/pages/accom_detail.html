@@ -6,6 +6,51 @@
         layout:decorate="~{layouts/layout}"
 >
 <head>
+    <!-- PortOne -->
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <!--axios cdn    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js" integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+    <script>
+        // 리다이렉팅
+        function redirectToURL() {
+        window.location.href = "http://localhost:8080/myPage";
+    }
+        // 결제
+        document.addEventListener("DOMContentLoaded", function(){
+
+             IMP.init("imp66857630");
+
+            const payBtn = document.querySelector('.pay_btn');
+            payBtn.addEventListener('click',function(){
+                console.log("test");
+
+                IMP.request_pay({
+                pg: "html5_inicis",
+                pay_method: "card",
+                merchant_uid: "test_lx7ku3u9",
+                name: "테스트 결제",
+                amount: 100,
+                buyer_tel: "010-0000-0000",
+              }, function(resp){
+                console.log(resp)
+
+                const SUCCESS = axios.get("/user/paySuccess?success="+resp.success)
+                const IMP_UID = axios.get("/user/paySuccess?imp_uid="+resp.imp_uid)
+
+                axios.all([SUCCESS, IMP_UID])
+                .then(axios.spread((SUCCESS, IMP_UID) => {
+                   console.log("SUCCESS : ", resp.success);
+                   console.log("IMP_UID : ", resp.imp_uid);
+                }))
+                .catch(err => {console.log(err)})
+            })
+        })
+        });
+
+
+    </script>
     <meta charset="UTF-8">
     <th:block layout:fragment="title">
         <title>Accommodation Detail</title>
@@ -28,7 +73,7 @@
     </th:block>
     <th:block layout:fragment="css">
         <link rel="stylesheet" th:href="@{/libs/bootstrap/bootstrap.min.css}"/>
-        <link rel="stylesheet" th:href="@{/css/pages/accom_detail.css}">
+        <link rel="stylesheet" th:href="@{/css/pages/accom_detail.css}"/>
     </th:block>
 
 </head>
@@ -40,7 +85,7 @@
 <th:block layout:fragment="main">
     <section class="accomImg">
         <div class="accomImg1">
-            <img alt="" th:src="@{/img/StayConnect-main.jpg}">
+            <img alt="" th:src="@{/img/StayConnect-main.jpg}" />
         </div>
         <div class="carousel slide" id="carouselExampleIndicators">
             <div class="carousel-indicators">
@@ -127,7 +172,7 @@
                 <div class="price" th:text="${accom.price+'원'}">가격</div>
                 <div class="cancellationPolicy">취소정책</div>
                 <div>
-                    <a th:href="@{#}">예약하기</a>
+                    <a class="pay_btn" href="javascript:void(0)">예약하기</a>
                 </div>
             </div>
         </div>
@@ -228,9 +273,7 @@
     </section>
 </th:block>
 
-<script>
-
-</script>
+        
 
 
 </body>

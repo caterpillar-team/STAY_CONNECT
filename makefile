@@ -1,4 +1,4 @@
-.PHONY: docker-up docker-down docker-start docker-stop docker-clean docker-init
+.PHONY: docker-up docker-down docker-start docker-stop docker-clean
 
 # dockerfile 및 docker-compose.yml 파일로 이미지 및 컨테이너를 빌드하고 서버를 실행한다.
 docker-up:
@@ -20,6 +20,14 @@ docker-stop:
 docker-clean:
 		docker-compose -f ./docker/docker-compose.yml down --rmi all --volumes --remove-orphans
 
-# docker의 모든 인스턴스 삭제
-docker-init:
-		docker system prune -a --volumes -f
+# mysql만 docker로 실행
+docker-mysql:
+		docker-compose -f ./docker/docker-compose.mysql.yml up --build
+
+# stop mysql server
+docker-mysql-stop:
+		docker-compose -f ./docker/docker-compose.yml stop mysql
+
+# start mysql server
+docker-mysql-start:
+		docker-compose -f ./docker/docker-compose.yml start mysql

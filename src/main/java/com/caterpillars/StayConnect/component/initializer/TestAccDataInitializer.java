@@ -2,6 +2,7 @@ package com.caterpillars.StayConnect.component.initializer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.caterpillars.StayConnect.model.entities.Accommodation;
@@ -12,6 +13,7 @@ import com.caterpillars.StayConnect.model.repository.CategoryRepository;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 
 @Component
+@Order(2)
 public class TestAccDataInitializer implements CommandLineRunner {
 
         @Autowired
@@ -52,6 +54,7 @@ public class TestAccDataInitializer implements CommandLineRunner {
                                 .build();
 
                 Accommodation acc3 = Accommodation.builder()
+
                                 .name("Test Beachside Bungalow")
                                 .address("경상북도 구미시 인동36길 14-4 (진평동)")
                                 .latitude(36.0937439897086)
@@ -64,8 +67,8 @@ public class TestAccDataInitializer implements CommandLineRunner {
                                 .numberOfPeopleMax(3)
                                 .numberOfPeopleStandard(2)
                                 .price(10000)
-                                .ckiTime("15:00")
-                                .ckoTime("11:00")
+                                .checkInTime("15:00")
+                                .checkOutTime("11:00")
                                 .accommodation(acc1)
                                 .bedType("twin")
                                 .stayType("숙박")
@@ -77,8 +80,8 @@ public class TestAccDataInitializer implements CommandLineRunner {
                                 .numberOfPeopleMax(3)
                                 .numberOfPeopleStandard(2)
                                 .price(10000)
-                                .ckiTime("13:00")
-                                .ckoTime("18:00")
+                                .checkInTime("13:00")
+                                .checkOutTime("18:00")
                                 .accommodation(acc1)
                                 .bedType("twin")
                                 .stayType("대실")
@@ -94,6 +97,7 @@ public class TestAccDataInitializer implements CommandLineRunner {
                 if (!accommodationRepository.findByNameAndAddress(acc3.getName(), acc3.getAddress()).isPresent()) {
                         accommodationRepository.save(acc3);
                 }
+
                 roomInfoRepository.save(room1);
                 roomInfoRepository.save(room2);
         }

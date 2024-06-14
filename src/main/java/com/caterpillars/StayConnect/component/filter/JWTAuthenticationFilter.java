@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,9 +27,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
   @Autowired
   private JWTokenProvider jwTokenProvider;
 
+  @SuppressWarnings("null")
   @Override
-  protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
-      @NonNull FilterChain filterChain)
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
     String token = getTokenFromRequest(request);
 
@@ -38,6 +37,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
       String username = jwTokenProvider.extractUsername(token);
       String role = jwTokenProvider.extractRole(token);
       List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
+
       UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null,
           authorities);
       SecurityContextHolder.getContext().setAuthentication(authentication);

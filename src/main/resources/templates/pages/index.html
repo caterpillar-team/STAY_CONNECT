@@ -21,6 +21,16 @@
   <th:block layout:fragment="css"
     ><link rel="stylesheet" th:href="@{/css/pages/index.css}"
   /></th:block>
+  <th:block layout:fragment="leftAside">
+    <a href="#" class="btn_goChat">
+      <img th:src="@{/img/chat.png}" alt="Chat Icon" />
+      <div>
+        <br>
+        실시간 1:1 <br>
+        채팅 문의하기
+      </div>
+    </a>
+  </th:block>
   <th:block layout:fragment="main">
     <div class="indexContainer">
       <section

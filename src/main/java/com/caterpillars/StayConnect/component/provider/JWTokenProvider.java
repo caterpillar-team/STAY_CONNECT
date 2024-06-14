@@ -28,10 +28,10 @@ public class JWTokenProvider {
 
   private final SecretKey secretKey;
 
-  @Value("${jwt.expiration}")
+  @Value("${JSON_WEB_TOKEN_EXPIRATION_TIME}")
   private int expiration; // 30min 1800000
 
-  public JWTokenProvider(@Value("${jwt.secret}") String JWTokenStringKey) {
+  public JWTokenProvider(@Value("${JSON_WEB_TOKEN_SECRET_KEY}") String JWTokenStringKey) {
     this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(JWTokenStringKey));
   }
 
