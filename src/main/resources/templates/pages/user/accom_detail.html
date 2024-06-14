@@ -95,13 +95,13 @@
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img alt="..." class="d-block w-100" th:src="@{/img/StayConnect-main.jpg}">
+                    <img alt="..." class="d-block w-100" th:src="@{/img/StayConnect-main.jpg}"/>
                 </div>
                 <div class="carousel-item">
-                    <img alt="..." class="d-block w-100" th:src="@{/img/StayConnect_main2.jpg}">
+                    <img alt="..." class="d-block w-100" th:src="@{/img/StayConnect_main2.jpg}"/>
                 </div>
                 <div class="carousel-item">
-                    <img alt="..." class="d-block w-100" th:src="@{/img/StayConnect_main3.jpg}">
+                    <img alt="..." class="d-block w-100" th:src="@{/img/StayConnect_main3.jpg}"/>
                 </div>
             </div>
             <button class="carousel-control-prev" data-bs-slide="prev" data-bs-target="#carouselExampleIndicators"
@@ -148,7 +148,7 @@
         <!--    반복문 수정중    -->
         <div class="accomDetailContainer">
             <div class="accomType">
-                <img alt="" th:src="@{/img/StayConnect-main.jpg}">  <!--객실타입사진-->
+                <img alt="" th:src="@{/img/StayConnect-main.jpg}"/>  <!--객실타입사진-->
                 <div class="detail">
                     <div class="roomType" th:text="${accom.roomType}">객실타입이름</div>
                     <div class="numberOfPeople">
@@ -165,9 +165,9 @@
             <div class="detail">
                 <div class="" th:text="${accom.stayType}">숙박/대실</div>
                 <div class="">
-                    <span th:text="${'체크인 : '+accom.ckiTime}">체크인시간</span>
+                    <span th:text="${'체크인 : '+accom.checkInTime}">체크인시간</span>
                     <span>/</span>
-                    <span th:text="${'체크아웃 : '+accom.ckoTime}">체크아웃시간</span>
+                    <span th:text="${'체크아웃 : '+accom.checkOutTime}">체크아웃시간</span>
                 </div>
                 <div class="price" th:text="${accom.price+'원'}">가격</div>
                 <div class="cancellationPolicy">취소정책</div>
@@ -179,7 +179,7 @@
         <hr>
         <div class="accomDetailContainer">
             <div class="accomType">
-                <img alt="" th:src="@{/img/StayConnect-main.jpg}">  <!--객실타입사진-->
+                <img alt="" th:src="@{/img/StayConnect-main.jpg}"/>  <!--객실타입사진-->
                 <div class="detail">
                     <div class="roomType" th:text="${accom.roomType}">객실타입이름</div>
                     <div class="numberOfPeople">
@@ -210,7 +210,7 @@
         <hr>
         <div class="accomDetailContainer">
             <div class="accomType">
-                <img alt="" th:src="@{/img/StayConnect-main.jpg}">  <!--객실타입사진-->
+                <img alt="" th:src="@{/img/StayConnect-main.jpg}"/>  <!--객실타입사진-->
                 <div class="detail">
                     <div class="roomType" th:text="${accom.roomType}">객실타입이름</div>
                     <div class="numberOfPeople">
@@ -243,11 +243,11 @@
         <!-- 후기 목록 -->
         <div id="revivewContainer">
             <div class="reviewWriter">
-                <img alt="" th:src="@{/img/StayConnect-main.jpg}">  <!--유저프로필사진-->
+                <img alt="" th:src="@{/img/StayConnect-main.jpg}"/>  <!--유저프로필사진-->
                 <span class="user" th:text="${review.user.username}">닉네임</span>
             </div>
-            <form method="POST" th:action="@{/accom_detail}">
-                <input type="hidden" id="reviewId" name="reviewId" th:value="${review.id}">
+            <form method="POST" th:action="@{/deprecated/accom_detail}">
+                <input type="hidden" id="reviewId" name="reviewId" th:value="${review.id}"/>
                 <div>
                     <input type="button" class="btn p-0 btn-md" name="reviewUser" th:value="${review.user.getUsername()}" />
                     <small th:text="${#strings.substring(review.createdAt,0,19)}"></small>
@@ -269,11 +269,9 @@
 <!--                <input type="text" id="content" name="CONTENT">-->
 <!--                <input type="submit" value="후기작성">-->
 <!--            </form>-->
-<!--        </div>-->
+       <!-- </div> -->
     </section>
 </th:block>
-
-        
 
 
 </body>

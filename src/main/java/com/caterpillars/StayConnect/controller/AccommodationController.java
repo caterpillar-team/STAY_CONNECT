@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/accom")
+@RequestMapping("/user/accom")
 public class AccommodationController {
 
     @Autowired
@@ -34,7 +34,7 @@ public class AccommodationController {
                 List<Review> reviews = reviewRepository.findByRoomInfo(roomInfo);
                 model.addAttribute("accom", roomInfo);
                 model.addAttribute("reviews", reviews);
-                return "pages/accom_detail";
+                return "pages/user/accom_detail";
             } else {
                 // Accommodation 객체가 null인 경우 처리
                 return "redirect:/error";

@@ -48,7 +48,7 @@ public class SecurityConfig {
                                                 .requestMatchers("/", "/error/**").permitAll()
                                                 .requestMatchers("/auth/**").not().authenticated()
                                                 .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**").permitAll()
-                                                .requestMatchers("/user/**", "/accom/**").hasAnyRole("USER", "ADMIN")
+                                                .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
 
@@ -64,8 +64,7 @@ public class SecurityConfig {
                                                 .defaultSuccessUrl("/", true)
                                                 .failureUrl("/auth/signin?error=true")
                                                 .successHandler(jwtLoginSuccessHandler)
-                                                .failureHandler(oAuth2UserLoginFailureHandler)
-                                                )
+                                                .failureHandler(oAuth2UserLoginFailureHandler))
 
                                 .logout(logout -> logout
                                                 .logoutUrl("/user/logout")
