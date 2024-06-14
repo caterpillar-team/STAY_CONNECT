@@ -26,11 +26,11 @@ public class Reservation {
   private long id;
 
   @ManyToOne
-  @JoinColumn(name = "user_id")
+  @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
   @ManyToOne
-  @JoinColumn(name = "room_info_id")
+  @JoinColumn(name = "room_info_id", nullable = false)
   private RoomInfo roomInfo;
 
   private LocalDateTime checkIn;

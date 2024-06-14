@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.caterpillars.StayConnect.component.filter.JWTAuthenticationFilter;
 import com.caterpillars.StayConnect.component.handler.JWTLoginSuccessHandler;
 import com.caterpillars.StayConnect.component.handler.JWTLogoutSuccessHandler;
+import com.caterpillars.StayConnect.component.handler.OAuth2UserLoginFailureHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +30,9 @@ public class SecurityConfig {
 
         @Autowired
         private JWTLogoutSuccessHandler jwtLogoutSuccessHandler;
+
+        @Autowired
+        private OAuth2UserLoginFailureHandler oAuth2UserLoginFailureHandler;
 
         @Bean
         public PasswordEncoder passwordEncoder() {
@@ -56,10 +60,11 @@ public class SecurityConfig {
                                                 .successHandler(jwtLoginSuccessHandler))
 
                                 .oauth2Login(oauth -> oauth
-                                                .loginPage("/auth/signin")
+                                                .loginPage("/auth/oauth2/**")
                                                 .defaultSuccessUrl("/", true)
                                                 .failureUrl("/auth/signin?error=true")
-                                                .redirectionEndpoint(redirection -> redirection.baseUri("/auth/oauth2/google"))
+                                                .successHandler(jwtLoginSuccessHandler)
+                                                .failureHandler(oAuth2UserLoginFailureHandler)
                                                 )
 
                                 .logout(logout -> logout

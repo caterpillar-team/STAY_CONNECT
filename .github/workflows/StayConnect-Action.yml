@@ -10,6 +10,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      SERVER_PORT: ${{ secrets.SERVER_PORT }}
+      JSON_WEB_TOKEN_EXPIRATION_TIME: ${{ secrets.JSON_WEB_TOKEN_EXPIRATION_TIME }}
+      JSON_WEB_TOKEN_SECRET_KEY: ${{ secrets.JSON_WEB_TOKEN_SECRET_KEY }}
+      MYSQL_SERVER_URL: ${{ secrets.MYSQL_SERVER_URL }}
+      MYSQL_SERVER_USERNAME: ${{ secrets.MYSQL_SERVER_USERNAME }}
+      MYSQL_SERVER_PASSWORD: ${{ secrets.MYSQL_SERVER_PASSWORD }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      BASE_URL: ${{ secrets.BASE_URL }}
+      KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
+      KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/testdb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+
     services:
       mysql:
         image: mysql:8.3
@@ -19,11 +35,6 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: testdb
-
-    env:
-      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/testdb
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: password
 
     steps:
       - name: Checkout repository
@@ -35,15 +46,10 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v4
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v3
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          gradle-version: 8.7
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -53,18 +59,6 @@ jobs:
 
       - name: Run tests
         run: ./gradlew test --no-daemon
-
-      - name: Publish test results
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: build/test-results/test
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: build/libs/*.jar
 
   dependency-submission:
     runs-on: ubuntu-latest
