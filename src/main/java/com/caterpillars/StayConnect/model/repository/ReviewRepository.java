@@ -16,5 +16,4 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findByRoomInfo(RoomInfo roomInfo);
     Page<Review> findAll(Pageable pageable);
 
-
 }

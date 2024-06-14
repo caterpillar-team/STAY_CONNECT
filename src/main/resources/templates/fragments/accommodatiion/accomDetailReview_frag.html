@@ -18,7 +18,7 @@
             <form th:action="@{/accom/detail/{accId}/update/{reviewId}(accId=${accom.id}, reviewId=${review.id})}" method="post" onsubmit="return confirm('수정하시겠습니까?')">
                 <button type="submit">수정</button>
             </form>
-            <form th:action="@{/accom/detail/{accId}/delete/{reviewId}(accId=${accom.id}, reviewId=${review.id})}" method="post" onsubmit="return confirm('삭제하시겠습니까?')">
+            <form id="deleteReviewForm" th:action="@{/accom/detail/{accId}/delete/{reviewId}(accId=${accom.id}, reviewId=${review.id})}" method="post" onsubmit="return confirm('삭제하시겠습니까?')">
                 <button type="submit">삭제</button>
             </form>
         </div>
@@ -51,6 +51,7 @@
             <input type="hidden" name="rate" value="0" id="ratingInput">
             <input type="text" name="title" placeholder="제목">
             <input type="hidden" name="roomInfoId" th:value="${accom.id}">
+            <input type="hidden" name="accId" th:value="${accom.accommodation.id}">
             <input type="hidden" name="username" th:value="${currentUser}">
             <input type="hidden" name="createdAt" th:value="${T(java.time.LocalDateTime).now()}">
             <textarea name="contents" rows="4" cols="50" placeholder="후기를 입력하세요..."></textarea>

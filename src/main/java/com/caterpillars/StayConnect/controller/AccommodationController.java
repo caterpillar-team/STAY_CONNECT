@@ -79,37 +79,4 @@ private ReviewService reviewService;
            return "redirect:/";
         }
     }
-
-    @PostMapping("/detail/{accId}/addReview")
-    public String postAddReview(@PathVariable("accId") Long id, @Valid @ModelAttribute("reviewDto") ReviewDto dto, BindingResult bindingResult, Model model) {
-        log.info("POST /accom/detail/{reviewId}/addReview " + dto);
-
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("errorMessage", "입력 값에 오류가 있습니다. 다시 시도해주세요.");
-            return "error/default";
-        }
-
-        Optional<RoomInfo> roomInfoOptional = roomInfoRepository.findById(dto.getAccId());
-        if (!roomInfoOptional.isPresent()) {
-            // roomInfoOptional이 존재할 때
-            RoomInfo roomInfo = roomInfoOptional.get();
-            // roomInfo에서 accId 값을 가져오는 부분 확인
-            dto.setAccId(roomInfo.getAccommodation().getId());
-            model.addAttribute("errorMessage", "해당 숙소 정보를 찾을 수 없습니다.");
-            return "error/default";
-        }
-
-        RoomInfo roomInfo = roomInfoOptional.get();
-        dto.setAccId(roomInfo.getAccommodation().getId());
-
-
-        boolean isAdd = reviewService.addReview(dto, roomInfo);
-
-        if (isAdd) {
-            return "redirect:/accom/detail/" + dto.getAccId();
-        }
-
-        model.addAttribute("errorMessage", "리뷰를 추가하는 도중 오류가 발생했습니다. 다시 시도해주세요.");
-        return "error/default";
-    }
 }

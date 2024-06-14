@@ -48,8 +48,6 @@ public class RoomInfo {
 
   private int count;
 
-  private int numberOfPeople;
-
   private int price;
 
   @OneToMany(mappedBy = "roomInfo")

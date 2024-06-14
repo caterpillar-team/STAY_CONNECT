@@ -75,10 +75,6 @@ public class ReviewService {
         return review != null && reviewRepository.existsById(review.getId());
     }
 
-    public Review getReviewOne(Long id) {
-
-        return reviewRepository.findById(id).orElse(null);
-    }
 
     public boolean updateReview(ReviewDto dto) {
         Optional<Review> optionalReview = reviewRepository.findById(dto.getReviewId());
@@ -88,16 +84,9 @@ public class ReviewService {
             review.setTitle(dto.getTitle());
             review.setContents(dto.getContents());
             review.setCreatedAt(LocalDateTime.now());
-
-            // User 정보
             User user = userService.findByUsername(dto.getUsername());
-            if(user!=null) {
-                review.setUser(user);
-            } else {
-                log.info("유저 정보가 없습니다");
-            }
+            review.setUser(user);
 
-            // 리뷰 저장
             review = reviewRepository.save(review);
 
             return review != null;
@@ -132,4 +121,5 @@ public class ReviewService {
             return false; // 삭제할 리뷰를 찾을 수 없음
         }
     }
+
 }

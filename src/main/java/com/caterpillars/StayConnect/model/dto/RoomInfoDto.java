@@ -1,13 +1,9 @@
 package com.caterpillars.StayConnect.model.dto;
 import com.caterpillars.StayConnect.model.entities.Accommodation;
-import com.caterpillars.StayConnect.model.entities.Reservation;
-import com.caterpillars.StayConnect.model.entities.Review;
 import groovy.util.logging.Slf4j;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -27,7 +23,5 @@ public class RoomInfoDto {
     private String ckiTime;
     private String ckoTime;
     private int price;
-    private List<Review> reviews;
-    private List<Reservation> reservations;
 
 }
