@@ -1,10 +1,11 @@
 package com.caterpillars.StayConnect.service;
 
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 @Data
@@ -19,7 +20,8 @@ public class PortOnePaymentService {
 
     public int getPaymentAmount(String paymentId) {
         RestTemplate restTemplate = new RestTemplate();
-        PortOnePaymentResponse response = restTemplate.getForObject(PORTONE_API_URL + paymentId, PortOnePaymentResponse.class);
+        PortOnePaymentResponse response = restTemplate.getForObject(PORTONE_API_URL + paymentId,
+                PortOnePaymentResponse.class);
         return response.getAmount();
     }
 

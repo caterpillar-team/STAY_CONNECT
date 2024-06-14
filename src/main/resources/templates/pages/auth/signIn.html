@@ -64,7 +64,9 @@
 
           <div th:id="kakao_customBtn" th:class="customKPlusSignIn">
             <span class="K_icon"></span>
+            <a href="/oauth2/authorization/kakao">
             <span class="buttonText">카카오로 시작하기</span>
+        </a>
           </div>
           <div th:id="naver_customBtn" th:class="customNPlusSignIn">
             <span class="N_icon"></span>
@@ -72,11 +74,10 @@
           </div>
           <div th:id="google_customBtn" th:class="customGPlusSignIn">
             <span class="G_icon"></span>
+            <a href="/oauth2/authorization/google">
             <span class="buttonText"
-              ><a href="/oauth2/authorization/google"
-                >Google로 시작하기</a
-              ></span
-            >
+              >Google로 시작하기</span
+            ></a>
           </div>
           <hr />
           <div class="button-login">

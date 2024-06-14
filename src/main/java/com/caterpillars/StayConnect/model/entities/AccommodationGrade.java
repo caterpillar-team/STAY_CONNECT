@@ -6,8 +6,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,10 +18,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "accommodation", uniqueConstraints = {
-    @UniqueConstraint(name = "UK_name_address", columnNames = { "name", "address" })
-})
-public class Accommodation {
+public class AccommodationGrade {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -32,12 +28,5 @@ public class Accommodation {
   @JoinColumn(name = "category_id", nullable = false)
   private Category category;
 
-  private String name;
-
-  private String address;
-
-  private Double latitude;
-
-  private Double longitude;
-
+  private String grade;
 }
