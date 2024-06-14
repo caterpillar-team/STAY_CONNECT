@@ -1,15 +1,18 @@
 package com.caterpillars.StayConnect.service;
 
+import com.caterpillars.StayConnect.model.dto.PaymentDto;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 @Data
-@Getter
-@Setter
 public class PortOnePaymentService {
 
     private static final String PORTONE_API_URL = "https://api.portone.io/v1/payments/";
@@ -17,20 +20,28 @@ public class PortOnePaymentService {
     private String apiKey = "2805168157373551";
     private String secretKey = "UEQSqfpm3glxMqD9XMgtW3f0vqDOLFlRbLDf6YWJeEgKtp6Ai4J4zT8Ox2X7E1T4IrhZ6isBHUuKJ67e";
 
-    public int getPaymentAmount(String paymentId) {
+    public PaymentDto getPaymentDetails(String imp_uid) {
         RestTemplate restTemplate = new RestTemplate();
-        PortOnePaymentResponse response = restTemplate.getForObject(PORTONE_API_URL + paymentId, PortOnePaymentResponse.class);
-        return response.getAmount();
-    }
 
-    static class PortOnePaymentResponse {
-        private String paymentId;
-        private int amount;
-        private String currency;
-        private String status;
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + apiKey);
 
-        public int getAmount() {
-            return amount;
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder
+                .fromHttpUrl(PORTONE_API_URL + imp_uid);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<PaymentDto> response = restTemplate.exchange(
+                uriBuilder.toUriString(),
+                HttpMethod.GET,
+                entity,
+                PaymentDto.class
+        );
+
+        if(response.getStatusCode() == HttpStatus.OK) {
+            return response.getBody();
+        } else {
+            throw new RuntimeException("Failed to fetch payment details");
         }
     }
 }

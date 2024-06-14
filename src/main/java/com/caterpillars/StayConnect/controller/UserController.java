@@ -1,6 +1,7 @@
 package com.caterpillars.StayConnect.controller;
 
 import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
+import com.caterpillars.StayConnect.model.dto.UserSignUpDto;
 import com.caterpillars.StayConnect.model.entities.Role;
 import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
@@ -13,6 +14,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2Res
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +45,7 @@ public class UserController {
   private BCryptPasswordEncoder passwordEncoder;
 
   @GetMapping("/myPage")
-  public String editUser(Model model, HttpServletRequest request) {
+  public String editUser(Model model, HttpServletRequest request, Authentication authentication) {
 
     Cookie[] cookies = request.getCookies();
     String token = null;
@@ -69,6 +71,10 @@ public class UserController {
     } else {
       model.addAttribute("edit", new User()); // 빈 객체 추가
     }
+
+//    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//    String user = userService.findUser(userDetails.getUsername());
+//    model.addAttribute("user", user);
     return "pages/user/myPage";
   }
 

@@ -31,4 +31,13 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public String findUser(String username) {
+        return username;
+    }
+
+    public Long findById(Long userId) {
+        return userId;
+    }
 }
+
+
