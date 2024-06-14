@@ -16,6 +16,7 @@ import com.caterpillars.StayConnect.model.dto.UserSignUpDto;
 import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.service.AuthService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
@@ -32,8 +33,27 @@ public class AuthController {
   }
 
   @GetMapping("/signup")
-  public String getSignUp(Model model) {
-    model.addAttribute("user", new UserSignUpDto());
+  public String getSignUp(HttpServletRequest httpServletRequest, Model model) {
+
+    String realName = httpServletRequest.getAttribute("realName") != null
+        ? httpServletRequest.getAttribute("realName").toString()
+        : "";
+    String phoneNumber = httpServletRequest.getAttribute("phoneNumber") != null
+        ? httpServletRequest.getAttribute("phoneNumber").toString()
+        : "";
+
+    log.info(realName);
+    log.info(phoneNumber);
+
+    UserSignUpDto userSignUpDto = new UserSignUpDto();
+
+    if (realName != null && phoneNumber != null) {
+      userSignUpDto.setRealName(realName);
+      userSignUpDto.setPhoneNumber(phoneNumber);
+    }
+
+    model.addAttribute("user", userSignUpDto);
+
     return "pages/auth/signUp";
   }
 
