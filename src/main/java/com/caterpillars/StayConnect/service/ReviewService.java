@@ -10,10 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.NoSuchElementException;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +44,10 @@ public class ReviewService {
     // 리뷰 추가
     @Transactional(rollbackFor = Exception.class)
     public boolean addReview(ReviewDto dto, RoomInfo roomInfo) {
+        if (roomInfo == null) {
+            log.error("RoomInfo is null. Cannot proceed with adding review.");
+            return false;
+        }
 
         Review review = new Review();
         getReviewDto(dto.getReviewId());
@@ -54,8 +60,10 @@ public class ReviewService {
         review.setRoomInfo(roomInfo);
 
         String username = user != null ? user.getUsername() : "Unknown";
-        Long roomId = roomInfo != null ? roomInfo.getId() : null;
-        Long accId = roomInfo != null ? roomInfo.getAccommodation().getId() : null;
+        Long roomId = roomInfo.getId();
+        Long accId = roomInfo.getAccommodation() != null ? roomInfo.getAccommodation().getId() : null;
+        log.info("reviewServiceRoomId : " + roomId);
+        log.info("reviewServiceAccId : " + accId);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String formattedCreatedAt = review.getCreatedAt().format(formatter);
 

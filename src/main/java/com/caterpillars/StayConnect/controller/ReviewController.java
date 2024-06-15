@@ -1,25 +1,27 @@
 package com.caterpillars.StayConnect.controller;
 
 import com.caterpillars.StayConnect.model.dto.ReviewDto;
+import com.caterpillars.StayConnect.model.entities.Review;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 import com.caterpillars.StayConnect.service.ReviewService;
-import com.caterpillars.StayConnect.service.UserService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/accom/detail/{accId}")
+@RequestMapping("/accom/detail")
 @Slf4j
 public class ReviewController {
     @Autowired
@@ -28,41 +30,51 @@ public class ReviewController {
     @Autowired
     private RoomInfoRepository roomInfoRepository;
 
-    @PostMapping("/addReview")
-    public String postAddReview(@PathVariable("accId") Long id, @Valid @ModelAttribute("reviewDto") ReviewDto dto, BindingResult bindingResult, Model model) {
-        log.info("POST /accom/detail/{reviewId}/addReview " + dto);
+    @Autowired
+    private ReviewRepository reviewRepository;
+
+    @PostMapping("/{accId}/addReview")
+    public String postAddReview(@PathVariable("accId") Long accId, @Valid @ModelAttribute("reviewDto") ReviewDto dto, BindingResult bindingResult, Model model) {
+        log.info("POST /accom/detail/" + accId + "/addReview " + dto);
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("errorMessage", "입력 값에 오류가 있습니다. 다시 시도해주세요.");
-            return "error/default";
+            return "redirect:/error";
         }
 
-        Optional<RoomInfo> roomInfoOptional = roomInfoRepository.findById(dto.getAccId());
-        if (!roomInfoOptional.isPresent()) {
-            // roomInfoOptional이 존재할 때
-            RoomInfo roomInfo = roomInfoOptional.get();
-            // roomInfo에서 accId 값을 가져오는 부분 확인
-            dto.setAccId(roomInfo.getAccommodation().getId());
+        Optional<RoomInfo> roomInfoOptional = roomInfoRepository.findById(dto.getRoomInfoId());
+        log.info("findById result: " + roomInfoOptional);
+
+        if (roomInfoOptional.isEmpty()) {
             model.addAttribute("errorMessage", "해당 숙소 정보를 찾을 수 없습니다.");
-            return "error/default";
+            return "redirect:/error";
         }
 
         RoomInfo roomInfo = roomInfoOptional.get();
-        dto.setAccId(roomInfo.getAccommodation().getId());
+        Long accommodationId = roomInfo.getAccommodation() != null ? roomInfo.getAccommodation().getId() : null;
+        log.info("RoomInfo ID: " + roomInfo.getId());
+        log.info("Accommodation ID from RoomInfo: " + accommodationId);
 
+        if (accommodationId == null) {
+            model.addAttribute("errorMessage", "숙소 정보가 유효하지 않습니다.");
+            return "redirect:/error";
+        }
 
+        dto.setAccId(accommodationId);
+        log.info("setAccId : " + accommodationId);
         boolean isAdd = reviewService.addReview(dto, roomInfo);
 
         if (isAdd) {
-            return "redirect:/accom/detail/" + dto.getAccId();
+            log.info("isAdd accID : " + dto.getAccId());
+            return "redirect:/accom/detail/" + dto.getAccId(); // 리다이렉트 처리 부분
         }
 
         model.addAttribute("errorMessage", "리뷰를 추가하는 도중 오류가 발생했습니다. 다시 시도해주세요.");
-        return "error/default";
+        return "redirect:/error";
     }
 
     // 리뷰 삭제
-    @PostMapping("/delete/{reviewId}")
+    @PostMapping("/{accId}/delete/{reviewId}")
     public String deleteReview(@PathVariable("reviewId") Long reviewId, RedirectAttributes redirectAttributes) {
         log.info("POST /accom/detail/{id}/delete id " + reviewId);
         ReviewDto dto = reviewService.getReviewDto(reviewId);
@@ -89,42 +101,16 @@ public class ReviewController {
     }
 
     // 리뷰 수정 POST
-    @PostMapping("/update/{reviewId}")
-    public String postUpdateReview(@PathVariable("reviewId") long reviewId, @Valid @ModelAttribute("reviewDto") ReviewDto dto, BindingResult bindingResult, Model model)
-            throws IOException {
-        log.info("POST /accom/detail/"+dto.getAccId()+"/update/"+dto.getReviewId()+" dto " + dto);
+    @PostMapping("/{accId}/update/{reviewId}")
+    public String postUpdateReview(@PathVariable("reviewId") long reviewId, @Valid @ModelAttribute("reviewDto") ReviewDto dto, Model model) {
+        log.info("POST /accom/detail/" + dto.getAccId() + "/update/" + dto.getReviewId() + " dto " + dto + "reviewId" + reviewId);
 
-        if (bindingResult.hasErrors()) {
-            return "redirect:/accom/detail/"+dto.getAccId();
-        }
-
-        // 서비스 실행
-        boolean isUpdate = reviewService.updateReview(dto);
-
-        if (isUpdate) {
+        Optional<Review> review = reviewRepository.findById(reviewId);
+        if (review.isPresent()) {
+            model.addAttribute("data", review.get());
             return "redirect:/accom/detail/" + dto.getAccId();
+        } else {
+            return "redirect:/error";
         }
-        return "error/default";
     }
-
-
-    // 리뷰 수정 POST 작업중
-//    @PostMapping("/update/{reviewId}")
-//    public String postUpdateReview(@PathVariable("reviewId") long reviewId, @Valid @ModelAttribute("reviewDto") ReviewDto dto, BindingResult bindingResult, Model model)
-//            throws IOException {
-//        log.info("POST /accom/detail/"+dto.getAccId()+"/update/"+dto.getReviewId()+" dto " + dto);
-//
-//        if (bindingResult.hasErrors()) {
-//            return "redirect:/accom/detail/"+dto.getAccId();
-//        }
-//
-//        // 서비스 실행
-//        boolean isUpdate = reviewService.updateReview(dto);
-//
-//        if (isUpdate) {
-//            return "redirect:/accom/detail/" + dto.getAccId();
-//        }
-//        return "error/default";
-//    }
-
 }

@@ -7,7 +7,6 @@ import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 import com.caterpillars.StayConnect.service.ReviewService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +14,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -27,12 +26,12 @@ import java.util.Optional;
 @RequestMapping("/accom")
 public class AccommodationController {
 
-@Autowired
-private RoomInfoRepository roomInfoRepository;
-@Autowired
-private ReviewRepository reviewRepository;
-@Autowired
-private ReviewService reviewService;
+    @Autowired
+    private RoomInfoRepository roomInfoRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
+    @Autowired
+    private ReviewService reviewService;
 
     @GetMapping("/detail/{accId}")
     public String accom_detail(@PathVariable("accId") long accId, Model model) {
@@ -71,12 +70,12 @@ private ReviewService reviewService;
                 model.addAttribute("reviewDto", new ReviewDto());
 
                 System.out.println("Number of reviews found: " + reviews.size());
-                return "pages/accommodation/accom_detail";
+                return "pages/accommodation/detail";
             } else {
-                return "redirect:/";
+                return "redirect:/error";
             }
         } else {
-           return "redirect:/";
+            return "redirect:/error";
         }
     }
 }
