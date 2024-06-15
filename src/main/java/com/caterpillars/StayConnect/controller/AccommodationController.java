@@ -6,7 +6,7 @@ import com.caterpillars.StayConnect.model.entities.Review;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
-import com.caterpillars.StayConnect.service.ReviewService;
+import com.caterpillars.StayConnect.service.ReviewServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class AccommodationController {
     @Autowired
     private ReviewRepository reviewRepository;
     @Autowired
-    private ReviewService reviewService;
+    private ReviewServiceImpl reviewService;
 
     @GetMapping("/detail/{accId}")
     public String accom_detail(@PathVariable("accId") long accId, Model model) {

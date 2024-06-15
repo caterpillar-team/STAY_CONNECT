@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.time.format.DateTimeFormatter;
 
 @Data
@@ -34,12 +35,7 @@ public class ReviewDto {
         dto.title = review.getTitle();
         dto.contents = review.getContents();
         dto.rate = review.getRate();
-//        dto.createdAt = review.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        if(review.getCreatedAt() != null) {
-            dto.createdAt = review.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        } else {
-            dto.createdAt = null;
-        }
+        dto.createdAt = review.getCreatedAt() != null ? review.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) : null;
         dto.roomInfoId = review.getRoomInfo().getId();
         dto.accId = review.getRoomInfo().getAccommodation().getId();
         return dto;

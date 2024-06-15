@@ -46,14 +46,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 리뷰 탭 클릭 이벤트 리스너 추가
     reviewTab.addEventListener('click', function () {
-        // 후기 목록 섹션을 찾습니다.
+        // 후기 목록 섹션 가져오기
         const reviewSection = document.getElementById('review');
 
-        // 후기 입력란 섹션이 있으면 해당 섹션으로 스크롤을 내립니다.
+        // 후기 입력란 섹션이 있으면 해당 섹션으로 스크롤을 내리기
         if (reviewSection) {
             reviewSection.scrollIntoView({behavior: 'smooth', block: 'start'});
         } else {
-            // 후기 목록이 없으면 일반적으로 후기 목록 섹션으로 스크롤을 내립니다.
+            // 후기 목록이 없으면 일반적으로 후기 목록 섹션으로 스크롤을 내리기.
             const reviewInputSection = document.querySelector('.reviewInput');
 
             if (reviewInputSection) {
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('scrollToTabButton').addEventListener('click', scrollToTab);
 
     function scrollToTab() {
-        const tabButton = document.getElementById('myTab'); // 탭 메뉴가 위치한 부모 요소 ID를 가져옵니다.
+        const tabButton = document.getElementById('myTab');
 
         if (tabButton) {
             tabButton.parentElement.scrollIntoView({behavior: 'smooth', block: 'start'});

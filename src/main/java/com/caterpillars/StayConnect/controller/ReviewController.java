@@ -1,11 +1,10 @@
 package com.caterpillars.StayConnect.controller;
 
 import com.caterpillars.StayConnect.model.dto.ReviewDto;
-import com.caterpillars.StayConnect.model.entities.Review;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
-import com.caterpillars.StayConnect.service.ReviewService;
+import com.caterpillars.StayConnect.service.ReviewServiceImpl;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ import java.util.Optional;
 @Slf4j
 public class ReviewController {
     @Autowired
-    private ReviewService reviewService;
+    private ReviewServiceImpl reviewService;
 
     @Autowired
     private RoomInfoRepository roomInfoRepository;
@@ -100,17 +99,12 @@ public class ReviewController {
         }
     }
 
-    // 리뷰 수정 POST
-    @PostMapping("/{accId}/update/{reviewId}")
-    public String postUpdateReview(@PathVariable("reviewId") long reviewId, @Valid @ModelAttribute("reviewDto") ReviewDto dto, Model model) {
-        log.info("POST /accom/detail/" + dto.getAccId() + "/update/" + dto.getReviewId() + " dto " + dto + "reviewId" + reviewId);
 
-        Optional<Review> review = reviewRepository.findById(reviewId);
-        if (review.isPresent()) {
-            model.addAttribute("data", review.get());
-            return "redirect:/accom/detail/" + dto.getAccId();
-        } else {
-            return "redirect:/error";
-        }
+    @PostMapping("/update/review")
+    public String updateReview(@ModelAttribute("reviewDto") ReviewDto reviewDto, RedirectAttributes rttr) {
+
+        reviewService.updateReview(reviewDto);
+        rttr.addFlashAttribute("message", "리뷰를 수정하였습니다");
+        return "redirect:/accom/detail/" + reviewDto.getAccId(); // 수정 후 숙소 상세 페이지로 리다이렉트
     }
 }
