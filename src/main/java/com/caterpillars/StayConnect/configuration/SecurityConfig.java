@@ -47,7 +47,7 @@ public class SecurityConfig {
                                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                                                 .requestMatchers("/", "/error/**").permitAll()
                                                 .requestMatchers("/auth/**").not().authenticated()
-                                                .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**").permitAll()
+                                                .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/fonts/**").permitAll()
                                                 .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
@@ -60,7 +60,6 @@ public class SecurityConfig {
                                                 .successHandler(jwtLoginSuccessHandler))
 
                                 .oauth2Login(oauth -> oauth
-                                                .loginPage("/auth/oauth2/**")
                                                 .defaultSuccessUrl("/", true)
                                                 .failureUrl("/auth/signin?error=true")
                                                 .successHandler(jwtLoginSuccessHandler)
