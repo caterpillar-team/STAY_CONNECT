@@ -1,12 +1,7 @@
 package com.caterpillars.StayConnect.controller;
 
-import com.caterpillars.StayConnect.model.dto.ReviewDto;
-import com.caterpillars.StayConnect.model.entities.RoomInfo;
-import com.caterpillars.StayConnect.model.repository.ReviewRepository;
-import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
-import com.caterpillars.StayConnect.service.ReviewServiceImpl;
-import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Optional;
+import com.caterpillars.StayConnect.model.dto.ReviewDto;
+import com.caterpillars.StayConnect.model.entities.RoomInfo;
+import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
+import com.caterpillars.StayConnect.service.ReviewServiceImpl;
+
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/accom/detail")
@@ -29,11 +30,12 @@ public class ReviewController {
     @Autowired
     private RoomInfoRepository roomInfoRepository;
 
-    @Autowired
-    private ReviewRepository reviewRepository;
+    // @Autowired
+    // private ReviewRepository reviewRepository;
 
     @PostMapping("/{accId}/addReview")
-    public String postAddReview(@PathVariable("accId") Long accId, @Valid @ModelAttribute("reviewDto") ReviewDto dto, BindingResult bindingResult, Model model) {
+    public String postAddReview(@PathVariable("accId") Long accId, @Valid @ModelAttribute("reviewDto") ReviewDto dto,
+            BindingResult bindingResult, Model model) {
         log.info("POST /accom/detail/" + accId + "/addReview " + dto);
 
         if (bindingResult.hasErrors()) {
@@ -98,7 +100,6 @@ public class ReviewController {
             return "redirect:/error";
         }
     }
-
 
     @PostMapping("/update/review")
     public String updateReview(@ModelAttribute("reviewDto") ReviewDto reviewDto, RedirectAttributes rttr) {

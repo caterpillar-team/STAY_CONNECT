@@ -1,14 +1,7 @@
 package com.caterpillars.StayConnect.controller;
 
-import com.caterpillars.StayConnect.model.dto.ReviewDto;
-import com.caterpillars.StayConnect.model.entities.Accommodation;
-import com.caterpillars.StayConnect.model.entities.Review;
-import com.caterpillars.StayConnect.model.entities.RoomInfo;
-import com.caterpillars.StayConnect.model.repository.ReviewRepository;
-import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
-import com.caterpillars.StayConnect.service.ReviewServiceImpl;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,12 +11,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+import com.caterpillars.StayConnect.model.dto.ReviewDto;
+import com.caterpillars.StayConnect.model.entities.Accommodation;
+import com.caterpillars.StayConnect.model.entities.Review;
+import com.caterpillars.StayConnect.model.entities.RoomInfo;
+import com.caterpillars.StayConnect.model.repository.ReviewRepository;
+import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
+import com.caterpillars.StayConnect.service.ReviewServiceImpl;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/accom")
+@RequestMapping("/user/accom")
 public class AccommodationController {
 
     @Autowired

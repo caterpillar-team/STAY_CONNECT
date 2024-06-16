@@ -44,3 +44,11 @@ out/
 
 ### docker mysql ###
 /docker/mysql
+
+### .env ###
+.env
+
+### node_modules ###
+/node_modules
+package-lock.json
+package.json

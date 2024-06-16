@@ -1,275 +1,265 @@
-body {
-    margin: 0;
+.accomMain a {
+  text-decoration: none;
+  color: red;
+  font-weight: 800;
 }
 
-a {
-    text-decoration: none;
-    color: red;
-    font-weight: 800;
+.accomImg {
+  margin-top: 30px;
+  height: 300px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
-main > .accomImg {
-    margin-top: 30px;
-    height: 300px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+.accomImg > div {
 }
 
-main > .accomImg > div {
-}
-
-main > .accomImg > .accomImg1 > img {
-    width: 500px;
-    height: 300px;
+.accomImg > .accomImg1 > img {
+  width: 500px;
+  height: 300px;
 }
 
 .carousel-inner img {
-    height: 300px;
+  height: 300px;
 }
 
-main > .accomMain {
-    display: block;
+.accomMain {
+  display: block;
 }
 
-main > .accomMain > div {
-    /*border: 1px solid;*/
+.accomMain > div {
+  /*border: 1px solid;*/
 }
 
-main > .acocmMain .category_name {
-    font-size: 1rem;
+.acocmMain .category_name {
+  font-size: 1rem;
 }
 
-main > .accomMain .accomName {
-    font-size: 1.5rem;
-    font-weight: 800;
+.accomMain .accomName {
+  font-size: 1.5rem;
+  font-weight: 800;
 }
 
-main > .accomMain > div:nth-child(2) {
-    display: flex;
+.accomMain > div:nth-child(2) {
+  display: flex;
 }
 
-main > .accomMain > .reviewBox {
-    height: 120px;
-    overflow: hidden;
-    width: 100%;
-    display: flex;
-    align-items: center;
+.accomMain > .reviewBox {
+  height: 120px;
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
 
-main > .accomMain > .reviewBox .reviewSlider {
-    display: flex;
-    align-items: center;
-    height: 120px;
-    margin: 5px;
-    /*justify-content: center;*/
-    transition: 0.3s;
-    width: 800px;
+.accomMain > .reviewBox .reviewSlider {
+  display: flex;
+  align-items: center;
+  height: 120px;
+  margin: 5px;
+  /*justify-content: center;*/
+  transition: 0.3s;
+  width: 800px;
 }
 
-main > .accomMain > .reviewBox .review {
-    flex-shrink: 0;
-    width: 300px;
-    height: 100px;
-    /*border : 1px solid ;*/
-    margin: 5px;
-    transition: 0.3s;
-    background-color: lightgray;
+.accomMain > .reviewBox .review {
+  flex-shrink: 0;
+  width: 300px;
+  height: 100px;
+  /*border : 1px solid ;*/
+  margin: 5px;
+  transition: 0.3s;
+  background-color: lightgray;
 }
 
 @keyframes moving {
-    0%,
-    100% {
-        transform: translateX(0);
-    }
-    10% {
-        transform: translateX(-20%);
-    }
-    20% {
-        transform: translateX(-40%);
-    }
-    30% {
-        transform: translateX(-60%);
-    }
-    40% {
-        transform: translateX(-80%);
-    }
-    50% {
-        transform: translateX(-100%);
-    }
-    60% {
-        transform: translateX(-80%);
-    }
-    70% {
-        transform: translateX(-60%);
-    }
-    80% {
-        transform: translateX(-40%);
-    }
-    90% {
-        transform: translateX(-20%);
-    }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10% {
+    transform: translateX(-20%);
+  }
+  20% {
+    transform: translateX(-40%);
+  }
+  30% {
+    transform: translateX(-60%);
+  }
+  40% {
+    transform: translateX(-80%);
+  }
+  50% {
+    transform: translateX(-100%);
+  }
+  60% {
+    transform: translateX(-80%);
+  }
+  70% {
+    transform: translateX(-60%);
+  }
+  80% {
+    transform: translateX(-40%);
+  }
+  90% {
+    transform: translateX(-20%);
+  }
 }
 
 .reviewSlider {
-    animation: moving 120s linear infinite;
-    animation-delay: 2s;
+  animation: moving 120s linear infinite;
+  animation-delay: 2s;
 }
 
 .reviewSlider:hover {
-    animation-play-state: paused;
+  animation-play-state: paused;
 }
 
-main > .accomMain > .reviewBox .review .content {
-    height: 50px;
-    padding: 5px;
+.accomMain > .reviewBox .review .content {
+  height: 50px;
+  padding: 5px;
 }
 
-main > .accomMain > .reviewBox .review .reviewWriter {
-    padding: 0 5px;
-    display: block;
-    text-align: right;
+.accomMain > .reviewBox .review .reviewWriter {
+  padding: 0 5px;
+  display: block;
+  text-align: right;
 }
 
-main > div > .accomDetail {
-    display: block;
+div > .accomDetail {
+  display: block;
 }
 
-main > div > .accomDetail > .accomDetailContainer {
-    display: flex;
-    width: 100%;
+div > .accomDetail > .accomDetailContainer {
+  display: flex;
+  width: 100%;
 }
 
-main > div > .accomDetail > .accomDetailContainer .price {
-    font-size: 1.8rem;
-    font-weight: 800;
+div > .accomDetail > .accomDetailContainer .price {
+  font-size: 1.8rem;
+  font-weight: 800;
 }
 
-main > div > .accomDetail > .accomDetailContainer > div {
-    width: 50%;
-    padding: 10px;
+div > .accomDetail > .accomDetailContainer > div {
+  width: 50%;
+  padding: 10px;
 }
 
-main > div > .accomDetail > .accomDetailContainer > div img {
-    width: 100%;
-    height: 200px;
+div > .accomDetail > .accomDetailContainer > div img {
+  width: 100%;
+  height: 200px;
 }
 
-main > div > .accomDetail > .accomDetailContainer .detail {
-    display: block;
+div > .accomDetail > .accomDetailContainer .detail {
+  display: block;
 }
 
 /*main > .accomDetail > .accomDetailContainer .detail>.roomType,*/
-main > div > .accomDetail > .accomDetailContainer > .detail {
-    border: 1px solid;
-    height: 200px;
-    margin: 10px;
+div > .accomDetail > .accomDetailContainer > .detail {
+  border: 1px solid;
+  height: 200px;
+  margin: 10px;
 }
 
-main > div > .accomDetail > .accomDetailContainer > .detail > .roomType {
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: gray;
+div > .accomDetail > .accomDetailContainer > .detail > .roomType {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: gray;
 }
 
-main
-> div
-> .accomDetail
-> .accomDetailContainer
-> .detail
-material-symbols-outlined {
-    font-size: 0.9rem;
+div > .accomDetail > .accomDetailContainer > .detail material-symbols-outlined {
+  font-size: 0.9rem;
 }
 
-main > div > .accomDetail > .accomDetailContainer > .detail > .numberOfPeople,
-main > div > .accomDetail > .accomDetailContainer > .detail > .bedType {
-    height: 35px;
-    font-size: 0.8rem;
-    align-items: center;
-    display: flex;
+div > .accomDetail > .accomDetailContainer > .detail > .numberOfPeople,
+div > .accomDetail > .accomDetailContainer > .detail > .bedType {
+  height: 35px;
+  font-size: 0.8rem;
+  align-items: center;
+  display: flex;
 }
 
-main > div > .accomDetail img {
-    width: 200px;
-    height: 150px;
+div > .accomDetail img {
+  width: 200px;
+  height: 150px;
 }
 
-main > div > .reviewList {
-    display: flex;
-    border: 1px solid;
+div > .reviewList {
+  display: flex;
+  border: 1px solid;
 }
 
 .reviewWriter > img {
-    width: 50px !important;
-    height: 50px !important;
-    border-radius: 100px !important;
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 100px !important;
 }
 
 .reviewInput {
-    display: block;
+  display: block;
 }
 
 /* starRate */
 .rating {
-    position: relative;
-    width: 180px;
-    background: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.3em;
-    padding: 5px;
-    overflow: hidden;
-    box-shadow: 0 0 2px #b3acac;
+  position: relative;
+  width: 180px;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3em;
+  padding: 5px;
+  overflow: hidden;
+  box-shadow: 0 0 2px #b3acac;
 }
 
 .ratingResults {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translateY(-10px) translateX(-5px);
-    z-index: -9;
-    font: 3em Arial,
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(-10px) translateX(-5px);
+  z-index: -9;
+  font:
+    3em Arial,
     Helvetica,
     sans-serif;
-    color: #ebebeb8e;
-    pointer-events: none;
+  color: #ebebeb8e;
+  pointer-events: none;
 }
 
 .reviewInputRatingStar,
 .ratingStar {
-    font-size: 1rem;
-    color: #dabd18b2;
-    transition: filter linear 0.3s;
+  font-size: 1rem;
+  color: #dabd18b2;
+  transition: filter linear 0.3s;
 }
 
 .reviewInputRatingStar {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .reviewInputRatingStar:hover {
-    filter: drop-shadow(1px 1px 4px gold);
+  filter: drop-shadow(1px 1px 4px gold);
 }
 
 .reviewEditForm {
-    display: none; /* 초기에는 숨겨진 상태로 설정 */
-    position: fixed; /* 화면 상단에 고정 */
-    top: 50%; /* 화면 상단에서 세로 중앙 정렬 */
-    left: 50%; /* 화면 좌측에서 가로 중앙 정렬 */
-    transform: translate(-50%, -50%); /* 가로, 세로 중앙 정렬 */
-    z-index: 1000; /* 다른 요소들보다 위에 표시되도록 설정 */
-    background-color: #fff; /* 배경색 설정 */
-    padding: 20px; /* 내부 여백 설정 */
-    border: 1px solid #ccc; /* 테두리 설정 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+  display: none; /* 초기에는 숨겨진 상태로 설정 */
+  position: fixed; /* 화면 상단에 고정 */
+  top: 50%; /* 화면 상단에서 세로 중앙 정렬 */
+  left: 50%; /* 화면 좌측에서 가로 중앙 정렬 */
+  transform: translate(-50%, -50%); /* 가로, 세로 중앙 정렬 */
+  z-index: 1000; /* 다른 요소들보다 위에 표시되도록 설정 */
+  background-color: #fff; /* 배경색 설정 */
+  padding: 20px; /* 내부 여백 설정 */
+  border: 1px solid #ccc; /* 테두리 설정 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
 }
 
 .reviewEditForm.show {
-    display: block; /* 'show' 클래스가 추가되면 표시됨 */
+  display: block; /* 'show' 클래스가 추가되면 표시됨 */
 }
 
-
 .hidden {
-    display: none !important;
-
+  display: none !important;
 }
