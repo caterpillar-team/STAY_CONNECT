@@ -45,8 +45,8 @@ public class TestReviewDataInitializer implements CommandLineRunner {
                 }
                 RoomInfo room1 = roomInfos.get(0);
 
-                User user = userRepository.findByUsername("user").orElseGet(null);
-                // .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                User user = userRepository.findByUsername("user")
+                                .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
                 Review review1 = Review.builder()
                                 .user(user)
