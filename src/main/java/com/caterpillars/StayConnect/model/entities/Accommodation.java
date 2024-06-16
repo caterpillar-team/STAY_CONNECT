@@ -29,11 +29,8 @@ public class Accommodation {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "category_id")
+  @JoinColumn(name = "category_id", nullable = false)
   private Category category;
-  @ManyToOne
-  @JoinColumn(name = "accommodation_grade")
-  private AccommodationGrade accommodationGrade;
 
   private String name;
 

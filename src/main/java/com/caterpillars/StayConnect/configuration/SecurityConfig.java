@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.caterpillars.StayConnect.component.filter.JWTAuthenticationFilter;
 import com.caterpillars.StayConnect.component.handler.JWTLoginSuccessHandler;
 import com.caterpillars.StayConnect.component.handler.JWTLogoutSuccessHandler;
+import com.caterpillars.StayConnect.component.handler.OAuth2UserLoginFailureHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -30,6 +31,9 @@ public class SecurityConfig {
         @Autowired
         private JWTLogoutSuccessHandler jwtLogoutSuccessHandler;
 
+        @Autowired
+        private OAuth2UserLoginFailureHandler oAuth2UserLoginFailureHandler;
+
         @Bean
         public PasswordEncoder passwordEncoder() {
                 return new BCryptPasswordEncoder();
@@ -41,9 +45,9 @@ public class SecurityConfig {
                                 .csrf((csrf) -> csrf.disable())
 
                                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-
-                                                .requestMatchers("/**").permitAll()
-                                                .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**").permitAll()
+                                                .requestMatchers("/", "/error/**").permitAll()
+                                                .requestMatchers("/auth/**").not().authenticated()
+                                                .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/fonts/**").permitAll()
                                                 .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
@@ -58,8 +62,8 @@ public class SecurityConfig {
                                 .oauth2Login(oauth -> oauth
                                                 .defaultSuccessUrl("/", true)
                                                 .failureUrl("/auth/signin?error=true")
-                                                .redirectionEndpoint(redirection -> redirection
-                                                                .baseUri("/auth/oauth2/google")))
+                                                .successHandler(jwtLoginSuccessHandler)
+                                                .failureHandler(oAuth2UserLoginFailureHandler))
 
                                 .logout(logout -> logout
                                                 .logoutUrl("/user/logout")

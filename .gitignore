@@ -45,7 +45,7 @@ out/
 ### docker mysql ###
 /docker/mysql
 
-### .env ###
+### env ###
 .env
 
 ### node_modules ###

@@ -1,21 +1,23 @@
 package com.caterpillars.StayConnect.service;
 
-import com.caterpillars.StayConnect.model.dto.ReviewDto;
-import com.caterpillars.StayConnect.model.entities.Review;
-import com.caterpillars.StayConnect.model.entities.RoomInfo;
-import com.caterpillars.StayConnect.model.entities.User;
-import com.caterpillars.StayConnect.model.repository.ReviewRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.caterpillars.StayConnect.model.dto.ReviewDto;
+import com.caterpillars.StayConnect.model.entities.Review;
+import com.caterpillars.StayConnect.model.entities.RoomInfo;
+import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.model.repository.ReviewRepository;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
@@ -73,8 +75,10 @@ public class ReviewServiceImpl implements ReviewService {
             review = reviewRepository.save(review);
             // 리뷰id를 DTO에 설정
             dto.setReviewId(review.getId());
-            log.info("Saving review: Review(id={}, user={}, roomInfo={}, accommodationId={}, title={}, contents={}, createdAt={}, rate={})",
-                    review.getId(), username, roomId, accId, review.getTitle(), review.getContents(), formattedCreatedAt, review.getRate());
+            log.info(
+                    "Saving review: Review(id={}, user={}, roomInfo={}, accommodationId={}, title={}, contents={}, createdAt={}, rate={})",
+                    review.getId(), username, roomId, accId, review.getTitle(), review.getContents(),
+                    formattedCreatedAt, review.getRate());
 
         } catch (Exception e) {
             log.error("Error saving review", e);
@@ -87,7 +91,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public void updateReview(ReviewDto reviewDto) {
-        Review review = reviewRepository.findById(reviewDto.getReviewId()).orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
+        Review review = reviewRepository.findById(reviewDto.getReviewId())
+                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
         // 리뷰 내용 및 평점 수정
         review.setContents(reviewDto.getContents());
         review.setRate(reviewDto.getRate());

@@ -61,7 +61,6 @@ public class AccommodationController {
 
                 // 모델에 필요한 정보 추가
                 model.addAttribute("accom", roomInfo);
-                model.addAttribute("accoms", accoms);
                 model.addAttribute("reviews", reviews);
                 model.addAttribute("averageRating", averageRating);
 

@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +13,6 @@ import com.caterpillars.StayConnect.model.repository.RoleRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
 
 @Component
-@Order(3)
 public class TestUserDataInitializer implements CommandLineRunner {
 
   @Autowired
@@ -29,10 +27,10 @@ public class TestUserDataInitializer implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
     Role userRole = roleRepository.findByName("ROLE_USER")
-        .orElseGet(() -> roleRepository.save(new Role(null, "ROLE_USER")));
+        .orElseGet(() -> roleRepository.save(new Role(null, "ROLE_USER", null)));
 
     Role adminRole = roleRepository.findByName("ROLE_ADMIN")
-        .orElseGet(() -> roleRepository.save(new Role(null, "ROLE_ADMIN")));
+        .orElseGet(() -> roleRepository.save(new Role(null, "ROLE_ADMIN", null)));
 
     User user = User.builder()
         .username("user")
@@ -62,8 +60,8 @@ public class TestUserDataInitializer implements CommandLineRunner {
         .email("princess@example.com")
         .birth(LocalDate.of(1999, 12, 23))
         .gender(true)
-        .phoneNumber("010-3949-9029")
-        .realName("PRINCESS")
+        .phoneNumber("010-9955-5775")
+        .realName("이재형")
         .role(adminRole)
         .build();
 
