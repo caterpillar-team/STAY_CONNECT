@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.caterpillars.StayConnect.model.dto.ReviewDto;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
-import com.caterpillars.StayConnect.service.ReviewServiceImpl;
+import com.caterpillars.StayConnect.service.ReviewService;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ReviewController {
     @Autowired
-    private ReviewServiceImpl reviewService;
+    private ReviewService reviewService;
 
     @Autowired
     private RoomInfoRepository roomInfoRepository;

@@ -1,12 +1,14 @@
 package com.caterpillars.StayConnect.service;
 
-import com.caterpillars.StayConnect.model.entities.Role;
-import com.caterpillars.StayConnect.model.entities.User;
-import com.caterpillars.StayConnect.model.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.caterpillars.StayConnect.model.entities.Role;
+import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.model.repository.UserRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class UserService {
@@ -27,7 +29,6 @@ public class UserService {
         user.setBirth(user.getBirth());
         user.setRole(Role.builder().build());
 
-
         userRepository.save(user);
     }
 
@@ -39,5 +40,3 @@ public class UserService {
         return userId;
     }
 }
-
-
