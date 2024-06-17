@@ -10,18 +10,8 @@
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <!-- 지도 api -->
         <script
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b8f20a221506b373bac69207f38af4f7&libraries=services"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b7caf975e72f88d68d83faa551db41aa&libraries=services"
         ></script>
-        <script>
-            function toggleChat() {
-                var chatBox = document.getElementById("chatBox");
-                if (chatBox.style.display === "none") {
-                    chatBox.style.display = "block";
-                } else {
-                    chatBox.style.display = "none";
-                }
-            }
-        </script>
     </th:block>
     <th:block layout:fragment="title">
         <title>index page</title>
@@ -33,36 +23,6 @@
             <section th:replace="~{fragments/index/conditionalSection_frag::conditionalSection}"></section>
             <section></section>
         </div>
-        <div class="container">
-            <h1>CHATBOX TEST</h1>
-            <!-- Your content here -->
-            
-            <button class="btn btn-primary" onclick="toggleChat()">Chat with us</button>
-    
-            <div id="chatBox" style="display:none; position:fixed; bottom:0; right:0; width:300px; height:400px; background:white; border:1px solid #ccc; padding:10px;">
-                <h2>Chat Room</h2>
-                <ul id="messages"></ul>
-                <input type="text" id="messageInput" placeholder="Enter your message"/>
-                <button onclick="sendMessage()">Send</button>
-            </div>
-        </div>
-        
-        <script>
-            var socket = new WebSocket("ws://localhost:8080/chat");
-            socket.onmessage = function(event) {
-                var messages = document.getElementById("messages");
-                var message = document.createElement("li");
-                message.appendChild(document.createTextNode(event.data));
-                messages.appendChild(message);
-            };
-    
-            function sendMessage() {
-                var input = document.getElementById("messageInput");
-                socket.send(input.value);
-                input.value = '';
-            }
-        </script>
-
         <script th:src="@{/js/index/kakaoMapAPI.js}"></script>
         <script th:src="@{/js/index/index_scroll.js}"></script>
     </th:block>

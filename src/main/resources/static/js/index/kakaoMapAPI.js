@@ -14,7 +14,7 @@ var marker = new daum.maps.Marker({
     map: map,
 });
 
-function sample5_execDaumPostcode() {
+function DaumPostcode() {
     new daum.Postcode({
         oncomplete: function (data) {
             var addr = data.address; // 최종 주소 변수
