@@ -13,12 +13,12 @@
 > 기술 스택 탐구: 최신 웹 개발 기술 스택을 탐구하고, 이를 실제 프로젝트에 적용함으로써, 이론과 실습의 차이를 이해하고, 보다 깊이 있는 기술적 역량을 갖추고자 한다.
  
 
-HISTORY
+## HISTORY
 ---
 [강지영]() | [윤지원]() | [이재형]() | [조은파]() | 
 
 
-PLANS
+## PLANS
 ---
  |LANGUAGE|PLAN|IMPLEMENT|DESCRIPTION|
  |-|-|-|-|
@@ -29,7 +29,7 @@ PLANS
 
 
 
-MEMBERERS
+## MEMBERERS
 --- 
 |NAME|ROLE|DETAILS|DESCRIPTION| 
 |---|---|---|---|
@@ -39,13 +39,13 @@ MEMBERERS
 |조은파|BN| member - 회원등록 / 회원목록 |---|
 
 
-시작가이드
+## 시작가이드
 ---
 #### REQUIREMENTS
 ---
 > [!IMPORTANT]
 > 
-> # essential(필수)
+> ### essential(필수)
 > 1. git
 > 2. git-flow
 > 3. java-version21
@@ -55,85 +55,104 @@ MEMBERERS
 > 7. docker-compose
 
 > [!NOTE]
-> # Optional(선택)
-> 3. makefile-CLI
+> ### Optional(선택)
+> 1. makefile-CLI
 
-#### INSTALLATION
+## INSTALLATION
 ---
 >[!TIP]
 > 
 > 1. git clone https://github.com/CATERPILLAR-TEAM/STAY_CONNECT.git
 > 2. gh repo clone CATERPILLAR-TEAM/STAY_CONNECT
 
-SKILLS
+## ENV FILE
 ---
-#### HTTP ASYNCHRONOUS
----
-![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white) 
+>[!IMPORTANT]
+>
+>## Environment Variables
 
-#### WEB SERVER
----
-![Apache Tomcat](https://img.shields.io/badge/Apache%20Tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=20232a) 
+환경 변수는 애플리케이션의 설정과 비밀 정보를 관리하는 데 사용됩니다. 아래는 사용되는 환경 변수 목록입니다.
 
-#### WEB FRAMEWORK
----
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=20232a) 
-![Spring Security](https://img.shields.io/badge/Spring%20Security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=20232a) 
+| **키 값**                       | **설명**                                      | **기본값**                |
+| ------------------------------ | -------------------------------------------- | ----------------------- |
+| `BASE_URL`                     | 애플리케이션의 기본 URL                            | `http://localhost:8080` |
+| `SERVER_PORT`                  | 애플리케이션이 실행되는 포트 번호             | `8080`                |
+| `JSON_WEB_TOKEN_SECRET_KEY`    | JWT 서명에 사용되는 비밀 키                   | `mysecret`            |
+| `JSON_WEB_TOKEN_EXPIRATION_TIME`| JWT 토큰의 만료 시간 (밀리초 단위)           | `3600000`             |
+| `MYSQL_SERVER_URL`             | 데이터베이스 연결 URL                         | `jdbc:mysql://localhost:3306/mydb` |
+| `MYSQL_SERVER_USERNAME`        | 데이터베이스 사용자 이름                      | `root`                |
+| `MYSQL_SERVER_PASSWORD`        | 데이터베이스 비밀번호                         | `password`            |
+| `GOOGLE_CLIENT_ID`             | Google OAuth 클라이언트 ID                    |                       |
+| `GOOGLE_CLIENT_SECRET`         | Google OAuth 클라이언트 비밀 키               |                       |
+| `KAKAO_CLIENT_ID`              | Kakao OAuth 클라이언트 ID                     |                       |
+| `KAKAO_CLIENT_SECRET`          | Kakao OAuth 클라이언트 비밀 키                |                       |
 
-#### BUILD TOOLS
----
-![Gradle](https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=20232a) 
 
-#### DATABASE SERVER
----
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=20232a) 
 
-#### FN
----
-![Thymeleaf](https://img.shields.io/badge/Thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=20232a) 
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=20232a) 
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=20232a) 
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=20232a) 
 
-#### CODE EDITOR
+## HOW TO USER GIT FLOW
 ---
-![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=20232a) 
-![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ%20IDEA-000000?style=for-the-badge&logo=intellijidea&logoColor=20232a) 
+> [!IMPORTANT]
+> ### LOCAL REPOSITORY SETTING GUIDE
+> 1. `git clone <git_addr>` or `gh repo clone <git_addr>`
+> 2. `git flow init` or `git flow init -f`
+> 3. ```bash
+>    2번째 명령어 입력시 출력
+>    Which branch should be used for bringing forth production releases?
+>    - develop
+>    - main
+>    Branch name for production releases: [main] 
+> 
+>    Which branch should be used for integration of the "next release"?
+>    - develop
+>    Branch name for "next release" development: [develop] 
+> 
+>    How to name your supporting branch prefixes?
+>    Feature branches? [feature/] 
+>    Release branches? [release/] 
+>    Hotfix branches? [hotfix/] 
+>    Support branches? [support/] 
+>    Version tag prefix? [ver.]
+>    ```
+> ### feature 추가할 때
+> ```bash
+> git flow feature start <feature name>
+> ```
+> 해당 명령어 실행시 현재 브랜치의 위치와 상관없이 develop 브랜치를 기반으로 feature/<feature name> 브랜치 생성
+> 기능을 추가해야할 때 사용하면 된다. 평소에 가장 많이 사용될 것으로 기대된다.
+> ### 완료한 feature 브랜치 develop 브랜치에 적용
+> ```bash
+> git flow feature finish <feature name>
+> ```
+> 해당 명령어 실행시 feature/<feature name> 브랜치를 자동으로 develop 브랜치에 병합한다. 우리는 pull request로 프로젝트를 진행할 예정이기
+> 때문에 해당 명령어는 사용할 일이 없을 것 같다.
+> 위 명령어 대신 feature/<feature name> 브랜치에서 `gh pr create --base develop --title "Update example feature" --body
+> "This pull request updates the feature example."` 형식으로 작성하면 된다.
+> 또는 github 웹 사이트에서 pull request 요청을 해도 된다.
+> ### 원격 레포지토리에 있는 feature 가져오기
+> ```bash
+> git flow feature pull origin <feature name>
+> ```
 
-#### OS
+## SKILLS
 ---
-![macOS](https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=20232a) 
-![Windows 11](https://img.shields.io/badge/Windows%2011-0078D4?style=for-the-badge&logo=windows11&logoColor=20232a) 
+| **Category** | **Technologies** |
+| ------------ | ---------------- |
+| **HTTP ASYNCHRONOUS** | ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white) |
+| **WEB SERVER** | ![Apache Tomcat](https://img.shields.io/badge/Apache%20Tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=20232a) |
+| **WEB FRAMEWORK** | ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=20232a) ![Spring Security](https://img.shields.io/badge/Spring%20Security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=20232a) |
+| **BUILD TOOLS** | ![Gradle](https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=20232a) |
+| **DATABASE SERVER** | ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=20232a) |
+| **FRONTEND** | ![Thymeleaf](https://img.shields.io/badge/Thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=20232a) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=20232a) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=20232a) ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=20232a) |
+| **CODE EDITOR** | ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=20232a) ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ%20IDEA-000000?style=for-the-badge&logo=intellijidea&logoColor=20232a) |
+| **OS** | ![macOS](https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=20232a) ![Windows 11](https://img.shields.io/badge/Windows%2011-0078D4?style=for-the-badge&logo=windows11&logoColor=20232a) |
+| **TERMINAL EMULATOR** | ![iTerm2](https://img.shields.io/badge/iTerm2-000000?style=for-the-badge&logo=iterm2&logoColor=20232a) ![Windows Terminal](https://img.shields.io/badge/Windows%20Terminal-4D4D4D?style=for-the-badge&logo=windowsterminal&logoColor=20232a) |
+| **SHELL** | ![Zsh](https://img.shields.io/badge/Zsh-428850?style=for-the-badge&logo=gnu-bash&logoColor=white) ![Bash](https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white) ![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?style=for-the-badge&logo=powershell&logoColor=white) |
+| **PACKAGE MANAGER** | ![Homebrew](https://img.shields.io/badge/Homebrew-FBB040?style=for-the-badge&logo=homebrew&logoColor=20232a) ![Winget](https://img.shields.io/badge/Winget-0078D4?style=for-the-badge&logo=windows&logoColor=white) |
+| **DEVOPS** | ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=20232a) ![Docker-Compose](https://img.shields.io/badge/Docker--Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white) ![Docker Hub](https://img.shields.io/badge/Docker%20Hub-2496ED?style=for-the-badge&logo=docker&logoColor=white) ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=20232a) ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=20232a) ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=20232a) ![Dependabot](https://img.shields.io/badge/Dependabot-025E8C?style=for-the-badge&logo=dependabot&logoColor=20232a) |
+| **MESSENGER** | ![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=20232a) |
 
-#### TERMINAL EMULATOR
----
-![iTerm2](https://img.shields.io/badge/iTerm2-000000?style=for-the-badge&logo=iterm2&logoColor=20232a) 
-![Windows Terminal](https://img.shields.io/badge/Windows%20Terminal-4D4D4D?style=for-the-badge&logo=windowsterminal&logoColor=20232a) 
-
-#### SHELL
----
-![Zsh](https://img.shields.io/badge/Zsh-428850?style=for-the-badge&logo=gnu-bash&logoColor=white) 
-![Bash](https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white) 
-![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?style=for-the-badge&logo=powershell&logoColor=white) 
-
-#### PACKAGE MANAGER
----
-![Homebrew](https://img.shields.io/badge/Homebrew-FBB040?style=for-the-badge&logo=homebrew&logoColor=20232a) 
-![Winget](https://img.shields.io/badge/Winget-0078D4?style=for-the-badge&logo=windows&logoColor=white) 
-
-#### DEVOPS
----
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=20232a) 
-![Docker-Compose](https://img.shields.io/badge/Docker--Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white) 
-![Docker Hub](https://img.shields.io/badge/Docker%20Hub-2496ED?style=for-the-badge&logo=docker&logoColor=white) 
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=20232a) 
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=20232a) 
-![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=20232a) 
-![Dependabot](https://img.shields.io/badge/Dependabot-025E8C?style=for-the-badge&logo=dependabot&logoColor=20232a) 
-
-#### MESSENGER
----
-![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=20232a) 
+## ARCHITECTURE DESIGN
 
 END POINT DOC
 ---
@@ -155,26 +174,57 @@ END POINT DOC
 
 DEPENDENCIES LIST
 ---
-|CAT|NAME|DESCRIPTION|LINK|-|-|
-|-|-|-|-|-|-|
-|FN|-|-|-|-|-|
-|FN|-|-|-|-|-|
-|BN|-|-|-|-|-|
-|BN|-|-|-|-|-|
-|DB|-|-|-|-|-|
-|DEVOPS|-|-|-|-|-|
+| CAT | NAME                                                               | DESCRIPTION | LINK |
+| --- | ------------------------------------------------------------------ | ----------- | ---- |
+| FRONTEND | popper.min.js                                                 | Popper.js library for managing popups | [link](https://popper.js.org) |
+| FRONTEND | axios                                                         | Promise based HTTP client for the browser | [link](https://axios-http.com) |
+| FRONTEND | bootstrap.min.css                                             | Bootstrap CSS framework | [link](https://getbootstrap.com) |
+| FRONTEND | bootstrap.min.js                                              | Bootstrap JavaScript framework | [link](https://getbootstrap.com) |
+| FRONTEND | fonts.css                                                     | Google Fonts CSS | [link](https://fonts.google.com) |
+| FRONTEND | jquery.min.js                                                 | jQuery library | [link](https://jquery.com) |
+| FRONTEND | iamport.js                                                    | Iamport library for payment integration | [link](https://www.iamport.kr) |
+| FRONTEND | swiper-bundle.min.js                                          | Swiper library for touch sliders | [link](https://swiperjs.com) |
+| BACKEND | org.springframework.boot:spring-boot-starter                  | Spring Boot core starter | [link](https://spring.io/projects/spring-boot) |
+| BACKEND | org.springframework.boot:spring-boot-starter-data-jpa         | Spring Boot Data JPA starter | [link](https://spring.io/projects/spring-data-jpa) |
+| BACKEND | org.springframework.boot:spring-boot-starter-web              | Spring Boot Web starter | [link](https://spring.io/projects/spring-boot) |
+| BACKEND | org.springframework.boot:spring-boot-starter-thymeleaf        | Spring Boot Thymeleaf starter | [link](https://spring.io/projects/spring-boot) |
+| BACKEND| nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0        | Thymeleaf Layout Dialect | [link](https://github.com/ultraq/thymeleaf-layout-dialect) |
+| SECURITY | org.springframework.boot:spring-boot-starter-security         | Spring Boot Security starter | [link](https://spring.io/projects/spring-security) |
+| SECURITY | org.springframework.boot:spring-boot-starter-oauth2-client    | Spring Boot OAuth2 Client starter | [link](https://spring.io/projects/spring-security-oauth) |
+| SECURITY | org.thymeleaf.extras:thymeleaf-extras-springsecurity6         | Thymeleaf extras for Spring Security 6 | [link](https://www.thymeleaf.org) |
+| DATABASE | com.mysql:mysql-connector-j                                   | MySQL Connector for Java | [link](https://dev.mysql.com/doc/connector-j/en/) |
+| BUILD TOOLS | org.springframework.boot:spring-boot-starter-validation    | Spring Boot Validation starter | [link](https://spring.io/projects/spring-boot) |
+| UTILITIES | io.jsonwebtoken:jjwt-api:0.12.5                              | JSON Web Token API | [link](https://github.com/jwtk/jjwt) |
+| UTILITIES | io.jsonwebtoken:jjwt-impl:0.12.5                             | JSON Web Token Implementation | [link](https://github.com/jwtk/jjwt) |
+| UTILITIES | io.jsonwebtoken:jjwt-jackson:0.12.5                          | JSON Web Token Jackson Integration | [link](https://github.com/jwtk/jjwt) |
+| UTILITIES | org.projectlombok:lombok                                     | Lombok for reducing boilerplate code | [link](https://projectlombok.org) |
+| DEVOPS | org.springframework.boot:spring-boot-devtools                   | Spring Boot DevTools | [link](https://spring.io/projects/spring-boot) |
+| DEVOPS | org.springframework.boot:spring-boot-docker-compose             | Spring Boot Docker Compose support | [link](https://spring.io/projects/spring-boot) |
+| DEVOPS | org.xmlunit:xmlunit-core:2.10.0                                 | XMLUnit core | [link](https://www.xmlunit.org) |
+| TESTING | org.springframework.boot:spring-boot-starter-test              | Spring Boot Test starter | [link](https://spring.io/projects/spring-boot) |
+| TESTING | org.springframework.security:spring-security-test              | Spring Security Test starter | [link](https://spring.io/projects/spring-security) |
+| TESTING | com.h2database:h2                                              | H2 Database | [link](https://www.h2database.com) |
+| TESTING | org.junit.platform:junit-platform-launcher                     | JUnit Platform Launcher | [link](https://junit.org/junit5/) |
+
+
 
 
 주요기능
 ---
--
--
--
+- 호텔 조회
+- 지도로 검색
+- 키워드로 검색
+- 호텔 예약 결제
+- 호텔 예약 결제 취소
 
-ERD[stayconnect]
+## USECASE[StayConnect]
+---
+![STAY_CONNECT_USECASE](https://github.com/CATERPILLAR-TEAM/STAY_CONNECT/assets/61113961/64c6410f-7bfa-45ea-82df-8b39aade7344)
+
+
+## ERD[StayConnect]
 ---
 ![image](https://github.com/CATERPILLAR-TEAM/TEST_SERVLET/assets/155939946/fbf64d7c-94e0-4700-b3b9-79e5172d0a4d)
-
 
 FILE TREES[THYMELEAF/SPRING BOOT]
 --- 
