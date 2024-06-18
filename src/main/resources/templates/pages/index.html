@@ -1,58 +1,56 @@
 <!DOCTYPE html>
 <html
-        lang="en"
-        xmlns:th="http://www.thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{layouts/layout}"
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/layout}"
 >
-<th:block layout:fragment="javascript">
+  <th:block layout:fragment="javascript">
     <!-- 주소 검색 api -->
     <script
-            src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
+      src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
     ></script>
     <!-- 지도 api -->
     <script
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=929477699640084fe20e16282c9f60b5&libraries=services"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=929477699640084fe20e16282c9f60b5&libraries=services"
     ></script>
-</th:block>
-<th:block layout:fragment="title">
+  </th:block>
+  <th:block layout:fragment="title">
     <title>index page</title>
-</th:block>
-<th:block layout:fragment="css"
->
-    <link rel="stylesheet" th:href="@{/css/pages/index.css}"
-    />
-</th:block>
-<th:block layout:fragment="leftAside">
+  </th:block>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/pages/index.css}" />
+  </th:block>
+  <th:block layout:fragment="leftAside">
     <a href="#" class="btn_goChat">
-        <img th:src="@{/img/chat.png}" alt="Chat Icon"/>
-        <div>
-            <br>
-            실시간 1:1 <br>
-            채팅 문의하기
-        </div>
+      <img th:src="@{/img/chat.png}" alt="Chat Icon" />
+      <div>
+        <br />
+        실시간 1:1 <br />
+        채팅 문의하기
+      </div>
     </a>
-</th:block>
-<th:block layout:fragment="main">
+  </th:block>
+  <th:block layout:fragment="main">
     <div class="indexContainer">
-        <section
-                th:replace="~{fragments/index/mainSection_frag::mainSection}"
-        ></section>
-        <section
-                th:replace="~{fragments/index/conditionalSection_frag::conditionalSection}"
-        ></section>
-        <section></section>
+      <section
+        th:replace="~{fragments/index/mainSection_frag::mainSection}"
+      ></section>
+      <section
+        th:replace="~{fragments/index/conditionalSection_frag::conditionalSection}"
+      ></section>
+      <section></section>
     </div>
     <script th:src="@{/js/index/kakaoMapAPI.js}"></script>
     <script th:src="@{/js/index/index_scroll.js}"></script>
-</th:block>
-<th:block layout:fragment="rightAside">
+  </th:block>
+  <th:block layout:fragment="rightAside">
     <a href="#" class="btn_gotop">
-        <span class="material-symbols-outlined"> keyboard_arrow_up </span>
-        <p>
-            지도로 <br>
-            검색하기
-        </p>
+      <span class="material-symbols-outlined"> keyboard_arrow_up </span>
+      <p>
+        지도로 <br />
+        검색하기
+      </p>
     </a>
-</th:block>
+  </th:block>
 </html>
