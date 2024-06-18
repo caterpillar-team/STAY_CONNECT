@@ -1,10 +1,8 @@
 package com.caterpillars.StayConnect.service;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.caterpillars.StayConnect.model.dto.PaymentDto;
+import lombok.Data;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -37,12 +35,13 @@ public class PortOnePaymentService {
                 uriBuilder.toUriString(),
                 HttpMethod.GET,
                 entity,
-                PaymentDto.class);
+                PaymentDto.class // 응답을 DTO 객체로 받음
+        );
 
         if (response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         } else {
-            throw new RuntimeException("Failed to fetch payment details");
+            throw new RuntimeException("실패하였습니다.");
         }
     }
 }
