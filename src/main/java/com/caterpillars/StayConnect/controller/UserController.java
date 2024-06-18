@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
 import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
-import com.caterpillars.StayConnect.service.UserService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,8 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserController {
 
-  @Autowired
-  private UserService userService;
+  // @Autowired
+  // private UserService userService;
 
   @Autowired
   private UserRepository userRepository;
@@ -58,8 +57,6 @@ public class UserController {
     System.out.println("username : " + username);
 
     Optional<User> result = userRepository.findByUsername(username);
-
-    log.info("mypage");
 
     if (result.isPresent()) {
       model.addAttribute("edit", result.get());
