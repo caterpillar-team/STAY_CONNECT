@@ -1,178 +1,189 @@
-body {
-    margin: 0;
+.accomMain a {
+  text-decoration: none;
+  color: red;
+  font-weight: 800;
 }
-a{
-    text-decoration: none;
-    color: red;
-    font-weight: 800;
-}
-main > .accomImg {
-    margin-top: 30px;
-    height: 300px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+.accomImg {
+  margin-top: 30px;
+  height: 300px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
-main > .accomImg > div {
+.accomImg > div {
 }
 
-main > .accomImg > .accomImg1 > img {
-    width: 500px;
-    height: 300px;
+.accomImg > .accomImg1 > img {
+  width: 500px;
+  height: 300px;
 }
 
 .carousel-inner img {
-    height: 300px;
+  height: 300px;
 }
 
-main > .accomMain {
-    display: block;
+.accomMain {
+  display: block;
 }
 
-
-main > .accomMain > div {
-    /*border: 1px solid;*/
+.accomMain > div {
+  /*border: 1px solid;*/
 }
 
-main > .acocmMain .category_name{
-    font-size: 1rem;
+.acocmMain .category_name {
+  font-size: 1rem;
 }
-main > .accomMain .accomName {
-    font-size: 1.5rem;
-    font-weight: 800;
-}
-
-main > .accomMain > div:nth-child(2) {
-    display: flex;
-}
-main > .accomMain> .reviewBox{
-    height:120px;
-    overflow:hidden;
-    width:100% ;
-    display:flex;
-    align-items: center;
-}
-main > .accomMain > .reviewBox .reviewSlider {
-    display: flex;
-    align-items: center;
-    height: 120px;
-    margin:5px;
-    /*justify-content: center;*/
-    transition: .3s;
-    width: 800px;
-
+.accomMain .accomName {
+  font-size: 1.5rem;
+  font-weight: 800;
 }
 
-main > .accomMain > .reviewBox .review {
-    flex-shrink: 0;
-    width:300px;
-    height:100px;
-    /*border : 1px solid ;*/
-    margin : 5px;
-    transition: 0.3s;
-    background-color: lightgray;
+.accomMain > div:nth-child(2) {
+  display: flex;
+}
+.accomMain > .reviewBox {
+  height: 120px;
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.accomMain > .reviewBox .reviewSlider {
+  display: flex;
+  align-items: center;
+  height: 120px;
+  margin: 5px;
+  /*justify-content: center;*/
+  transition: 0.3s;
+  width: 800px;
 }
 
-@keyframes moving{
-    0%,100%{transform: translateX(0);}
-    10%{transform: translateX(-20%);}
-    20%{transform: translateX(-40%);}
-    30%{transform: translateX(-60%);}
-    40%{transform: translateX(-80%);}
-    50%{transform: translateX(-100%);}
-    60%{transform: translateX(-80%);}
-    70%{transform: translateX(-60%);}
-    80%{transform: translateX(-40%);}
-    90%{transform: translateX(-20%);}
+.accomMain > .reviewBox .review {
+  flex-shrink: 0;
+  width: 300px;
+  height: 100px;
+  /*border : 1px solid ;*/
+  margin: 5px;
+  transition: 0.3s;
+  background-color: lightgray;
 }
 
-.reviewSlider{
-    animation:moving 120s linear infinite;
-    animation-delay: 2s;
-}
-.reviewSlider:hover{
-    animation-play-state: paused;
-}
-
-main > .accomMain > .reviewBox .review .content{
-    height: 50px;
-    padding: 5px;
-}
-
-main > .accomMain > .reviewBox .review .reviewWriter {
-    padding: 0 5px;
-    display: block;
-    text-align: right;
-}
-
-
-main > .accomDetail {
-    display: block;
-}
-
-main > .accomDetail > .accomDetailContainer {
-    display: flex;
-    width: 100%;
-}
-main > .accomDetail > .accomDetailContainer .price {
-    font-size: 1.8rem;
-    font-weight: 800;
-}
-main > .accomDetail > .accomDetailContainer > div {
-    width: 50%;
-    padding: 10px;
+@keyframes moving {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10% {
+    transform: translateX(-20%);
+  }
+  20% {
+    transform: translateX(-40%);
+  }
+  30% {
+    transform: translateX(-60%);
+  }
+  40% {
+    transform: translateX(-80%);
+  }
+  50% {
+    transform: translateX(-100%);
+  }
+  60% {
+    transform: translateX(-80%);
+  }
+  70% {
+    transform: translateX(-60%);
+  }
+  80% {
+    transform: translateX(-40%);
+  }
+  90% {
+    transform: translateX(-20%);
+  }
 }
 
-main > .accomDetail > .accomDetailContainer > div img {
-    width: 100%;
-    height: 200px;
+.reviewSlider {
+  animation: moving 120s linear infinite;
+  animation-delay: 2s;
+}
+.reviewSlider:hover {
+  animation-play-state: paused;
 }
 
-main > .accomDetail > .accomDetailContainer .detail {
-    display: block;
+.accomMain > .reviewBox .review .content {
+  height: 50px;
+  padding: 5px;
+}
+
+.accomMain > .reviewBox .review .reviewWriter {
+  padding: 0 5px;
+  display: block;
+  text-align: right;
+}
+
+.accomDetail {
+  display: block;
+}
+
+.accomDetail > .accomDetailContainer {
+  display: flex;
+  width: 100%;
+}
+.accomDetail > .accomDetailContainer .price {
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+.accomDetail > .accomDetailContainer > div {
+  width: 50%;
+  padding: 10px;
+}
+
+.accomDetail > .accomDetailContainer > div img {
+  width: 100%;
+  height: 200px;
+}
+
+.accomDetail > .accomDetailContainer .detail {
+  display: block;
 }
 /*main > .accomDetail > .accomDetailContainer .detail>.roomType,*/
-main > .accomDetail>.accomDetailContainer>.detail {
-    border: 1px solid;
-    height: 200px;
-    margin: 10px;
+.accomDetail > .accomDetailContainer > .detail {
+  border: 1px solid;
+  height: 200px;
+  margin: 10px;
 }
 
-main > .accomDetail > .accomDetailContainer > .detail > .roomType {
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: gray;
+.accomDetail > .accomDetailContainer > .detail > .roomType {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: gray;
 }
 
-main
-> .accomDetail
-> .accomDetailContainer
-> .detail
-material-symbols-outlined {
-    font-size: 0.9rem;
+.accomDetail > .accomDetailContainer > .detail material-symbols-outlined {
+  font-size: 0.9rem;
 }
 
-main > .accomDetail > .accomDetailContainer > .detail > .numberOfPeople,
-main > .accomDetail > .accomDetailContainer > .detail > .bedType {
-    height: 35px;
-    font-size: 0.8rem;
-    align-items: center;
-    display: flex;
+.accomDetail > .accomDetailContainer > .detail > .numberOfPeople,
+.accomDetail > .accomDetailContainer > .detail > .bedType {
+  height: 35px;
+  font-size: 0.8rem;
+  align-items: center;
+  display: flex;
 }
 
-main > .accomDetail img {
-    width: 200px;
-    height: 150px;
+.accomDetail img {
+  width: 200px;
+  height: 150px;
 }
 
-main > .reviewList {
-    display: flex;
-    border: 1px solid;
+.reviewList {
+  display: flex;
+  border: 1px solid;
 }
 
 .reviewWriter > img {
-    width: 50px !important;
-    height: 50px !important;
-    border-radius: 100px !important;
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 100px !important;
 }

@@ -101,11 +101,8 @@ public class AuthService implements UserDetailsService,
 
     log.info(registrationId.toString());
 
-    if (registrationId.equals("google")) {
       return processGoogleLogin(oAuth2User, userRequest);
-    } else {
-      return null;
-    }
+
   }
 
   private OAuth2User processGoogleLogin(OAuth2User oAuth2User, OAuth2UserRequest userRequest) {

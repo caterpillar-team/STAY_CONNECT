@@ -14,15 +14,18 @@
     <script
       src="//dapi.kakao.com/v2/maps/sdk.js?appkey=929477699640084fe20e16282c9f60b5&libraries=services"
     ></script>
+    <script th:src="@{/lib/swiper/swiper-bundle.min.js}"></script>
   </th:block>
   <th:block layout:fragment="title">
     <title>index page</title>
   </th:block>
-  <th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/pages/index.css}" />
+  <th:block layout:fragment="css"
+    ><link rel="stylesheet" th:href="@{/css/pages/index.css}" />
+    <!-- SWIPER -->
+    <script th:src="@{lib/swiper/swiper-bundle.min.js}"></script>
   </th:block>
   <th:block layout:fragment="leftAside">
-    <a href="#" class="btn_goChat">
+    <a href="javascript:void(0)" class="btn_goChat">
       <img th:src="@{/img/chat.png}" alt="Chat Icon" />
       <div>
         <br />
