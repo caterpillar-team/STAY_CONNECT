@@ -70,7 +70,7 @@ updateButtons.forEach(updateButton => {
 
         const reviewId = this.dataset.reviewId; // 수정할 리뷰의 ID
         const contents = document.querySelector(`#editForm${reviewId} textarea[name="contents"]`).value;
-        const rate = document.querySelector(`#editForm${reviewId} input[name="rate"]`).value;
+        const rate = parseInt(document.querySelector(`#editForm${reviewId} input[name="rateEdit"]`).value);
 
         const reviewDto = {
             id: reviewId,
@@ -78,7 +78,7 @@ updateButtons.forEach(updateButton => {
             rate: rate
         };
 
-        axios.post(`/accom/detail/update/${reviewId}`, reviewDto)
+        axios.post(`/user/accom/detail/update/${reviewId}`, reviewDto)
             .then(response => {
                 alert(response.data.message);
                 if (response.data.message === '리뷰가 성공적으로 수정되었습니다.') {
@@ -90,10 +90,22 @@ updateButtons.forEach(updateButton => {
                     const reviewContent = document.querySelector(`#review${reviewId} .reviewContent p`);
                     reviewContent.textContent = response.data.contents;
 
+                    // 별점 업데이트
+                    const rate = document.querySelectorAll(`#review${reviewId} .ratingStar i`);
+                    rate.forEach((star, index) => {
+                        if (index < rate) {
+                            star.classList.add('fas');
+                            star.classList.remove('far');
+                        } else {
+                            star.classList.add('far');
+                            star.classList.remove('fas');
+                        }
+                    });
                 }
             })
             .catch(error => {
                 if (error.response && error.response.status === 401) {
+                    console.log("로그인이 필요합니다.")
                     alert('로그인이 필요합니다.');
                 } else {
                     console.error('Error:', error);
@@ -113,7 +125,7 @@ deleteButtons.forEach(deleteButton => {
         const accId = this.dataset.accId; // 해당 숙소의 ID
 
         if (confirm('삭제하시겠습니까?')) {
-            fetch(`/accom/detail/delete/${reviewId}`, {
+            fetch(`/user/accom/detail/delete/${reviewId}`, {
                 method: 'POST'
             })
                 .then(response => response.json())
