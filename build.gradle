@@ -36,6 +36,7 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
 	// dependabot settings start
 	implementation 'org.xmlunit:xmlunit-core:2.10.0'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	// dependabot settings end
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

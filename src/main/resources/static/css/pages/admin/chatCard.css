@@ -1,0 +1,16 @@
+.chatCard {
+    border: 1px solid;
+    width: 100%;
+    height: 500px;
+}
+
+.chatCard .chatLog {
+    border: 1px solid;
+    width: auto;
+    height: 400px;
+    margin: 10px;
+}
+
+#message {
+    margin: 10px;
+}

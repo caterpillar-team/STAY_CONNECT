@@ -1,18 +1,19 @@
 package com.caterpillars.StayConnect.service;
 
-import com.caterpillars.StayConnect.model.entities.RoomInfo;
-import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import com.caterpillars.StayConnect.model.entities.RoomInfo;
+import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 
 @Service
 public class RoomInfoService {
 
+    @Autowired
     private RoomInfoRepository roomInfoRepository;
 
-    @Autowired
     public RoomInfoService(RoomInfoRepository roomInfoRepository) {
         this.roomInfoRepository = roomInfoRepository;
     }
