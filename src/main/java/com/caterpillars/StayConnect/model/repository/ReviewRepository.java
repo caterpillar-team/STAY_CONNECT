@@ -1,13 +1,16 @@
 package com.caterpillars.StayConnect.model.repository;
+import com.caterpillars.StayConnect.model.entities.Review;
+import com.caterpillars.StayConnect.model.entities.RoomInfo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.caterpillars.StayConnect.model.entities.Review;
+import java.util.List;
+
 
 @Repository
-public interface ReviewRepository extends JpaRepository <Review, Long>{
-    
+public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    
+    List<Review> findByRoomInfo(RoomInfo roomInfo);
+
 }

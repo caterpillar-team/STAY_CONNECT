@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserSignUpDto {
+
     private String realName;
     private LocalDate birth;
     private Boolean gender;

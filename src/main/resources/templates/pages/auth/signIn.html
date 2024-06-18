@@ -60,30 +60,40 @@
                         </div>
                     </div>
 
-                    <div th:id="kakao_customBtn" th:class="customKPlusSignIn">
-                        <span class="K_icon"></span>
-                        <span class="buttonText">카카오로 시작하기</span>
-                    </div>
-                    <div th:id="naver_customBtn" th:class="customNPlusSignIn">
-                        <span class="N_icon"></span>
-                        <span class="buttonText">네이버로 시작하기</span>
-                    </div>
-                    <div th:id="google_customBtn" th:class="customGPlusSignIn">
-                        <span class="G_icon"></span>
-                        <span class="buttonText">Google로 시작하기</span>
-                    </div>
-                    <hr />
-                    <div class="button-login">
-                        <button type="submit" class="btn btn-light d-grid gap-3 col-12 mx-auto">로그인</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <script>
-            // 로그인 전송 form
-            function submitForm() {
-                document.querySelector('.form-signin').submit(); // 폼 ID를 사용하여 제출
-            }
-        </script>
-    </th:block>
+          <div th:id="kakao_customBtn" th:class="customKPlusSignIn">
+            <span class="K_icon"></span>
+            <a href="/oauth2/authorization/kakao">
+            <span class="buttonText">카카오로 시작하기</span>
+        </a>
+          </div>
+          <div th:id="naver_customBtn" th:class="customNPlusSignIn">
+            <span class="N_icon"></span>
+            <span class="buttonText">네이버로 시작하기</span>
+          </div>
+          <div th:id="google_customBtn" th:class="customGPlusSignIn">
+            <span class="G_icon"></span>
+            <a href="/oauth2/authorization/google">
+            <span class="buttonText"
+              >Google로 시작하기</span
+            ></a>
+          </div>
+          <hr />
+          <div class="button-login">
+            <button
+              type="submit"
+              class="btn btn-light d-grid gap-3 col-12 mx-auto"
+            >
+              로그인
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script>
+      // 로그인 전송 form
+      function submitForm() {
+        document.querySelector('.form-signin').submit(); // 폼 ID를 사용하여 제출
+      }
+    </script>
+  </th:block>
 </html>

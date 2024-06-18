@@ -1,4 +1,4 @@
-package com.caterpillars.StayConnect.component.jwt.provider;
+package com.caterpillars.StayConnect.component.provider;
 
 import java.util.Date;
 import java.util.function.Function;
@@ -28,17 +28,12 @@ public class JWTokenProvider {
 
   private final SecretKey secretKey;
 
-  @Value("${jwt.expiration}")
+  @Value("${JSON_WEB_TOKEN_EXPIRATION_TIME}")
   private int expiration; // 30min 1800000
 
-  public JWTokenProvider(@Value("${jwt.secret}") String JWTokenStringKey) {
+  public JWTokenProvider(@Value("${JSON_WEB_TOKEN_SECRET_KEY}") String JWTokenStringKey) {
     this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(JWTokenStringKey));
   }
-
-  // @PostConstruct
-  // protected void init(@Value("${jwt.secret}") String JWTokenStringKey) {
-  // this.secretKey=Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(JWTokenStringKey));
-  // }
 
   public String generateToken(Authentication authentication) {
     return createToken(authentication);
@@ -77,13 +72,6 @@ public class JWTokenProvider {
     return extractClaim(token, claims -> claims.get("role", String.class));
   }
 
-  // public Authentication getAuthentication(String token) {
-  // String username = extractUsername(token);
-  // User user = authService.loadUserByUsername(username);
-  // return new UsernamePasswordAuthenticationToken(user, "",
-  // user.getAuthorities());
-  // }
-
   private Claims extractAllClaims(String token) {
     return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
   }
@@ -104,21 +92,4 @@ public class JWTokenProvider {
         .signWith(secretKey)
         .compact();
   }
-
-  // @Override
-  // public Authentication authenticate(Authentication authentication) throws
-  // AuthenticationException {
-  // String token = (String) authentication.getCredentials();
-  // if (validateToken(token)) {
-  // return getAuthentication(token);
-  // } else {
-  // throw new BadCredentialsException("Invalid JWT token");
-  // }
-  // }
-
-  // @Override
-  // public boolean supports(Class<?> authentication) {
-  // return
-  // UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
-  // }
 }

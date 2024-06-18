@@ -1,24 +1,24 @@
 span {
-    text-align: start;
+  text-align: start;
 }
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 .signIn-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .signIn-card {
-    margin-top: 15%;
-    margin-bottom: 10%;
-    width: 60%;
-    box-shadow: 1px 1px 2px 1px #b2b2b2;
-    border: #9a9a9a;
+  margin-top: 15%;
+  margin-bottom: 10%;
+  width: 60%;
+  box-shadow: 1px 1px 2px 1px #b2b2b2;
+  border: #9a9a9a;
 }
 .signIn-card > form {
-    margin: 0% 15%;
+  margin: 0% 15%;
 }
 /* .signIn-card .logo_image {
 width: 100px;
@@ -26,34 +26,34 @@ width: 100px;
 /* 아이디 인풋 */
 
 .id {
-    margin: 5% 0;
-    padding: 0;
+  margin: 5% 0;
+  padding: 0;
 }
 
 .id > span {
-    display: block;
-    margin-bottom: 5px;
+  display: block;
+  margin-bottom: 5px;
 }
 .id > input {
-    width: 100%;
-    height: 50px;
-    padding-left: 10px;
+  width: 100%;
+  height: 50px;
+  padding-left: 10px;
 }
 
 /* 비밀번호 인풋 */
 
 .pw {
-    padding: 0;
+  padding: 0;
 }
 
 .pw > span {
-    display: block;
-    margin-bottom: 5px;
+  display: block;
+  margin-bottom: 5px;
 }
 .pw > input {
-    width: 100%;
-    height: 50px;
-    padding-left: 10px;
+  width: 100%;
+  height: 50px;
+  padding-left: 10px;
 }
 
 /* ---------------------------------------- */
@@ -61,149 +61,150 @@ width: 100px;
 /* 아이디 저장여부 및 정보 찾기 */
 
 .id__save {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px 0;
-    white-space: nowrap;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  white-space: nowrap;
 }
 .id__save > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15px;
-    margin-bottom: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 50px;
 }
 /* .id__save > div > input {
 } */
 #save ~ a {
-    font-size: 18px;
+  font-size: 18px;
 }
 .id__save > div > ul {
-    display: flex;
-    margin: 0;
+  display: flex;
+  margin: 0;
 }
 .id__save > div > ul > li {
-    list-style: none;
+  list-style: none;
 }
 .split {
-    font-size: 18px;
-    margin: 0 10px;
+  font-size: 18px;
+  margin: 0 10px;
 }
 .search_id a {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 .search_pw a {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 /* 카카오로 시작하기 */
 #kakao_customBtn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #fee500;
-    color: #191919;
-    border-radius: 12px;
-    padding: 0.5em 1em;
-    margin: 5% 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fee500;
+  color: #191919;
+  border-radius: 12px;
+  padding: 0.5em 1em;
+  margin: 5% 0;
 }
 #kakao_customBtn:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 span.K_icon {
-    background: url('/img/kakao_logo.png');
-    background-size: contain;
-    display: inline-block;
-    vertical-align: middle;
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
+  background: url('/img/kakao_logo.png');
+  background-size: contain;
+  display: inline-block;
+  vertical-align: middle;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
 }
 
 /* 네이버로 시작하기 */
 
 #naver_customBtn {
-    padding: 0.5em 1em;
-    border-radius: 0.25em;
-    font-size: 0.8rem;
-    margin: 5% 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 400;
-    box-shadow: var(--shadow-1);
-    background-color: #03c75a;
-    color: white;
+  padding: 0.5em 1em;
+  border-radius: 0.25em;
+  font-size: 0.8rem;
+  margin: 5% 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  box-shadow: var(--shadow-1);
+  background-color: #03c75a;
+  color: white;
 }
 #naver_customBtn:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 span.N_icon {
-    background: url('/img/naver_logo.png');
-    background-size: contain;
-    display: inline-block;
-    vertical-align: middle;
-    width: 42px;
-    height: 42px;
+  background: url('/img/naver_logo.png');
+  background-size: contain;
+  display: inline-block;
+  vertical-align: middle;
+  width: 42px;
+  height: 42px;
 }
 
 /* 구글로 시작하기 */
 
 #google_customBtn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: white;
-    color: #444;
-    margin: 5% 0;
-    border-radius: 5px;
-    border: thin solid #888;
-    box-shadow: 1px 1px 1px grey;
-    white-space: nowrap;
-    padding: 0.2em 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  color: #444;
+  margin: 5% 0;
+  border-radius: 5px;
+  border: thin solid #888;
+  box-shadow: 1px 1px 1px grey;
+  white-space: nowrap;
+  padding: 0.2em 1em;
 }
 #google_customBtn:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 span.G_icon {
-    background: url('/img/google_logo.png');
-    background-size: contain;
-    display: inline-block;
-    vertical-align: middle;
-    width: 42px;
-    height: 42px;
-    border-radius: 100%;
+  background: url('/img/google_logo.png');
+  background-size: contain;
+  display: inline-block;
+  vertical-align: middle;
+  width: 42px;
+  height: 42px;
+  border-radius: 100%;
 }
 span.buttonText {
-    display: inline-block;
-    vertical-align: middle;
-    padding-left: 42px;
-    padding-right: 42px;
-    font-size: 14px;
-    font-weight: bold;
-    /* Use the Roboto font that is loaded in the <head> */
-    font-family: 'Roboto', sans-serif;
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 42px;
+  padding-right: 42px;
+  font-size: 14px;
+  font-weight: bold;
+  color: black;
+  /* Use the Roboto font that is loaded in the <head> */
+  font-family: 'Roboto', sans-serif;
 }
 
 hr {
-    border: 2px solid #007bff;
-    height: 2px;
-    width: 100%;
-    margin-top: 40px;
-    justify-self: center;
+  border: 2px solid #007bff;
+  height: 2px;
+  width: 100%;
+  margin-top: 40px;
+  justify-self: center;
 }
 
 .button-login {
-    margin: 40px 0 50px;
-    display: flex;
-    justify-content: center;
+  margin: 40px 0 50px;
+  display: flex;
+  justify-content: center;
 }
 
 .button-login > .btn {
-    font-weight: bold;
+  font-weight: bold;
 }

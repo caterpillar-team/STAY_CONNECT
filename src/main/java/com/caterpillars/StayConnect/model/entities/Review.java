@@ -2,10 +2,6 @@ package com.caterpillars.StayConnect.model.entities;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,20 +26,18 @@ public class Review {
   private long id;
 
   @ManyToOne
-  @JoinColumn(name = "user_id")
-  @OnDelete(action = OnDeleteAction.CASCADE)
+  @JoinColumn(name = "user_id",nullable = false)
   private User user;
 
   @ManyToOne
-  @JoinColumn(name = "roomInfo_id")
-  @OnDelete(action = OnDeleteAction.CASCADE)
+  @JoinColumn(name = "roomInfo_id", nullable = false)
   private RoomInfo roomInfo;
 
-  @Column(length = 45)
+  private String title;
+
   private String contents;
 
   private LocalDateTime createdAt;
-  private int rate;
 
-  // Getters and Setters
+  private int rate;
 }
