@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
     @Autowired
@@ -35,8 +37,9 @@ public class UserService {
         return username;
     }
 
-    public Long findById(Long userId) {
-        return userId;
+    public User findById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        return user.orElseThrow();
     }
 }
 
