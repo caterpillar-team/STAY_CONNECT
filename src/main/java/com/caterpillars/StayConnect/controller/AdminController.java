@@ -40,15 +40,6 @@ public class AdminController {
   @Autowired
     private ObjectMapper objectMapper;
 
-  
-  
-
-
-  
-  public AdminController(AuthService authService){
-    this.authService=authService;
-  }
-
   @GetMapping("/home")
   public String getCharts(Model model) throws JsonProcessingException {
     List<Object[]> reservationStats = reservationService.getMonthlyReservationCount();
@@ -62,7 +53,7 @@ public class AdminController {
         model.addAttribute("ageStats", ageStats);
         model.addAttribute("reservationsByRegion", regionStats);
       
-      return "pages/admin/adminHome";
+      return "pages/admin/home";
   }
   
 

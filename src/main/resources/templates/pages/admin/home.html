@@ -14,12 +14,64 @@
     </th:block>
     <th:block layout:fragment="javascript">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+        <script>
+            var stompClient = null;
+
+            function connect() {
+                var socket = new SockJS('/ws');
+                stompClient = Stomp.over(socket); //클라이언트 생성
+                stompClient.connect(
+                    {},
+                    function (frame) {
+                        console.log('Connected: ' + frame);
+                        stompClient.subscribe('/topic/public', function (messageOutput) {
+                            showMessage(JSON.parse(messageOutput.body)); //수신된 메시지를 JSON으로 파싱해서 출력
+                        });
+                    },
+                    function (error) {
+                        console.error('STOMP error', error);
+                    }
+                );
+            }
+
+            function sendMessage() {
+                var messageContent = document.getElementById('myMessage').value;
+                var message = {
+                    admin: { id: 1 },
+                    user: { id: 2 },
+                    contents: messageContent,
+                    createdAt: null,
+                };
+
+                stompClient.send('/app/chat.sendMessage', {}, JSON.stringify(message));
+            }
+
+            function showMessage(inquery) {
+                var chatLog = document.querySelector('.chatLog');
+                var messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.textContent = inquery.user.username + ' : ' + inquery.contents;
+                chatLog.appendChild(messageElement);
+            }
+
+            window.addEventListener('load', function () {
+                connect();
+
+                document.querySelector('#message button').addEventListener('click', function (event) {
+                    event.preventDefault();
+                    sendMessage();
+                    document.getElementById('myMessage').value = '';
+                });
+            });
+        </script>
     </th:block>
 
     <th:block layout:fragment="leftAside">
         <div class="menu">
-            <h3>관리자페이지</h3>
-            <div><a th:href="@{/admin/adminHome}">&nbsp;&nbsp;&nbsp;&nbsp;대시 보드</a></div>
+            <h3>관리자 페이지</h3>
+            <div><a th:href="@{/admin/home}">&nbsp;&nbsp;&nbsp;&nbsp;대시 보드</a></div>
             <div><a th:href="@{/admin/userList}">&nbsp;&nbsp;&nbsp;&nbsp;사용자 리스트</a></div>
             <div><a th:href="@{/admin/reviewList}">&nbsp;&nbsp;&nbsp;&nbsp;리뷰 리스트</a></div>
             <div>
@@ -49,10 +101,7 @@
             <canvas id="ageChart" width="200" height="200"></canvas>
         </div>
 
-        
-
         <script th:inline="javascript">
-
             //====================================================================================
             //월별 예약수
             //====================================================================================
@@ -164,7 +213,6 @@
             //연령별 이용자 수
             //====================================================================================
 
-
             /*<![CDATA[*/
 
             var ageStats = /*[[${ageStats}]]*/ '[]';
@@ -206,8 +254,6 @@
                 });
             });
             /*]]>*/
-
-            
         </script>
     </th:block>
 

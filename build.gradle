@@ -47,6 +47,10 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'com.h2database:h2'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	//json
+	implementation 'com.googlecode.json-simple:json-simple:1.1'
+
 }
 
 tasks.named('test') {

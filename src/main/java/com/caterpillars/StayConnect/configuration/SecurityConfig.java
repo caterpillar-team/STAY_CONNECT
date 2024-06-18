@@ -48,10 +48,11 @@ public class SecurityConfig {
                 http
                                 .csrf((csrf) -> csrf.disable())
                                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-                                                .requestMatchers("/", "/auth/**","/chat/**").permitAll()
+                                                .requestMatchers("/").permitAll()
+                                                .requestMatchers("/auth/**").not().authenticated()
                                                 .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**").permitAll()
                                                 .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                                                .requestMatchers("/admin/**").permitAll()
+                                                .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                                                 .anyRequest().authenticated())
 
                                 .formLogin((formLogin) -> formLogin
