@@ -18,8 +18,6 @@ public class ReviewDto {
     private long reviewId;
     @NotBlank(message = "Username is required")
     private String username;
-    @NotBlank(message = "Title is required")
-    private String title;
     @NotBlank(message = "Contents are required")
     private String contents;
     @Min(value = 1, message = "Rate must be at least 1")
@@ -32,7 +30,6 @@ public class ReviewDto {
     public static ReviewDto Of(Review review) {
         ReviewDto dto = new ReviewDto();
         dto.username = review.getUser().getUsername();
-        dto.title = review.getTitle();
         dto.contents = review.getContents();
         dto.rate = review.getRate();
         dto.createdAt = review.getCreatedAt() != null ? review.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) : null;

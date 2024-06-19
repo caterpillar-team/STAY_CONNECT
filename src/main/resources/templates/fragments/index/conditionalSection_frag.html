@@ -1,169 +1,169 @@
 <section class="conditional-section" th:fragment="conditionalSection">
-  <div class="city-category">
-    <p class="title-1">인기 도시별 추천 숙소</p>
-    <div class="underline1"></div>
-    <div class="city1">
-      <div class="box">
-        <a href="#" id="scrollToBottom">
-          <img th:src="@{/img/city/seoul.jpg}" alt="city" />
-        </a>
-        <p>서울</p>
-      </div>
-      <div class="box">
-        <a href="#" id="scrollToBottom">
-          <img th:src="@{/img/city/busan.jpg}" alt="city" />
-        </a>
-        <p>부산</p>
-      </div>
-      <div class="box">
-        <a href="#" id="scrollToBottom">
-          <img th:src="@{/img/city/jeju.jpg}" alt="city" />
-        </a>
-        <p>제주</p>
-      </div>
-      <div class="box">
-        <a href="#" id="scrollToBottom">
-          <img th:src="@{/img/city/gangwon.jpg}" alt="city" />
-        </a>
-        <p>강원</p>
-      </div>
-      <div class="box">
-        <a href="#" id="scrollToBottom">
-          <img th:src="@{/img/city/daegu.jpg}" alt="city" />
-        </a>
-        <p>대구</p>
-      </div>
-    </div>
-
-    <div class="city2">
-      <div class="box">
-        <a href="#" id="scrollToBottom">
-          <img th:src="@{/img/city/pohang.jpg}" alt="city" />
-        </a>
-        <p>포항</p>
-      </div>
-      <div class="box">
-        <a href="#" id="scrollToBottom">
-          <img th:src="@{/img/city/jeonju.jpg}" alt="city" />
-        </a>
-        <p>전주</p>
-      </div>
-      <div class="box">
-        <a href="#" id="scrollToBottom">
-          <img th:src="@{/img/city/damyang.jpg}" alt="city" />
-        </a>
-        <p>담양</p>
-      </div>
-      <div class="box">
-        <a href="#" id="scrollToBottom">
-          <img th:src="@{/img/city/gyeongju.jpg}" alt="city" />
-        </a>
-        <p>경주</p>
-      </div>
-      <div class="box">
-        <a href="#" id="scrollToBottom">
-          <img th:src="@{/img/city/daejeon.jpg}" alt="city" />
-        </a>
-        <p>대전</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="search">
-    <p class="title-2">조건으로 검색하기</p>
-    <div class="underline2"></div>
-    <form>
-      <div>
-        <!-- 숙소검색 -->
-        <div class="input-group">
-          <span class="input-group-text material-symbols-outlined">search</span>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="이름 검색하기"
-            aria-label="Room search"
-          />
+    <div class="city-category">
+        <p class="title-1">인기 도시별 추천 숙소</p>
+        <div class="underline1"></div>
+        <div class="city1">
+            <div class="box">
+                <a href="#" id="scrollToBottom">
+                    <img alt="city" th:src="@{/img/city/seoul.jpg}"/>
+                </a>
+                <p>서울</p>
+            </div>
+            <div class="box">
+                <a href="#" id="scrollToBottom">
+                    <img alt="city" th:src="@{/img/city/busan.jpg}"/>
+                </a>
+                <p>부산</p>
+            </div>
+            <div class="box">
+                <a href="#" id="scrollToBottom">
+                    <img alt="city" th:src="@{/img/city/jeju.jpg}"/>
+                </a>
+                <p>제주</p>
+            </div>
+            <div class="box">
+                <a href="#" id="scrollToBottom">
+                    <img alt="city" th:src="@{/img/city/gangwon.jpg}"/>
+                </a>
+                <p>강원</p>
+            </div>
+            <div class="box">
+                <a href="#" id="scrollToBottom">
+                    <img alt="city" th:src="@{/img/city/daegu.jpg}"/>
+                </a>
+                <p>대구</p>
+            </div>
         </div>
-        <!-- 날짜검색 -->
-        <div class="input-group">
+
+        <div class="city2">
+            <div class="box">
+                <a href="#" id="scrollToBottom">
+                    <img alt="city" th:src="@{/img/city/pohang.jpg}"/>
+                </a>
+                <p>포항</p>
+            </div>
+            <div class="box">
+                <a href="#" id="scrollToBottom">
+                    <img alt="city" th:src="@{/img/city/jeonju.jpg}"/>
+                </a>
+                <p>전주</p>
+            </div>
+            <div class="box">
+                <a href="#" id="scrollToBottom">
+                    <img alt="city" th:src="@{/img/city/damyang.jpg}"/>
+                </a>
+                <p>담양</p>
+            </div>
+            <div class="box">
+                <a href="#" id="scrollToBottom">
+                    <img alt="city" th:src="@{/img/city/gyeongju.jpg}"/>
+                </a>
+                <p>경주</p>
+            </div>
+            <div class="box">
+                <a href="#" id="scrollToBottom">
+                    <img alt="city" th:src="@{/img/city/daejeon.jpg}"/>
+                </a>
+                <p>대전</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="search">
+        <p class="title-2">조건으로 검색하기</p>
+        <div class="underline2"></div>
+        <form>
+            <div>
+                <!-- 숙소검색 -->
+                <div class="input-group">
+                    <span class="input-group-text material-symbols-outlined">search</span>
+                    <input
+                            aria-label="Room search"
+                            class="form-control"
+                            placeholder="이름 검색하기"
+                            type="text"
+                    />
+                </div>
+                <!-- 날짜검색 -->
+                <div class="input-group">
           <span class="input-group-text material-symbols-outlined"
-            >event_available</span
+          >event_available</span
           >
-          <input type="date" class="form-control" aria-label="Date picker" />
+                    <input aria-label="Date picker" class="form-control" type="date"/>
+                </div>
+                <!-- 인원 -->
+                <div class="input-group">
+                    <span class="input-group-text material-symbols-outlined">group</span>
+                    <select
+                            aria-label="People select"
+                            class="form-select"
+                            id="inputGroupSelect01"
+                    >
+                        <option selected>인원 선택</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+                <!-- 버튼 -->
+                <button class="btn btn-primary" type="button">조회하기</button>
+            </div>
+        </form>
+    </div>
+    <div class="hotels">
+        <div class="card">
+            <img src="https://placehold.co/300"/>
+            <a href="http://localhost:8080/user/accom/detail/1">
+                <p>ㅇㅇ호텔</p>
+                <p>47000원</p>
+            </a>
         </div>
-        <!-- 인원 -->
-        <div class="input-group">
-          <span class="input-group-text material-symbols-outlined">group</span>
-          <select
-            class="form-select"
-            id="inputGroupSelect01"
-            aria-label="People select"
-          >
-            <option selected>인원 선택</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-          </select>
+
+        <div class="card">
+            <img src="https://placehold.co/300"/>
+            <a href="http://localhost:8080/user/accom/detail/2">
+                <p>ㅇㅇ호텔</p>
+                <p>47000원</p>
+            </a>
         </div>
-        <!-- 버튼 -->
-        <button type="button" class="btn btn-primary">조회하기</button>
-      </div>
-    </form>
-  </div>
-  <div class="hotels">
-    <div class="card">
-      <img src="https://placehold.co/300" />
-      <a href="http://localhost:8080/user/accom/detail/1">
-        <p>ㅇㅇ호텔</p>
-        <p>47000원</p>
-      </a>
-    </div>
 
-    <div class="card">
-      <img src="https://placehold.co/300" />
-      <a href="#">
-        <p>ㅇㅇ호텔</p>
-        <p>47000원</p>
-      </a>
-    </div>
+        <div class="card">
+            <img src="https://placehold.co/300"/>
+            <a href="http://localhost:8080/user/accom/detail/3">
+                <p>ㅇㅇ호텔</p>
+                <p>47000원</p>
+            </a>
+        </div>
 
-    <div class="card">
-      <img src="https://placehold.co/300" />
-      <a href="#">
-        <p>ㅇㅇ호텔</p>
-        <p>47000원</p>
-      </a>
-    </div>
+        <div class="card">
+            <img src="https://placehold.co/300"/>
+            <a href="#">
+                <p>ㅇㅇ호텔</p>
+                <p>47000원</p>
+            </a>
+        </div>
 
-    <div class="card">
-      <img src="https://placehold.co/300" />
-      <a href="#">
-        <p>ㅇㅇ호텔</p>
-        <p>47000원</p>
-      </a>
-    </div>
+        <div class="card">
+            <img src="https://placehold.co/300"/>
+            <a href="#">
+                <p>ㅇㅇ호텔</p>
+                <p>47000원</p>
+            </a>
+        </div>
 
-    <div class="card">
-      <img src="https://placehold.co/300" />
-      <a href="#">
-        <p>ㅇㅇ호텔</p>
-        <p>47000원</p>
-      </a>
+        <div class="card">
+            <img src="https://placehold.co/300"/>
+            <a href="#">
+                <p>ㅇㅇ호텔</p>
+                <p>47000원</p>
+            </a>
+        </div>
     </div>
-
-    <div class="card">
-      <img src="https://placehold.co/300" />
-      <a href="#">
-        <p>ㅇㅇ호텔</p>
-        <p>47000원</p>
-      </a>
-    </div>
-  </div>
 </section>

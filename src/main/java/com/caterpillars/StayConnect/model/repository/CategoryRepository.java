@@ -1,13 +1,13 @@
 package com.caterpillars.StayConnect.model.repository;
 
-import java.util.Optional;
-
+import com.caterpillars.StayConnect.model.entities.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.caterpillars.StayConnect.model.entities.Category;
+import java.util.Optional;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-  Optional<Category> findByName(String name);
+    Optional<Category> findByName(String name);
+
 }

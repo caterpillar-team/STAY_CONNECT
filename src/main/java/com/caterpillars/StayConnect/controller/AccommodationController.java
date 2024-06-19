@@ -1,7 +1,13 @@
 package com.caterpillars.StayConnect.controller;
 
-import java.util.List;
-
+import com.caterpillars.StayConnect.model.dto.ReviewDto;
+import com.caterpillars.StayConnect.model.entities.Accommodation;
+import com.caterpillars.StayConnect.model.entities.Review;
+import com.caterpillars.StayConnect.model.entities.RoomInfo;
+import com.caterpillars.StayConnect.service.ReviewService;
+import com.caterpillars.StayConnect.service.RoomInfoService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,16 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.caterpillars.StayConnect.model.dto.ReviewDto;
-import com.caterpillars.StayConnect.model.entities.Accommodation;
-import com.caterpillars.StayConnect.model.entities.Review;
-import com.caterpillars.StayConnect.model.entities.RoomInfo;
-import com.caterpillars.StayConnect.model.repository.ReviewRepository;
-import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
-import com.caterpillars.StayConnect.service.ReviewService;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -29,9 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AccommodationController {
 
     @Autowired
-    private RoomInfoRepository roomInfoRepository;
-    @Autowired
-    private ReviewRepository reviewRepository;
+    private RoomInfoService roomInfoService;
     @Autowired
     private ReviewService reviewService;
 
@@ -39,7 +34,7 @@ public class AccommodationController {
     public String accom_detail(@PathVariable("accId") long accId, Model model) {
         log.info("/detail/" + accId + " accId 실행");
         // accommodationId로 RoomInfo 리스트를 조회
-        List<RoomInfo> result = roomInfoRepository.findByAccommodationId(accId);
+        List<RoomInfo> result = roomInfoService.findByAccommodationId(accId);
         log.info("DTO: " + result);
 
         // 조회 결과가 비어있지 않은지 확인
@@ -53,14 +48,15 @@ public class AccommodationController {
 
             if (roomInfo.getAccommodation() != null) {
                 // 해당 객실에 대한 리뷰 정보 조회
-                List<Review> reviews = reviewRepository.findByRoomInfo(roomInfo);
+                List<Review> reviews = reviewService.findByRoomInfo(roomInfo);
                 // 평균 평점 계산
                 double averageRating = reviewService.calculateAverageRating(reviews);
                 // 해당 숙소에 속하는 모든 객실 정보 조회
-                List<RoomInfo> accoms = roomInfoRepository.findByAccommodation(accommodation);
+                List<RoomInfo> roomInfos = roomInfoService.findByAccommodation(accommodation);
 
-                // 모델에 필요한 정보 추가
-                model.addAttribute("accom", roomInfo);
+                // 모델에 필요한 정보 추가\
+                model.addAttribute("roomInfos", roomInfos);
+                model.addAttribute("accommodation", accommodation);
                 model.addAttribute("reviews", reviews);
                 model.addAttribute("averageRating", averageRating);
 
@@ -71,7 +67,7 @@ public class AccommodationController {
                 model.addAttribute("reviewDto", new ReviewDto());
 
                 System.out.println("Number of reviews found: " + reviews.size());
-                return "pages/accommodation/detail";
+                return "pages/user/accommodation/detail";
             } else {
                 return "redirect:/error";
             }

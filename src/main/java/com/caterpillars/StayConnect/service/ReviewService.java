@@ -1,24 +1,23 @@
 package com.caterpillars.StayConnect.service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.caterpillars.StayConnect.model.dto.ReviewDto;
 import com.caterpillars.StayConnect.model.entities.Review;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
+import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,8 +27,8 @@ public class ReviewService {
     @Autowired
     private UserRepository userRepository;
 
-    // @Autowired
-    // private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private RoomInfoRepository roomInfoRepository;
 
     @Autowired
     private ReviewRepository reviewRepository;
@@ -58,7 +57,6 @@ public class ReviewService {
 
         Review review = new Review();
         getReviewDto(dto.getReviewId());
-        review.setTitle(dto.getTitle());
         review.setContents(dto.getContents());
         review.setRate(dto.getRate());
         review.setCreatedAt(dto.getCreatedAt() != null ? LocalDateTime.parse(dto.getCreatedAt()) : LocalDateTime.now());
@@ -80,8 +78,8 @@ public class ReviewService {
             // 리뷰id를 DTO에 설정
             dto.setReviewId(review.getId());
             log.info(
-                    "Saving review: Review(id={}, user={}, roomInfo={}, accommodationId={}, title={}, contents={}, createdAt={}, rate={})",
-                    review.getId(), username, roomId, accId, review.getTitle(), review.getContents(),
+                    "Saving review: Review(id={}, user={}, roomInfo={}, accommodationId={}, contents={}, createdAt={}, rate={})",
+                    review.getId(), username, roomId, accId, review.getContents(),
                     formattedCreatedAt, review.getRate());
 
         } catch (Exception e) {
@@ -92,6 +90,7 @@ public class ReviewService {
         return review != null && reviewRepository.existsById(review.getId());
     }
 
+    // 리뷰 수정
     @Transactional
     public void updateReview(ReviewDto reviewDto) {
         Review review = reviewRepository.findById(reviewDto.getReviewId())
@@ -129,4 +128,12 @@ public class ReviewService {
         }
     }
 
+    public List<Review> findByRoomInfo(RoomInfo roomInfo) {
+        return reviewRepository.findByRoomInfo(roomInfo);
+    }
+
+    public RoomInfo findRoomInfoById(long roomInfoId) {
+        return roomInfoRepository.findById(roomInfoId)
+                .orElse(null);
+    }
 }

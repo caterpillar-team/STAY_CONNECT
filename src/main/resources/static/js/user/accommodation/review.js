@@ -1,7 +1,31 @@
+// 별점
+document.addEventListener("DOMContentLoaded", function () {
+    const stars = document.querySelectorAll(".reviewInputRatingStar");
+    const ratingInput = document.getElementById("ratingInput");
+
+    stars.forEach(star => {
+        star.addEventListener("click", function () {
+            const starIndex = parseInt(this.getAttribute('data-star')) - 1; // 별점 값 계산
+            ratingInput.value = starIndex + 1;
+
+            stars.forEach((s, index) => {
+                if (index <= starIndex) {
+                    s.classList.remove("far");
+                    s.classList.add("fas");
+                } else {
+                    s.classList.remove("fas");
+                    s.classList.add("far");
+                }
+            });
+        });
+    });
+});
+
 const messageEl = document.querySelector('.message');
 console.log(messageEl);
-if (messageEl !== null && messageEl.innerHTML !== "")
-    alert(messageEl);
+if (messageEl !== null && messageEl.innerHTML !== "") {
+    alert(messageEl.innerHTML);
+}
 
 // 모든 수정 버튼 선택
 const editButtons = document.querySelectorAll('.editButtoneditButton');
@@ -10,7 +34,7 @@ editButtons.forEach(edit => {
 
     edit.addEventListener('click', function () {
 
-        const accId = edit.getAttribute('data-accomid');
+        const accId = edit.getAttribute('data-accid');
         const reviewId = edit.getAttribute('data-reviewid');
 
         const reviewActionsNode = edit.parentNode;
@@ -27,9 +51,9 @@ editButtons.forEach(edit => {
     })
 });
 
-
-function updateReview(accid, reviewid, el) {
-    console.log(accid, reviewid)
+// 리뷰 수정
+function updateReview(accommodationId, accommodationId, el) {
+    console.log(accommodationId, accommodationId)
     console.log(el);
     const parentNode = el.parentNode;
 
@@ -38,15 +62,43 @@ function updateReview(accid, reviewid, el) {
 
 }
 
-//     = "editButton"
-//     method = "post"
-//     onsubmit = "return false"
-//     th:action = "@{/accom/detail/{accId}/update/{reviewId}(accId=${accom.id}, reviewId=${review.id})}" >
-//         < button
-//     type = "submit" > 수정 < /button>
-// </form>
-//@{/accom/detail/{accId}/update/{reviewId}(accId=${accom.id}, reviewId=${review.id})}
+// 별점 수정
+const starsEdit = [...document.getElementsByClassName("reviewInputRatingStarEdit")];
 
+// const reviewInputRatingResultEdit = document.getElementById("ratingResultEdit");
+
+function rateEdit(starElement, reviewId, starNumber) {
+    const starClassActive = "reviewInputRatingStarEdit fas fa-star";
+    const starClassInactive = "reviewInputRatingStarEdit far fa-star";
+    const starsEdit = document.querySelectorAll(`.reviewInputRatingStarEdit${reviewId}`);
+
+    starsEdit.forEach((star, index) => {
+        if (index < starNumber) {
+            star.classList.remove("far");
+            star.classList.add("fas");
+        } else {
+            star.classList.remove("fas");
+            star.classList.add("far");
+        }
+    });
+
+    const ratingInputEdit = document.getElementById(`ratingInputEdit${reviewId}`);
+    if (!ratingInputEdit) {
+        console.error(`Rating input element not found for review ID ${reviewId}`);
+        return;
+    }
+
+    ratingInputEdit.value = starNumber; // 클릭한 별점 값을 input에 설정
+    console.log(`Rating input value for review ID ${reviewId}: ${ratingInputEdit.value}`);
+
+    // 별점 결과 업데이트
+    const ratingResultEdit = document.getElementById(`ratingResultEdit${reviewId}`);
+    printRatingResultEdit(ratingResultEdit, starNumber);
+}
+
+function printRatingResultEdit(resultElement, num = 0) {
+    resultElement.textContent = `${num}/5`;
+}
 
 // 수정 버튼마다 클릭 이벤트 처리
 editButtons.forEach(editButton => {
@@ -69,8 +121,17 @@ updateButtons.forEach(updateButton => {
         event.preventDefault();
 
         const reviewId = this.dataset.reviewId; // 수정할 리뷰의 ID
+        console.log(`Update button clicked for review ID ${reviewId}`);
+
         const contents = document.querySelector(`#editForm${reviewId} textarea[name="contents"]`).value;
-        const rate = parseInt(document.querySelector(`#editForm${reviewId} input[name="rateEdit"]`).value);
+        if (contents) {
+            console.log(`Contents for review ID ${reviewId}: ${contents.value}`);
+        } else {
+            console.error(`Textarea contents for review ID ${reviewId} not found.`);
+        }
+
+        const rate = document.getElementById(`ratingInputEdit${reviewId}`).value;
+        console.log(`Rating input value for review ID ${reviewId}: ${rate}`);
 
         const reviewDto = {
             id: reviewId,
@@ -78,8 +139,11 @@ updateButtons.forEach(updateButton => {
             rate: rate
         };
 
+        console.log(`Review DTO for review ID ${reviewId}:`, reviewDto);
+
         axios.post(`/user/accom/detail/update/${reviewId}`, reviewDto)
             .then(response => {
+                console.log(`Update response for review ID ${reviewId}:`, response.data);
                 alert(response.data.message);
                 if (response.data.message === '리뷰가 성공적으로 수정되었습니다.') {
                     // 성공적으로 수정된 경우, 수정 폼 숨기기
@@ -89,18 +153,28 @@ updateButtons.forEach(updateButton => {
                     // 수정된 리뷰 내용 업데이트
                     const reviewContent = document.querySelector(`#review${reviewId} .reviewContent p`);
                     reviewContent.textContent = response.data.contents;
+                    console.log(`Review content updated for review ID ${reviewId}`);
 
-                    // 별점 업데이트
-                    const rate = document.querySelectorAll(`#review${reviewId} .ratingStar i`);
-                    rate.forEach((star, index) => {
-                        if (index < rate) {
-                            star.classList.add('fas');
-                            star.classList.remove('far');
+                    // 별점 UI 업데이트
+                    const newRate = response.data.rate;
+                    const starsEdit = document.querySelectorAll(`#review${reviewId} .reviewInputRatingStarEdit`);
+                    starsEdit.forEach((star, index) => {
+                        if (index < newRate) {
+                            star.classList.remove("far");
+                            star.classList.add("fas");
                         } else {
-                            star.classList.add('far');
-                            star.classList.remove('fas');
+                            star.classList.remove("fas");
+                            star.classList.add("far");
                         }
                     });
+                    console.log(`Star UI updated for review ID ${reviewId}`);
+
+                    const ratingResult = document.getElementById(`ratingResult${reviewId}`);
+                    if (ratingResult) {
+                        printRatingResultEdit(ratingResult, newRate);
+                    } else {
+                        console.error("Rating Result element not found");
+                    }
                 }
             })
             .catch(error => {
@@ -113,7 +187,6 @@ updateButtons.forEach(updateButton => {
             });
     });
 });
-
 
 // 리뷰 삭제 버튼 이벤트
 const deleteButtons = document.querySelectorAll('.deleteButton');

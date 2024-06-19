@@ -1,10 +1,10 @@
 package com.caterpillars.StayConnect.model.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,11 +12,14 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-public class AccommodationGrade {
+public class Grade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String grade;
+
+    @OneToMany(mappedBy = "grade")
+    private List<Accommodation> accommodation = new ArrayList<>();
 }

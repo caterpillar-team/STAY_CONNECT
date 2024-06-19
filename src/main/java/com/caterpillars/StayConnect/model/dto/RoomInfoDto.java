@@ -1,4 +1,5 @@
 package com.caterpillars.StayConnect.model.dto;
+
 import com.caterpillars.StayConnect.model.entities.Accommodation;
 import groovy.util.logging.Slf4j;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class RoomInfoDto {
 
     private long accId;
+    private String grade;
     private Accommodation accommodation;
     private String name;
     private String roomType;
