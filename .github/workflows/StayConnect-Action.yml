@@ -85,7 +85,6 @@ jobs:
         run: ./gradlew test --no-daemon
 
       - name: Deploy to AWS EC2 via SSH
-        if: github.ref == 'refs/heads/develop'
         env:
           EC2_USER: ${{ secrets.EC2_USER }}
           EC2_HOST: ${{ secrets.EC2_HOST }}
