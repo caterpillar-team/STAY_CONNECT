@@ -73,17 +73,23 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build -Dspring.profiles.active=prod -x test
 
+      - name: Convert repository owner to lowercase
+        id: to-lowercase
+        run: echo "::set-output name=repo_owner::$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')"
+
       - name: Log in to GitHub Container Registry
-        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ steps.to-lowercase.outputs.repo_owner }} --password-stdin
 
       - name: Build Docker image
         run: docker-compose -f ./docker/docker-compose-prod.yml build
 
       - name: Tag Docker image
-        run: docker tag stay_connect_app:latest ghcr.io/${{ github.repository_owner }}/stay_connect_app:latest
+        run: docker tag mysql:8.3 ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/mysql:8.3
 
       - name: Push Docker image to GHCR
-        run: docker push ghcr.io/${{ github.repository_owner }}/stay_connect_app:latest
+        run: |
+          docker push ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/stay_connect_app:latest
+          docker push ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/mysql:8.3
 
   dependency-submission:
     runs-on: ubuntu-latest
