@@ -81,7 +81,7 @@ jobs:
         run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ steps.to-lowercase.outputs.repo_owner }} --password-stdin
 
       - name: Build Docker image
-        run: docker-compose -f ./docker/docker-compose-prod.yml up --build
+        run: docker-compose -f ./docker/docker-compose-prod.yml build
 
       - name: Tag Docker image
         run: docker tag mysql:8.3 ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/mysql:8.3
