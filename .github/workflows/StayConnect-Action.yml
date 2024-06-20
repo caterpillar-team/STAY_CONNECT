@@ -6,27 +6,27 @@ on:
   pull_request:
     branches: [main, develop]
 
+env:
+  SERVER_PORT: ${{ secrets.SERVER_PORT }}
+  JSON_WEB_TOKEN_EXPIRATION_TIME: ${{ secrets.JSON_WEB_TOKEN_EXPIRATION_TIME }}
+  JSON_WEB_TOKEN_SECRET_KEY: ${{ secrets.JSON_WEB_TOKEN_SECRET_KEY }}
+  MYSQL_SERVER_URL: ${{ secrets.MYSQL_SERVER_URL }}
+  MYSQL_SERVER_USERNAME: ${{ secrets.MYSQL_SERVER_USERNAME }}
+  MYSQL_SERVER_PASSWORD: ${{ secrets.MYSQL_SERVER_PASSWORD }}
+  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+  GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+  BASE_URL: ${{ secrets.BASE_URL }}
+  KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
+  KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+  PRODUCTION_MYSQL_URL: ${{ secrets.PRODUCTION_MYSQL_URL }}
+  PRODUCTION_MYSQL_ROOT_PASSWORD: ${{ secrets.PRODUCTION_MYSQL_ROOT_PASSWORD }}
+  PRODUCTION_MYSQL_DATABASE: ${{ secrets.PRODUCTION_MYSQL_DATABASE }}
+  PRODUCTION_MYSQL_USERNAME: ${{ secrets.PRODUCTION_MYSQL_USERNAME }}
+  PRODUCTION_MYSQL_PASSWORD: ${{ secrets.PRODUCTION_MYSQL_PASSWORD }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    env:
-      SERVER_PORT: ${{ secrets.SERVER_PORT }}
-      JSON_WEB_TOKEN_EXPIRATION_TIME: ${{ secrets.JSON_WEB_TOKEN_EXPIRATION_TIME }}
-      JSON_WEB_TOKEN_SECRET_KEY: ${{ secrets.JSON_WEB_TOKEN_SECRET_KEY }}
-      MYSQL_SERVER_URL: ${{ secrets.MYSQL_SERVER_URL }}
-      MYSQL_SERVER_USERNAME: ${{ secrets.MYSQL_SERVER_USERNAME }}
-      MYSQL_SERVER_PASSWORD: ${{ secrets.MYSQL_SERVER_PASSWORD }}
-      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-      BASE_URL: ${{ secrets.BASE_URL }}
-      KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
-      KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
-      PRODUCTION_MYSQL_URL: ${{ secrets.PRODUCTION_MYSQL_URL }}
-      PRODUCTION_MYSQL_ROOT_PASSWORD: ${{ secrets.PRODUCTION_MYSQL_ROOT_PASSWORD }}
-      PRODUCTION_MYSQL_DATABASE: ${{ secrets.PRODUCTION_MYSQL_DATABASE }}
-      PRODUCTION_MYSQL_USERNAME: ${{ secrets.PRODUCTION_MYSQL_USERNAME }}
-      PRODUCTION_MYSQL_PASSWORD: ${{ secrets.PRODUCTION_MYSQL_PASSWORD }}
 
     steps:
       - name: Checkout repository
@@ -37,25 +37,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-
-      - name: Create environment variables file
-        run: |
-          echo "SERVER_PORT=${{ secrets.SERVER_PORT }}" >> .env
-          echo "JSON_WEB_TOKEN_EXPIRATION_TIME=${{ secrets.JSON_WEB_TOKEN_EXPIRATION_TIME }}" >> .env
-          echo "JSON_WEB_TOKEN_SECRET_KEY=${{ secrets.JSON_WEB_TOKEN_SECRET_KEY }}" >> .env
-          echo "MYSQL_SERVER_URL=${{ secrets.MYSQL_SERVER_URL }}" >> .env
-          echo "MYSQL_SERVER_USERNAME=${{ secrets.MYSQL_SERVER_USERNAME }}" >> .env
-          echo "MYSQL_SERVER_PASSWORD=${{ secrets.MYSQL_SERVER_PASSWORD }}" >> .env
-          echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
-          echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
-          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
-          echo "KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}" >> .env
-          echo "KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}" >> .env
-          echo "KAKAO_CLIENT_SECRET=${{ secrets.PRODUCTION_MYSQL_URL }}" >> .env
-          echo "KAKAO_CLIENT_SECRET=${{ secrets.PRODUCTION_MYSQL_ROOT_PASSWORD }}" >> .env
-          echo "KAKAO_CLIENT_SECRET=${{ secrets.PRODUCTION_MYSQL_DATABASE }}" >> .env
-          echo "KAKAO_CLIENT_SECRET=${{ secrets.PRODUCTION_MYSQL_USERNAME }}" >> .env
-          echo "KAKAO_CLIENT_SECRET=${{ secrets.PRODUCTION_MYSQL_PASSWORD }}" >> .env
 
       - name: Cache Gradle packages
         uses: actions/cache@v4
