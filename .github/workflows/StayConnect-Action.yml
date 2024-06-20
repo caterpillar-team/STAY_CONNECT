@@ -38,6 +38,25 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Create environment variables file
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
+          echo "SERVER_PORT=${{ secrets.SERVER_PORT }}" >> .env
+          echo "JSON_WEB_TOKEN_SECRET_KEY=${{ secrets.JSON_WEB_TOKEN_SECRET_KEY }}" >> .env
+          echo "JSON_WEB_TOKEN_EXPIRATION_TIME=${{ secrets.JSON_WEB_TOKEN_EXPIRATION_TIME }}" >> .env
+          echo "MYSQL_SERVER_URL=${{ secrets.MYSQL_SERVER_URL }}" >> .env
+          echo "MYSQL_SERVER_USERNAME=${{ secrets.MYSQL_SERVER_USERNAME }}" >> .env
+          echo "MYSQL_SERVER_PASSWORD=${{ secrets.MYSQL_SERVER_PASSWORD }}" >> .env
+          echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
+          echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
+          echo "KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}" >> .env
+          echo "KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}" >> .env
+          echo "PRODUCTION_MYSQL_URL=${{ secrets.PRODUCTION_MYSQL_URL }}" >> .env
+          echo "KAKAO_CLIENT_SECRET=${{ secrets.PRODUCTION_MYSQL_ROOT_PASSWORD }}" >> .env
+          echo "PRODUCTION_MYSQL_DATABASE=${{ secrets.PRODUCTION_MYSQL_DATABASE }}" >> .env
+          echo "PRODUCTION_MYSQL_USERNAME=${{ secrets.PRODUCTION_MYSQL_USERNAME }}" >> .env
+          echo "PRODUCTION_MYSQL_PASSWORD=${{ secrets.PRODUCTION_MYSQL_PASSWORD }}" >> .env
+
       - name: Cache Gradle packages
         uses: actions/cache@v4
         with:
