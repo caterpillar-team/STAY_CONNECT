@@ -1,95 +1,98 @@
 package com.caterpillars.StayConnect.controller;
 
-import java.util.Arrays;
-import java.util.Optional;
-
+import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
+import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.model.repository.UserRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
-import com.caterpillars.StayConnect.model.entities.User;
-import com.caterpillars.StayConnect.model.repository.UserRepository;
-
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Arrays;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
 @Slf4j
 public class UserController {
 
-  // @Autowired
-  // private UserService userService;
+    // @Autowired
+    // private UserService userService;
 
-  @Autowired
-  private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-  @Autowired
-  private JWTokenProvider jwTokenProvider;
+    @Autowired
+    private JWTokenProvider jwTokenProvider;
 
-  @Autowired
-  private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-  @GetMapping("/myPage")
-  public String editUser(Model model, HttpServletRequest request, Authentication authentication) {
+    @GetMapping("/myPage")
+    public String editUser(Model model, HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String token = null;
+        if (cookies != null) {
+            token = Arrays.stream(cookies)
+                    .filter(cookie -> "jwt".equals(cookie.getName()))
+                    .map(Cookie::getValue)
+                    .findAny()
+                    .orElse(null);
+        }
+        log.info("token: " + token);
 
-    Cookie[] cookies = request.getCookies();
-    String token = null;
-    if (cookies != null) {
-      token = Arrays.stream(cookies)
-          .filter(cookie -> "jwt".equals(cookie.getName()))
-          .map(Cookie::getValue)
-          .findAny()
-          .orElse(null);
+        String username = jwTokenProvider.extractUsername(token);
+
+        Optional<User> result = userRepository.findByUsername(username);
+
+        if (result.isPresent()) {
+            model.addAttribute("edit", result.get());
+        } else {
+            model.addAttribute("edit", new User()); // 빈 객체 추가
+        }
+
+        return "pages/user/myPage";
     }
-    log.info("token" + token);
 
-    System.out.println("token : " + token);
-    String username = jwTokenProvider.extractUsername(token);
-    System.out.println("username : " + username);
+    @PostMapping("/myPage")
+    public String editUserInfo(HttpServletRequest request, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUser = authentication.getName();
+        Optional<User> optionalUser = userRepository.findByUsername(currentUser);
 
-    Optional<User> result = userRepository.findByUsername(username);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
 
-    if (result.isPresent()) {
-      model.addAttribute("edit", result.get());
-    } else {
-      model.addAttribute("edit", new User()); // 빈 객체 추가
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String repassword = request.getParameter("repassword");
+            String phoneNumber = request.getParameter("phoneNumber");
+            String email = request.getParameter("email");
+
+            user.setUsername(username);
+
+            // 비밀번호가 입력되었고 두 비밀번호가 일치하는 경우에만 비밀번호 변경
+            if (password != null && !password.isEmpty() && password.equals(repassword)) {
+                user.setPassword(passwordEncoder.encode(password));
+            }
+
+            user.setPhoneNumber(phoneNumber);
+            user.setEmail(email);
+
+            userRepository.save(user);
+
+            return "redirect:/user/myPage";
+        } else {
+            model.addAttribute("error", "잘못된 접근입니다.");
+            return "pages/user/myPage";
+        }
     }
-
-    // UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-    // String user = userService.findUser(userDetails.getUsername());
-    // model.addAttribute("user", user);
-    return "pages/user/myPage";
-  }
-
-  @PostMapping("/myPage")
-  public String editUserInfo(String username, String password, String phoneNumber, String email) {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String currentUser = authentication.getName();
-    Optional<User> optionalUser = userRepository.findByUsername(currentUser);
-    if (optionalUser.isPresent()) {
-      User user = optionalUser.get();
-      user.setUsername(username);
-      user.setPassword(passwordEncoder.encode(password));
-      user.setPhoneNumber(phoneNumber);
-      user.setEmail(email);
-
-      userRepository.save(user);
-
-      return "redirect:/";
-
-    } else {
-
-      return "errorPage";
-    }
-  }
-
 }

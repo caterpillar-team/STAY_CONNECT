@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html
-    lang="en"
-    xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
 >
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" th:href="@{/css/common/footer.css}" />
     <link rel="stylesheet" th:href="@{/css/common/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/pages/user/userChat.css}" />
     <link rel="stylesheet" th:href="@{/css/layouts/layout.css}" />
     <link rel="stylesheet" th:href="@{/lib/bootstrap/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/lib/googleapis/fonts.css}" />
     <script th:src="@{/lib/bootstrap/bootstrap.min.js}"></script>
     <script th:src="@{/lib/ajax/popper.min.js}"></script>
     <script th:src="@{/lib/jquery/jquery.min.js}"></script>
-    <th:block layout:fragment="title"></th:block> <!-- title -->
-    <th:block layout:fragment="css"></th:block> <!-- css -->
-    <th:block layout:fragment="javascript"></th:block> <!-- javascript -->
+    <th:block layout:fragment="title"></th:block>
+    <!-- title -->
+    <th:block layout:fragment="css"></th:block>
+    <!-- css -->
+    <th:block layout:fragment="javascript"></th:block>
+    <!-- javascript -->
   </head>
   <body>
     <div class="layoutContainer">
