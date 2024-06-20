@@ -81,6 +81,9 @@ jobs:
         run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ steps.to-lowercase.outputs.repo_owner }} --password-stdin
 
       - name: Build Docker image
+        run: docker-compose -f ./docker/docker-compose-prod.yml build
+
+      - name: pull Docker image
         run: docker-compose -f ./docker/docker-compose-prod.yml pull
 
       - name: Tag Docker image
