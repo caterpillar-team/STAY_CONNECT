@@ -1,0 +1,50 @@
+services:
+  db:
+    image: mysql:8.3
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PRODUCTION_MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${PRODUCTION_MYSQL_DATABASE}
+      MYSQL_USER: ${PRODUCTION_MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${PRODUCTION_MYSQL_PASSWORD}
+      TZ: Asia/Seoul
+    command:
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
+    healthcheck:
+      test: ['CMD-SHELL', 'mysqladmin ping -h localhost']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - ../mysql/data:/var/lib/mysql
+      - ../mysql/init:/docker-entrypoint-initdb.d
+    ports:
+      - '33007:3306'
+    networks:
+      - app-network
+    env_file:
+      - ../.env
+
+  app:
+    build:
+      context: ../ # 프로젝트 루트 디렉토리를 빌드 컨텍스트로 지정
+      dockerfile: docker/Dockerfile
+    container_name: spring-boot-container
+    ports:
+      - '80:8080'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/${PRODUCTION_MYSQL_DATABASE}
+      SPRING_DATASOURCE_USERNAME: ${PRODUCTION_MYSQL_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${PRODUCTION_MYSQL_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+    env_file:
+      - ../.env
+
+networks:
+  app-network:
+    driver: bridge

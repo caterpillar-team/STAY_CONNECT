@@ -43,7 +43,7 @@ out/
 **/._.DS_Store
 
 ### docker mysql ###
-/docker/mysql
+**/mysql
 
 ### env ###
 .env
