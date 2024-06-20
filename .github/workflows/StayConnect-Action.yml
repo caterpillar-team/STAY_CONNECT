@@ -80,10 +80,10 @@ jobs:
         run: docker-compose -f ./docker/docker-compose-prod.yml build
 
       - name: Tag Docker image
-        run: docker tag docker-stay_connect_app:latest ghcr.io/caterpillar-team/stay_connect_app:latest
+        run: docker tag stay_connect_app:latest ghcr.io/${{ github.actor }}/stay_connect_app:latest
 
       - name: Push Docker image to GHCR
-        run: docker push ghcr.io/caterpillar-team/stay_connect_app:latest
+        run: docker push ghcr.io/${{ github.actor }}/stay_connect_app:latest
 
   dependency-submission:
     runs-on: ubuntu-latest

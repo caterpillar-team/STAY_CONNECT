@@ -27,6 +27,7 @@ services:
       - ../.env
 
   stay_connect_app:
+    image: stay_connect_app:latest
     build:
       context: ../ # 프로젝트 루트 디렉토리를 빌드 컨텍스트로 지정
       dockerfile: docker/Dockerfile
