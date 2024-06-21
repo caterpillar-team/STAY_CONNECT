@@ -78,20 +78,27 @@ jobs:
         run: echo "::set-output name=repo_owner::$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')"
 
       - name: Log in to GitHub Container Registry
-        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ steps.to-lowercase.outputs.repo_owner }} --password-stdin
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ steps.to-lowercase.outputs.repo_owner }} --password-stdin
 
       - name: Build Docker image
         run: |
           docker-compose -f ./docker/docker-compose-prod.yml build
-          docker pull mysql:8.3
-
-      - name: Tag Docker image
-        run: docker tag mysql:8.3 ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/mysql:8.3
 
       - name: Push Docker image to GHCR
         run: |
           docker push ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/stay_connect_app:latest
-          docker push ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/mysql:8.3
+
+      - name: SSH and deploy to EC2
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/stay_connect_app:latest
+            docker stop my-app || true
+            docker rm my-app || true
+            docker run -d --name my-app -p 80:8080 ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/stay_connect_app:latest
 
   dependency-submission:
     runs-on: ubuntu-latest
