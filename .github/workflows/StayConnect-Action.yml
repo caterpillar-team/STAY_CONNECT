@@ -96,11 +96,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.EC2_PORT }}
           script: |
-            sudo yum update -y
-            sudo yum install docker -y
-            sudo systemctl start docker
-            sudo systemctl enable docker
-            sudo usermod -aG docker $USER
             docker pull ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/stay_connect_app:latest
             docker stop my-app || true
             docker rm my-app || true
