@@ -1,10 +1,15 @@
 package com.caterpillars.StayConnect.service;
 
 import com.caterpillars.StayConnect.model.dto.PaymentDto;
+import com.caterpillars.StayConnect.model.dto.ReservationDto;
+import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.model.entities.Reservation;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.model.repository.AccommodationRepository;
 import com.caterpillars.StayConnect.model.repository.ReservationRepository;
+import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
+import com.caterpillars.StayConnect.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +27,15 @@ public class ReservationService {
 
     @Autowired
     private ReservationRepository reservationRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RoomInfoRepository roomInfoRepository;
+
+    @Autowired
+    private AccommodationRepository accommodationRepository;
 
     public List<Object[]> getMonthlyReservationCount() {
         return reservationRepository.findMonthlyReservationCount();
@@ -65,4 +79,54 @@ public class ReservationService {
 
         return reservationRepository.save(reservation);
     }
+
+    public void cancelReservation(long id) {
+        reservationRepository.deleteById(id);
+    }
+
+    public ReservationDto getReservationDetails(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new RuntimeException("예약을 조회할 수 없습니다."));
+
+        User user = reservation.getUser();
+        RoomInfo roomInfo = reservation.getRoomInfo();
+        Accommodation accommodation = roomInfo.getAccommodation();
+
+        return ReservationDto.builder()
+                .id(reservation.getId())
+                .realName(user.getRealName())
+                .roomType(roomInfo.getRoomType())
+                .bedType(roomInfo.getBedType())
+                .accommodationName(accommodation.getName())
+                .price(reservation.getPrice())
+                .payMethod(reservation.getPay_method())
+                .checkIn(reservation.getCheckIn())
+                .checkOut(reservation.getCheckOut())
+                .build();
+    }
+
+    public List<ReservationDto> getReservationsByUserId(Long userId) {
+        return reservationRepository.findByUserId(userId).stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    private ReservationDto convertToDto(Reservation reservation) {
+        User user = reservation.getUser();
+        RoomInfo roomInfo = reservation.getRoomInfo();
+        Accommodation accommodation = roomInfo.getAccommodation();
+
+        return ReservationDto.builder()
+                .id(reservation.getId())
+                .realName(user.getRealName())
+                .roomType(roomInfo.getRoomType())
+                .bedType(roomInfo.getBedType())
+                .accommodationName(accommodation.getName())
+                .price(reservation.getPrice())
+                .payMethod(reservation.getPay_method())
+                .checkIn(reservation.getCheckIn())
+                .checkOut(reservation.getCheckOut())
+                .build();
+    }
+
 }

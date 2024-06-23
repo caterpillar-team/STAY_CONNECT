@@ -9,9 +9,9 @@
     <script th:src="@{/lib/axios/axios.min.js}"></script>
 
     <script th:inline="javascript">
-        const buyerTel = /*[[${phoneNumber}]]*/;
-        const userId = /*[[${userId}]]*/;
-        const roomInfoId = /*[[${roomInfoId}]]*/;
+        const buyerTel = /*[[${phoneNumber}]]*/
+        const userId = /*[[${userId}]]*/
+        const roomInfoId = /*[[${roomInfoId}]]*/
     </script>
 
     <script>
@@ -28,7 +28,7 @@
                 IMP.request_pay(
                     {
                         pg: 'html5_inicis',
-                        pay_method: 'card',
+                        pay_method: '카드',
                         merchant_uid: merchantUid,
                         name: '테스트 결제',
                         amount: 100,

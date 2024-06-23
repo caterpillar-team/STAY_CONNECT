@@ -1,8 +1,11 @@
 package com.caterpillars.StayConnect.controller;
 
 import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
+import com.caterpillars.StayConnect.model.dto.ReservationDto;
 import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.model.repository.ReservationRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
+import com.caterpillars.StayConnect.service.ReservationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -36,6 +40,13 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private ReservationRepository reservationRepository;
+
+    @Autowired
+    private ReservationService reservationService;
+
+
     @GetMapping("/myPage")
     public String editUser(Model model, HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
@@ -54,7 +65,12 @@ public class UserController {
         Optional<User> result = userRepository.findByUsername(username);
 
         if (result.isPresent()) {
-            model.addAttribute("edit", result.get());
+            User user = result.get();
+            model.addAttribute("edit", user);
+
+            // 사용자의 예약 목록 추가
+            List<ReservationDto> reservations = reservationService.getReservationsByUserId(user.getId());
+            model.addAttribute("reservation", reservations);
         } else {
             model.addAttribute("edit", new User()); // 빈 객체 추가
         }
@@ -95,4 +111,6 @@ public class UserController {
             return "pages/user/myPage";
         }
     }
+
+
 }

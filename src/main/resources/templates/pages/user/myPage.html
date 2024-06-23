@@ -5,6 +5,8 @@
     <title>myPage page</title>
 </th:block>
 <th:block layout:fragment="javascript">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#reservationLink').addClass('selected');
@@ -28,7 +30,31 @@
                 $('#reservationLink').removeClass('selected');
                 $('#myInfoLink').addClass('selected');
             });
+
+            // 모달 창 열기
+            $('.cancel-reservation').click(function () {
+                const reservationId = $(this).data('id');
+                $('#confirmCancel').data('id', reservationId);
+                $('#cancelModal').modal('show');
+            });
+
+            // 예약 취소 확인
+            $('#confirmCancel').click(function () {
+                const reservationId = $(this).data('id');
+                // 예약 취소 로직 추가
+                console.log('취소할 예약 ID:', reservationId);
+                $('#cancelModal').modal('hide'); // 취소 확인 모달 닫기
+                $('#reservationModal').modal('show'); // 예약 확인 모달 열기
+            });
+
+            // 환불 버튼 클릭 이벤트 핸들러 추가
+            $('#refund_btn').click(function () {
+                // 환불 로직 추가
+                console.log('환불 처리');
+                $('#reservationModal').modal('hide');
+            });
         });
+
     </script>
 </th:block>
 <th:block layout:fragment="css">
@@ -52,9 +78,9 @@
         <h3 class="modify__info">개인 정보 수정</h3>
         <div class="underline"></div>
         <div class="reservation-chk">
-            <div class="reservation-card">
-                <h4>숙박업소 이름</h4>
-                <p>룸 타입</p>
+            <div class="reservation-card" th:each="r : ${reservation}">
+                <h4 th:text="${r.accommodationName}">숙박업소 이름</h4>
+                <p th:text="${r.roomType}">룸 타입</p>
                 <div class="reservation-details">
                     <span class="material-symbols-outlined">event_available</span>
                     <p>2024. 04. 14 ~ 2024. 04. 15</p>
@@ -62,22 +88,22 @@
                 <div class="reservation-info">
                     <div class="number">
                         <h4>예약번호</h4>
-                        <p>353454</p>
+                        <p th:text="${r.id}">353454</p>
                     </div>
                     <div class="price">
                         <h4>결제 금액</h4>
-                        <p>38493825 원</p>
+                        <p th:text="${r.price} + ' 원'">38493825 원</p>
                     </div>
                     <div class="customer-name">
                         <h4>예약자명</h4>
-                        <p>OOO</p>
+                        <p th:text="${r.realName}">OOO</p>
                     </div>
                     <div class="payment">
                         <h4>결제 방법</h4>
-                        <p>신용카드</p>
+                        <p th:text="${r.payMethod}">신용카드</p>
                     </div>
-                    <button>예약취소</button>
                 </div>
+                <button class="btn cancel-reservation" th:data-id="${r.id}">예약취소</button>
             </div>
         </div>
         <div class="my-info">
@@ -132,6 +158,76 @@
 
                     <button type="submit" class="btn">수정</button>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cancelModalLabel">예약 취소 확인</h5>
+                </div>
+                <div class="modal-body">
+                    예약을 취소하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="confirmCancel" data-id="">네</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">아니요</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 예약 확인 모달 -->
+    <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reservationModalLabel">예약확인</h5>
+                </div>
+                <div class="modal-body">
+                    <!-- 모달 내용 -->
+                    <div class="roomType" style="font-weight:bold; font-size:1.2rem;">
+                        객실타입이름
+                    </div>
+                    </br>
+
+                    <div class="people">
+                        <span class="material-symbols-outlined">person</span>
+                        <span
+                                class="standard"
+
+                        >인원</span>
+                    </div>
+
+                    <div class="bedType">
+                        <span class="material-symbols-outlined">bed</span>
+                        <span class="bedType">침대타입</span>
+                    </div>
+                    </br>
+
+                    <div class="" style="font-weight:bold; font-size:1.2rem;"></div>
+                    </hr>
+
+                    <div class="">
+                        <span>체크인시간</span>
+                        <span>/</span>
+                        <span
+                        >체크아웃시간</span
+                        >
+                    </div>
+                    </hr>
+                    </br>
+
+                    <div class="price">가격</div>
+                    </br>
+                </div>
+                <div class="modal-footer">
+                    <button id="refund_btn" type="button" class="btn btn-primary">환불하기</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                </div>
             </div>
         </div>
     </div>
