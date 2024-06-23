@@ -9,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.caterpillars.StayConnect.model.entities.Inquiry;
 import com.caterpillars.StayConnect.service.ChartDataService;
+import com.caterpillars.StayConnect.service.InquiryService;
 import com.caterpillars.StayConnect.service.ReservationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,8 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RequestMapping("/admin")
 public class AdminController {
 
-  // @Autowired
-  // private AuthService authService;
 
   @Autowired
   private ReservationService reservationService;
@@ -28,19 +28,27 @@ public class AdminController {
   private ChartDataService adminService;
 
   @Autowired
+  private InquiryService inquiryService;
+
+  @Autowired
   private ObjectMapper objectMapper;
+
+
 
   @GetMapping("/home")
   public String getCharts(Model model) throws JsonProcessingException {
     List<Object[]> reservationStats = reservationService.getMonthlyReservationCount();
     List<Map<String, Object>> ageStats = adminService.getAgeGroupCounts();
     List<Map<String, Object>> regionStats = reservationService.getReservationsByRegion();
+    model.addAttribute("lastMessages", inquiryService.getLastMessages());
+
 
     String reservationStatsJson = objectMapper.writeValueAsString(reservationStats);
 
     model.addAttribute("reservationStats", reservationStatsJson);
     model.addAttribute("ageStats", ageStats);
     model.addAttribute("reservationsByRegion", regionStats);
+
 
     return "pages/admin/home";
   }
@@ -49,6 +57,7 @@ public class AdminController {
   public String getAdminUserList(Model model) {
 
     model.addAttribute("userList", adminService.getAllUsers());
+    model.addAttribute("lastMessages", inquiryService.getLastMessages());
 
     return "pages/admin/userList";
 
@@ -58,7 +67,8 @@ public class AdminController {
   public String getAdminReviewList(Model model) throws JsonProcessingException {
 
     model.addAttribute("reviewList", adminService.getAllReviews());
-
+    model.addAttribute("lastMessages", inquiryService.getLastMessages());
+    
     return "pages/admin/reviewList";
   }
 

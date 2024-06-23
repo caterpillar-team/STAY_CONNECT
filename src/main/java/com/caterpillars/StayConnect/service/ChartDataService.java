@@ -40,10 +40,10 @@ public class ChartDataService {
 
     public List<Map<String,Object>> getAgeGroupCounts() {
         List<User> users = userRepository.findAll();
-        
+
         Map<String, Long> ageGroupCounts = users.stream()
             .collect(Collectors.groupingBy(user -> getAgeGroup(user.getBirth()), Collectors.counting()));
-        
+
         return ageGroupCounts.entrySet().stream()
             .map(entry -> { Map<String,Object> map = new HashMap<>();
             map.put("ageRange", entry.getKey());

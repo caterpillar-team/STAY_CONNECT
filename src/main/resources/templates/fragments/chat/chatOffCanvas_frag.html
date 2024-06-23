@@ -1,0 +1,25 @@
+<div
+    class="offcanvas offcanvas-end"
+    data-bs-scroll="true"
+    data-bs-backdrop="false"
+    tabindex="-1"
+    id="offcanvasRight"
+    aria-labelledby="offcanvasRightLabel"
+    th:fragment="chatOffCanvas"
+>
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">나는 문의 채팅창</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ol class="list-group list-group-numbered">
+            <li class="list-group-item d-flex justify-content-between align-items-start" >
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold" >UserName</div>
+                    <div>Chat Contents</div>
+                </div>
+                <span class="badge bg-primary rounded-pill">3</span>
+            </li>
+        </ol>
+    </div>
+</div>
