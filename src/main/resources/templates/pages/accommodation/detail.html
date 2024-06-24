@@ -252,10 +252,9 @@
                             <form
                                     id="deleteReviewForm"
                                     method="post"
-                                    onsubmit="return confirm('삭제하시겠습니까?')"
                                     th:action="@{/accommodation/detail/{accId}/delete/{reviewId}(accId=${accommodationDto.id}, reviewId=${review.id})}"
                             >
-                                <button type="submit" class="btn btn-outline-primary">삭제</button>
+                                <button type="submit" class="deleteButton btn btn-outline-primary">삭제</button>
                             </form>
                             <!-- 수정폼 -->
                             <form

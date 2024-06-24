@@ -40,7 +40,6 @@ editButtons.forEach(edit => {
         const reviewActionsNode = edit.parentNode;
         console.log(accId, reviewId);
 
-        alert("수정하시겠습니까?")
         // axios.post(`/accom/detail/${accId}/update/${reviewId}`)
         //     .then(resp => {
         //         console.log(resp)
@@ -53,13 +52,18 @@ editButtons.forEach(edit => {
 
 // 리뷰 수정
 function updateReview(accommodationId, reviewId, el) {
+    console.log("수정버튼 clicked")
     console.log(accommodationId, reviewId)
-    console.log(el);
-    const parentNode = el.parentNode;
+    const result = confirm("수정하시겠습니까?");
+    if(result) {
+        console.log(el);
+        const parentNode = el.parentNode;
 
-    const updateFormEl = parentNode.querySelector('.updateReviewForm');
-    updateFormEl.classList.remove("hidden");
-
+        const updateFormEl = parentNode.querySelector('.updateReviewForm');
+        updateFormEl.classList.remove("hidden");
+    } else{
+        alert("수정 취소");
+    }
 }
 
 // 별점 수정
@@ -99,31 +103,6 @@ function rateEdit(starElement, reviewId, starNumber) {
 function printRatingResultEdit(resultElement, num = 0) {
     resultElement.textContent = `${num}/5`;
 }
-
-// 수정 버튼마다 클릭 이벤트 처리
-editButtons.forEach(editButton => {
-    editButton.addEventListener('click', function (event) {
-        event.preventDefault();
-
-        const reviewId = this.dataset.reviewId; // 수정할 리뷰의 ID
-        const editForm = document.getElementById(`editForm${reviewId}`);
-
-        // // 보기/수정 폼 토글
-        // editForm.classList.toggle('show');
-
-        // 수정 폼이 보이는지 여부 확인
-        const isVisible = editForm.classList.contains('show');
-
-        if (isVisible) {
-            // 보이는 상태일 때 숨김 처리
-            editForm.classList.add('hidden');
-        } else {
-            // 숨겨진 상태일 때 보이도록 처리
-            editForm.classList.add('show');
-        }
-
-    });
-});
 
 // 수정 완료 버튼 처리
 const updateButtons = document.querySelectorAll('.updateButton');
