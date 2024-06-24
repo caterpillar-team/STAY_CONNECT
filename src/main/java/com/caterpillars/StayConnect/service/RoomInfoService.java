@@ -16,13 +16,16 @@ public class RoomInfoService {
     @Autowired
     private RoomInfoRepository roomInfoRepository;
 
-    public List<RoomInfo> findByAccommodationId(long accId) {
+    public List<RoomInfo> findByAccommodationId(Long accId) {
         return roomInfoRepository.findByAccommodationId(accId);
     }
 
-    public List<RoomInfo> findByAccommodation(Accommodation accommodation) {
-        return roomInfoRepository.findByAccommodation(accommodation);
+    public RoomInfoService(RoomInfoRepository roomInfoRepository) {
+        this.roomInfoRepository = roomInfoRepository;
     }
 
+    public RoomInfo findById(Long id) {
+        return roomInfoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다."));
+    }
 
 }

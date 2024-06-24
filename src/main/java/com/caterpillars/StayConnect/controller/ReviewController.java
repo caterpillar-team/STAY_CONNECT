@@ -9,14 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/user/accom/detail")
+@RequestMapping("/accommodation/detail")
 @Slf4j
 public class ReviewController {
     @Autowired
@@ -26,7 +23,7 @@ public class ReviewController {
     @PostMapping("/{accId}/addReview")
     public String postAddReview(@PathVariable("accId") Long accId, @Valid @ModelAttribute("reviewDto") ReviewDto dto,
                                 BindingResult bindingResult, Model model) {
-        log.info("POST /user/accom/detail/" + accId + "/addReview " + dto);
+        log.info("POST /accommodation/detail/" + accId + "/addReview " + dto);
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("errorMessage", "입력 값에 오류가 있습니다. 다시 시도해주세요.");
@@ -45,7 +42,7 @@ public class ReviewController {
 
         if (isAdd) {
             log.info("isAdd accID : " + accId);
-            return "redirect:/user/accom/detail/" + accId; // 리다이렉트 처리 부분
+            return "redirect:/accommodation/detail/" + accId; // 리다이렉트 처리 부분
         }
 
         model.addAttribute("errorMessage", "리뷰를 추가하는 도중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -55,7 +52,7 @@ public class ReviewController {
     // 리뷰 삭제
     @PostMapping("/{accId}/delete/{reviewId}")
     public String deleteReview(@PathVariable("reviewId") Long reviewId, RedirectAttributes redirectAttributes) {
-        log.info("POST /user/accom/detail/{id}/delete id " + reviewId);
+        log.info("POST /accommodation/detail/{id}/delete id " + reviewId);
         ReviewDto dto = reviewService.getReviewDto(reviewId);
 
         try {
@@ -66,7 +63,7 @@ public class ReviewController {
                 log.info("리뷰가 성공적으로 삭제되었습니다.");
                 // 삭제된 리뷰의 ID를 사용하여 다른 작업을 수행
                 log.info("accId : " + dto.getAccId());
-                return "redirect:/user/accom/detail/" + dto.getAccId();
+                return "redirect:/accommodation/detail/" + dto.getAccId();
             } else {
                 // 리뷰 삭제에 실패한 경우 처리
                 log.error("리뷰 삭제에 실패했습니다.");
@@ -84,6 +81,7 @@ public class ReviewController {
         log.info("POST /user/accom/detail/update/review : " + reviewDto);
         reviewService.updateReview(reviewDto);
         rttr.addFlashAttribute("message", "리뷰를 수정하였습니다");
-        return "redirect:/user/accom/detail/" + reviewDto.getAccId(); // 수정 후 숙소 상세 페이지로 리다이렉트
+        return "redirect:/accommodation/detail/" + reviewDto.getAccId(); // 수정 후 숙소 상세 페이지로 리다이렉트
     }
+
 }

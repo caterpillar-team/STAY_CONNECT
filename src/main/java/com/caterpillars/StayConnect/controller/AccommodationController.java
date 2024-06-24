@@ -1,14 +1,17 @@
 package com.caterpillars.StayConnect.controller;
 
+import com.caterpillars.StayConnect.model.dto.AccommodationDto;
 import com.caterpillars.StayConnect.model.dto.ReviewDto;
-import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.model.entities.Review;
-import com.caterpillars.StayConnect.model.entities.RoomInfo;
-import com.caterpillars.StayConnect.service.ReviewService;
-import com.caterpillars.StayConnect.service.RoomInfoService;
+import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.service.AccommodationService;
+import com.caterpillars.StayConnect.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -18,59 +21,56 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/user/accom")
+@RequestMapping("/accommodation")
 public class AccommodationController {
 
     @Autowired
-    private RoomInfoService roomInfoService;
+    private AccommodationService accommodationService;
     @Autowired
-    private ReviewService reviewService;
+    private UserService userService;
 
     @GetMapping("/detail/{accId}")
-    public String accom_detail(@PathVariable("accId") long accId, Model model) {
+    public String accom_detail(@PathVariable("accId") Long accId, Model model,
+                               @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("/detail/" + accId + " accId 실행");
-        // accommodationId로 RoomInfo 리스트를 조회
-        List<RoomInfo> result = roomInfoService.findByAccommodationId(accId);
-        log.info("DTO: " + result);
 
-        // 조회 결과가 비어있지 않은지 확인
-        if (!result.isEmpty()) {
-            RoomInfo roomInfo = result.get(0); // 첫 번째 RoomInfo 객체를 가져옴
-            log.info("roomInfo ID: " + roomInfo.getId());
+        AccommodationDto accommodationDto = accommodationService.getAccommodationDto(accId, pageable);
 
-            // 해당 객실에 속하는 숙소 정보 조회
-            Accommodation accommodation = roomInfo.getAccommodation();
-            log.info("accommodation ID: " + accommodation.getId());
+        if (accommodationDto != null) {
+            // 현재 사용자 정보
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String currentUser = (authentication != null && authentication.isAuthenticated()) ? authentication.getName() : "";
+            model.addAttribute("currentUser", currentUser);
+            model.addAttribute("reviewDto", new ReviewDto());
 
-            if (roomInfo.getAccommodation() != null) {
-                // 해당 객실에 대한 리뷰 정보 조회
-                List<Review> reviews = reviewService.findByRoomInfo(roomInfo);
-                // 평균 평점 계산
-                double averageRating = reviewService.calculateAverageRating(reviews);
-                // 해당 숙소에 속하는 모든 객실 정보 조회
-                List<RoomInfo> roomInfos = roomInfoService.findByAccommodation(accommodation);
+            List<Review> allReviews = accommodationService.findAllReviews(accId);
+            model.addAttribute("allReviews", allReviews);
 
-                // 모델에 필요한 정보 추가\
-                model.addAttribute("roomInfos", roomInfos);
-                model.addAttribute("accommodation", accommodation);
-                model.addAttribute("reviews", reviews);
-                model.addAttribute("averageRating", averageRating);
+            model.addAttribute("accommodationDto", accommodationDto);
+            model.addAttribute("totalReviews", accommodationDto.getTotalReviews());
+            model.addAttribute("nowPage", accommodationDto.getNowPage());
+            model.addAttribute("startPage", accommodationDto.getStartPage());
+            model.addAttribute("endPage", accommodationDto.getEndPage());
 
-                // 현재 인증된 사용자 정보
-                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                String currentUser = (authentication != null) ? authentication.getName() : null;
-                model.addAttribute("currentUser", currentUser);
-                model.addAttribute("reviewDto", new ReviewDto());
+            Optional<User> userOptional  = userService.findByUsername(authentication.getName());
+            log.info("userOptional" + userOptional);
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                System.out.println(user.getPhoneNumber());
 
-                System.out.println("Number of reviews found: " + reviews.size());
-                return "pages/user/accommodation/detail";
+                model.addAttribute("phoneNumber", user.getPhoneNumber());
+                model.addAttribute("userId", user.getId());
+                model.addAttribute("roomInfos", accommodationDto.getRoomInfos());
+
             } else {
-                return "redirect:/error";
+                log.warn("User not found for username: " + authentication.getName());
             }
+            return "pages/accommodation/detail";
         } else {
             return "redirect:/error";
         }

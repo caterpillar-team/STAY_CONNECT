@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 public class Review {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -31,7 +32,7 @@ public class Review {
 
     private String contents;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
 

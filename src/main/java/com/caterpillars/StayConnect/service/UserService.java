@@ -1,7 +1,7 @@
 package com.caterpillars.StayConnect.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.caterpillars.StayConnect.model.entities.Role;
@@ -10,13 +10,15 @@ import com.caterpillars.StayConnect.model.repository.UserRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     public void temp(HttpServletRequest request) {
         User user = new User();
@@ -32,11 +34,11 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public String findUser(String username) {
-        return username;
+    public User findById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유효하지 않은 사용자 ID입니다."));
     }
 
-    public Long findById(Long userId) {
-        return userId;
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }

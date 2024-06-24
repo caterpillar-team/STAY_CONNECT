@@ -1,7 +1,10 @@
 package com.caterpillars.StayConnect.model.entities;
 
+import com.caterpillars.StayConnect.model.dto.AccommodationDto;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,5 +35,8 @@ public class Accommodation {
     private Double latitude;
 
     private Double longitude;
+
+    @OneToMany(mappedBy = "accommodation")
+    private List<RoomInfo> roomInfos;
 
 }

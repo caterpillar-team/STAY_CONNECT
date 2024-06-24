@@ -1,5 +1,6 @@
 package com.caterpillars.StayConnect.component.initializer;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,36 +53,42 @@ public class TestReviewDataInitializer implements CommandLineRunner {
                                 .user(user)
                                 .roomInfo(room1)
                                 .contents("좋았습니다1")
+                                .createdAt(LocalDateTime.now())
                                 .rate(4)
                                 .build();
                 Review review2 = Review.builder()
                                 .user(user)
                                 .roomInfo(room1)
                                 .contents("좋았습니다2")
+                                .createdAt(LocalDateTime.now())
                                 .rate(1)
                                 .build();
                 Review review3 = Review.builder()
                                 .user(user)
                                 .roomInfo(room1)
                                 .contents("좋았습니다3")
+                                .createdAt(LocalDateTime.now())
                                 .rate(2)
                                 .build();
                 Review review4 = Review.builder()
                                 .user(user)
                                 .roomInfo(room1)
                                 .contents("좋았습니다4")
+                                .createdAt(LocalDateTime.now())
                                 .rate(5)
                                 .build();
                 Review review5 = Review.builder()
                                 .user(user)
                                 .roomInfo(room1)
                                 .contents("좋았습니다5")
+                                .createdAt(LocalDateTime.now())
                                 .rate(1)
                                 .build();
                 Review review6 = Review.builder()
                                 .user(user)
                                 .roomInfo(room1)
                                 .contents("좋았습니다6")
+                                .createdAt(LocalDateTime.now())
                                 .rate(3)
                                 .build();
 

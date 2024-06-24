@@ -21,26 +21,26 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-const messageEl = document.querySelector('.message');
-console.log(messageEl);
-if (messageEl !== null && messageEl.innerHTML !== "") {
-    alert(messageEl.innerHTML);
-}
+// const messageEl = document.querySelector('.message');
+// console.log(messageEl);
+// if (messageEl !== null && messageEl.innerHTML !== "") {
+//     alert(messageEl.innerHTML);
+// }
 
 // 모든 수정 버튼 선택
-const editButtons = document.querySelectorAll('.editButtoneditButton');
+const editButtons = document.querySelectorAll('.editButton');
 
 editButtons.forEach(edit => {
 
     edit.addEventListener('click', function () {
-
+        console.log("editButton clicked")
         const accId = edit.getAttribute('data-accid');
         const reviewId = edit.getAttribute('data-reviewid');
 
         const reviewActionsNode = edit.parentNode;
         console.log(accId, reviewId);
 
-
+        alert("수정하시겠습니까?")
         // axios.post(`/accom/detail/${accId}/update/${reviewId}`)
         //     .then(resp => {
         //         console.log(resp)
@@ -52,8 +52,8 @@ editButtons.forEach(edit => {
 });
 
 // 리뷰 수정
-function updateReview(accommodationId, accommodationId, el) {
-    console.log(accommodationId, accommodationId)
+function updateReview(accommodationId, reviewId, el) {
+    console.log(accommodationId, reviewId)
     console.log(el);
     const parentNode = el.parentNode;
 
@@ -108,8 +108,19 @@ editButtons.forEach(editButton => {
         const reviewId = this.dataset.reviewId; // 수정할 리뷰의 ID
         const editForm = document.getElementById(`editForm${reviewId}`);
 
-        // 보기/수정 폼 토글
-        editForm.classList.toggle('show');
+        // // 보기/수정 폼 토글
+        // editForm.classList.toggle('show');
+
+        // 수정 폼이 보이는지 여부 확인
+        const isVisible = editForm.classList.contains('show');
+
+        if (isVisible) {
+            // 보이는 상태일 때 숨김 처리
+            editForm.classList.add('hidden');
+        } else {
+            // 숨겨진 상태일 때 보이도록 처리
+            editForm.classList.add('show');
+        }
 
     });
 });
@@ -119,7 +130,7 @@ const updateButtons = document.querySelectorAll('.updateButton');
 updateButtons.forEach(updateButton => {
     updateButton.addEventListener('click', function (event) {
         event.preventDefault();
-
+        console.log("updateButton click")
         const reviewId = this.dataset.reviewId; // 수정할 리뷰의 ID
         console.log(`Update button clicked for review ID ${reviewId}`);
 
@@ -141,7 +152,7 @@ updateButtons.forEach(updateButton => {
 
         console.log(`Review DTO for review ID ${reviewId}:`, reviewDto);
 
-        axios.post(`/user/accom/detail/update/${reviewId}`, reviewDto)
+        axios.post(`/accommodation/detail/update/${reviewId}`, reviewDto)
             .then(response => {
                 console.log(`Update response for review ID ${reviewId}:`, response.data);
                 alert(response.data.message);
@@ -198,7 +209,7 @@ deleteButtons.forEach(deleteButton => {
         const accId = this.dataset.accId; // 해당 숙소의 ID
 
         if (confirm('삭제하시겠습니까?')) {
-            fetch(`/user/accom/detail/delete/${reviewId}`, {
+            fetch(`/accommodation/detail/delete/${reviewId}`, {
                 method: 'POST'
             })
                 .then(response => response.json())

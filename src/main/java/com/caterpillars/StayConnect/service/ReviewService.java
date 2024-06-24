@@ -10,6 +10,8 @@ import com.caterpillars.StayConnect.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,19 +35,6 @@ public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    // 별점 평균 계산
-    public double calculateAverageRating(List<Review> reviews) {
-        if (reviews.isEmpty()) {
-            return 0;
-        }
-
-        double totalRating = 0;
-        for (Review review : reviews) {
-            totalRating += review.getRate();
-        }
-
-        return totalRating / reviews.size();
-    }
 
     // 리뷰 추가
     @Transactional(rollbackFor = Exception.class)
@@ -128,12 +117,17 @@ public class ReviewService {
         }
     }
 
-    public List<Review> findByRoomInfo(RoomInfo roomInfo) {
-        return reviewRepository.findByRoomInfo(roomInfo);
-    }
-
     public RoomInfo findRoomInfoById(long roomInfoId) {
         return roomInfoRepository.findById(roomInfoId)
                 .orElse(null);
+    }
+
+
+    public Page<Review> findReviewsByAccommodationId(Long accommodationId, Pageable pageable) {
+        return reviewRepository.findByRoomInfoAccommodationId(accommodationId, pageable);
+    }
+
+    public List<Review> findAllReviews() {
+        return reviewRepository.findAll();
     }
 }
