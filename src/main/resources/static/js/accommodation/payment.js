@@ -18,11 +18,12 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Pay button clicked');
 
             const userId = document.getElementById('userId').value;
-            console.log("currentUser", userId)
+            console.log("userId", userId)
             const buyerTel = document.getElementById('buyerTel').value;
             console.log("buyerTel", buyerTel)
 
-            if (userId===null || userId === "") {
+            // 로그인하지 않은 유저라면 로그인창으로 이동
+            if (!userId) {
                 window.location.href = '/auth/signin';
             } else {
                 // 로그인된 경우 결제 모달 표시
@@ -54,6 +55,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             var merchantUid = new Date().getTime();
             console.log('merchantUid:', merchantUid);
+
+            // userId와 roomInfoId를 단일 값으로 추출
+            const userId = document.getElementById('userId').value;
+            const roomInfoId = document.getElementById('roomInfoId').value;
 
             IMP.request_pay(
                 {
@@ -87,7 +92,15 @@ document.addEventListener('DOMContentLoaded', function () {
                         formData.append('userId', userId);
                         formData.append('roomInfoId', roomInfoId);
 
+                        function logFormData(formData) {
+                            for (const entry of formData.entries()) {
+                                const [key, value] = entry;
+                                console.log(`${key}: ${value}`);
+                            }
+                        }
+
                         console.log('Form data:', formData);
+                        logFormData(formData);
 
                         axios.post('/user/paySuccess', formData, {headers: {'Content-Type': 'x-www-form-urlencoded'}})
                             .then(response => {
@@ -101,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 document.body.classList.remove('modal-open');
                                 document.body.style = '';
 
-                                window.location.href = '/';
+                                window.location.href = '/user/myPage';
                             })
                             .catch(error => {
                                 console.error('Error creating reservation:', error);

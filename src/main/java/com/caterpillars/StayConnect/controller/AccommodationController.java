@@ -57,19 +57,22 @@ public class AccommodationController {
             model.addAttribute("startPage", accommodationDto.getStartPage());
             model.addAttribute("endPage", accommodationDto.getEndPage());
 
-            Optional<User> userOptional  = userService.findByUsername(authentication.getName());
-            log.info("userOptional" + userOptional);
-            if (userOptional.isPresent()) {
-                User user = userOptional.get();
-                System.out.println(user.getPhoneNumber());
+            if (authentication != null && authentication.isAuthenticated()) {
+                Optional<User> userOptional  = userService.findByUsername(authentication.getName());
+                log.info("userOptional" + userOptional);
+                if (userOptional.isPresent()) {
+                    User user = userOptional.get();
+                    System.out.println(user.getPhoneNumber());
 
-                model.addAttribute("phoneNumber", user.getPhoneNumber());
-                model.addAttribute("userId", user.getId());
-                model.addAttribute("roomInfos", accommodationDto.getRoomInfos());
+                    model.addAttribute("phoneNumber", user.getPhoneNumber());
+                    model.addAttribute("userId", user.getId());
+                    model.addAttribute("roomInfos", accommodationDto.getRoomInfos());
 
-            } else {
-                log.warn("User not found for username: " + authentication.getName());
+                } else {
+                    log.warn("User not found for username: " + authentication.getName());
+                }
             }
+
             return "pages/accommodation/detail";
         } else {
             return "redirect:/error";

@@ -10,13 +10,13 @@
     <title>Accommodation Detail</title>
 </th:block>
 
-<!--<script th:inline="javascript">-->
-<!--    /*<![CDATA[*/-->
-<!--    const buyerTel = /*[[${phoneNumber}]]*/ 'undefined';-->
-<!--    const userId = /*[[${userId} ?: '']]*/ '';-->
-<!--    const roomInfoId = /*[[${accommodationDto.roomInfos.collect { it.id } }]]*/ [];-->
-<!--    /*]]>*/-->
-<!--</script>-->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const buyerTel = /*[[${phoneNumber}]]*/ 'undefined';
+    const userId = /*[[${userId} ?: '']]*/ '';
+    const roomInfoId = /*[[${accommodationDto.roomInfos.collect { it.id } }]]*/ [];
+    /*]]>*/
+</script>
 
 <th:block layout:fragment="javascript">
     <script th:src="@{/lib/axios/axios.min.js}"></script>
@@ -252,6 +252,7 @@
                             <form
                                     id="deleteReviewForm"
                                     method="post"
+                                    onsubmit="return confirm('삭제하시겠습니까?')"
                                     th:action="@{/accommodation/detail/{accId}/delete/{reviewId}(accId=${accommodationDto.id}, reviewId=${review.id})}"
                             >
                                 <button type="submit" class="deleteButton btn btn-outline-primary">삭제</button>
