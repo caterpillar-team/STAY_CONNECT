@@ -27,10 +27,6 @@ import java.util.Optional;
 @RequestMapping("/user")
 @Slf4j
 public class UserController {
-
-    // @Autowired
-    // private UserService userService;
-
     @Autowired
     private UserRepository userRepository;
 

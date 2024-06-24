@@ -20,4 +20,6 @@ public class ReservationDto {
     private String payMethod;
     private LocalDateTime checkIn;
     private LocalDateTime checkOut;
+
+
 }

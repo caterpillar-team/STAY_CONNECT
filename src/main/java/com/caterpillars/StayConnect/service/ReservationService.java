@@ -12,6 +12,7 @@ import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -106,9 +107,9 @@ public class ReservationService {
     }
 
     public List<ReservationDto> getReservationsByUserId(Long userId) {
-        return reservationRepository.findByUserId(userId).stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+        return reservationRepository.findByUserId(userId).stream() // stream : 컬렉션 데이터를 처리할 때 사용할 수 있는 유연한 API를 제공
+                .map(this::convertToDto)    // converToDto(Reservation 객체를 ReservationDto 객체로 변환) 메서드를 사용하여 Dto객체로 변환.
+                .collect(Collectors.toList());  // 변환된 ReservationDto 객체들을 리스트로 수집하여 반환
     }
 
     private ReservationDto convertToDto(Reservation reservation) {
@@ -128,5 +129,12 @@ public class ReservationService {
                 .checkOut(reservation.getCheckOut())
                 .build();
     }
+
+    @Transactional
+    public void deleteReservationById(Long reservationId) {
+        System.out.println("(ReservationService) Deleting reservation with ID: " + reservationId); // 디버깅 로그 추가
+        reservationRepository.deleteById(reservationId);
+    }
+
 
 }

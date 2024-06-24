@@ -10,12 +10,15 @@ import com.caterpillars.StayConnect.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -33,11 +36,11 @@ public class ReservationController {
     @Autowired
     private RoomInfoService roomInfoService;
 
+    @Value("${PORTONE_API_KEY}")
+    private String apiKey;
 
-//    @GetMapping("/paySuccess")
-//    public @ResponseBody void paySuccess(@ModelAttribute PaymentDto paymentDto) {
-//        log.info(paymentDto.toString());
-//    }
+    @Value("${PORTONE_SECRET_KEY}")
+    private String apiSecret;
 
     // 결제 성공
     @PostMapping("/paySuccess")
@@ -55,20 +58,31 @@ public class ReservationController {
     }
 
 
-    @DeleteMapping("/payment/{id}")
-    public ResponseEntity<String> cancelReservation(@PathVariable long id) {
-        try {
-            reservationService.cancelReservation(id);
-            return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
-        } catch (Exception e) {
-            log.error("예약취소 오류 : ", e);
-            return new ResponseEntity<>("ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @GetMapping("/reservation/{reservationId}")
     public ReservationDto getReservationDetails(@PathVariable Long reservationId) {
         return reservationService.getReservationDetails(reservationId);
     }
+
+    // 결제취소
+    @PostMapping("/cancel_reservation")
+    public Map<String, Object> cancelReservation(@RequestBody Map<String, String> request) {
+        System.out.println("received request : delete");
+
+        String reservationIdStr = request.get("reservationId");
+        Long reservationId = Long.parseLong(reservationIdStr);
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            log.info("Deleting reservation with ID: " + reservationId);
+            reservationService.deleteReservationById(reservationId);
+            response.put("success", true);
+        } catch (Exception e) {
+            log.info("Error while deleting reservation: " + e.getMessage());
+            response.put("success", false);
+            response.put("message", "예약 삭제 중 오류 발생: " + e.getMessage());
+        }
+        return response;
+    }
+
 
 }

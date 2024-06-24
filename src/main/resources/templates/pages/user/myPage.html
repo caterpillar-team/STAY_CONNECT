@@ -35,26 +35,58 @@
             $('.cancel-reservation').click(function () {
                 const reservationId = $(this).data('id');
                 $('#confirmCancel').data('id', reservationId);
+                $('#reservationModal').data('id', reservationId);
                 $('#cancelModal').modal('show');
+                console.log('예약취소 버튼 클릭 ! reservation Id : ', reservationId);
+
             });
 
             // 예약 취소 확인
             $('#confirmCancel').click(function () {
                 const reservationId = $(this).data('id');
-                // 예약 취소 로직 추가
-                console.log('취소할 예약 ID:', reservationId);
+                console.log('예약취소 확인 버튼 클릭 ! reservation Id : ', reservationId)
+                // 예약 취소
                 $('#cancelModal').modal('hide'); // 취소 확인 모달 닫기
                 $('#reservationModal').modal('show'); // 예약 확인 모달 열기
             });
 
-            // 환불 버튼 클릭 이벤트 핸들러 추가
+            // 환불 버튼 클릭 이벤트 핸들러
             $('#refund_btn').click(function () {
-                // 환불 로직 추가
-                console.log('환불 처리');
-                $('#reservationModal').modal('hide');
+                const reservationId = $('#reservationModal').data('id');
+                // 환불
+                console.log('환불 시 해당 예약정보 Id : ', reservationId);
+                processRefund(reservationId);
+            });
+
+            // 모달 닫기 버튼 클릭 시 모달 숨기기
+            $('.modal .btn-secondary').click(function () {
+                $(this).closest('.modal').modal('hide');
             });
         });
 
+        function processRefund(reservationId) {
+        console.log('환불 요청');
+        $.ajax({
+            url: '/user/cancel_reservation',
+            type: 'POST',
+            data: JSON.stringify({ reservationId: reservationId.toString() }),
+            contentType: 'application/json; charset=utf-8',
+            success: function (response) {
+                console.log('success response:', response);
+                if (response.success) {
+                    alert('환불이 성공적으로 처리되었습니다.');
+                    $('#reservationModal').modal('hide');
+                    location.reload();
+                } else {
+                    alert('환불 처리에 실패했습니다: ' + response.message);
+                }
+            },
+            error: function (error) {
+                console.log('AJAX error:', error);
+                alert('환불 처리 중 오류가 발생했습니다.');
+            }
+        });
+    }
     </script>
 </th:block>
 <th:block layout:fragment="css">
@@ -183,13 +215,14 @@
     <!-- 예약 확인 모달 -->
     <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" th:each="r : ${reservation}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="reservationModalLabel">예약확인</h5>
                 </div>
                 <div class="modal-body">
                     <!-- 모달 내용 -->
-                    <div class="roomType" style="font-weight:bold; font-size:1.2rem;">
+                    <h4 th:text="${r.accommodationName}">숙박업소 이름</h4>
+                    <div class="roomType" th:text="${r.roomType}" style="font-weight:bold; font-size:1.2rem;">
                         객실타입이름
                     </div>
                     </br>
@@ -198,17 +231,18 @@
                         <span class="material-symbols-outlined">person</span>
                         <span
                                 class="standard"
-
                         >인원</span>
+                        <span> : </span>
+                        <p> 명</p>
                     </div>
 
                     <div class="bedType">
                         <span class="material-symbols-outlined">bed</span>
-                        <span class="bedType">침대타입</span>
+                        <span class="bedType">침대타입 : </span>
+                        <p th:text="${r.bedType}">스탠다드</p>
                     </div>
                     </br>
 
-                    <div class="" style="font-weight:bold; font-size:1.2rem;"></div>
                     </hr>
 
                     <div class="">
@@ -221,7 +255,8 @@
                     </hr>
                     </br>
 
-                    <div class="price">가격</div>
+                    <div class="price">가격 : </div>
+                    <p th:text="${r.price} + ' 원'">38493825 원</p>
                     </br>
                 </div>
                 <div class="modal-footer">
