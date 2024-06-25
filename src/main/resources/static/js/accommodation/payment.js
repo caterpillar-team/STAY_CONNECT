@@ -25,25 +25,24 @@ document.addEventListener('DOMContentLoaded', function () {
             // 로그인하지 않은 유저라면 로그인창으로 이동
             if (!userId) {
                 window.location.href = '/auth/signin';
+                // return;
             } else {
-                // 로그인된 경우 결제 모달 표시
-                const dataTarget = button.getAttribute('data-target');
-                console.log('dataTarget:', dataTarget);
-
-                const roomInfoId = dataTarget.split('-')[1];
-                console.log('roomInfoId:', roomInfoId);
-                const modalId = `reservationModal-${roomInfoId}`;
-                console.log("madalId:", modalId)
-
-                // 클릭한 버튼에 해당하는 모달 표시
-                const modal = document.getElementById(modalId);
-                console.log("modal : ", modal);
-                if (modal) {
-                    $(modal).modal('show');
-                }
+                // 로그인된 경우
+                handleReservation(button);
             }
         });
     });
+
+    function handleReservation(button) {
+        const dataTarget = button.getAttribute('data-target');
+        const roomInfoId = dataTarget.split('-')[1];
+        const modalId = `reservationModal-${roomInfoId}`;
+
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            $(modal).modal('show');
+        }
+    }
 
     // 결제 버튼
     confirmBtns.forEach(function (button) {
@@ -138,6 +137,4 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-
-
 });

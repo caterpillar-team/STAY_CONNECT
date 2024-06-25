@@ -269,14 +269,14 @@
                                     <span class="reviewInputRatingResultEdit" th:id="'ratingResultEdit' + ${review.id}"></span>
                                     <th:block th:each="starNumber : ${#numbers.sequence(1, 5)}">
                                         <i class="reviewInputRatingStarEdit far fa-star"
-                                           th:classappend="' reviewInputRatingStarEdit' + ${review.id}"
+                                           th:classappend="'reviewInputRatingStarEdit' + ${review.id}"
                                            th:onclick="|rateEdit(this, ${review.id}, ${starNumber})|"></i>
                                     </th:block>
                                 </div>
                                 <input name="rate" th:id="'ratingInputEdit' + ${review.id}" type="hidden" value="0"/>
                                 <textarea name="contents" placeholder="리뷰를 수정하세요..."></textarea>
                                 <div class="buttonContainer">
-                                    <button type="button" class="updateButton btn btn-outline-primary" th:attr="data-review-id=${review.id}">수정요청</button>
+                                    <button class="updateButton btn btn-outline-primary" th:attr="data-review-id=${review.id}">수정요청</button>
                                 </div>
                             </form>
                         </div>
