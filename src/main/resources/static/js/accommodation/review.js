@@ -105,19 +105,22 @@ function printRatingResultEdit(resultElement, num = 0) {
 }
 
 // 수정 완료 버튼 처리
-const updateButtons = document.querySelectorAll('.updateButton');
-updateButtons.forEach(updateButton => {
-    updateButton.addEventListener('click', function (event) {
-        event.preventDefault();
-        console.log("updateButton click")
-        const reviewId = this.dataset.reviewId; // 수정할 리뷰의 ID
+const updateForms = document.querySelectorAll('.updateReviewForm');
+
+updateForms.forEach(form => {
+    form.addEventListener('submit', function (event) {
+        event.preventDefault(); // 폼의 기본 제출 동작 막기
+
+        alert("테스트");
+
+        const reviewId = this.querySelector('.updateButton').getAttribute('data-review-id');
         console.log(`Update button clicked for review ID ${reviewId}`);
 
-        const contents = document.querySelector(`#editForm${reviewId} textarea[name="contents"]`).value;
-        if (contents) {
-            console.log(`Contents for review ID ${reviewId}: ${contents.value}`);
-        } else {
+        const contents = this.querySelector(`textarea[name="contents"]`).value;
+        if (!contents) {
+            alert("내용을 입력해주세요.");
             console.error(`Textarea contents for review ID ${reviewId} not found.`);
+            return;
         }
 
         const rate = document.getElementById(`ratingInputEdit${reviewId}`).value;
@@ -131,19 +134,34 @@ updateButtons.forEach(updateButton => {
 
         console.log(`Review DTO for review ID ${reviewId}:`, reviewDto);
 
-        axios.post(`/accommodation/detail/update/${reviewId}`, reviewDto)
+        // AJAX 요청 전에 폼 제출 방지를 위해 event.stopPropagation() 추가
+        event.stopPropagation();
+
+        axios.post(`/accommodation/detail/update/review`, reviewDto)
             .then(response => {
                 console.log(`Update response for review ID ${reviewId}:`, response.data);
-                alert(response.data.message);
+
+                // 성공적으로 수정된 경우
                 if (response.data.message === '리뷰가 성공적으로 수정되었습니다.') {
+                    // 성공 메시지 표시
+                    alert(response.data.message);
+
                     // 성공적으로 수정된 경우, 수정 폼 숨기기
                     const editForm = document.getElementById(`editForm${reviewId}`);
-                    editForm.classList.remove('show');
+                    if (editForm) {
+                        editForm.classList.remove('show');
+                    } else {
+                        console.error(`Edit form not found for review ID ${reviewId}`);
+                    }
 
                     // 수정된 리뷰 내용 업데이트
                     const reviewContent = document.querySelector(`#review${reviewId} .reviewContent p`);
-                    reviewContent.textContent = response.data.contents;
-                    console.log(`Review content updated for review ID ${reviewId}`);
+                    if (reviewContent) {
+                        reviewContent.textContent = response.data.contents;
+                        console.log(`Review content updated for review ID ${reviewId}`);
+                    } else {
+                        console.error(`Review content element not found for review ID ${reviewId}`);
+                    }
 
                     // 별점 UI 업데이트
                     const newRate = response.data.rate;
@@ -165,6 +183,9 @@ updateButtons.forEach(updateButton => {
                     } else {
                         console.error("Rating Result element not found");
                     }
+                } else {
+                    // 다른 메시지 처리
+                    alert(response.data.message);
                 }
             })
             .catch(error => {
@@ -173,6 +194,7 @@ updateButtons.forEach(updateButton => {
                     alert('로그인이 필요합니다.');
                 } else {
                     console.error('Error:', error);
+                    alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
                 }
             });
     });
