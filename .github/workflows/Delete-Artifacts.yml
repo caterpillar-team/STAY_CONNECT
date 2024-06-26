@@ -11,31 +11,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: List Artifacts
-      id: list_artifacts
-      uses: actions/github-script@v4
-      with:
-        script: |
-          const artifacts = await github.actions.listArtifactsForRepo({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-          });
-          const artifactCount = artifacts.data.artifacts.length;
-          const artifactIds = artifacts.data.artifacts.map(a => a.id).join(',');
-          core.setOutput('artifact_count', artifactCount);
-          core.setOutput('artifact_ids', artifactIds);
-
-    - name: Delete Artifacts
-      if: steps.list_artifacts.outputs.artifact_count != '0'
-      uses: actions/github-script@v4
-      with:
-        script: |
-          const artifactIds = `{{ steps.list_artifacts.outputs.artifact_ids }}`.split(',');
-          for (const artifactId of artifactIds) {
-            await github.actions.deleteArtifact({
+      - name: List Artifacts
+        id: list_artifacts
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const artifacts = await github.rest.actions.listArtifactsForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              artifact_id: artifactId
             });
-            console.log(`Deleted artifact: ${artifactId}`);
-          }
+            const artifactCount = artifacts.data.total_count;
+            const artifactIds = artifacts.data.artifacts.map(a => a.id).join(',');
+            core.setOutput('artifact_count', artifactCount.toString());
+            core.setOutput('artifact_ids', artifactIds);
+
+      - name: Delete Artifacts
+        if: steps.list_artifacts.outputs.artifact_count != '0'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const artifactIds = `{{ steps.list_artifacts.outputs.artifact_ids }}`.split(',');
+            for (const artifactId of artifactIds) {
+              await github.rest.actions.deleteArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: parseInt(artifactId)
+              });
+              console.log(`Deleted artifact: ${artifactId}`);
+            }
