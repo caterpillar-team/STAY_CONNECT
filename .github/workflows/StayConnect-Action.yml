@@ -1,4 +1,4 @@
-name: Java CI with Gradle
+name: GITHUB RUNNER CI/CD WITH AWS
 
 on:
   push:
@@ -6,57 +6,9 @@ on:
   pull_request:
     branches: [main, develop]
 
-env:
-  SERVER_PORT: ${{ secrets.SERVER_PORT }}
-  JSON_WEB_TOKEN_EXPIRATION_TIME: ${{ secrets.JSON_WEB_TOKEN_EXPIRATION_TIME }}
-  JSON_WEB_TOKEN_SECRET_KEY: ${{ secrets.JSON_WEB_TOKEN_SECRET_KEY }}
-  MYSQL_SERVER_URL: ${{ secrets.MYSQL_SERVER_URL }}
-  MYSQL_SERVER_USERNAME: ${{ secrets.MYSQL_SERVER_USERNAME }}
-  MYSQL_SERVER_PASSWORD: ${{ secrets.MYSQL_SERVER_PASSWORD }}
-  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-  GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-  BASE_URL: ${{ secrets.BASE_URL }}
-  KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
-  KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
-  PRODUCTION_MYSQL_URL: ${{ secrets.PRODUCTION_MYSQL_URL }}
-  PRODUCTION_MYSQL_ROOT_PASSWORD: ${{ secrets.PRODUCTION_MYSQL_ROOT_PASSWORD }}
-  PRODUCTION_MYSQL_DATABASE: ${{ secrets.PRODUCTION_MYSQL_DATABASE }}
-  PRODUCTION_MYSQL_USERNAME: ${{ secrets.PRODUCTION_MYSQL_USERNAME }}
-  PRODUCTION_MYSQL_PASSWORD: ${{ secrets.PRODUCTION_MYSQL_PASSWORD }}
-
 jobs:
-  create-env-file:
-    runs-on: ubuntu-latest
-
-    outputs:
-      env-file-path: ${{ steps.create-file.outputs.env-file-path }}
-
-    steps:
-      - name: Create environment variables file
-        id: create-file
-        run: |
-          file=".env"
-          echo "BASE_URL=${{ secrets.BASE_URL }}" >> $file
-          echo "SERVER_PORT=${{ secrets.SERVER_PORT }}" >> $file
-          echo "JSON_WEB_TOKEN_SECRET_KEY=${{ secrets.JSON_WEB_TOKEN_SECRET_KEY }}" >> $file
-          echo "JSON_WEB_TOKEN_EXPIRATION_TIME=${{ secrets.JSON_WEB_TOKEN_EXPIRATION_TIME }}" >> $file
-          echo "MYSQL_SERVER_URL=${{ secrets.MYSQL_SERVER_URL }}" >> $file
-          echo "MYSQL_SERVER_USERNAME=${{ secrets.MYSQL_SERVER_USERNAME }}" >> $file
-          echo "MYSQL_SERVER_PASSWORD=${{ secrets.MYSQL_SERVER_PASSWORD }}" >> $file
-          echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> $file
-          echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> $file
-          echo "KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}" >> $file
-          echo "KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}" >> $file
-          echo "PRODUCTION_MYSQL_URL=${{ secrets.PRODUCTION_MYSQL_URL }}" >> $file
-          echo "PRODUCTION_MYSQL_ROOT_PASSWORD=${{ secrets.PRODUCTION_MYSQL_ROOT_PASSWORD }}" >> $file
-          echo "PRODUCTION_MYSQL_DATABASE=${{ secrets.PRODUCTION_MYSQL_DATABASE }}" >> $file
-          echo "PRODUCTION_MYSQL_USERNAME=${{ secrets.PRODUCTION_MYSQL_USERNAME }}" >> $file
-          echo "PRODUCTION_MYSQL_PASSWORD=${{ secrets.PRODUCTION_MYSQL_PASSWORD }}" >> $file
-          echo "env-file-path=$file" >> $GITHUB_ENV
-
   build:
     runs-on: ubuntu-latest
-    needs: create-env-file
 
     steps:
       - name: Checkout repository
@@ -68,9 +20,24 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Use environment variables file
+      - name: Create environment variables file
         run: |
-          cp ${{ env.env-file-path }} .env
+          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
+          echo "SERVER_PORT=${{ secrets.SERVER_PORT }}" >> .env
+          echo "JSON_WEB_TOKEN_SECRET_KEY=${{ secrets.JSON_WEB_TOKEN_SECRET_KEY }}" >> .env
+          echo "JSON_WEB_TOKEN_EXPIRATION_TIME=${{ secrets.JSON_WEB_TOKEN_EXPIRATION_TIME }}" >> .env
+          echo "MYSQL_SERVER_URL=${{ secrets.MYSQL_SERVER_URL }}" >> .env
+          echo "MYSQL_SERVER_USERNAME=${{ secrets.MYSQL_SERVER_USERNAME }}" >> .env
+          echo "MYSQL_SERVER_PASSWORD=${{ secrets.MYSQL_SERVER_PASSWORD }}" >> .env
+          echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
+          echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
+          echo "KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}" >> .env
+          echo "KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}" >> .env
+          echo "PRODUCTION_MYSQL_URL=${{ secrets.PRODUCTION_MYSQL_URL }}" >> .env
+          echo "KAKAO_CLIENT_SECRET=${{ secrets.PRODUCTION_MYSQL_ROOT_PASSWORD }}" >> .env
+          echo "PRODUCTION_MYSQL_DATABASE=${{ secrets.PRODUCTION_MYSQL_DATABASE }}" >> .env
+          echo "PRODUCTION_MYSQL_USERNAME=${{ secrets.PRODUCTION_MYSQL_USERNAME }}" >> .env
+          echo "PRODUCTION_MYSQL_PASSWORD=${{ secrets.PRODUCTION_MYSQL_PASSWORD }}" >> .env
 
       - name: Cache Gradle packages
         uses: actions/cache@v4
@@ -81,7 +48,6 @@ jobs:
           key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             gradle-${{ runner.os }}-
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
@@ -102,25 +68,38 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Use environment variables file
+      - name: Create environment variables file
         run: |
-          cp ${{ env.env-file-path }} .env
+          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
+          echo "SERVER_PORT=${{ secrets.SERVER_PORT }}" >> .env
+          echo "JSON_WEB_TOKEN_SECRET_KEY=${{ secrets.JSON_WEB_TOKEN_SECRET_KEY }}" >> .env
+          echo "JSON_WEB_TOKEN_EXPIRATION_TIME=${{ secrets.JSON_WEB_TOKEN_EXPIRATION_TIME }}" >> .env
+          echo "MYSQL_SERVER_URL=${{ secrets.MYSQL_SERVER_URL }}" >> .env
+          echo "MYSQL_SERVER_USERNAME=${{ secrets.MYSQL_SERVER_USERNAME }}" >> .env
+          echo "MYSQL_SERVER_PASSWORD=${{ secrets.MYSQL_SERVER_PASSWORD }}" >> .env
+          echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
+          echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
+          echo "KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}" >> .env
+          echo "KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}" >> .env
+          echo "PRODUCTION_MYSQL_URL=${{ secrets.PRODUCTION_MYSQL_URL }}" >> .env
+          echo "KAKAO_CLIENT_SECRET=${{ secrets.PRODUCTION_MYSQL_ROOT_PASSWORD }}" >> .env
+          echo "PRODUCTION_MYSQL_DATABASE=${{ secrets.PRODUCTION_MYSQL_DATABASE }}" >> .env
+          echo "PRODUCTION_MYSQL_USERNAME=${{ secrets.PRODUCTION_MYSQL_USERNAME }}" >> .env
+          echo "PRODUCTION_MYSQL_PASSWORD=${{ secrets.PRODUCTION_MYSQL_PASSWORD }}" >> .env
 
       - name: Convert repository owner to lowercase
         id: to-lowercase
-        run: echo "repo_owner=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+        run: echo "::set-output name=repo_owner::$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')"
 
       - name: Log in to GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ env.repo_owner }} --password-stdin
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ steps.to-lowercase.outputs.repo_owner }} --password-stdin
 
       - name: Build Docker image
         run: |
           docker-compose -f ./docker/docker-compose-prod.yml build
-
       - name: Push Docker image to GHCR
         run: |
-          docker push ghcr.io/${{ env.repo_owner }}/stay_connect_app:latest
-
+          docker push ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/stay_connect_app:latest
       - name: SSH and deploy to EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -129,11 +108,10 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.EC2_PORT }}
           script: |
-            docker pull ghcr.io/${{ env.repo_owner }}/stay_connect_app:latest
+            docker pull ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/stay_connect_app:latest
             docker stop my-app || true
             docker rm my-app || true
-            docker run -d --name my-app -p 80:8080 ghcr.io/${{ env.repo_owner }}/stay_connect_app:latest
-
+            docker run -d --name my-app -p 80:8080 ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/stay_connect_app:latest
   dependency-submission:
     runs-on: ubuntu-latest
     permissions:
