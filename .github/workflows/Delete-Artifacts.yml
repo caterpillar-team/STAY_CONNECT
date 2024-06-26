@@ -3,7 +3,7 @@ name: Delete Old Artifacts
 on:
   push:
     branches:
-      - main # 원하는 브랜치 이름으로 변경 가능
+      - feature/github_action_CD_AWS
   workflow_dispatch:
 
 jobs:
