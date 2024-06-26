@@ -6,12 +6,30 @@ on:
   pull_request:
     branches: [main, develop]
 
+env:
+  SERVER_PORT: ${{ secrets.SERVER_PORT }}
+  JSON_WEB_TOKEN_EXPIRATION_TIME: ${{ secrets.JSON_WEB_TOKEN_EXPIRATION_TIME }}
+  JSON_WEB_TOKEN_SECRET_KEY: ${{ secrets.JSON_WEB_TOKEN_SECRET_KEY }}
+  MYSQL_SERVER_URL: ${{ secrets.MYSQL_SERVER_URL }}
+  MYSQL_SERVER_USERNAME: ${{ secrets.MYSQL_SERVER_USERNAME }}
+  MYSQL_SERVER_PASSWORD: ${{ secrets.MYSQL_SERVER_PASSWORD }}
+  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+  GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+  BASE_URL: ${{ secrets.BASE_URL }}
+  KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
+  KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+  PRODUCTION_MYSQL_URL: ${{ secrets.PRODUCTION_MYSQL_URL }}
+  PRODUCTION_MYSQL_ROOT_PASSWORD: ${{ secrets.PRODUCTION_MYSQL_ROOT_PASSWORD }}
+  PRODUCTION_MYSQL_DATABASE: ${{ secrets.PRODUCTION_MYSQL_DATABASE }}
+  PRODUCTION_MYSQL_USERNAME: ${{ secrets.PRODUCTION_MYSQL_USERNAME }}
+  PRODUCTION_MYSQL_PASSWORD: ${{ secrets.PRODUCTION_MYSQL_PASSWORD }}
+
 jobs:
   create-env-file:
     runs-on: ubuntu-latest
 
     outputs:
-      env-file-path: ${{ steps.create-file.outputs.env-file-path }}
+      env-file-path: ${{ steps.create-file.outputs.file-path }}
 
     steps:
       - name: Create environment variables file
@@ -34,7 +52,7 @@ jobs:
           echo "PRODUCTION_MYSQL_DATABASE=${{ secrets.PRODUCTION_MYSQL_DATABASE }}" >> $file
           echo "PRODUCTION_MYSQL_USERNAME=${{ secrets.PRODUCTION_MYSQL_USERNAME }}" >> $file
           echo "PRODUCTION_MYSQL_PASSWORD=${{ secrets.PRODUCTION_MYSQL_PASSWORD }}" >> $file
-          echo "::set-output name=env-file-path::$file"
+          echo "::set-output name=file-path::$file"
 
   build:
     runs-on: ubuntu-latest
