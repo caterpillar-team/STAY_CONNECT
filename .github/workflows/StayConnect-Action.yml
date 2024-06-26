@@ -59,7 +59,7 @@ jobs:
         with:
           name: build-artifacts
           path: build/libs/StayConnect-0.0.2.jar
-          retention-days: 5
+          retention-days: 1
 
   deploy:
     runs-on: ubuntu-latest
@@ -121,10 +121,17 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.EC2_PORT }}
           script: |
+            docker rmi $(docker images -q)
             docker pull ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/stay_connect_app:latest
             docker stop my-app || true
             docker rm my-app || true
             docker run -d --name my-app -p 80:8080 ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/stay_connect_app:latest
+
+      - name: Delete Artifacts
+        uses: geekyeggo/delete-artifact@v5
+        with:
+          name: |
+            *
 
   dependency-submission:
     runs-on: ubuntu-latest
