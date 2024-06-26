@@ -55,7 +55,9 @@ jobs:
         run: ./gradlew clean build -Dspring.profiles.active=prod -x test
 
       - name: Check Files
-        run: ls -al
+        run: |
+          ls -al
+          ls build/libs -al
 
   deploy:
     runs-on: ubuntu-latest
@@ -89,6 +91,11 @@ jobs:
           echo "PRODUCTION_MYSQL_DATABASE=${{ secrets.PRODUCTION_MYSQL_DATABASE }}" >> .env
           echo "PRODUCTION_MYSQL_USERNAME=${{ secrets.PRODUCTION_MYSQL_USERNAME }}" >> .env
           echo "PRODUCTION_MYSQL_PASSWORD=${{ secrets.PRODUCTION_MYSQL_PASSWORD }}" >> .env
+
+      - name: Check Files
+        run: |
+          ls -al
+          ls build/libs -al
 
       - name: Convert repository owner to lowercase
         id: to-lowercase
