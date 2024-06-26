@@ -59,6 +59,7 @@ jobs:
         with:
           name: build-artifacts
           path: build/libs/StayConnect-0.0.2.jar
+          retention-days: 5
 
   deploy:
     runs-on: ubuntu-latest
