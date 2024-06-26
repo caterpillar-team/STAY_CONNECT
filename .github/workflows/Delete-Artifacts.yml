@@ -15,8 +15,5 @@ jobs:
       - name: Delete Artifacts
         uses: geekyeggo/delete-artifact@v5
         with:
-            name: |
-              artifact-*
-              build-*
-              binary-file
-              output
+          name: |
+            *
