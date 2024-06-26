@@ -1,0 +1,41 @@
+name: Delete Old Artifacts
+
+on:
+  push:
+    branches:
+      - main # 원하는 브랜치 이름으로 변경 가능
+  workflow_dispatch:
+
+jobs:
+  delete-artifacts:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: List Artifacts
+      id: list_artifacts
+      uses: actions/github-script@v4
+      with:
+        script: |
+          const artifacts = await github.actions.listArtifactsForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          });
+          const artifactCount = artifacts.data.artifacts.length;
+          const artifactIds = artifacts.data.artifacts.map(a => a.id).join(',');
+          core.setOutput('artifact_count', artifactCount);
+          core.setOutput('artifact_ids', artifactIds);
+
+    - name: Delete Artifacts
+      if: steps.list_artifacts.outputs.artifact_count != '0'
+      uses: actions/github-script@v4
+      with:
+        script: |
+          const artifactIds = `{{ steps.list_artifacts.outputs.artifact_ids }}`.split(',');
+          for (const artifactId of artifactIds) {
+            await github.actions.deleteArtifact({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              artifact_id: artifactId
+            });
+            console.log(`Deleted artifact: ${artifactId}`);
+          }
