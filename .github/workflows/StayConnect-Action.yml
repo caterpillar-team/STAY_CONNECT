@@ -57,6 +57,7 @@ jobs:
       - name: Check Files
         run: |
           ls -al
+          ls build -al
           ls build/libs -al
 
   deploy:
@@ -95,6 +96,7 @@ jobs:
       - name: Check Files
         run: |
           ls -al
+          ls build -al
           ls build/libs -al
 
       - name: Convert repository owner to lowercase
