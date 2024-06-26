@@ -1,9 +1,7 @@
-name: Delete Old Artifacts
+name: Delete All Artifacts
 
 on:
   push:
-    branches:
-      - feature/github_action_CD_AWS
   workflow_dispatch:
 
 jobs:
@@ -11,31 +9,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: List Artifacts
-        id: list_artifacts
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const artifacts = await github.rest.actions.listArtifactsForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-            });
-            const artifactCount = artifacts.data.total_count;
-            const artifactIds = artifacts.data.artifacts.map(a => a.id).join(',');
-            core.setOutput('artifact_count', artifactCount.toString());
-            core.setOutput('artifact_ids', artifactIds);
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Delete Artifacts
-        if: steps.list_artifacts.outputs.artifact_count != '0'
-        uses: actions/github-script@v6
+        uses: geekyeggo/delete-artifact@v5
         with:
-          script: |
-            const artifactIds = `{{ steps.list_artifacts.outputs.artifact_ids }}`.split(',');
-            for (const artifactId of artifactIds) {
-              await github.rest.actions.deleteArtifact({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                artifact_id: parseInt(artifactId)
-              });
-              console.log(`Deleted artifact: ${artifactId}`);
-            }
+            name: |
+              artifact-*
+              build-*
+              binary-file
+              output
