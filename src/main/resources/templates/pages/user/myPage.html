@@ -66,34 +66,21 @@
 
         function processRefund(reservationId) {
         console.log('환불 요청');
-        $.ajax({
-            url: '/user/cancel_reservation',
-            type: 'POST',
-            data: JSON.stringify({ reservationId: reservationId.toString() }),
-            contentType: 'application/json; charset=utf-8',
-            success: function (response) {
-                console.log('success response:', response);
-                if (response.success) {
-                    alert('환불이 성공적으로 처리되었습니다.');
-                    $('#reservationModal').modal('hide');
-                    location.reload();
-                } else {
-                    alert('환불 처리에 실패했습니다: ' + response.message);
-                }
-            },
-            error: function (error) {
-                console.log('AJAX error:', error);
-                alert('환불 처리 중 오류가 발생했습니다.');
-            }
-        });
+        location.href="/user/cancel_reservation?reservationId=" + reservationId;
     }
+    
     </script>
 </th:block>
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/pages/user/myPage.css}"/>
+    <link rel="stylesheet" th:href="@{/css/layouts/myPage_mediaquery.css}"/>
+
 </th:block>
 <th:block layout:fragment="leftAside">
-    <div class="menu">
+    <div class="menu-toggle" id="hamburger-icon">
+        <span class="material-symbols-outlined" style="margin-top: 15px; margin-left: 20px; font-size: 2rem;">menu</span>
+    </div>
+    <div class="menu" id="nav-menu">
         <h3>마이페이지</h3>
         <div>
             <a href="javascript:void(0)" id="reservationLink">예약목록</a>
@@ -269,4 +256,12 @@
     <script th:src="@{/js/signUp/formatPhoneNumber.js}"></script>
 </th:block>
 <th:block layout:fragment="rightAside"></th:block>
+
+<script>
+    $(document).ready(function() {
+        $('#hamburger-icon').click(function() {
+            $('#nav-menu').toggle(); // 메뉴 표시/숨기기 토글
+        });
+    });
+</script>
 </html>

@@ -64,7 +64,7 @@ public class UserController {
             User user = result.get();
             model.addAttribute("edit", user);
 
-            // 사용자의 예약 목록 추가
+            // 사용자의 예약 목록 추가하기
             List<ReservationDto> reservations = reservationService.getReservationsByUserId(user.getId());
             model.addAttribute("reservation", reservations);
         } else {

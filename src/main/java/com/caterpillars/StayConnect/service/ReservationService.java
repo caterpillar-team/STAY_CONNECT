@@ -10,17 +10,32 @@ import com.caterpillars.StayConnect.model.repository.AccommodationRepository;
 import com.caterpillars.StayConnect.model.repository.ReservationRepository;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ReservationService {
 
     @Autowired
@@ -37,6 +52,14 @@ public class ReservationService {
 
     @Autowired
     private AccommodationRepository accommodationRepository;
+
+    private PortOneTokenResponse portOneTokenResponse;
+
+    @Value("${PORTONE_API_KEY}")
+    private String apiKey;
+
+    @Value("${PORTONE_SECRET_KEY}")
+    private String apiSecret;
 
     public List<Object[]> getMonthlyReservationCount() {
         return reservationRepository.findMonthlyReservationCount();
@@ -136,5 +159,131 @@ public class ReservationService {
         reservationRepository.deleteById(reservationId);
     }
 
+    // 토큰 발급 메서드
+    @Transactional
+    public @ResponseBody void getToken() {
+        log.info("GET /portOne/getToken..");
+
+        //URL
+        String url = "https://api.iamport.kr/users/getToken";
+        //HEADER
+        HttpHeaders headers = new HttpHeaders();
+
+        //PARAMS
+        MultiValueMap params = new LinkedMultiValueMap();
+        params.add("imp_key", apiKey);
+        params.add("imp_secret", apiSecret);
+
+        //ENTITY
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity(params, headers);
+
+        //REQUEST
+        RestTemplate rt = new RestTemplate();
+        ResponseEntity<PortOneTokenResponse> response = rt.exchange(url, HttpMethod.POST, entity, PortOneTokenResponse.class);
+        //RESPONSE
+        System.out.println(response.getBody());
+        this.portOneTokenResponse = response.getBody();
+
+    }
+
+    // 결제취소 시 DB를 삭제하는 메서드
+    @Transactional
+    public Map<String, Object> cancelReservation(Long reservationId) {
+        System.out.println("received request : delete");
+
+//        String reservationIdStr = request.get("reservationId");
+//        Long reservationId = Long.parseLong(reservationIdStr);
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            log.info("Deleting reservation with ID: " + reservationId);
+            deleteReservationById(reservationId);
+            response.put("success", true);
+        } catch (Exception e) {
+            log.info("Error while deleting reservation: " + e.getMessage());
+            response.put("success", false);
+            response.put("message", "예약 삭제 중 오류 발생: " + e.getMessage());
+        }
+        return response;
+    }
+
+    // 결제취소 메서드
+    @Transactional
+    public boolean cancel_reservation(Long reservationId) {
+
+        getToken();
+        Optional<Reservation> reservation_optional = reservationRepository.findById(reservationId);
+        if (reservation_optional.isEmpty())
+            return false;
+
+        Reservation reservation = reservation_optional.get();
+        String imp_uid = reservation.getImp_uid();
+        String merchant_uid = reservation.getMerchant_uid();
+
+        //URL
+        String url = "https://api.iamport.kr/payments/cancel";
+
+        //Request Header
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + portOneTokenResponse.getResponse().getAccess_token());
+        headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        //Request Body
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("imp_uid", imp_uid);
+        params.add("merchant_uid", merchant_uid);
+
+        //Hader+Body
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity(params, headers);
+
+        //요청
+        RestTemplate restTemplate = new RestTemplate();
+
+        //반환값확인
+        ResponseEntity<String> resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+
+        System.out.println(resp);
+        System.out.println(resp.getBody());
+
+        // JSON 파싱
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> responseMap = new HashMap<>();
+
+        try {
+            JsonNode rootNode = objectMapper.readTree(resp.getBody());
+            JsonNode cancelHistoryNode = rootNode.path("response").path("cancel_history");
+            if (cancelHistoryNode.isArray() && cancelHistoryNode.size() > 0) {
+                JsonNode firstCancelHistory = cancelHistoryNode.get(0);
+                String cancellationId = firstCancelHistory.path("cancellation_id").asText();
+                if (!cancellationId.isEmpty()) {
+                    cancelReservation(reservationId);
+                } else {
+                    System.out.println("error");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+
+    //---------------------------
+    // AccessToken 발급 Class
+    //---------------------------
+    @Data
+    private static class TokenResponse {
+        public String access_token;
+        public int now;
+        public int expired_at;
+    }
+
+    @Data
+    private static class PortOneTokenResponse {
+        public int code;
+        public Object message;
+        public TokenResponse response;
+    }
 
 }
