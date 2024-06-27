@@ -6,11 +6,15 @@ import com.caterpillars.StayConnect.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Map;
 
 @Controller
 @RequestMapping("/accommodation/detail")
@@ -77,11 +81,15 @@ public class ReviewController {
     }
 
     @PostMapping("/update/review")
-    public String updateReview(@ModelAttribute("reviewDto") ReviewDto reviewDto, RedirectAttributes rttr) {
+    public @ResponseBody ResponseEntity<Map<String, Object>> updateReview(@ModelAttribute ReviewDto reviewDto) {
         log.info("POST /user/accom/detail/update/review : " + reviewDto);
-        reviewService.updateReview(reviewDto);
-        rttr.addFlashAttribute("message", "리뷰를 수정하였습니다");
-        return "redirect:/accommodation/detail/" + reviewDto.getAccId(); // 수정 후 숙소 상세 페이지로 리다이렉트
+        Map<String, Object> result = reviewService.updateReview(reviewDto);
+
+        if (result.get("message") == null)
+            result.put("message", "리뷰 업데이트 성공!");
+
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 }

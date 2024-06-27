@@ -21,8 +21,8 @@
 <th:block layout:fragment="javascript">
     <script th:src="@{/lib/axios/axios.min.js}"></script>
     <script th:src="@{/lib/portone/iamport.js}"></script>
-    <script th:src="@{/js/accommodation/detail.js }"></script>
-    <script th:src="@{/js/accommodation/review.js}"></script>
+    <script th:src="@{/js/accommodation/detail.js }" ></script>
+    <script th:src="@{/js/accommodation/review.js}" defer></script>
     <script th:src="@{/js/accommodation/payment.js}"></script>
 </th:block>
 <th:block layout:fragment="css">
@@ -260,6 +260,7 @@
                             <!-- 수정폼 -->
                             <form th:action="@{/accommodation/detail/update/review}"
                                   class="updateReviewForm hidden"
+                                  onsubmit="return false"
                                   method="post"
                                   name="updateReviewForm"
                                   th:id="'editForm' + ${review.id}">

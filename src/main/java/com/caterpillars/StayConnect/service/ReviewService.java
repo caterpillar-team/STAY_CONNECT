@@ -17,9 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -81,14 +79,21 @@ public class ReviewService {
 
     // 리뷰 수정
     @Transactional
-    public void updateReview(ReviewDto reviewDto) {
-        Review review = reviewRepository.findById(reviewDto.getReviewId())
-                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
+    public Map<String, Object> updateReview(ReviewDto reviewDto) {
+        Map<String, Object> result = new HashMap<>();
+        Optional<Review> reviewOptional = reviewRepository.findById(reviewDto.getReviewId());
+        if (reviewOptional.isEmpty()) {
+            result.put("message", "리뷰를 찾을 수 없습니다.");
+            return result;
+        }
+        Review review = reviewOptional.get();
+
         // 리뷰 내용 및 평점 수정
         review.setContents(reviewDto.getContents());
         review.setRate(reviewDto.getRate());
         // 리뷰 저장
         reviewRepository.save(review);
+        return result;
     }
 
     // 리뷰 조회
