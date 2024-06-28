@@ -10,10 +10,19 @@
         <th:block layout:fragment="javascript">
             <script src="https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-            <script th:src="@{/js/chat/chat.js}"></script>
+            <script th:src="@{/js/chat/clientChat.js}"></script>
         </th:block>
     </head>
     <body>
-        <div th:insert="~{fragments/chat/chat_frag :: chat}"></div>
+        <div th:fragment="chat" class="chatCard">
+            <div class="chatLog" id="chatLog"></div>
+            <form id="messageForm">
+                <input type="text" id="myMessage" placeholder="메시지를 작성해주세요" />
+                <button id="sendMessage" data-roomId="${rooms.roomId}">전송</button>
+                <p>
+                    <span class="notification"></span>
+                </p>
+            </form>
+        </div>
     </body>
 </html>

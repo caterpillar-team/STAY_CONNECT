@@ -10,11 +10,10 @@
         <th:block layout:fragment="javascript">
             <script src="https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-            <script th:src="@{/js/chat/clientChat.js}"></script>
+            <script th:src="@{/js/chat/adminChat.js}"></script>
         </th:block>
     </head>
     <body>
-        <div th:insert="~{fragments/chat/chat_frag :: chat}"></div>
-        
+        <div id="roomsContainer"></div>
     </body>
 </html>

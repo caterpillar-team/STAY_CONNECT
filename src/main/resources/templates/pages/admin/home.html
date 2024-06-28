@@ -210,6 +210,7 @@
                     <li
                         class="list-group-item d-flex justify-content-between align-items-start"
                         th:each="chatList : ${lastMessages}"
+                        onclick="showPopup(this)"
                     >
                         <div class="ms-2 me-auto">
                             <div class="fw-bold" th:text="${chatList.key}">UserName</div>
@@ -220,5 +221,12 @@
                 </ul>
             </div>
         </div>
+        <script>
+            let options =
+                'toolbar=no,scrollbars=yes,resizable=no,status=no,menubar=no,width=500, height=700, top=50,left=100';
+            function showPopup(element) {
+                window.open('/chat/adminChatPopup', 'adminChatPopup', options); // /chat/popup 경로로 요청
+            }
+        </script>
     </th:block>
 </html>

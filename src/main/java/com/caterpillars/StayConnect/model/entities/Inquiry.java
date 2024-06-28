@@ -2,22 +2,23 @@ package com.caterpillars.StayConnect.model.entities;
 
 import java.time.LocalDateTime;
 
-import groovy.transform.builder.Builder;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Builder
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Inquiry {
 
     @Id
@@ -28,4 +29,10 @@ public class Inquiry {
     private LocalDateTime createdAt;
     private String roomId;
 
+    @PrePersist
+    public void prePersist() {
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
+    }
 }

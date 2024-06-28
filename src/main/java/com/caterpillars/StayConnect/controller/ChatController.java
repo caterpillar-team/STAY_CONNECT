@@ -3,8 +3,8 @@ package com.caterpillars.StayConnect.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -14,14 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.caterpillars.StayConnect.model.entities.ChatRoom;
 import com.caterpillars.StayConnect.model.entities.Inquiry;
-import com.caterpillars.StayConnect.service.ChatRoomService;
 import com.caterpillars.StayConnect.service.InquiryService;
 
 import jakarta.servlet.http.HttpSession;
-
-
 
 
 @Controller
@@ -32,65 +28,65 @@ public class ChatController {
     private InquiryService inquiryService;
 
     @Autowired
-    private ChatRoomService chatRoomService;
-
-
-    @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    @GetMapping("/popup")
-    public String showChatPopup(Model model, HttpSession session) {
-        // 세션에서 방 ID 가져오기
+
+
+    @GetMapping("/clientChatPopup")
+    public String showClientChatPopup(Model model, HttpSession session) {
         String roomId = (String) session.getAttribute("roomId");
-
-        System.out.println("!!!!!!!!!!! " + roomId);
-
         model.addAttribute("roomId", roomId);
-        return "pages/chatPopup";
+        return "pages/clientChatPopup";
     }
 
+    @GetMapping("/adminChatPopup")
+    public String showAdminChatPopup(Model model, HttpSession session) {
+        List<Inquiry> rooms = inquiryService.findAllInquiry();
+        String roomId = (String) session.getAttribute("roomId");
+
+        
+        model.addAttribute("rooms", rooms);
+        model.addAttribute("roomId", roomId);
+        return "pages/adminChatPopup";
+    }
 
     @MessageMapping("/chat.sendMessage")
-    @SendTo("/topic/public")
-    public Inquiry sendMessage(Inquiry inquiry,Authentication authentication) {
-        if(authentication !=null){
+    public Inquiry sendMessage(Inquiry inquiry, Authentication authentication) {
+        if (authentication != null) {
             String username = authentication.getName();
             inquiry.setSender(username);
 
         }
 
-        Inquiry savedInquiry = inquiryService.savedInquiry(inquiry);
 
-         // 메시지를 해당 채팅방 구독자들에게 전송
-         messagingTemplate.convertAndSend("/sub/chatroom/" + inquiry.getRoomId(), inquiry);
+        Inquiry savedInquiry = inquiryService.saveInquiry(inquiry.getSender(), inquiry.getContents(), inquiry.getRoomId());
 
-
-         return savedInquiry;
-
+        messagingTemplate.convertAndSend("/sub/chatroom/" + inquiry.getRoomId(), savedInquiry);
+        return savedInquiry;
     }
 
+    //특정 채팅방 입장하는 메서드
     @GetMapping("/enter/{roomId}")
     public String enterChatRoom(@PathVariable String roomId, HttpSession session) {
-        // 세션에 방 ID 저장
         session.setAttribute("roomId", roomId);
         return "redirect:/chat/popup";
     }
 
-
+    //채팅방 생성 메서드
     @GetMapping("/createRoom")
     @ResponseBody
-    public ChatRoom createRoom() {
-        return chatRoomService.createChatRoom();
+    public ResponseEntity<Inquiry> createRoom(Authentication authentication) {
+        String username = authentication != null ? authentication.getName() : "anonymous";
+        Inquiry inquiry = inquiryService.createChatRoom(username);
+        return ResponseEntity.ok(inquiry);
     }
 
+    //모든 채팅방 조회 메서드
     @GetMapping("/rooms")
     @ResponseBody
-    public List<ChatRoom> getRooms() {
-        return chatRoomService.findAllChatRooms();
+    public List<Inquiry> getRooms() {
+        return inquiryService.findAllInquiry();
     }
-
-
-
 
 
 }
