@@ -34,7 +34,7 @@ jobs:
           echo "KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}" >> .env
           echo "KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}" >> .env
           echo "PRODUCTION_MYSQL_URL=${{ secrets.PRODUCTION_MYSQL_URL }}" >> .env
-          echo "KAKAO_CLIENT_SECRET=${{ secrets.PRODUCTION_MYSQL_ROOT_PASSWORD }}" >> .env
+          echo "PRODUCTION_MYSQL_ROOT_PASSWORD=${{ secrets.PRODUCTION_MYSQL_ROOT_PASSWORD }}" >> .env
           echo "PRODUCTION_MYSQL_DATABASE=${{ secrets.PRODUCTION_MYSQL_DATABASE }}" >> .env
           echo "PRODUCTION_MYSQL_USERNAME=${{ secrets.PRODUCTION_MYSQL_USERNAME }}" >> .env
           echo "PRODUCTION_MYSQL_PASSWORD=${{ secrets.PRODUCTION_MYSQL_PASSWORD }}" >> .env
@@ -95,7 +95,7 @@ jobs:
           echo "KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}" >> .env
           echo "KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}" >> .env
           echo "PRODUCTION_MYSQL_URL=${{ secrets.PRODUCTION_MYSQL_URL }}" >> .env
-          echo "KAKAO_CLIENT_SECRET=${{ secrets.PRODUCTION_MYSQL_ROOT_PASSWORD }}" >> .env
+          echo "PRODUCTION_MYSQL_ROOT_PASSWORD=${{ secrets.PRODUCTION_MYSQL_ROOT_PASSWORD }}" >> .env
           echo "PRODUCTION_MYSQL_DATABASE=${{ secrets.PRODUCTION_MYSQL_DATABASE }}" >> .env
           echo "PRODUCTION_MYSQL_USERNAME=${{ secrets.PRODUCTION_MYSQL_USERNAME }}" >> .env
           echo "PRODUCTION_MYSQL_PASSWORD=${{ secrets.PRODUCTION_MYSQL_PASSWORD }}" >> .env
