@@ -58,7 +58,7 @@ public class AccommodationController {
             model.addAttribute("endPage", accommodationDto.getEndPage());
 
             if (authentication != null && authentication.isAuthenticated()) {
-                Optional<User> userOptional  = userService.findByUsername(authentication.getName());
+                Optional<User> userOptional = userService.findByUsername(authentication.getName());
                 log.info("userOptional" + userOptional);
                 if (userOptional.isPresent()) {
                     User user = userOptional.get();
@@ -75,7 +75,7 @@ public class AccommodationController {
 
             return "pages/accommodation/detail";
         } else {
-            return "redirect:/error";
+            return null;
         }
     }
 }
