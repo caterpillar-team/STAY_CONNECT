@@ -70,18 +70,6 @@ public class ReservationController {
     }
 
 
-    // 결제 취소
-//    @GetMapping("/cancel_reservation")
-//    public @ResponseBody boolean cancel(@RequestParam("reservationId") Long reservationId) {
-//
-//        log.info(String.valueOf("!!!" + reservationId));
-//
-//        reservationService.cancel_reservation(reservationId);
-//
-//        return false;
-//    }
-
-
     @GetMapping("/cancel_reservation")
     public String cancel(@RequestParam("reservationId") Long reservationId, Model model) {
         log.info("예약 ID에 대한 취소 요청: " + reservationId);

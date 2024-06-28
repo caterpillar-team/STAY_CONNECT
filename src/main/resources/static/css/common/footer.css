@@ -28,9 +28,14 @@
   margin-top: 10px;
 }
 
-.footer .member a {
+.footer .member .icons {
+  display: flex;
+  justify-content: center;
+  margin-left: 10px;
+}
+
+.footer .member .icons a img {
   width: 30px;
   height: 30px;
-  display: flex;
-  margin-left: 40px;
+  margin: 0 10px;
 }
