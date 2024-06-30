@@ -24,19 +24,8 @@ public class ChartDataService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private ReviewRepository reviewRepository;
 
 
-
-
-    public List<User> getAllUsers() {
-    return userRepository.findAll();
-    }
-
-    public List<Review> getAllReviews() {
-    return reviewRepository.findAll();
-    }
 
     public List<Map<String,Object>> getAgeGroupCounts() {
         List<User> users = userRepository.findAll();
@@ -64,5 +53,4 @@ public class ChartDataService {
         else if (age < 60) return "50-59";
         else return "60+";
     }
-    
 }

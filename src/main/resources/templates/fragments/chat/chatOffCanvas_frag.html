@@ -12,14 +12,19 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <ol class="list-group list-group-numbered">
-            <li class="list-group-item d-flex justify-content-between align-items-start" >
+        <input type="text" id="searchUsername" placeholder="Username을 입력하세요" />
+        <button type="button" onclick="searchMessages()">검색</button>
+        <ul class="list-group list-group-numbered">
+            <li
+                class="list-group-item d-flex justify-content-between align-items-start"
+                th:each="chatList : ${lastMessages}"
+                onclick="showPopup(this)"
+            >
                 <div class="ms-2 me-auto">
-                    <div class="fw-bold" >UserName</div>
-                    <div>Chat Contents</div>
+                    <div class="fw-bold" th:text="${chatList.key}">UserName</div>
+                    <div th:text="${chatList.value.contents}">Chat Contents</div>
                 </div>
-                <span class="badge bg-primary rounded-pill">3</span>
             </li>
-        </ol>
+        </ul>
     </div>
 </div>

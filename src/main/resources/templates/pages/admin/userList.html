@@ -9,13 +9,13 @@
         <title>userList page</title>
     </th:block>
     <th:block layout:fragment="css"
-        ><link rel="stylesheet" th:href="@{/css/pages/admin/userList.css}" />
+        ><link rel="stylesheet" th:href="@{/css/pages/admin/listPage.css}" />
         <link rel="stylesheet" th:href="@{/css/pages/chatCard.css}" />
     </th:block>
     <th:block layout:fragment="javascript">
         <script src="https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-        <script th:src="@{/js/chat/chat.js}"></script>
+        <script th:src="@{/js/chat/adminChat.js}"></script>
     </th:block>
 
     <th:block layout:fragment="leftAside">
@@ -33,12 +33,18 @@
                 </select>
             </label>
         </div>
+        <div>
+            <form th:action="@{/admin/userList}" method="get">
+                <input type="text" name="username" placeholder="Search by Username" />
+                <button type="submit">Search</button>
+            </form>
+        </div>
         <div class="list-card">
             <table class="table align-middle table-hover">
                 <thead>
                     <tr>
                         <th scope="col">IDENTIFY CODE</th>
-                        <th scope="col">ID</th>
+                        <th scope="col">REAL NAME</th>
                         <th scope="col">USER NAME</th>
                         <th scope="col">GENDER</th>
                         <th scope="col">EMAIL</th>
@@ -53,12 +59,15 @@
                         <td th:text="${userList.gender}"></td>
                         <td th:text="${userList.email}"></td>
                         <td th:text="${userList.phoneNumber}"></td>
+                        <td>
+                            <a th:href="@{/admin/deleteUser/{id}(id=${userList.id})}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
+                        </td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
                         <th scope="col">IDENTIFY CODE</th>
-                        <th scope="col">ID</th>
+                        <th scope="col">REAL NAME</th>
                         <th scope="col">USER NAME</th>
                         <th scope="col">GENDER</th>
                         <th scope="col">EMAIL</th>
@@ -71,5 +80,16 @@
 
     <th:block layout:fragment="rightAside">
         <div th:insert="~{fragments/chat/chatOffCanvas_frag :: chatOffCanvas}"></div>
+
+        <script>
+            let options = 'toolbar=no,scrollbars=yes,resizable=no,status=no,menubar=no,width=500, height=700, top=50,left=100';
+            function showPopup(element) {
+                window.open('/chat/adminChatPopup', 'adminChatPopup', options); // /chat/popup 경로로 요청
+            }
+            function searchMessages() {
+                var username = document.getElementById('searchUsername').value;
+                window.open('/chat/searchMessages?sender=' + encodeURIComponent(username), 'resultOfSearchPopup', options);
+            }
+        </script>
     </th:block>
 </html>

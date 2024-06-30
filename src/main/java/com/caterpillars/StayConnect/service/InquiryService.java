@@ -57,9 +57,18 @@ public class InquiryService {
         return lastMessage;
     }
 
+    public List<Inquiry> findByRoomId(String roomId) {
+        return inquiryRepository.findByRoomId(roomId);
+    }
+
+    public List<Inquiry> findMessageBySender(String sender){
+        return inquiryRepository.findMessageBySender(sender);
+    }
 
 
-
+    public Long countMessagesByRoomId(String roomId) {
+        return inquiryRepository.countByRoomId(roomId);
+    }
 
 
 

@@ -65,6 +65,7 @@
                     ],
                 };
                 var options = {
+                    maintainAspectRatio: false,
                     plugins: {
                         legend: {
                             display: false,
@@ -125,6 +126,7 @@
                     ],
                 };
                 var options = {
+                    maintainAspectRatio: false,
                     plugins: {
                         legend: {
                             display: false,
@@ -171,6 +173,7 @@
                     ],
                 };
                 var options = {
+                    maintainAspectRatio: false,
                     plugins: {
                         legend: {
                             display: false,
@@ -193,40 +196,6 @@
     </th:block>
 
     <th:block layout:fragment="rightAside">
-        <div
-            class="offcanvas offcanvas-end"
-            data-bs-scroll="true"
-            data-bs-backdrop="false"
-            tabindex="-1"
-            id="offcanvasRight"
-            aria-labelledby="offcanvasRightLabel"
-        >
-            <div class="offcanvas-header">
-                <h5 id="offcanvasRightLabel">나는 문의 채팅창</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <ul class="list-group list-group-numbered">
-                    <li
-                        class="list-group-item d-flex justify-content-between align-items-start"
-                        th:each="chatList : ${lastMessages}"
-                        onclick="showPopup(this)"
-                    >
-                        <div class="ms-2 me-auto">
-                            <div class="fw-bold" th:text="${chatList.key}">UserName</div>
-                            <div th:text="${chatList.value.contents}">Chat Contents</div>
-                        </div>
-                        <span class="badge bg-primary rounded-pill">3</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <script>
-            let options =
-                'toolbar=no,scrollbars=yes,resizable=no,status=no,menubar=no,width=500, height=700, top=50,left=100';
-            function showPopup(element) {
-                window.open('/chat/adminChatPopup', 'adminChatPopup', options); // /chat/popup 경로로 요청
-            }
-        </script>
+        <div th:insert="~{fragments/chat/chatOffCanvas_frag :: chatOffCanvas}"></div>
     </th:block>
 </html>

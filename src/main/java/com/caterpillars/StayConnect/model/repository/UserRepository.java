@@ -15,6 +15,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
   Optional<User> findByEmail(String email);
 
   Optional<User> findByUsername(String username);
+
+  List<User> findByRealName (String realName);
+
   Optional<User> findByRealNameAndPhoneNumber(String username, String phoneNumber);
 
   @Query("SELECT YEAR(u.birth) as year, MONTH(u.birth) as month, COUNT(u) as count " +

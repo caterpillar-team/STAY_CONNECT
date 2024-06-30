@@ -19,6 +19,15 @@ function connect() {
     );
 }
 
+function fetchMessages(roomId) {
+    fetch('/chat/messages/' + roomId)
+        .then(response => response.json())
+        .then(messages => {
+            messages.forEach(showMessage);
+        })
+        .catch(error => console.error('Error fetching messages:', error));
+}
+
 function sendMessage() {
     var messageContent = document.getElementById('myMessage').value;
     var message = {
@@ -58,4 +67,4 @@ window.addEventListener('load', function () {
         document.getElementById('myMessage').value = '';
     });
 });
-c
+

@@ -1,5 +1,6 @@
 package com.caterpillars.StayConnect.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +36,21 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public String findUser(String username) {
-        return username;
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public List<User> findByRealName(String realName) {
+       return userRepository.findByRealName(realName);
     }
 
     public User findById(Long id) {
         Optional<User> user = userRepository.findById(id);
         return user.orElseThrow();
+    }
+
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
     }
 }
 

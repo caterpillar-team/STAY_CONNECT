@@ -1,6 +1,8 @@
 package com.caterpillars.StayConnect.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.caterpillars.StayConnect.model.entities.Inquiry;
@@ -36,7 +39,7 @@ public class ChatController {
     public String showClientChatPopup(Model model, HttpSession session) {
         String roomId = (String) session.getAttribute("roomId");
         model.addAttribute("roomId", roomId);
-        return "pages/clientChatPopup";
+        return "pages/chat/clientChatPopup";
     }
 
     @GetMapping("/adminChatPopup")
@@ -44,10 +47,10 @@ public class ChatController {
         List<Inquiry> rooms = inquiryService.findAllInquiry();
         String roomId = (String) session.getAttribute("roomId");
 
-        
+
         model.addAttribute("rooms", rooms);
         model.addAttribute("roomId", roomId);
-        return "pages/adminChatPopup";
+        return "pages/chat/adminChatPopup";
     }
 
     @MessageMapping("/chat.sendMessage")
@@ -86,6 +89,32 @@ public class ChatController {
     @ResponseBody
     public List<Inquiry> getRooms() {
         return inquiryService.findAllInquiry();
+    }
+
+    @GetMapping("/messages/{roomId}")
+@ResponseBody
+public List<Inquiry> getMessages(@PathVariable String roomId) {
+    return inquiryService.findByRoomId(roomId);
+}
+
+@GetMapping("/messageCounts")
+@ResponseBody
+public Map<String, Long> getMessageCounts() {
+    List<Inquiry> inquiries = inquiryService.findAllInquiry();
+    Map<String, Long> messageCounts = new HashMap<>();
+    for (Inquiry inquiry : inquiries) {
+        String roomId = inquiry.getRoomId();
+        Long count = inquiryService.countMessagesByRoomId(roomId);
+        messageCounts.put(roomId, count);
+    }
+    return messageCounts;
+}
+
+@GetMapping("/searchMessages")
+    public String searchMessagesBySender(@RequestParam String sender, Model model) {
+        List<Inquiry> searchMessage = inquiryService.findMessageBySender(sender);
+        model.addAttribute("messageHistory", searchMessage);
+        return "pages/chat/messageHistoryPopup";
     }
 
 
