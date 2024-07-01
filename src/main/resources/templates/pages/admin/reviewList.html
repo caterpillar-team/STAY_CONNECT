@@ -74,9 +74,19 @@
         <div th:insert="~{fragments/chat/chatOffCanvas_frag :: chatOffCanvas}"></div>
 
         <script>
-            let options = 'toolbar=no,scrollbars=yes,resizable=no,status=no,menubar=no,width=500, height=700, top=50,left=100';
+            let options =
+                'toolbar=no,scrollbars=yes,resizable=no,status=no,menubar=no,width=500,height=700,top=50,left=100';
             function showPopup(element) {
-                window.open('/chat/adminChatPopup', 'adminChatPopup', options); // /chat/popup 경로로 요청
+                var roomId = element.getAttribute('data-room-id');
+                fetch('/chat/enter/' + roomId)
+                    .then((response) => {
+                        if (response.ok) {
+                            window.open('/chat/adminChatPopup', 'chatPopup-' + roomId, options);
+                        } else {
+                            console.error('Failed to enter chat room:', response.statusText);
+                        }
+                    })
+                    .catch((error) => console.error('Error entering chat room:', error));
             }
             function searchMessages() {
                 var username = document.getElementById('searchUsername').value;

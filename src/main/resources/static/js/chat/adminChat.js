@@ -143,7 +143,6 @@ function createChatLog(roomId, messageCount) {
     fetchMessages(roomId);
 }
 
-
 window.addEventListener('load', function () {
     connect();
 });

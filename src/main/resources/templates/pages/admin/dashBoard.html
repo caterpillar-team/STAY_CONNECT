@@ -6,7 +6,7 @@
     layout:decorate="~{layouts/layout}"
 >
     <th:block layout:fragment="title">
-        <title>reviewList page</title>
+        <title>admin page</title>
     </th:block>
     <th:block layout:fragment="css">
         <link rel="stylesheet" th:href="@{/css/pages/admin/dashBoard.css}" />
@@ -305,20 +305,24 @@
 
     <th:block layout:fragment="rightAside">
         <div th:insert="~{fragments/chat/chatOffCanvas_frag :: chatOffCanvas}"></div>
-
         <script>
             let options =
-                'toolbar=no,scrollbars=yes,resizable=no,status=no,menubar=no,width=500, height=700, top=50,left=100';
-            function showPopup(roomId, messageCount) {
-                window.open('/chat/adminChatPopup', 'chatPopup-' + roomId, options);
+                'toolbar=no,scrollbars=yes,resizable=no,status=no,menubar=no,width=500,height=700,top=50,left=100';
+            function showPopup(element) {
+                var roomId = element.getAttribute('data-room-id');
+                fetch('/chat/enter/' + roomId)
+                    .then((response) => {
+                        if (response.ok) {
+                            window.open('/chat/adminChatPopup', 'chatPopup-' + roomId, options);
+                        } else {
+                            console.error('Failed to enter chat room:', response.statusText);
+                        }
+                    })
+                    .catch((error) => console.error('Error entering chat room:', error));
             }
             function searchMessages() {
                 var username = document.getElementById('searchUsername').value;
-                window.open(
-                    '/chat/searchMessages?sender=' + encodeURIComponent(username),
-                    'resultOfSearchPopup',
-                    options
-                );
+                window.open('/chat/searchMessages?sender=' + encodeURIComponent(username), 'resultOfSearchPopup', options);
             }
         </script>
     </th:block>

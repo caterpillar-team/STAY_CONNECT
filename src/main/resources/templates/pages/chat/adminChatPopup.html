@@ -3,17 +3,204 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-        <th:block layout:fragment="css">
-            <link rel="stylesheet" th:href="@{/css/pages/chatCard.css}" />
-        </th:block>
-        <th:block layout:fragment="javascript">
-            <script src="https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-            <script th:src="@{/js/chat/adminChat.js}"></script>
-        </th:block>
+        <title>Chat Messages</title>
+        <style>
+            /* 메시지 컨테이너의 기본 스타일 */
+            .message-container {
+                margin-bottom: 15px;
+            }
+            /* 시스템 메시지 컨테이너의 스타일 */
+            .system-message-container {
+                text-align: center;
+            }
+            /* 시스템 메시지의 스타일 */
+            .system-message {
+                color: gray;
+            }
+            /* 자신의 메시지 컨테이너의 스타일 */
+            .my-message-container {
+                text-align: right;
+            }
+            /* 자신의 메시지의 스타일 */
+            .my-message {
+                display: inline-block;
+                background-color: lightblue;
+                padding: 10px;
+                border-radius: 5px;
+            }
+            /* 상대방의 메시지 컨테이너의 스타일 */
+            .your-message-container {
+                display: flex;
+                align-items: center;
+            }
+            /* 프로필 이미지의 스타일 */
+            .profile-image {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+            /* 상대방의 메시지의 스타일 */
+            .your-message {
+                display: inline-block;
+                background-color: lightgreen;
+                padding: 10px;
+                border-radius: 5px;
+            }
+            .input-area {
+                display: flex;
+                align-items: center;
+            }
+            .plus-button {
+                margin-right: 10px;
+                cursor: pointer;
+                font-size: 24px;
+            }
+            .input-container {
+                display: flex;
+                align-items: center;
+                width: 100%;
+            }
+            .send-button {
+                margin-left: 10px;
+            }
+            /* 관리자 페이지 스타일 */
+            .chatContainer {
+                margin-bottom: 30px;
+                border: 1px solid #ccc;
+                padding: 10px;
+                border-radius: 5px;
+            }
+            .chatLog {
+                max-height: 200px;
+                overflow-y: auto;
+                border: 1px solid #ddd;
+                margin-bottom: 10px;
+                padding: 10px;
+                background-color: #f9f9f9;
+            }
+            .messageForm input {
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                width: calc(100% - 60px);
+                margin-right: 10px;
+            }
+            .messageForm button {
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                background-color: #007bff;
+                color: white;
+                cursor: pointer;
+            }
+        </style>
     </head>
     <body>
-        <div id="roomsContainer"></div>
+        <!-- 메시지 리스트를 담을 컨테이너 -->
+        <div id="messageListContainer"></div>
+
+        <script src="https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+        <script th:inline="javascript">
+            var stompClient = null;
+            var username = /*[[${username}]]*/ 'Admin';
+            var currentRooms = {};
+
+            function connect() {
+                var socket = new SockJS('/ws');
+                stompClient = Stomp.over(socket);
+                stompClient.connect(
+                    {},
+                    function (frame) {
+                        console.log('Connected: ' + frame);
+                        fetchActiveRooms();
+                    },
+                    function (error) {
+                        console.error('STOMP error', error);
+                    }
+                );
+            }
+
+            function fetchActiveRooms() {
+                fetch('/chat/rooms')
+                    .then((response) => response.json())
+                    .then((rooms) => {
+                        rooms.forEach((room) => {
+                            if (!currentRooms[room.roomId]) {
+                                // 새로운 roomId인 경우에만 구독
+                                currentRooms[room.roomId] = true;
+                                createChatLog(room.roomId, room.username);
+                                stompClient.subscribe('/sub/chatroom/' + room.roomId, function (messageOutput) {
+                                    showMessage(JSON.parse(messageOutput.body), room.roomId);
+                                });
+                            }
+                        });
+                    })
+                    .catch((error) => console.error('Error fetching rooms:', error));
+            }
+
+            function createChatLog(roomId, username) {
+                var chatLogContainer = document.createElement('div');
+                chatLogContainer.id = 'chatContainer-' + roomId;
+                chatLogContainer.classList.add('chatContainer');
+                var messageListContainer = document.getElementById('messageListContainer');
+                messageListContainer.appendChild(chatLogContainer);
+
+                var roomTitle = document.createElement('h2');
+                roomTitle.textContent = 'User: ' + username;
+                chatLogContainer.appendChild(roomTitle);
+
+                var chatLog = document.createElement('div');
+                chatLog.id = 'chatLog-' + roomId;
+                chatLog.classList.add('chatLog');
+                chatLogContainer.appendChild(chatLog);
+
+                var messageForm = document.createElement('form');
+                messageForm.id = `messageForm-${roomId}`;
+                messageForm.classList.add('messageForm');
+                messageForm.innerHTML = `
+                <input type="text" id="messageInput-${roomId}" placeholder="메시지를 작성해주세요" />
+                <button type="button" onclick="sendMessage('${roomId}')">전송</button>
+            `;
+                chatLogContainer.appendChild(messageForm);
+
+                fetchMessages(roomId); // Fetch and display all messages for this room
+            }
+
+            function fetchMessages(roomId) {
+                fetch('/chat/messages/' + roomId)
+                    .then((response) => response.json())
+                    .then((messages) => {
+                        messages.forEach((message) => showMessage(message, roomId));
+                    })
+                    .catch((error) => console.error('Error fetching messages:', error));
+            }
+
+            function sendMessage(roomId) {
+                var messageContent = document.querySelector(`#messageInput-${roomId}`).value;
+                var message = {
+                    sender: username,
+                    contents: messageContent,
+                    createdAt: new Date().toISOString(),
+                    roomId: roomId,
+                };
+
+                stompClient.send('/app/chat.sendMessage', {}, JSON.stringify(message));
+                document.querySelector(`#messageInput-${roomId}`).value = '';
+            }
+
+            function showMessage(message, roomId) {
+                var chatLog = document.querySelector('#chatLog-' + roomId);
+                var messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.textContent = message.sender + ' : ' + message.contents;
+                chatLog.appendChild(messageElement);
+            }
+
+            window.addEventListener('load', function () {
+                connect();
+            });
+        </script>
     </body>
 </html>

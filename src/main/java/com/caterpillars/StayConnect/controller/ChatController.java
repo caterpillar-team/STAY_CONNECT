@@ -1,5 +1,6 @@
 package com.caterpillars.StayConnect.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +47,11 @@ public class ChatController {
     public String showAdminChatPopup(Model model, HttpSession session) {
         List<Inquiry> rooms = inquiryService.findAllInquiry();
         String roomId = (String) session.getAttribute("roomId");
-
+        Map<String, Long> messageCounts = getMessageCounts();
 
         model.addAttribute("rooms", rooms);
         model.addAttribute("roomId", roomId);
+        model.addAttribute("messageCounts", messageCounts);
         return "pages/chat/adminChatPopup";
     }
 
@@ -72,7 +74,7 @@ public class ChatController {
     @GetMapping("/enter/{roomId}")
     public String enterChatRoom(@PathVariable String roomId, HttpSession session) {
         session.setAttribute("roomId", roomId);
-        return "redirect:/chat/popup";
+        return "redirect:/chat/adminChatPopup";
     }
 
     //채팅방 생성 메서드
@@ -87,9 +89,17 @@ public class ChatController {
     //모든 채팅방 조회 메서드
     @GetMapping("/rooms")
     @ResponseBody
-    public List<Inquiry> getRooms() {
-        return inquiryService.findAllInquiry();
-    }
+    public List<Map<String, String>> getRooms() {
+        List<Inquiry> inquiries = inquiryService.findAllInquiry();
+        List<Map<String, String>> rooms = new ArrayList<>();
+        for (Inquiry inquiry : inquiries) {
+            Map<String, String> room = new HashMap<>();
+            room.put("roomId", inquiry.getRoomId());
+            room.put("username", inquiry.getSender());
+            rooms.add(room);
+        }
+    return rooms;
+}
 
     @GetMapping("/messages/{roomId}")
 @ResponseBody
@@ -111,11 +121,12 @@ public Map<String, Long> getMessageCounts() {
 }
 
 @GetMapping("/searchMessages")
-    public String searchMessagesBySender(@RequestParam String sender, Model model) {
-        List<Inquiry> searchMessage = inquiryService.findMessageBySender(sender);
-        model.addAttribute("messageHistory", searchMessage);
-        return "pages/messageHistoryPopup";
-    }
+public String searchMessagesBySender(@RequestParam String sender, Model model) {
+    List<Inquiry> searchMessage = inquiryService.findMessageBySender(sender);
+    model.addAttribute("messageHistory", searchMessage);
+    return "pages/chat/messageHistoryPopup";
+}
+
 
 }
 
