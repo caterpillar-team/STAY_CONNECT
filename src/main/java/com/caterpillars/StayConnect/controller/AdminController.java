@@ -1,8 +1,8 @@
 package com.caterpillars.StayConnect.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -44,20 +44,15 @@ public class AdminController {
   @Autowired
   private ObjectMapper objectMapper;
 
-
   private void addCommonAttributes(Model model) {
     model.addAttribute("lastMessages", inquiryService.getLastMessages());
-}
-
-
+  }
 
   @GetMapping("/dashBoard")
   public String getCharts(Model model) throws JsonProcessingException {
     List<Object[]> reservationStats = reservationService.getMonthlyReservationCount();
     List<Map<String, Object>> ageStats = chartDataService.getAgeGroupCounts();
     List<Map<String, Object>> regionStats = reservationService.getReservationsByRegion();
-    
-
 
     String reservationStatsJson = objectMapper.writeValueAsString(reservationStats);
 
@@ -67,16 +62,15 @@ public class AdminController {
 
     addCommonAttributes(model);
 
-
     return "pages/admin/dashBoard";
   }
 
   @GetMapping("/userList")
-  public String getAdminUserList(@RequestParam(value = "username", required = false) String realName,Model model) {
+  public String getAdminUserList(@RequestParam(value = "username", required = false) String realName, Model model) {
     List<User> users;
-    if (realName !=null && !realName.isEmpty()){
+    if (realName != null && !realName.isEmpty()) {
       users = userService.findByRealName(realName);
-    }else{
+    } else {
       users = userService.getAllUsers();
     }
 
@@ -89,15 +83,15 @@ public class AdminController {
   }
 
   @GetMapping("/deleteUser/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        userService.deleteUserById(id);
-        return "redirect:/admin/userList";
-    }
+  public String deleteUser(@PathVariable Long id) {
+    userService.deleteUserById(id);
+    return "redirect:/admin/userList";
+  }
 
   @GetMapping("/reviewList")
   public String getAdminReviewList(Model model) throws JsonProcessingException {
 
-    model.addAttribute("reviewList", reviewService.getAllReviews());
+    model.addAttribute("reviewList", reviewService.findAllReviews());
     model.addAttribute("lastMessages", inquiryService.getLastMessages());
     addCommonAttributes(model);
 
@@ -105,7 +99,7 @@ public class AdminController {
   }
 
   @GetMapping("/dashboardStats")
-public ResponseEntity<Map<String, Integer>> getDashboardStats() {
+  public ResponseEntity<Map<String, Integer>> getDashboardStats() {
     int totalUsers = userService.getTotalUsers();
     int totalReservations = reservationService.getTotalReservations();
     int totalSales = reservationService.getTotalSales();
@@ -116,23 +110,22 @@ public ResponseEntity<Map<String, Integer>> getDashboardStats() {
     response.put("totalSales", totalSales);
 
     return ResponseEntity.ok(response);
-}
+  }
 
   // @GetMapping("/totalReservations")
-  //   public ResponseEntity<Map<String, Integer>> getTotalReservations() {
-  //       int totalReservations = reservationService.getTotalReservations();
-  //       Map<String, Integer> response = new HashMap<>();
-  //       response.put("totalReservations", totalReservations);
-  //       return ResponseEntity.ok(response);
+  // public ResponseEntity<Map<String, Integer>> getTotalReservations() {
+  // int totalReservations = reservationService.getTotalReservations();
+  // Map<String, Integer> response = new HashMap<>();
+  // response.put("totalReservations", totalReservations);
+  // return ResponseEntity.ok(response);
   // }
 
   // @GetMapping("/totalSales")
-  //   public ResponseEntity<Map<String, Integer>> getTotalSales() {
-  //       int totalSales = reservationService.getTotalSales();
-  //       Map<String, Integer> response = new HashMap<>();
-  //       response.put("totalSales", totalSales);
-  //       return ResponseEntity.ok(response);
+  // public ResponseEntity<Map<String, Integer>> getTotalSales() {
+  // int totalSales = reservationService.getTotalSales();
+  // Map<String, Integer> response = new HashMap<>();
+  // response.put("totalSales", totalSales);
+  // return ResponseEntity.ok(response);
   // }
-
 
 }

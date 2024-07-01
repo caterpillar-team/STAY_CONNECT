@@ -42,8 +42,16 @@ out/
 **/.DS_Store
 **/._.DS_Store
 
-### docker mysql ###
-/docker/mysql
+### docker mysql && nginx && certbot ###
+**/mysql
+/nginx/cache
+/nginx/log
+**/certbot
 
 ### env ###
 .env
+
+### node_modules ###
+/node_modules
+package-lock.json
+package.json

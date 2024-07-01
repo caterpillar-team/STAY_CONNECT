@@ -1,7 +1,5 @@
 package com.caterpillars.StayConnect.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +16,12 @@ import com.caterpillars.StayConnect.service.AuthService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
-  private final Logger log = LoggerFactory.getLogger(getClass());
 
   @Autowired
   private AuthService authService;
@@ -54,7 +53,7 @@ public class AuthController {
 
     model.addAttribute("user", userSignUpDto);
 
-    return "pages/auth/signUp";
+    return "pages/auth/signup";
   }
 
   @PostMapping("/signup")
