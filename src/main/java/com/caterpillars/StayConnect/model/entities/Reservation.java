@@ -24,15 +24,15 @@ public class Reservation {
     @JoinColumn(name = "room_info_id", nullable = false)
     private RoomInfo roomInfo;
 
-    private LocalDateTime checkIn;
-    private LocalDateTime checkOut;
+  private LocalDateTime checkIn;
+  private LocalDateTime checkOut;
 
     private LocalDateTime reservationAt;
 
-    private String imp_uid;
-    private int price;
-    private String pay_method;
-    private String merchant_uid;
+  private String imp_uid;
+  private int price;
+  private String pay_method;
+  private String merchant_uid;
 
     private String reservationType;
 

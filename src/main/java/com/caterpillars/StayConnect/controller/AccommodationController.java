@@ -1,101 +1,84 @@
 package com.caterpillars.StayConnect.controller;
 
-import com.caterpillars.StayConnect.model.entities.Review;
-import com.caterpillars.StayConnect.model.entities.RoomInfo;
-import com.caterpillars.StayConnect.model.entities.User;
-import com.caterpillars.StayConnect.model.repository.ReviewRepository;
-import com.caterpillars.StayConnect.service.PortOnePaymentService;
-import com.caterpillars.StayConnect.service.ReservationService;
-import com.caterpillars.StayConnect.service.RoomInfoService;
-import com.caterpillars.StayConnect.service.UserService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-import java.util.Optional;
+import com.caterpillars.StayConnect.model.dto.AccommodationDto;
+import com.caterpillars.StayConnect.model.dto.ReviewDto;
+import com.caterpillars.StayConnect.model.entities.Review;
+import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.service.AccommodationService;
+import com.caterpillars.StayConnect.service.UserService;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/user/accom")
-@Slf4j
+@RequestMapping("/accommodation")
 public class AccommodationController {
 
     @Autowired
-    private RoomInfoService roomInfoService;
-    @Autowired
-    private ReviewRepository reviewRepository;
+    private AccommodationService accommodationService;
     @Autowired
     private UserService userService;
-    @Autowired
-    private PortOnePaymentService portOnePaymentService;
-    @Autowired
-    private ReservationService reservationService;
 
-    @GetMapping("/detail/{id}")
-    public String accom_detail(@PathVariable long id, Authentication authentication, Model model) {
+    @GetMapping("/detail/{accId}")
+    public String accom_detail(@PathVariable("accId") Long accId, Model model,
+            @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        log.info("/detail/" + accId + " accId 실행");
 
-        System.out.println(authentication);
-        Optional<User> user = userService.findByUsername(authentication.getName());
-        System.out.println(user.get().getPhoneNumber());
+        AccommodationDto accommodationDto = accommodationService.getAccommodationDto(accId, pageable);
 
-        Optional<RoomInfo> result = Optional.ofNullable(RoomInfoService.findById(id));
-        if (result.isPresent()) {
-            RoomInfo roomInfo = result.get();
-            if (roomInfo.getAccommodation() != null) {
-                List<Review> reviews = reviewRepository.findByRoomInfo(roomInfo);
-                model.addAttribute("accom", roomInfo);
-                model.addAttribute("reviews", reviews);
-                model.addAttribute("phoneNumber", user.get().getPhoneNumber());
-                model.addAttribute("userId", user.get().getId());
-                model.addAttribute("roomInfoId", roomInfo.getId());
-                return "pages/user/accom_detail";
-            } else {
-                // Accommodation 객체가 null인 경우 처리
-                return "redirect:/error";
+        if (accommodationDto != null) {
+            // 현재 사용자 정보
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String currentUser = (authentication != null && authentication.isAuthenticated()) ? authentication.getName()
+                    : "";
+            model.addAttribute("currentUser", currentUser);
+            model.addAttribute("reviewDto", new ReviewDto());
+
+            List<Review> allReviews = accommodationService.findAllReviews(accId);
+            model.addAttribute("allReviews", allReviews);
+
+            model.addAttribute("accommodationDto", accommodationDto);
+            model.addAttribute("totalReviews", accommodationDto.getTotalReviews());
+            model.addAttribute("nowPage", accommodationDto.getNowPage());
+            model.addAttribute("startPage", accommodationDto.getStartPage());
+            model.addAttribute("endPage", accommodationDto.getEndPage());
+
+            if (authentication != null && authentication.isAuthenticated()) {
+                Optional<User> userOptional = userService.findByUsername(authentication.getName());
+                log.info("userOptional" + userOptional);
+                if (userOptional.isPresent()) {
+                    User user = userOptional.get();
+                    System.out.println(user.getPhoneNumber());
+
+                    model.addAttribute("phoneNumber", user.getPhoneNumber());
+                    model.addAttribute("userId", user.getId());
+                    model.addAttribute("roomInfos", accommodationDto.getRoomInfos());
+
+                } else {
+                    log.warn("User not found for username: " + authentication.getName());
+                }
             }
+
+            return "pages/accommodation/detail";
         } else {
-            return "redirect:/";
+            return "redirect:/error";
         }
     }
-
-//    @GetMapping("/paySuccess")
-//    public String paySuccess(@RequestParam boolean success, @RequestParam String imp_uid, @RequestParam int price, Authentication authentication, Model model) {
-//        if (success) {
-//            try {
-//                PaymentDto payment = portOnePaymentService.getPaymentDetails(imp_uid);
-//                if (payment != null) {
-//                    Optional<User> user = userService.findByUsername(authentication.getName());
-//                    Optional<RoomInfo> roomInfo = Optional.ofNullable(roomInfoService.findById(Long.valueOf(payment.getMerchant_uid())));
-//
-//                    if (user.isPresent() && roomInfo.isPresent()) {
-//                        Reservation reservation = Reservation.builder()
-//                                .user(user.get())
-//                                .roomInfo(roomInfo.get())
-//                                .checkIn(LocalDateTime.now())
-//                                .checkOut(LocalDateTime.now().plusDays(1)) // 임시로 1박 설정
-//                                .reservationAt(LocalDateTime.now())
-//                                .price(price)
-//                                .pay_method(payment.getPay_method())
-//                                .reservationType("ONLINE")
-//                                .build();
-//
-//                        reservationService.createReservation(reservation);
-//                        return "pages/user/myPage";
-//                    }
-//                }
-//            } catch (RuntimeException e) {
-//                log.error("Payment error: " + e.getMessage());
-//                return "결제에 실패했습니다.";
-//            }
-//        }
-//        return "결제에 실패했습니다.";
-//    }
 }
-

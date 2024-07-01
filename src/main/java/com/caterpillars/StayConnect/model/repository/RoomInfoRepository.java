@@ -7,9 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
 @Repository
 public interface RoomInfoRepository extends JpaRepository<RoomInfo, Long> {
 
     List<RoomInfo> findByAccommodation(Accommodation accommodation);
+
+    List<RoomInfo> findByAccommodationId(Long accId);
+
 }
