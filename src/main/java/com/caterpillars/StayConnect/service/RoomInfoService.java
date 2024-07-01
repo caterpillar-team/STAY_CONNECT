@@ -1,15 +1,12 @@
 package com.caterpillars.StayConnect.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 public class RoomInfoService {
