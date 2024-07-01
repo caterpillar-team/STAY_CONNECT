@@ -114,8 +114,9 @@ public Map<String, Long> getMessageCounts() {
     public String searchMessagesBySender(@RequestParam String sender, Model model) {
         List<Inquiry> searchMessage = inquiryService.findMessageBySender(sender);
         model.addAttribute("messageHistory", searchMessage);
-        return "pages/chat/messageHistoryPopup";
+        return "pages/messageHistoryPopup";
     }
 
-
 }
+
+

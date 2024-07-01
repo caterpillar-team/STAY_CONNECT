@@ -2,8 +2,10 @@ package com.caterpillars.StayConnect.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -79,7 +81,6 @@ public class AdminController {
     }
 
     model.addAttribute("userList", users);
-    // model.addAttribute("userList", userService.getAllUsers());
     model.addAttribute("lastMessages", inquiryService.getLastMessages());
     addCommonAttributes(model);
 
@@ -103,10 +104,35 @@ public class AdminController {
     return "pages/admin/reviewList";
   }
 
-  // @GetMapping("/dashBoard")
-  // public String getAdminHome() {
-  //     return "pages/admin/dashBoard";
+  @GetMapping("/dashboardStats")
+public ResponseEntity<Map<String, Integer>> getDashboardStats() {
+    int totalUsers = userService.getTotalUsers();
+    int totalReservations = reservationService.getTotalReservations();
+    int totalSales = reservationService.getTotalSales();
+
+    Map<String, Integer> response = new HashMap<>();
+    response.put("totalUsers", totalUsers);
+    response.put("totalReservations", totalReservations);
+    response.put("totalSales", totalSales);
+
+    return ResponseEntity.ok(response);
+}
+
+  // @GetMapping("/totalReservations")
+  //   public ResponseEntity<Map<String, Integer>> getTotalReservations() {
+  //       int totalReservations = reservationService.getTotalReservations();
+  //       Map<String, Integer> response = new HashMap<>();
+  //       response.put("totalReservations", totalReservations);
+  //       return ResponseEntity.ok(response);
   // }
-  
-  
+
+  // @GetMapping("/totalSales")
+  //   public ResponseEntity<Map<String, Integer>> getTotalSales() {
+  //       int totalSales = reservationService.getTotalSales();
+  //       Map<String, Integer> response = new HashMap<>();
+  //       response.put("totalSales", totalSales);
+  //       return ResponseEntity.ok(response);
+  // }
+
+
 }

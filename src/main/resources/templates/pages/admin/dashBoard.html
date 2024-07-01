@@ -29,8 +29,9 @@
             <div class="singleCard">
                 <div class="totalUsers">
                     <span>HOW MANY USER?</span>
-                    <small>날짜 기준 총 가입자 수 입니다.</small>
-                    <h2>50</h2>
+                    <small id="currentDateTimeUsers"></small>
+                    <span>기준 총 가입자 수 입니다.</span>
+                    <h2 id="totalUsers">0</h2>
                 </div>
                 <div class="userIcon">
                     <span class="material-symbols-outlined"> group </span>
@@ -38,9 +39,10 @@
             </div>
             <div class="singleCard">
                 <div class="totalReservation">
-                    <span>HOW MANY RESERVATION?</span>
-                    <small>날짜 기준 총 예약 수 입니다.</small>
-                    <h2>20</h2>
+                    <span>HOW MANY USER?</span>
+                    <small id="currentDateTimeReservations"></small>
+                    <span>기준 총 예약 수 입니다.</span>
+                    <h2 id="totalReservations">50</h2>
                 </div>
                 <div class="reservationIcon">
                     <span class="material-symbols-outlined"> done_all </span>
@@ -49,8 +51,9 @@
             <div class="singleCard">
                 <div class="totalSales">
                     <span>WHAT IS THE TOTAL SALES?</span>
-                    <small>날짜 기준 총 매출 입니다.</small>
-                    <h2>1,000,000</h2>
+                    <small id="currentDateTimeSales"></small>
+                    <span>기준 총 매출 입니다.</span>
+                    <h2 id="totalSales">0</h2>
                 </div>
                 <div class="moneyIcon">
                     <span class="material-symbols-outlined money"> attach_money </span>
@@ -62,7 +65,6 @@
             <div class="chartsImage">
                 <h3>Reservation Statistics</h3>
                 <div class="showChart">
-
                     <div class="monthlyReserv chartContainer" id="monthlyReservationsChartContainer">
                         <h4>월별 예약 수</h4>
                         <canvas id="monthlyReservationsChart"></canvas>
@@ -73,7 +75,7 @@
                     </div>
                     <div class="UserByAgeChart col-md-8 chartContainer" id="ageChartContainer">
                         <h4>연령별 이용자 수</h4>
-                        <canvas id="ageChart" ></canvas>
+                        <canvas id="ageChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -107,171 +109,197 @@
 
         <script th:inline="javascript">
             function showChart(chartId) {
+                var charts = document.querySelectorAll('.chartContainer');
+                charts.forEach(function (chart) {
+                    chart.style.display = 'none';
+                });
 
-                            var charts = document.querySelectorAll('.chartContainer');
-                            charts.forEach(function(chart) {
-                                chart.style.display = 'none';
-                            });
+                document.getElementById(chartId).style.display = 'block';
+            }
 
+            document.addEventListener('DOMContentLoaded', function () {
+                showChart('monthlyReservationsChartContainer');
+            });
+            //====================================================================================
+            //월별 예약수
+            //====================================================================================
 
-                            document.getElementById(chartId).style.display = 'block';
-                        }
+            /*<![CDATA[*/
+            document.addEventListener('DOMContentLoaded', function () {
+                var ctx = document.getElementById('monthlyReservationsChart').getContext('2d');
 
-                        document.addEventListener('DOMContentLoaded', function () {
+                var reservationStats = /*[[${reservationStats}]]*/ '[]';
 
-                            showChart('monthlyReservationsChartContainer');
-                        });
-                        //====================================================================================
-                        //월별 예약수
-                        //====================================================================================
+                reservationStats = JSON.parse(reservationStats);
 
-                        /*<![CDATA[*/
-                        document.addEventListener('DOMContentLoaded', function () {
-                            var ctx = document.getElementById('monthlyReservationsChart').getContext('2d');
+                var labels = reservationStats.map((stat) => stat[0] + '-' + (stat[1] < 10 ? '0' : '') + stat[1]);
+                var data = reservationStats.map((stat) => stat[2]);
 
-                            var reservationStats = /*[[${reservationStats}]]*/ '[]';
+                var chartData = {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Monthly Reservations',
+                            data: data,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                        },
+                    ],
+                };
+                var options = {
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
+                    },
+                };
+                var usageChart = new Chart(ctx, {
+                    type: 'line',
+                    data: chartData,
+                    options: options,
+                });
+            });
+            /*]]>*/
 
-                            reservationStats = JSON.parse(reservationStats);
+            //====================================================================================
+            //지역별 예약 수치
+            //====================================================================================
 
-                            var labels = reservationStats.map((stat) => stat[0] + '-' + (stat[1] < 10 ? '0' : '') + stat[1]);
-                            var data = reservationStats.map((stat) => stat[2]);
+            /*<![CDATA[*/
+            var reservationsByRegion = /*[[${reservationsByRegion}]]*/ '[]';
+            console.log(reservationsByRegion);
+            document.addEventListener('DOMContentLoaded', function () {
+                var ctx = document.getElementById('regionChart').getContext('2d');
 
-                            var chartData = {
-                                labels: labels,
-                                datasets: [
-                                    {
-                                        label: 'Monthly Reservations',
-                                        data: data,
-                                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                        borderColor: 'rgba(75, 192, 192, 1)',
-                                        borderWidth: 1,
-                                    },
-                                ],
-                            };
-                            var options = {
-                                
-                                plugins: {
-                                    legend: {
-                                        display: false,
-                                    },
-                                },
-                                scales: {
-                                    y: {
-                                        beginAtZero: true,
-                                    },
-                                },
-                            };
-                            var usageChart = new Chart(ctx, {
-                                type: 'line',
-                                data: chartData,
-                                options: options,
-                            });
-                        });
-                        /*]]>*/
+                var labels = reservationsByRegion.map((stat) => stat.region);
+                var data = reservationsByRegion.map((stat) => stat.count);
 
-                        //====================================================================================
-                        //지역별 예약 수치
-                        //====================================================================================
+                var chartData = {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Reservations By Region',
+                            data: data,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                            ],
+                            borderWidth: 1,
+                        },
+                    ],
+                };
+                var options = {
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
+                    },
+                };
+                var reservationsByRegionChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: chartData,
+                    options: options,
+                });
+            });
+            /*]]>*/
+            //====================================================================================
+            //연령별 이용자 수
+            //====================================================================================
+            /*<![CDATA[*/
+            var ageStats = /*[[${ageStats}]]*/ '[]';
 
-                        /*<![CDATA[*/
-                        var reservationsByRegion = /*[[${reservationsByRegion}]]*/ '[]';
-                        console.log(reservationsByRegion);
-                        document.addEventListener('DOMContentLoaded', function () {
-                            var ctx = document.getElementById('regionChart').getContext('2d');
+            document.addEventListener('DOMContentLoaded', function () {
+                var ctx = document.getElementById('ageChart').getContext('2d');
 
-                            var labels = reservationsByRegion.map((stat) => stat.region);
-                            var data = reservationsByRegion.map((stat) => stat.count);
+                var labels = ageStats.map((stat) => stat.ageRange);
+                var data = ageStats.map((stat) => stat.count);
 
-                            var chartData = {
-                                labels: labels,
-                                datasets: [
-                                    {
-                                        label: 'Reservations By Region',
-                                        data: data,
-                                        backgroundColor: [
-                                            'rgba(255, 99, 132, 0.2)',
-                                            'rgba(54, 162, 235, 0.2)',
-                                            'rgba(255, 206, 86, 0.2)',
-                                            'rgba(75, 192, 192, 0.2)',
-                                            'rgba(153, 102, 255, 0.2)',
-                                            'rgba(255, 159, 64, 0.2)',
-                                        ],
-                                        borderColor: [
-                                            'rgba(255, 99, 132, 1)',
-                                            'rgba(54, 162, 235, 1)',
-                                            'rgba(255, 206, 86, 1)',
-                                            'rgba(75, 192, 192, 1)',
-                                            'rgba(153, 102, 255, 1)',
-                                            'rgba(255, 159, 64, 1)',
-                                        ],
-                                        borderWidth: 1,
-                                    },
-                                ],
-                            };
-                            var options = {
-                                
-                                plugins: {
-                                    legend: {
-                                        display: false,
-                                    },
-                                },
-                                scales: {
-                                    y: {
-                                        beginAtZero: true,
-                                    },
-                                },
-                            };
-                            var reservationsByRegionChart = new Chart(ctx, {
-                                type: 'pie',
-                                data: chartData,
-                                options: options,
-                            });
-                        });
-                        /*]]>*/
-                        //====================================================================================
-                        //연령별 이용자 수
-                        //====================================================================================
-                        /*<![CDATA[*/
-                        var ageStats = /*[[${ageStats}]]*/ '[]';
+                var chartData = {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'UsersByAge',
+                            data: data,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                        },
+                    ],
+                };
+                var options = {
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        },
+                    },
+                };
+                var ageChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: chartData,
+                    options: options,
+                });
+            });
+            /*]]>*/
 
-                        document.addEventListener('DOMContentLoaded', function () {
-                            var ctx = document.getElementById('ageChart').getContext('2d');
+            function fetchDashboardStats() {
+                fetch('/admin/dashboardStats')
+                    .then((response) => response.json())
+                    .then((data) => {
+                        document.getElementById('totalUsers').innerText = data.totalUsers;
+                        document.getElementById('totalReservations').innerText = data.totalReservations;
+                        document.getElementById('totalSales').innerText = data.totalSales;
+                    })
+                    .catch((error) => console.error('Error fetching dashboard stats:', error));
+            }
 
-                            var labels = ageStats.map((stat) => stat.ageRange);
-                            var data = ageStats.map((stat) => stat.count);
+            function updateDateTime() {
+                var now = new Date();
+                var formattedDate = now.toLocaleDateString('ko-KR', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                });
+                document.getElementById('currentDateTimeUsers').innerText = formattedDate;
+                document.getElementById('currentDateTimeReservations').innerText = formattedDate;
+                document.getElementById('currentDateTimeSales').innerText = formattedDate;
+            }
 
-                            var chartData = {
-                                labels: labels,
-                                datasets: [
-                                    {
-                                        label: 'UsersByAge',
-                                        data: data,
-                                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                        borderColor: 'rgba(75, 192, 192, 1)',
-                                        borderWidth: 1,
-                                    },
-                                ],
-                            };
-                            var options = {
-                                
-                                plugins: {
-                                    legend: {
-                                        display: false,
-                                    },
-                                },
-                                scales: {
-                                    y: {
-                                        beginAtZero: true,
-                                    },
-                                },
-                            };
-                            var ageChart = new Chart(ctx, {
-                                type: 'bar',
-                                data: chartData,
-                                options: options,
-                            });
-                        });
-                        /*]]>*/
+            document.addEventListener('DOMContentLoaded', function () {
+                fetchDashboardStats();
+                updateDateTime();
+                setInterval(updateDateTime, 1000); // 매초마다 시간 업데이트
+            });
         </script>
     </th:block>
 
@@ -279,13 +307,18 @@
         <div th:insert="~{fragments/chat/chatOffCanvas_frag :: chatOffCanvas}"></div>
 
         <script>
-            let options = 'toolbar=no,scrollbars=yes,resizable=no,status=no,menubar=no,width=500, height=700, top=50,left=100';
-            function showPopup(element) {
-                window.open('/chat/adminChatPopup', 'adminChatPopup', options); // /chat/popup 경로로 요청
+            let options =
+                'toolbar=no,scrollbars=yes,resizable=no,status=no,menubar=no,width=500, height=700, top=50,left=100';
+            function showPopup(roomId, messageCount) {
+                window.open('/chat/adminChatPopup', 'chatPopup-' + roomId, options);
             }
             function searchMessages() {
                 var username = document.getElementById('searchUsername').value;
-                window.open('/chat/searchMessages?sender=' + encodeURIComponent(username), 'resultOfSearchPopup', options);
+                window.open(
+                    '/chat/searchMessages?sender=' + encodeURIComponent(username),
+                    'resultOfSearchPopup',
+                    options
+                );
             }
         </script>
     </th:block>

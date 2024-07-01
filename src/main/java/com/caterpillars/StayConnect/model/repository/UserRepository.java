@@ -25,4 +25,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     "GROUP BY YEAR(u.birth), MONTH(u.birth) " +
     "ORDER BY year, month")
   List<Object[]> findUserCountByAge();
+
+  @Query("SELECT COUNT(u) FROM User u")
+  int countTotalUsers();
 }

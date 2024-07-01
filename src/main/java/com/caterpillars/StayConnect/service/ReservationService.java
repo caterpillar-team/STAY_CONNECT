@@ -65,4 +65,13 @@ public class ReservationService {
 
                 return reservationRepository.save(reservation);
         }
+
+        public int getTotalReservations() {
+        
+                return reservationRepository.countTotalReservations();
+        }
+
+        public int getTotalSales() {
+                return reservationRepository.totalSales();
+        }
 }
