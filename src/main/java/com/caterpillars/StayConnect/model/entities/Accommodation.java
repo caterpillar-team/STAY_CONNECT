@@ -1,6 +1,5 @@
 package com.caterpillars.StayConnect.model.entities;
 
-import com.caterpillars.StayConnect.model.dto.AccommodationDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +13,8 @@ import java.util.List;
 @Entity
 @Table(name = "accommodation", uniqueConstraints = {
         @UniqueConstraint(name = "UK_name_address", columnNames = {"name", "address"})
+}, indexes = {
+        @Index(name = "fulltext_index", columnList = "name")
 })
 public class Accommodation {
     @Id

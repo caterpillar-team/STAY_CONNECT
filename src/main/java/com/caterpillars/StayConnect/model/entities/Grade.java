@@ -3,7 +3,6 @@ package com.caterpillars.StayConnect.model.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -21,5 +20,5 @@ public class Grade {
     private String grade;
 
     @OneToMany(mappedBy = "grade")
-    private List<Accommodation> accommodation = new ArrayList<>();
+    private List<Accommodation> accommodation;
 }

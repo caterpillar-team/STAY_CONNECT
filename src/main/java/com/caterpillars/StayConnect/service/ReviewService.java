@@ -7,7 +7,6 @@ import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +19,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class ReviewService {
 
@@ -132,7 +130,7 @@ public class ReviewService {
         return reviewRepository.findByRoomInfoAccommodationId(accommodationId, pageable);
     }
 
-    public List<Review> findAllReviews() {
-        return reviewRepository.findAll();
+    public List<Review> findAllReviews(Long accId) {
+        return reviewRepository.findByRoomInfoAccommodationIdOrderByIdDesc(accId);
     }
 }

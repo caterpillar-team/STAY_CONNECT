@@ -1,22 +1,22 @@
 package com.caterpillars.StayConnect.service;
 
 import com.caterpillars.StayConnect.model.dto.AccommodationDto;
+import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.model.entities.Review;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
-import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.model.repository.AccommodationRepository;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
-import lombok.RequiredArgsConstructor;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class AccommodationService {
 
@@ -74,7 +74,7 @@ public class AccommodationService {
 
     // 별점 평균 계산
     public int calculateAverageRating(List<Review> reviews) {
-        if (reviews.isEmpty()) {
+        if (reviews == null || reviews.isEmpty()) {
             return 0;
         }
 
@@ -95,7 +95,7 @@ public class AccommodationService {
 
         List<RoomInfo> roomInfos = findRoomInfosByAccommodationId(accId);
         Page<Review> reviewPage = findReviewsByAccommodationId(accId, pageable);
-        List<Review> allReviews = reviewService.findAllReviews();
+        List<Review> allReviews = reviewService.findAllReviews(accId);
         List<Review> reviews = reviewPage.getContent();
         int averageRating = calculateAverageRating(allReviews);
 
@@ -126,4 +126,22 @@ public class AccommodationService {
     public List<Review> findAllReviews(Long accId) {
         return reviewRepository.findByRoomInfoAccommodationIdOrderByIdDesc(accId);
     }
+
+    @Transactional
+    public List<AccommodationDto> search(String searchText) {
+        List<Accommodation> searchResult = accommodationRepository.findAllByNameContaining(searchText);
+
+        List<AccommodationDto> dtos = new ArrayList<>();
+        for (Accommodation accommodation : searchResult) {
+            AccommodationDto dto = new AccommodationDto();
+            dto.setId(accommodation.getId());
+            dto.setAccommodationName(accommodation.getName());
+            dto.setMinPrice(findMinPrice(findRoomInfosByAccommodationId(accommodation.getId())));
+
+            dtos.add(dto);
+        }
+
+        return dtos;
+    }
+
 }

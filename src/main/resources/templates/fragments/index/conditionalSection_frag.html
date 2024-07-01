@@ -72,7 +72,7 @@
     <div class="search">
         <p class="title-2">조건으로 검색하기</p>
         <div class="underline2"></div>
-        <form>
+        <form id="searchForm" method="get" onsubmit="performSearch(); return false;">
             <div>
                 <!-- 숙소검색 -->
                 <div class="input-group">
@@ -80,15 +80,17 @@
                     <input
                             aria-label="Room search"
                             class="form-control"
+                            id="searchText"
+                            name="searchText"
                             placeholder="이름 검색하기"
                             type="text"
                     />
                 </div>
                 <!-- 날짜검색 -->
                 <div class="input-group">
-          <span class="input-group-text material-symbols-outlined"
-          >event_available</span
-          >
+                      <span class="input-group-text material-symbols-outlined"
+                      >event_available</span
+                      >
                     <input aria-label="Date picker" class="form-control" type="date"/>
                 </div>
                 <!-- 인원 -->
@@ -113,16 +115,16 @@
                     </select>
                 </div>
                 <!-- 버튼 -->
-                <button class="btn btn-primary" type="button">조회하기</button>
+                <button class="searchBtn btn btn-primary" type="submit">조회하기</button>
             </div>
         </form>
     </div>
-    <div class="hotels">
+    <div class="hotels" id="hotelList">
         <div class="card" th:each="accommodation : ${accommodations}">
             <img th:src="@{https://placehold.co/300}"/>
             <a th:href="@{'/accommodation/detail/'+${accommodation.id}}">
                 <p th:text="${accommodation.accommodationName}">숙소이름</p>
-                <p th:text="${#numbers.formatInteger(accommodation.minPrice, 3, 'COMMA') + '원 ~'}">47000원</p>  <!-- 최저값 나오게 수정중 -->
+                <p th:text="${#numbers.formatInteger(accommodation.minPrice, 3, 'COMMA') + '원 ~'}">47000원</p>
             </a>
         </div>
     </div>

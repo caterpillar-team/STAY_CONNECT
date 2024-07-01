@@ -164,9 +164,9 @@
                     </div>
                     <div class="price" th:text="${#numbers.formatInteger(roomInfo.price, 3, 'COMMA') + '원'}">가격</div>
                     <div class="buttonContainer">
-                        <input id="userId" th:value="${userId}" type="hidden"/>
-                        <input id="buyerTel" th:value="${phoneNumber}" type="hidden"/>
-                        <input id="roomInfoId" th:value="${roomInfo.id}" type="hidden"/>
+                        <input id="userId" name="userId" th:value="${userId}" type="hidden"/>
+                        <input id="buyerTel" name="buyerTel" th:value="${phoneNumber}" type="hidden"/>
+                        <input id="roomInfoId" name="roomInfoId" th:value="${roomInfo.id}" type="hidden"/>
                         <a class="btn btn-outline-primary" data-toggle="modal" id="reservationLink"
                            th:attr="data-target='reservationModal-' + ${roomInfo.id}">예약하기</a>
                     </div>
