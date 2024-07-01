@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html
     lang="en"
-    xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:th="https://www.thymeleaf.org"
+    xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{layouts/layout}"
 >
     <th:block layout:fragment="title">
@@ -13,9 +13,9 @@
         <link rel="stylesheet" th:href="@{/css/pages/admin/chatCard.css}" />
     </th:block>
     <th:block layout:fragment="javascript">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+        <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js}"></script>
+        <script th:src="@{https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js}"></script>
+        <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js}"></script>
         <script>
             var stompClient = null;
 

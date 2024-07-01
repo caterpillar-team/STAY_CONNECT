@@ -1,0 +1,54 @@
+services:
+  nginx:
+    image: ghcr.io/koonlx/stay_connect_nginx
+    build:
+      context: ../
+      dockerfile: docker/dockerfile.nginx
+    container_name: nginx-container
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ../certbot/conf:/etc/letsencrypt
+      - ../certbot/www:/var/www/certbot
+    networks:
+      - app-network
+    depends_on:
+      - stay_connect_app
+      - certbot
+
+  stay_connect_app:
+    image: ghcr.io/koonlx/stay_connect_app
+    build:
+      context: ../
+      dockerfile: docker/dockerfile.springboot
+    container_name: spring-boot-container
+    ports:
+      - '8080:8080'
+    environment:
+      SPRING_DATASOURCE_URL: ${PRODUCTION_MYSQL_URL}
+      SPRING_DATASOURCE_USERNAME: ${PRODUCTION_MYSQL_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${PRODUCTION_MYSQL_PASSWORD}
+    networks:
+      - app-network
+    env_file:
+      - ../.env
+
+  certbot:
+    image: ghcr.io/koonlx/stay_connect_certbot
+    build:
+      context: ../
+      dockerfile: docker/dockerfile.certbot
+    container_name: certbot-container
+    restart: unless-stopped
+    volumes:
+      - ../certbot/conf:/etc/letsencrypt
+      - ../certbot/www:/var/www/certbot
+    networks:
+      - app-network
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+networks:
+  app-network:
+    driver: bridge
