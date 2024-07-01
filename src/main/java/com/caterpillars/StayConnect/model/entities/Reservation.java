@@ -36,6 +36,5 @@ public class Reservation {
 
     private String reservationType;
 
-    public void setStatus(String 취소) {
-    }
+    
 }
