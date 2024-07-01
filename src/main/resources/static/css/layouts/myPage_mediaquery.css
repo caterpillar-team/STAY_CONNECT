@@ -23,7 +23,24 @@
 
   .reservation-chk {
     max-width: 400px;
+  }
+
+  .reservation-card {
+    width: 350px;
+    height: auto;
     margin: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .reservation-details,
+  .reservation-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .reservation-info > div {
+    margin-bottom: 10px;
   }
 
   .my-info {
