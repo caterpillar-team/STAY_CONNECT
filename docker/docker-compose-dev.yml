@@ -1,6 +1,7 @@
 services:
   mysql:
     image: mysql:8.3
+    container_name: mysql-container
     ports:
       - 43306:3306
     volumes:

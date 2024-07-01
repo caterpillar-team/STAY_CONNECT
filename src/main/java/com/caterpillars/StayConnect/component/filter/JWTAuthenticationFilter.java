@@ -20,6 +20,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.NonNull;
 
 @Component
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
@@ -27,9 +28,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
   @Autowired
   private JWTokenProvider jwTokenProvider;
 
-  @SuppressWarnings("null")
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+  protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
+      @NonNull FilterChain filterChain)
       throws ServletException, IOException {
     String token = getTokenFromRequest(request);
 

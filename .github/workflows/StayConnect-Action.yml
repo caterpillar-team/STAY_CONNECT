@@ -1,4 +1,4 @@
-name: GITHUB RUNNER CI/CD WITH AWS
+name: GITHUB ACTION CI/CD WITH AWS
 
 on:
   push:
@@ -48,6 +48,7 @@ jobs:
           key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             gradle-${{ runner.os }}-
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
@@ -104,28 +105,98 @@ jobs:
         id: to-lowercase
         run: echo "::set-output name=repo_owner::$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')"
 
-      - name: Log in to GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ steps.to-lowercase.outputs.repo_owner }} --password-stdin
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
-      - name: Build Docker image
-        run: |
-          docker-compose -f ./docker/docker-compose-prod.yml build
-      - name: Push Docker image to GHCR
-        run: |
-          docker push ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/stay_connect_app:latest
-      - name: SSH and deploy to EC2
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ steps.to-lowercase.outputs.repo_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Nginx image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./docker/dockerfile.nginx
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/stay_connect_nginx:latest
+
+      - name: Build and push Spring Boot image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./docker/dockerfile.springboot
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/stay_connect_app:latest
+
+      - name: Build and push certbot image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./docker/dockerfile.certbot
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/stay_connect_certbot:latest
+
+      - name: Check Directory
+        run: ls -al
+
+      - name: Transfer docker-compose-prod.yml to EC2 using SCP
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER}}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: ${{ secrets.EC2_PORT }}
+          source: ./docker/docker-compose-prod.yml
+          target: /home/${{ secrets.EC2_USER }}
+
+      - name: Transfer .env to EC2 using SCP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: ${{ secrets.EC2_PORT }}
+          source: .env
+          target: /home/${{ secrets.EC2_USER }}
+
+      - name: Transfer init-letsencrypt.sh to EC2 using SCP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: ${{ secrets.EC2_PORT }}
+          source: init-letsencrypt.sh
+          target: /home/${{ secrets.EC2_USER }}
+
+      - name: SSH and deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: ${{ secrets.EC2_PORT }}
           script: |
-            docker rmi $(docker images -q)
-            docker pull ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/stay_connect_app:latest
-            docker stop my-app || true
-            docker rm my-app || true
-            docker run -d --name my-app -p 80:8080 ghcr.io/${{ steps.to-lowercase.outputs.repo_owner }}/stay_connect_app:latest
+            if [ -f /home/${{ secrets.EC2_USER }}/docker/docker-compose-prod.yml ]; then
+              echo "File exists"
+              chmod 644 /home/${{ secrets.EC2_USER }}/docker/docker-compose-prod.yml
+              chmod +x init-letsencrypt.sh
+            else
+              echo "File does not exist"
+              exit 1
+            fi
+            docker-compose --env-file /home/${{ secrets.EC2_USER }}/.env -f /home/${{ secrets.EC2_USER }}/docker/docker-compose-prod.yml down
+            docker stop $(docker ps -aq)
+            docker rm $(docker ps -aq)
+            docker rmi -f $(docker images -q)
+            docker-compose --env-file /home/${{ secrets.EC2_USER }}/.env -f /home/${{ secrets.EC2_USER }}/docker/docker-compose-prod.yml pull
+            docker-compose --env-file /home/${{ secrets.EC2_USER }}/.env -f /home/${{ secrets.EC2_USER }}/docker/docker-compose-prod.yml up -d
 
       - name: Delete Artifacts
         uses: geekyeggo/delete-artifact@v5
@@ -147,4 +218,4 @@ jobs:
           distribution: 'temurin'
 
       - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+        uses: gradle/actions/dependency-submission@v3.1.0

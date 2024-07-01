@@ -1,26 +1,31 @@
 services:
   nginx:
-    image: ghcr.io/caterpillar-team/stay_connect_nginx
+    image: ghcr.io/koonlx/stay_connect_nginx
     build:
       context: ../
-      dockerfile: docker/dockerfile-nginx
+      dockerfile: docker/dockerfile.nginx
+    container_name: nginx-container
+    restart: unless-stopped
     ports:
       - '80:80'
       - '443:443'
     volumes:
-      - ../nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ../nginx/ssl:/etc/nginx/ssl
+      - ../certbot/conf:/etc/letsencrypt
+      - ../certbot/www:/var/www/certbot
+    networks:
+      - app-network
     depends_on:
       - stay_connect_app
+      - certbot
 
   stay_connect_app:
-    image: ghcr.io/caterpillar-team/stay_connect_app
+    image: ghcr.io/koonlx/stay_connect_app
     build:
-      context: ../ # 프로젝트 루트 디렉토리를 빌드 컨텍스트로 지정
-      dockerfile: docker/dockerfile-springboot
+      context: ../
+      dockerfile: docker/dockerfile.springboot
     container_name: spring-boot-container
     ports:
-      - '8800:8080'
+      - '8080:8080'
     environment:
       SPRING_DATASOURCE_URL: ${PRODUCTION_MYSQL_URL}
       SPRING_DATASOURCE_USERNAME: ${PRODUCTION_MYSQL_USERNAME}
@@ -29,6 +34,20 @@ services:
       - app-network
     env_file:
       - ../.env
+
+  certbot:
+    image: ghcr.io/koonlx/stay_connect_certbot
+    build:
+      context: ../
+      dockerfile: docker/dockerfile.certbot
+    container_name: certbot-container
+    restart: unless-stopped
+    volumes:
+      - ../certbot/conf:/etc/letsencrypt
+      - ../certbot/www:/var/www/certbot
+    networks:
+      - app-network
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
 networks:
   app-network:
