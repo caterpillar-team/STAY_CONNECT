@@ -33,6 +33,9 @@ jobs:
           echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
           echo "KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}" >> .env
           echo "KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}" >> .env
+          echo "PORTONE_API_URL=${{ secrets.PORTONE_API_URL }}" >> .env
+          echo "PORTONE_API_KEY=${{ secrets.PORTONE_API_KEY }}" >> .env
+          echo "PORTONE_SECRET_KEY=${{ secrets.PORTONE_SECRET_KEY }}" >> .env
           echo "PRODUCTION_MYSQL_URL=${{ secrets.PRODUCTION_MYSQL_URL }}" >> .env
           echo "PRODUCTION_MYSQL_ROOT_PASSWORD=${{ secrets.PRODUCTION_MYSQL_ROOT_PASSWORD }}" >> .env
           echo "PRODUCTION_MYSQL_DATABASE=${{ secrets.PRODUCTION_MYSQL_DATABASE }}" >> .env
@@ -95,6 +98,9 @@ jobs:
           echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
           echo "KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}" >> .env
           echo "KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}" >> .env
+          echo "PORTONE_API_URL=${{ secrets.PORTONE_API_URL }}" >> .env
+          echo "PORTONE_API_KEY=${{ secrets.PORTONE_API_KEY }}" >> .env
+          echo "PORTONE_SECRET_KEY=${{ secrets.PORTONE_SECRET_KEY }}" >> .env
           echo "PRODUCTION_MYSQL_URL=${{ secrets.PRODUCTION_MYSQL_URL }}" >> .env
           echo "PRODUCTION_MYSQL_ROOT_PASSWORD=${{ secrets.PRODUCTION_MYSQL_ROOT_PASSWORD }}" >> .env
           echo "PRODUCTION_MYSQL_DATABASE=${{ secrets.PRODUCTION_MYSQL_DATABASE }}" >> .env

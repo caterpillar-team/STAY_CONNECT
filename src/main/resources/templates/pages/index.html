@@ -21,18 +21,12 @@
   </th:block>
   <th:block layout:fragment="css"
     ><link rel="stylesheet" th:href="@{/css/pages/index.css}" />
+    <link rel="stylesheet" th:href="@{/css/layouts/index_mediaquery.css}" />
     <!-- SWIPER -->
     <script th:src="@{lib/swiper/swiper-bundle.min.js}"></script>
   </th:block>
   <th:block layout:fragment="leftAside">
-    <a href="javascript:void(0)" class="btn_goChat">
-      <img th:src="@{/img/chat.png}" alt="Chat Icon" />
-      <div>
-        <br />
-        실시간 1:1 <br />
-        채팅 문의하기
-      </div>
-    </a>
+    <section th:replace="~{fragments/user/userChat_frag::userChat}"></section>
   </th:block>
   <th:block layout:fragment="main">
     <div class="indexContainer">
