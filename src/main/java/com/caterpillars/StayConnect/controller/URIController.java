@@ -7,9 +7,13 @@ import com.caterpillars.StayConnect.service.AccommodationService;
 import com.caterpillars.StayConnect.service.RoomInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +29,14 @@ public class URIController {
     private RoomInfoService roomInfoService;
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
         log.info("/ 실행");
+
+        Pageable pageable = PageRequest.of(page, 8);
+
         // 숙소 목록 조회
-        List<Accommodation> accommodations = accommodationService.findAllAccommodations();
+        Page<Accommodation> accommodationPage = accommodationService.findAllAccommodations(pageable);
+        List<Accommodation> accommodations = accommodationPage.getContent();
         List<AccommodationDto> accommodationDtos = new ArrayList<>();
 
         for (Accommodation accommodation : accommodations) {
@@ -39,7 +47,14 @@ public class URIController {
             accommodationDtos.add(dto);
         }
 
+        int nowPage = pageable.getPageNumber() + 1;
+        int startPage = Math.max(nowPage - 7, 1);
+        int endPage = Math.min(nowPage + 5, accommodationPage.getTotalPages());
+
         model.addAttribute("accommodations", accommodationDtos);
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
 
         return "pages/index";
     }

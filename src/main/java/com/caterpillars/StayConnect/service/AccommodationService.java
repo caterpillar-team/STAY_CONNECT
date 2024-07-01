@@ -32,8 +32,12 @@ public class AccommodationService {
     @Autowired
     private RoomInfoService roomInfoService;
 
-    public List<Accommodation> findAllAccommodations() {
-        return accommodationRepository.findAll();
+//    public List<Accommodation> findAllAccommodations() {
+//        return accommodationRepository.findAll();
+//    }
+
+    public Page<Accommodation> findAllAccommodations(Pageable pageable) {
+        return accommodationRepository.findAll(pageable);
     }
 
     public int findMinPrice(List<RoomInfo> roomInfos) {
@@ -143,5 +147,6 @@ public class AccommodationService {
 
         return dtos;
     }
+
 
 }

@@ -1,3 +1,11 @@
+document.addEventListener("DOMContentLoaded", function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  const scrollToHotelList = urlParams.get("scroll");
+  if (scrollToHotelList === "true") {
+    document.getElementById("hotelList").scrollIntoView({ behavior: "smooth" });
+  }
+});
+
 // 숫자 3자리마다 콤마
 function formatNumberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

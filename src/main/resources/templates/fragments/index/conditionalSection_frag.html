@@ -128,4 +128,19 @@
             </a>
         </div>
     </div>
+    <!--    <div class="pagination">-->
+    <!--        <a href="#" onclick="navigateToPage(${nowPage - 1}); return false;" th:if="${nowPage > 0}">Previous</a>-->
+    <!--        <span th:text="'Page ' + (${nowPage + 1}) + ' of ' + ${totalPages}">Page 1 of 1</span>-->
+    <!--        <a href="#" onclick="navigateToPage(${nowPage + 1}); return false;" th:if="${nowPage < totalPages - 1}">Next</a>-->
+    <!--    </div>-->
+    <!-- 페이징 블록 생성 -->
+    <div th:if="${accommodations.size() >= 1}">
+        <div class="pagination">
+            <a th:classappend="${pageNumber == nowPage} ? 'active' : ''"
+               th:each="pageNumber : ${#numbers.sequence(startPage, endPage)}"
+               th:href="@{'/?page=' + (${pageNumber - 1}) + '&scroll=true'}">
+                <span th:text="${pageNumber}"></span>
+            </a>
+        </div>
+    </div>
 </section>
