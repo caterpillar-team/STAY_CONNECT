@@ -1,6 +1,6 @@
 package com.caterpillars.StayConnect.service;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,12 +14,15 @@ public class RoomInfoService {
     @Autowired
     private RoomInfoRepository roomInfoRepository;
 
+    public List<RoomInfo> findByAccommodationId(Long accId) {
+        return roomInfoRepository.findByAccommodationId(accId);
+    }
+
     public RoomInfoService(RoomInfoRepository roomInfoRepository) {
         this.roomInfoRepository = roomInfoRepository;
     }
 
     public RoomInfo findById(Long id) {
-        Optional<RoomInfo> roomInfo = roomInfoRepository.findById(id);
-        return roomInfo.orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다."));
+        return roomInfoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다."));
     }
 }

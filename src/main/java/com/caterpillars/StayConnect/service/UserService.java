@@ -34,12 +34,11 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public String findUser(String username) {
-        return username;
+    public User findById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유효하지 않은 사용자 ID입니다."));
     }
 
-    public User findById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.orElseThrow();
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }

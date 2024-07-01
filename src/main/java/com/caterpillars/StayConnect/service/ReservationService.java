@@ -50,17 +50,19 @@ public class ReservationService {
 
         // getPaymentDetails 메소드 호출
         public Reservation createReservation(String imp_uid, User user, RoomInfo roomInfo, LocalDateTime checkIn,
-                        LocalDateTime checkOut) {
-                PaymentDto paymentDto = portOnePaymentService.getPaymentDetails(imp_uid);
+                        LocalDateTime checkOut, PaymentDto paymentDto) {
+                // PaymentDto paymentDto = portOnePaymentService.getPaymentDetails(imp_uid);
 
                 Reservation reservation = Reservation.builder()
+                                .imp_uid(imp_uid)
                                 .user(user)
                                 .roomInfo(roomInfo)
                                 .checkIn(checkIn)
                                 .checkOut(checkOut)
                                 .reservationAt(LocalDateTime.now())
                                 .price(paymentDto.getPaid_amount())
-                                .reservationType(paymentDto.getPay_method())
+                                .reservationType(paymentDto.getMerchant_uid())
+                                .pay_method(paymentDto.getPay_method())
                                 .build();
 
                 return reservationRepository.save(reservation);
