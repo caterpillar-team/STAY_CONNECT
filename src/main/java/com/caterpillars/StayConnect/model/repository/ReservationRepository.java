@@ -14,6 +14,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             "FROM Reservation r " +
             "GROUP BY YEAR(r.checkIn), MONTH(r.checkIn) " +
             "ORDER BY year, month")
-    List<Object[]> findMonthlyReservationCount();
-
+    List<Object[]> findMonthlyReservationCount();    
 }
