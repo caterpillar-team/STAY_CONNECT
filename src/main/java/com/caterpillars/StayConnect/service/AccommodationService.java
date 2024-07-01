@@ -32,9 +32,6 @@ public class AccommodationService {
     @Autowired
     private RoomInfoService roomInfoService;
 
-//    public List<Accommodation> findAllAccommodations() {
-//        return accommodationRepository.findAll();
-//    }
 
     public Page<Accommodation> findAllAccommodations(Pageable pageable) {
         return accommodationRepository.findAll(pageable);
@@ -131,6 +128,22 @@ public class AccommodationService {
         return reviewRepository.findByRoomInfoAccommodationIdOrderByIdDesc(accId);
     }
 
+    public List<AccommodationDto> getAccommodationDtos(Page<Accommodation> accommodationPage) {
+        List<Accommodation> accommodations = accommodationPage.getContent();
+        List<AccommodationDto> accommodationDtos = new ArrayList<>();
+
+        for (Accommodation accommodation : accommodations) {
+            List<RoomInfo> roomInfos = roomInfoService.findByAccommodationId(accommodation.getId());
+            int minPrice = findMinPrice(roomInfos);
+
+            AccommodationDto dto = convertToDto(accommodation, minPrice);
+            accommodationDtos.add(dto);
+        }
+
+        return accommodationDtos;
+    }
+
+    // 키워드 검색
     @Transactional
     public List<AccommodationDto> search(String searchText) {
         List<Accommodation> searchResult = accommodationRepository.findAllByNameContaining(searchText);

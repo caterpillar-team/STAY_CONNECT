@@ -480,3 +480,7 @@ div > .reviewList {
     display: inline-block;
     color: #666;
 }
+
+#hotelList {
+    transition: opacity 0.3s ease-in-out;
+}
