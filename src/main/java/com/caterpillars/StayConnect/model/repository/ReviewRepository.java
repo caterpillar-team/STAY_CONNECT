@@ -12,8 +12,6 @@ import com.caterpillars.StayConnect.model.entities.Review;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    List<Review> findAll();
-
     Page<Review> findByRoomInfoAccommodationId(Long accommodationId, Pageable pageable);
 
     List<Review> findByRoomInfoAccommodationIdOrderByIdDesc(Long accommodationId);

@@ -1,16 +1,109 @@
 <!DOCTYPE html>
 <html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layouts/layout}"
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}"
 >
-  <th:block layout:fragment="javascript"> </th:block>
-  <th:block layout:fragment="title">
-    <title>userList page</title>
-  </th:block>
-  <th:block layout:fragment="css"
-    ><link rel="stylesheet" th:href="@{/css/pages/auth/userList.css}"
-  /></th:block>
-  <th:block layout:fragment="main"> </th:block>
+    <th:block layout:fragment="javascript"></th:block>
+    <th:block layout:fragment="title">
+        <title>userList page</title>
+    </th:block>
+    <th:block layout:fragment="css"
+        ><link rel="stylesheet" th:href="@{/css/pages/admin/userList.css}" />
+        <link rel="stylesheet" th:href="@{/css/pages/admin/chatCard.css}"
+    /></th:block>
+
+    <th:block layout:fragment="leftAside">
+        <div class="menu">
+            <h3>관리자 페이지</h3>
+            <div><a th:href="@{/admin/home}">&nbsp;&nbsp;&nbsp;&nbsp;대시 보드</a></div>
+            <div><a th:href="@{/admin/userList}">&nbsp;&nbsp;&nbsp;&nbsp;사용자 리스트</a></div>
+            <div><a th:href="@{/admin/reviewList}">&nbsp;&nbsp;&nbsp;&nbsp;리뷰 리스트</a></div>
+            <div>
+                <a
+                    class="inquery"
+                    data-bs-toggle="offcanvas"
+                    href="#offcanvasRight"
+                    role="button"
+                    aria-controls="offcanvasRight"
+                >
+                    &nbsp;&nbsp;&nbsp;&nbsp;문의 관리
+                </a>
+            </div>
+        </div>
+    </th:block>
+    <th:block layout:fragment="main">
+        <h3 class="list-title">USER LIST</h3>
+        <div class="rowCount">
+            <label for="">
+                <select name="" id="">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </label>
+        </div>
+        <div class="list-card">
+            <table class="table align-middle table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">IDENTIFY CODE</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">USER NAME</th>
+                        <th scope="col">GENDER</th>
+                        <th scope="col">EMAIL</th>
+                        <th scope="col">PHONE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="userList : ${userList}">
+                        <th scope="row" th:text="${userList.id}"></th>
+                        <td th:text="${userList.realName}"></td>
+                        <td th:text="${userList.username}"></td>
+                        <td th:text="${userList.gender}"></td>
+                        <td th:text="${userList.email}"></td>
+                        <td th:text="${userList.phoneNumber}"></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th scope="col">IDENTIFY CODE</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">USER NAME</th>
+                        <th scope="col">GENDER</th>
+                        <th scope="col">EMAIL</th>
+                        <th scope="col">PHONE</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </th:block>
+
+    <th:block layout:fragment="rightAside">
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+                <h5 id="offcanvasRightLabel">문의창 입니다.</h5>
+                <button
+                    type="button"
+                    class="btn-close text-reset"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="chatCard">
+                    <div class="chatLog">대화 창</div>
+                    <form id="message" action="">
+                        <input type="text" id="myMessage" placeholder="메시지를 작성해주세요" />
+                        <button onclick="">전송</button>
+                        <p>
+                            <span class="notification"></span>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </th:block>
 </html>

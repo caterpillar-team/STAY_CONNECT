@@ -1,19 +1,20 @@
 package com.caterpillars.StayConnect.controller;
 
-import com.caterpillars.StayConnect.model.dto.AccommodationDto;
-import com.caterpillars.StayConnect.model.dto.RoomInfoDto;
-import com.caterpillars.StayConnect.model.entities.Accommodation;
-import com.caterpillars.StayConnect.model.entities.RoomInfo;
-import com.caterpillars.StayConnect.service.AccommodationService;
-import com.caterpillars.StayConnect.service.RoomInfoService;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.caterpillars.StayConnect.model.dto.AccommodationDto;
+import com.caterpillars.StayConnect.model.entities.Accommodation;
+import com.caterpillars.StayConnect.model.entities.RoomInfo;
+import com.caterpillars.StayConnect.service.AccommodationService;
+import com.caterpillars.StayConnect.service.RoomInfoService;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j

@@ -6,7 +6,7 @@
   display: flex;
   justify-content: space-around;
   background-color: rgb(231, 231, 231);
-  /* position: fixed; */
+  position: absolute;
   clear: both;
   height: 110px;
 }

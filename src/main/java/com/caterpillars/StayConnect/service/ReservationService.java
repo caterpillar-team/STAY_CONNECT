@@ -1,18 +1,19 @@
 package com.caterpillars.StayConnect.service;
 
-import com.caterpillars.StayConnect.model.dto.PaymentDto;
-import com.caterpillars.StayConnect.model.entities.Reservation;
-import com.caterpillars.StayConnect.model.entities.RoomInfo;
-import com.caterpillars.StayConnect.model.entities.User;
-import com.caterpillars.StayConnect.model.repository.ReservationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.caterpillars.StayConnect.model.dto.PaymentDto;
+import com.caterpillars.StayConnect.model.entities.Reservation;
+import com.caterpillars.StayConnect.model.entities.RoomInfo;
+import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.model.repository.ReservationRepository;
 
 @Service
 public class ReservationService {
@@ -48,8 +49,9 @@ public class ReservationService {
     }
 
     // getPaymentDetails 메소드 호출
-    public Reservation createReservation(String imp_uid, User user, RoomInfo roomInfo, LocalDateTime checkIn, LocalDateTime checkOut, PaymentDto paymentDto) {
-//        PaymentDto paymentDto = portOnePaymentService.getPaymentDetails(imp_uid);
+    public Reservation createReservation(String imp_uid, User user, RoomInfo roomInfo, LocalDateTime checkIn,
+            LocalDateTime checkOut, PaymentDto paymentDto) {
+        // PaymentDto paymentDto = portOnePaymentService.getPaymentDetails(imp_uid);
 
         Reservation reservation = Reservation.builder()
                 .imp_uid(imp_uid)

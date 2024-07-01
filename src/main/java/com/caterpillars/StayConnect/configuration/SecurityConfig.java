@@ -3,7 +3,6 @@ package com.caterpillars.StayConnect.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,7 +18,6 @@ import com.caterpillars.StayConnect.component.handler.OAuth2UserLoginFailureHand
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
 public class SecurityConfig {
 
         @Autowired
@@ -47,7 +45,8 @@ public class SecurityConfig {
                                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                                                 .requestMatchers("/", "/accommodation/**").permitAll()
                                                 .requestMatchers("/auth/**").not().authenticated()
-                                                .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/fonts/**").permitAll()
+                                                .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/fonts/**")
+                                                .permitAll()
                                                 .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())

@@ -1,0 +1,2 @@
+# Nginx 설정
+FROM nginx:latest

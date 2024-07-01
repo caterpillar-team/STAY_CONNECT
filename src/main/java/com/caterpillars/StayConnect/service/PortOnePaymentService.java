@@ -37,12 +37,13 @@ public class PortOnePaymentService {
                 uriBuilder.toUriString(),
                 HttpMethod.GET,
                 entity,
-                PaymentDto.class);
+                PaymentDto.class // 응답을 DTO 객체로 받음
+        );
 
         if (response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
         } else {
-            throw new RuntimeException("Failed to fetch payment details");
+            throw new RuntimeException("실패하였습니다.");
         }
     }
 }
