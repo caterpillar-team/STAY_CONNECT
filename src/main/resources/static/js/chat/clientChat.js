@@ -22,6 +22,7 @@ function connect() {
 function fetchMessages(roomId) {
     fetch('/chat/messages/' + roomId)
         .then(response => response.json())
+        
         .then(messages => {
             messages.forEach(showMessage);
         })
@@ -29,7 +30,7 @@ function fetchMessages(roomId) {
 }
 
 function sendMessage() {
-    var messageContent = document.getElementById('myMessage').value;
+    var messageContent = document.getElementById('messageInput').value;
     var message = {
         sender: username,
         contents: messageContent,
@@ -41,7 +42,7 @@ function sendMessage() {
 }
 
 function showMessage(message) {
-    var chatLog = document.querySelector('.chatLog');
+    var chatLog = document.querySelector('message-container');
     var messageElement = document.createElement('div');
     messageElement.classList.add('message');
     messageElement.textContent = message.sender + ' : ' + message.contents;
@@ -61,10 +62,10 @@ function createChatRoom() {
 window.addEventListener('load', function () {
     createChatRoom();
 
-    document.querySelector('#sendMessage').addEventListener('click', function (event) {
+    document.querySelector('#sendButton').addEventListener('click', function (event) {
         event.preventDefault();
         sendMessage();
-        document.getElementById('myMessage').value = '';
+        document.getElementById('messageInput').value = '';
     });
 });
 

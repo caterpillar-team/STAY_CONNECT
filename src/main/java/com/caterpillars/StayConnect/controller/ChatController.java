@@ -1,5 +1,6 @@
 package com.caterpillars.StayConnect.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,22 +37,25 @@ public class ChatController {
 
 
     @GetMapping("/clientChatPopup")
-    public String showClientChatPopup(Model model, HttpSession session) {
+    public String showClientChatPopup(Model model, HttpSession session, Authentication authentication) {
+        String username = authentication.getName();
         String roomId = (String) session.getAttribute("roomId");
+        model.addAttribute("username", username);
         model.addAttribute("roomId", roomId);
         return "pages/chat/clientChatPopup";
     }
 
     @GetMapping("/adminChatPopup")
-    public String showAdminChatPopup(Model model, HttpSession session) {
+    public String showAdminChatPopup(@RequestParam("roomId") String roomId, Model model) {
         List<Inquiry> rooms = inquiryService.findAllInquiry();
-        String roomId = (String) session.getAttribute("roomId");
-
+        Map<String, Long> messageCounts = getMessageCounts();
 
         model.addAttribute("rooms", rooms);
         model.addAttribute("roomId", roomId);
+        model.addAttribute("messageCounts", messageCounts);
         return "pages/chat/adminChatPopup";
     }
+
 
     @MessageMapping("/chat.sendMessage")
     public Inquiry sendMessage(Inquiry inquiry, Authentication authentication) {
@@ -63,7 +67,6 @@ public class ChatController {
 
 
         Inquiry savedInquiry = inquiryService.saveInquiry(inquiry.getSender(), inquiry.getContents(), inquiry.getRoomId());
-
         messagingTemplate.convertAndSend("/sub/chatroom/" + inquiry.getRoomId(), savedInquiry);
         return savedInquiry;
     }
@@ -72,7 +75,7 @@ public class ChatController {
     @GetMapping("/enter/{roomId}")
     public String enterChatRoom(@PathVariable String roomId, HttpSession session) {
         session.setAttribute("roomId", roomId);
-        return "redirect:/chat/popup";
+        return "redirect:/chat/adminChatPopup?roomId=" + roomId;
     }
 
     //채팅방 생성 메서드
@@ -87,9 +90,17 @@ public class ChatController {
     //모든 채팅방 조회 메서드
     @GetMapping("/rooms")
     @ResponseBody
-    public List<Inquiry> getRooms() {
-        return inquiryService.findAllInquiry();
-    }
+    public List<Map<String, String>> getRooms() {
+        List<Inquiry> inquiries = inquiryService.findAllInquiry();
+        List<Map<String, String>> rooms = new ArrayList<>();
+        for (Inquiry inquiry : inquiries) {
+            Map<String, String> room = new HashMap<>();
+            room.put("roomId", inquiry.getRoomId());
+            room.put("username", inquiry.getSender());
+            rooms.add(room);
+        }
+    return rooms;
+}
 
     @GetMapping("/messages/{roomId}")
 @ResponseBody
@@ -111,11 +122,12 @@ public Map<String, Long> getMessageCounts() {
 }
 
 @GetMapping("/searchMessages")
-    public String searchMessagesBySender(@RequestParam String sender, Model model) {
-        List<Inquiry> searchMessage = inquiryService.findMessageBySender(sender);
-        model.addAttribute("messageHistory", searchMessage);
-        return "pages/messageHistoryPopup";
-    }
+public String searchMessagesBySender(@RequestParam String sender, Model model) {
+    List<Inquiry> searchMessage = inquiryService.findMessageBySender(sender);
+    model.addAttribute("messageHistory", searchMessage);
+    return "pages/chat/messageHistoryPopup";
+}
+
 
 }
 
