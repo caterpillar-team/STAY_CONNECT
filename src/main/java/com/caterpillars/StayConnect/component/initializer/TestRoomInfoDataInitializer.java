@@ -2,7 +2,6 @@ package com.caterpillars.StayConnect.component.initializer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +9,6 @@ import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.repository.AccommodationRepository;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
-
 
 @Order(4)
 @Component
