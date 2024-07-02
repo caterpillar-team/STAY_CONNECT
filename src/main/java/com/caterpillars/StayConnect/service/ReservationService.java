@@ -1,12 +1,16 @@
 package com.caterpillars.StayConnect.service;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import com.caterpillars.StayConnect.model.dto.PaymentDto;
+import com.caterpillars.StayConnect.model.dto.ReservationDto;
+import com.caterpillars.StayConnect.model.entities.Accommodation;
+import com.caterpillars.StayConnect.model.entities.Reservation;
+import com.caterpillars.StayConnect.model.entities.RoomInfo;
+import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.model.repository.ReservationRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -20,25 +24,16 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
-import com.caterpillars.StayConnect.model.dto.PaymentDto;
-import com.caterpillars.StayConnect.model.dto.ReservationDto;
-import com.caterpillars.StayConnect.model.entities.Accommodation;
-import com.caterpillars.StayConnect.model.entities.Reservation;
-import com.caterpillars.StayConnect.model.entities.RoomInfo;
-import com.caterpillars.StayConnect.model.entities.User;
-import com.caterpillars.StayConnect.model.repository.ReservationRepository;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class ReservationService {
-
-    @Autowired
-    private PortOnePaymentService portOnePaymentService;
 
     @Autowired
     private ReservationRepository reservationRepository;
@@ -77,7 +72,7 @@ public class ReservationService {
 
     // getPaymentDetails 메소드 호출
     public Reservation createReservation(String imp_uid, User user, RoomInfo roomInfo, LocalDateTime checkIn,
-            LocalDateTime checkOut, PaymentDto paymentDto) {
+                                         LocalDateTime checkOut, PaymentDto paymentDto) {
         // PaymentDto paymentDto = portOnePaymentService.getPaymentDetails(imp_uid);
 
         Reservation reservation = Reservation.builder()

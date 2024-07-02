@@ -284,11 +284,13 @@ active
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
-    padding-left: 10px;
+    padding-left: 30px;
 }
 
 .conditional-section > .hotels > .card {
-    width: 210px;
+    width: 200px;
+    flex-grow: 1;
+    max-width: calc(25% - 30px);
 }
 
 .conditional-section > .hotels > .card > img {
