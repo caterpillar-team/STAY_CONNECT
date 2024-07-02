@@ -14,7 +14,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import com.caterpillars.StayConnect.component.filter.JWTAuthenticationFilter;
 import com.caterpillars.StayConnect.component.handler.JWTLoginSuccessHandler;
@@ -43,21 +42,23 @@ public class SecurityConfig {
         }
 
         @Bean
-        public CorsFilter corsFilter() {
-                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        public UrlBasedCorsConfigurationSource corsConfigurationSource() {
                 CorsConfiguration config = new CorsConfiguration();
-                config.setAllowedOrigins(List.of("https://stayconnect.shop"));
+                config.setAllowedOrigins(List.of("https://stayconnect.shop", "http://localhost:8080"));
                 config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 config.setAllowedHeaders(List.of("*"));
                 config.setAllowCredentials(true);
+
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
                 source.registerCorsConfiguration("/**", config);
-                return new CorsFilter(source);
+                return source;
         }
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 http
                                 .csrf((csrf) -> csrf.disable())
+                                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
                                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                                                 .requestMatchers("/", "/accommodation/**", "/search").permitAll()
