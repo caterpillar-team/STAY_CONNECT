@@ -1,0 +1,15 @@
+FROM nginx:latest
+
+COPY ./nginx/conf/nginx.conf /etc/nginx/nginx.conf
+
+# 설정 파일 복사
+COPY ./nginx/conf.d/stayconnect.shop.conf /etc/nginx/conf.d/stayconnect.shop.conf
+
+# SSL 인증서 디렉토리 생성 (실제 인증서 경로가 있다면 COPY 명령으로 복사)
+RUN mkdir -p /etc/letsencrypt/live/stayconnect.shop
+
+# 웹 루트 디렉토리 생성
+RUN mkdir -p /var/www/certbot
+
+# Nginx 시작
+CMD ["nginx", "-g", "daemon off;"]

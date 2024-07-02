@@ -1,0 +1,8 @@
+# Certbot 이미지 사용
+FROM certbot/certbot:latest
+
+# 인증서 및 웹 루트 디렉토리 생성
+RUN mkdir -p /etc/letsencrypt /var/www/certbot
+
+# 엔트리포인트 설정
+ENTRYPOINT ["/bin/sh", "-c", "trap exit TERM; while :; do certbot renew; sleep 12h; done"]

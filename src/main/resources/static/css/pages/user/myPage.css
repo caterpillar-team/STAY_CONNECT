@@ -66,18 +66,21 @@ h3 {
 .reservation-list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
+
 .reservation-card {
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 10px;
   margin: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  flex: 1 1 45%; /* 카드가 flexbox 안에서 자동으로 크기 조정 */
+  width: 100%;
+  min-width: 1000px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 220px;
+  height: auto;
 }
 .reservation-card h4,
 .reservation-card p {
@@ -96,6 +99,17 @@ h3 {
   background-color: #000;
   width: 100%;
   margin: 10px 0;
+}
+
+/* my-info */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
 }
 
 .my-info {
@@ -152,9 +166,28 @@ label {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 .btn:hover {
   background-color: #0056b3;
+}
+
+.btn.cancel-reservation {
+  width: 150px;
+  height: 60px;
+  border: 2px solid #007bff;
+  color: #000;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  margin-top: 40px;
+  line-height: 35px;
+  font-size: 1.3rem;
+}
+
+.btn.cancel-reservation:hover {
+  background-color: #007bff;
 }
 
 /* selected */

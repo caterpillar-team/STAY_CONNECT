@@ -1,189 +1,311 @@
 <!DOCTYPE html>
-<html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layouts/layout}"
->
-  <th:block layout:fragment="title">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<th:block layout:fragment="title">
     <title>myPage page</title>
-  </th:block>
-  <th:block layout:fragment="javascript">
+</th:block>
+<th:block layout:fragment="javascript">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
-      $(document).ready(function () {
-        // 기본적으로 예약 목록을 표시
-        $('#reservationLink').addClass('selected');
-        $('.reservation__list').addClass('selected');
-        $('.reservation-chk').addClass('selected');
+        $(document).ready(function () {
+            $('#reservationLink').addClass('selected');
+            $('.reservation__list').addClass('selected');
+            $('.reservation-chk').addClass('selected');
 
-        $('#reservationLink').click(function () {
-          $('.reservation__list').addClass('selected');
-          $('.reservation-chk').addClass('selected');
-          $('.modify__info').removeClass('selected');
-          $('.my-info').removeClass('selected');
-          $('#reservationLink').addClass('selected');
-          $('#myInfoLink').removeClass('selected');
+            $('#reservationLink').click(function () {
+                $('.reservation__list').addClass('selected');
+                $('.reservation-chk').addClass('selected');
+                $('.modify__info').removeClass('selected');
+                $('.my-info').removeClass('selected');
+                $('#reservationLink').addClass('selected');
+                $('#myInfoLink').removeClass('selected');
+            });
+
+            $('#myInfoLink').click(function () {
+                $('.reservation__list').removeClass('selected');
+                $('.reservation-chk').removeClass('selected');
+                $('.modify__info').addClass('selected');
+                $('.my-info').addClass('selected');
+                $('#reservationLink').removeClass('selected');
+                $('#myInfoLink').addClass('selected');
+            });
+
+            // 모달 창 열기
+            $('.cancel-reservation').click(function () {
+                const reservationId = $(this).data('id');
+                $('#confirmCancel').data('id', reservationId);
+                $('#reservationModal').data('id', reservationId);
+                $('#cancelModal').modal('show');
+                console.log('예약취소 버튼 클릭 ! reservation Id : ', reservationId);
+
+            });
+
+            $('#hamburger-icon').click(function() {
+                $('#nav-menu').toggle(); // 메뉴 표시/숨기기 토글
+            });
+
+            // 예약 취소 확인
+            $('#confirmCancel').click(function () {
+                const reservationId = $(this).data('id');
+                console.log('예약취소 확인 버튼 클릭 ! reservation Id : ', reservationId)
+                // 예약 취소
+                $('#cancelModal').modal('hide'); // 취소 확인 모달 닫기
+                $('#reservationModal').modal('show'); // 예약 확인 모달 열기
+            });
+
+            // 환불 버튼 클릭 이벤트 핸들러
+            $('#refund_btn').click(function () {
+                const reservationId = $('#reservationModal').data('id');
+                // 환불
+                console.log('환불 시 해당 예약정보 Id : ', reservationId);
+                processRefund(reservationId);
+            });
+
+             // 회원 탈퇴 모달 열기
+            $('#deleteAccountBtn').click(function () {
+                const userId = $(this).data('id');
+                console.log("User ID in button click: " + userId); // 확인용 로그
+                $('#confirmDelete').data('id', userId);
+                $('#deleteAccountModal').modal('show');
+            });
+
+            // 회원 탈퇴 확인
+            $('#confirmDelete').click(function () {
+                const userId = $(this).data('id');
+                deleteUser(userId);
+            });
+
+            // 모달 닫기 버튼 클릭 시 모달 숨기기
+            $('.modal .btn-secondary').click(function () {
+                $(this).closest('.modal').modal('hide');
+            });
         });
 
-        $('#myInfoLink').click(function () {
-          $('.reservation__list').removeClass('selected');
-          $('.reservation-chk').removeClass('selected');
-          $('.modify__info').addClass('selected');
-          $('.my-info').addClass('selected');
-          $('#reservationLink').removeClass('selected');
-          $('#myInfoLink').addClass('selected');
-        });
-      });
+
+        function processRefund(reservationId) {
+        console.log('환불 요청');
+        location.href="/user/cancel_reservation?reservationId=" + reservationId;
+    }
+
+        function deleteUser(userId) {
+            console.log('회원 탈퇴 요청');
+            $.post("/user/deleteUser/" + userId, function () {
+                window.location.href = "/login?accountDeleted"; // 탈퇴 후 로그인 페이지로 리다이렉트
+            });
+    }
+
+
     </script>
-  </th:block>
-  <th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/pages/user/myPage.css}" />
-  </th:block>
-  <th:block layout:fragment="leftAside">
-    <div class="menu">
-      <h3>마이페이지</h3>
-      <div>
-        <a href="javascript:void(0)" id="reservationLink">예약목록</a>
-      </div>
-      <div>
-        <a href="javascript:void(0)" id="myInfoLink">개인 정보 수정</a>
-      </div>
+</th:block>
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/pages/user/myPage.css}"/>
+    <link rel="stylesheet" th:href="@{/css/layouts/myPage_mediaquery.css}"/>
+
+</th:block>
+<th:block layout:fragment="leftAside">
+    <div class="menu-toggle" id="hamburger-icon">
+        <span class="material-symbols-outlined" style="margin-top: 15px; margin-left: 20px; font-size: 2rem;">menu</span>
     </div>
-  </th:block>
-  <th:block layout:fragment="main">
+    <div class="menu" id="nav-menu">
+        <h3>마이페이지</h3>
+        <div>
+            <a href="javascript:void(0)" id="reservationLink">예약목록</a>
+        </div>
+        <div>
+            <a href="javascript:void(0)" id="myInfoLink">개인 정보 수정</a>
+        </div>
+    </div>
+    <section th:replace="~{fragments/user/userChat_frag::userChat}"></section>
+</th:block>
+<th:block layout:fragment="main">
     <div class="wrapper">
-      <h3 class="reservation__list">예약 목록</h3>
-      <h3 class="modify__info">개인 정보 수정</h3>
-      <div class="underline"></div>
-      <div class="reservation-chk">
-        <!-- 숙박업소 예약 목록, Thymeleaf로 반복 -->
-        <div class="reservation-card">
-          <h4>숙박업소 이름</h4>
-          <p>룸 타입</p>
-          <div class="reservation-details">
-            <span class="material-symbols-outlined">event_available</span>
-            <p>2024. 04. 14 ~ 2024. 04. 15</p>
-          </div>
-          <div class="reservation-info">
-            <div class="number">
-              <h4>예약번호</h4>
-              <p>353454</p>
+        <h3 class="reservation__list">예약 목록</h3>
+        <h3 class="modify__info">개인 정보 수정</h3>
+        <div class="underline"></div>
+        <div class="reservation-chk">
+            <div class="reservation-card" th:each="r : ${reservation}">
+                <h4 th:text="${r.accommodationName}">숙박업소 이름</h4>
+                <p th:text="${r.roomType}">룸 타입</p>
+                <div class="reservation-details">
+                    <span class="material-symbols-outlined">event_available</span>
+                    <p>2024. 04. 14 ~ 2024. 04. 15</p>
+                </div>
+                <div class="reservation-info">
+                    <div class="number">
+                        <h4>예약번호</h4>
+                        <p th:text="${r.id}">353454</p>
+                    </div>
+                    <div class="price">
+                        <h4>결제 금액</h4>
+                        <p th:text="${r.price} + ' 원'">38493825 원</p>
+                    </div>
+                    <div class="customer-name">
+                        <h4>예약자명</h4>
+                        <p th:text="${r.realName}">OOO</p>
+                    </div>
+                    <div class="payment">
+                        <h4>결제 방법</h4>
+                        <p th:text="${r.payMethod}">신용카드</p>
+                    </div>
+                </div>
+                <button class="btn cancel-reservation" th:data-id="${r.id}">예약취소</button>
             </div>
-            <div class="price">
-              <h4>결제 금액</h4>
-              <p>38493825 원</p>
-            </div>
-            <div class="customer-name">
-              <h4>예약자명</h4>
-              <p>OOO</p>
-            </div>
-            <div class="payment">
-              <h4>결제 방법</h4>
-              <p>신용카드</p>
-            </div>
-          </div>
         </div>
-      </div>
-      <div class="my-info">
-        <div class="myinfo-card">
-          <p>회원 정보</p>
-          <form th:action="@{/user/myPage}" method="post">
-            <div class="mb-2" th:if="${edit != null}">
-              <label for="nickname">이름</label>
-              <input
-                type="text"
-                name="nickname"
-                class="form-control"
-                aria-label="Disabled input example"
-                th:value="${edit.realName}"
-                disabled
-              />
-            </div>
+        <div class="my-info">
+            <div class="myinfo-card">
+                <p>회원 정보</p>
+                <form th:action="@{/user/myPage}" method="post">
+                    <div class="mb-2" th:if="${edit != null}">
+                        <label for="realName">이름</label>
+                        <input type="text" name="nickname" class="form-control" aria-label="Disabled input example"
+                               th:value="${edit.realName}" disabled/>
+                    </div>
 
-            <div class="mb-2" th:if="${edit != null}">
-              <label for="birth">생년월일</label>
-              <input
-                class="form-control"
-                name="birth"
-                type="text"
-                aria-label="Disabled input example"
-                th:value="${edit.birth}"
-                disabled
-              />
-            </div>
+                    <div class="mb-2" th:if="${edit != null}">
+                        <label for="birth">생년월일</label>
+                        <input class="form-control" name="birth" type="text" aria-label="Disabled input example"
+                               th:value="${edit.birth}" disabled/>
+                    </div>
 
-            <div class="mb-2" th:if="${edit != null}">
-              <label for="gender">성별</label>
-              <input
-                type="text"
-                class="form-control"
-                aria-label="Disabled input example"
-                th:value="${edit.gender}"
-                disabled
-              />
-            </div>
+                    <div class="mb-2" th:if="${edit != null}">
+                        <label for="gender">성별</label>
+                        <input type="text" class="form-control" aria-label="Disabled input example"
+                               th:value="${edit.gender}" disabled/>
+                    </div>
 
-            <div class="mb-2">
-              <label for="username">아이디</label>
-              <input
-                type="text"
-                name="username"
-                class="form-control"
-                placeholder="수정할 아이디 입력"
-                th:value="${edit.username}"
-              />
-            </div>
+                    <div class="mb-2">
+                        <label for="username">아이디</label>
+                        <input type="text" name="username" class="form-control" placeholder="수정할 아이디 입력"
+                               th:value="${edit.username}"/>
+                    </div>
 
-            <div class="mb-2">
-              <label for="password">패스워드</label>
-              <input
-                type="password"
-                name="password"
-                class="form-control"
-                placeholder="수정할 패스워드 입력"
-                th:value="${edit.password}"
-              />
-            </div>
+                    <div class="mb-2">
+                        <label for="password">패스워드</label>
+                        <input type="password" name="password" class="form-control" placeholder="수정할 패스워드 입력"/>
+                    </div>
 
-            <div class="mb-2">
-              <label for="repassword">패스워드 확인</label>
-              <input
-                type="password"
-                name="repassword"
-                class="form-control"
-                placeholder="패스워드 다시입력"
-              />
-            </div>
+                    <div class="mb-2">
+                        <label for="repassword">패스워드 확인</label>
+                        <input type="password" name="repassword" class="form-control" placeholder="패스워드 다시입력"/>
+                    </div>
 
-            <div class="mb-2">
-              <label for="email">이메일</label>
-              <input
-                type="email"
-                name="email"
-                class="form-control"
-                placeholder="수정할 이메일 입력"
-                required
-                th:value="${edit.email}"
-              />
-            </div>
+                    <div class="mb-2">
+                        <label for="email">이메일</label>
+                        <input type="email" name="email" class="form-control" placeholder="수정할 이메일 입력" required
+                               th:value="${edit.email}"/>
+                    </div>
 
-            <div class="mb-2">
-              <label for="phone">전화번호</label>
-              <input
-                id="phone"
-                name="phone"
-                class="form-control"
-                placeholder="- 제외하고 입력"
-                th:value="${edit.phoneNumber}"
-              />
-            </div>
+                    <div class="mb-2">
+                        <label for="phone">전화번호</label>
+                        <input id="phone" name="phoneNumber" class="form-control" placeholder="- 제외하고 입력"
+                               th:value="${edit.phoneNumber}"/>
+                    </div>
 
-            <button type="submit" class="btn">수정</button>
-          </form>
+                    <button type="submit" class="btn">수정</button>
+                    <button type="button" id="deleteAccountBtn" class="btn btn-danger" th:data-id="${userId}">회원탈퇴</button>
+                </form>
+            </div>
         </div>
-      </div>
+    </div>
+
+    <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cancelModalLabel">예약 취소 확인</h5>
+                </div>
+                <div class="modal-body">
+                    예약을 취소하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="confirmCancel" data-id="">네</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">아니요</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 예약 확인 모달 -->
+    <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" th:each="r : ${reservation}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reservationModalLabel">예약확인</h5>
+                </div>
+                <div class="modal-body">
+                    <!-- 모달 내용 -->
+                    <h4 th:text="${r.accommodationName}">숙박업소 이름</h4>
+                    <div class="roomType" th:text="${r.roomType}" style="font-weight:bold; font-size:1.2rem;">
+                        객실타입이름
+                    </div>
+                    </br>
+
+                    <div class="people">
+                        <span class="material-symbols-outlined">person</span>
+                        <span
+                                class="standard"
+                        >인원</span>
+                        <span> : </span>
+                        <p> 명</p>
+                    </div>
+
+                    <div class="bedType">
+                        <span class="material-symbols-outlined">bed</span>
+                        <span class="bedType">침대타입 : </span>
+                        <p th:text="${r.bedType}">스탠다드</p>
+                    </div>
+                    </br>
+
+                    </hr>
+
+                    <div class="">
+                        <span>체크인시간</span>
+                        <span>/</span>
+                        <span
+                        >체크아웃시간</span
+                        >
+                    </div>
+                    </hr>
+                    </br>
+
+                    <div class="price">가격 : </div>
+                    <p th:text="${r.price} + ' 원'">38493825 원</p>
+                    </br>
+                </div>
+                <div class="modal-footer">
+                    <button id="refund_btn" type="button" class="btn btn-primary">환불하기</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 회원 탈퇴 확인 모달 -->
+    <div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog" aria-labelledby="deleteAccountModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteAccountModalLabel">회원 탈퇴 확인</h5>
+                </div>
+                <div class="modal-body">
+                    <h1>정말 탈퇴하시겠습니까?</h1>
+                    <p>계정을 삭제하면 회원님의 모든 예약 기록, 결제 내역이 삭제됩니다.</p>
+                    <p>삭제된 정보는 복구할 수 없으니 신중하게 결정해주세요.</p>
+                    <p>환불 신청 후 환불처리가 완료되기 전 계정을 삭제하는 경우 구매 기록을 확인할 수 없으므로 환불이 불가능하니 다시 한번 확인해주세요.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="confirmDelete" data-id="">네</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">아니요</button>
+                </div>
+            </div>
+        </div>
     </div>
     <script th:src="@{/js/signUp/formatPhoneNumber.js}"></script>
-  </th:block>
-  <th:block layout:fragment="rightAside"> </th:block>
+</th:block>
+<th:block layout:fragment="rightAside"></th:block>
+
+
 </html>

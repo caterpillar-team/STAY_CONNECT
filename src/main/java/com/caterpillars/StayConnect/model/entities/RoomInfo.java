@@ -24,35 +24,35 @@ import lombok.Setter;
 @Builder
 @Entity
 public class RoomInfo {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-  @ManyToOne
-  @JoinColumn(name = "accommodation_id")
-  private Accommodation accommodation;
+    @ManyToOne
+    @JoinColumn(name = "accommodation_id", nullable = false)
+    private Accommodation accommodation;
 
-  private String roomType;
+    private String roomType;
 
-  private String bedType;
+    private String bedType;
 
-  private String stayType;
+    private String stayType;
 
-  private int numberOfPeopleStandard;
+    private int numberOfPeopleStandard;
 
-  private int numberOfPeopleMax;
+    private int numberOfPeopleMax;
 
-  private String checkInTime;
+    private String checkInTime;
 
-  private String checkOutTime;
+    private String checkOutTime;
 
-  private int count;
+    private int count;
 
-  private int price;
+    private int price;
 
-  @OneToMany(mappedBy = "roomInfo")
-  private List<Review> reviews;
+    @OneToMany(mappedBy = "roomInfo")
+    private List<Review> reviews;
 
-  @OneToMany(mappedBy = "roomInfo")
-  private List<Reservation> reservations;
+    @OneToMany(mappedBy = "roomInfo")
+    private List<Reservation> reservations;
 }

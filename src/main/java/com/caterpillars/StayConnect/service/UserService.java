@@ -4,22 +4,28 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.caterpillars.StayConnect.model.entities.Role;
 import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
-
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class UserService {
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     public void temp(HttpServletRequest request) {
         User user = new User();
@@ -32,8 +38,11 @@ public class UserService {
         user.setBirth(user.getBirth());
         user.setRole(Role.builder().build());
 
-
         userRepository.save(user);
+    }
+
+    public User findById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유효하지 않은 사용자 ID입니다."));
     }
 
     public List<User> getAllUsers() {
@@ -41,22 +50,20 @@ public class UserService {
     }
 
     public List<User> findByRealName(String realName) {
-       return userRepository.findByRealName(realName);
+        return userRepository.findByRealName(realName);
     }
 
-    public User findById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.orElseThrow();
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     public void deleteUserById(Long id) {
+        log.info("Deleting user with ID: " + id);
         userRepository.deleteById(id);
     }
 
     public int getTotalUsers() {
-        
+
         return userRepository.countTotalUsers();
     }
 }
-
-
