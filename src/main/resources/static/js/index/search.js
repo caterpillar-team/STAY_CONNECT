@@ -10,15 +10,12 @@ function fetchAccommodations(page) {
     .then(function (response) {
       const data = response.data;
 
-      // Clear the existing accommodations with fade-out effect
       const hotelList = document.getElementById("hotelList");
-      hotelList.style.opacity = 0; // Set initial opacity to 0
+      hotelList.style.opacity = 0;
 
-      // Delay the DOM update to allow fade-out effect to complete
       setTimeout(() => {
         hotelList.innerHTML = "";
 
-        // Append new accommodations
         data.accommodations.forEach(function (accommodation) {
           const card = document.createElement("div");
           card.className = "card";
@@ -32,10 +29,9 @@ function fetchAccommodations(page) {
           hotelList.appendChild(card);
         });
 
-        // Fade-in effect
         hotelList.style.opacity = 1;
 
-        // Update pagination
+        // 페이지네이션
         const pagination = document.querySelector(".pagination");
         pagination.innerHTML = "";
         for (let i = data.startPage; i <= data.endPage; i++) {
@@ -49,7 +45,7 @@ function fetchAccommodations(page) {
           };
           pagination.appendChild(pageLink);
         }
-      }, 300); // Adjust the delay to match the CSS transition duration
+      }, 300);
     })
     .catch(function (error) {
       console.error("Error fetching accommodations:", error);
