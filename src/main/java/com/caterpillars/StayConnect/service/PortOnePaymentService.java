@@ -1,13 +1,18 @@
 package com.caterpillars.StayConnect.service;
 
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Data
@@ -40,7 +45,8 @@ public class PortOnePaymentService {
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
 
         RestTemplate rt = new RestTemplate();
-        ResponseEntity<PortOneTokenResponse> response = restTemplate.exchange(tokenUrl, HttpMethod.POST, entity, PortOneTokenResponse.class);
+        ResponseEntity<PortOneTokenResponse> response = restTemplate.exchange(tokenUrl, HttpMethod.POST, entity,
+                PortOneTokenResponse.class);
 
         log.info(response.getBody().toString());
         portOneTokenResponse = response.getBody();

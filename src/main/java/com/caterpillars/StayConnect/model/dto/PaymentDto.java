@@ -12,6 +12,3 @@ public class PaymentDto {
     private Long userId;
     private Long roomInfoId;
 }
-
-
-

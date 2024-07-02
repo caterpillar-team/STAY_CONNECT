@@ -1,19 +1,12 @@
 package com.caterpillars.StayConnect.service;
 
-import com.caterpillars.StayConnect.model.dto.PaymentDto;
-import com.caterpillars.StayConnect.model.dto.ReservationDto;
-import com.caterpillars.StayConnect.model.entities.Accommodation;
-import com.caterpillars.StayConnect.model.entities.Reservation;
-import com.caterpillars.StayConnect.model.entities.RoomInfo;
-import com.caterpillars.StayConnect.model.entities.User;
-import com.caterpillars.StayConnect.model.repository.AccommodationRepository;
-import com.caterpillars.StayConnect.model.repository.ReservationRepository;
-import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
-import com.caterpillars.StayConnect.model.repository.UserRepository;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -27,31 +20,25 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import com.caterpillars.StayConnect.model.dto.PaymentDto;
+import com.caterpillars.StayConnect.model.dto.ReservationDto;
+import com.caterpillars.StayConnect.model.entities.Accommodation;
+import com.caterpillars.StayConnect.model.entities.Reservation;
+import com.caterpillars.StayConnect.model.entities.RoomInfo;
+import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.model.repository.ReservationRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
 public class ReservationService {
 
     @Autowired
-    private PortOnePaymentService portOnePaymentService;
-
-    @Autowired
     private ReservationRepository reservationRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private RoomInfoRepository roomInfoRepository;
-
-    @Autowired
-    private AccommodationRepository accommodationRepository;
 
     private PortOneTokenResponse portOneTokenResponse;
 
@@ -86,8 +73,9 @@ public class ReservationService {
     }
 
     // getPaymentDetails 메소드 호출
-    public Reservation createReservation(String imp_uid, User user, RoomInfo roomInfo, LocalDateTime checkIn, LocalDateTime checkOut, PaymentDto paymentDto) {
-//        PaymentDto paymentDto = portOnePaymentService.getPaymentDetails(imp_uid);
+    public Reservation createReservation(String imp_uid, User user, RoomInfo roomInfo, LocalDateTime checkIn,
+            LocalDateTime checkOut, PaymentDto paymentDto) {
+        // PaymentDto paymentDto = portOnePaymentService.getPaymentDetails(imp_uid);
 
         Reservation reservation = Reservation.builder()
                 .imp_uid(imp_uid)
@@ -131,8 +119,8 @@ public class ReservationService {
 
     public List<ReservationDto> getReservationsByUserId(Long userId) {
         return reservationRepository.findByUserId(userId).stream() // stream : 컬렉션 데이터를 처리할 때 사용할 수 있는 유연한 API를 제공
-                .map(this::convertToDto)    // converToDto(Reservation 객체를 ReservationDto 객체로 변환) 메서드를 사용하여 Dto객체로 변환.
-                .collect(Collectors.toList());  // 변환된 ReservationDto 객체들을 리스트로 수집하여 반환
+                .map(this::convertToDto) // convertToDto(Reservation 객체를 ReservationDto 객체로 변환) 메서드를 사용하여 Dto객체로 변환.
+                .collect(Collectors.toList()); // 변환된 ReservationDto 객체들을 리스트로 수집하여 반환
     }
 
     private ReservationDto convertToDto(Reservation reservation) {
@@ -164,23 +152,24 @@ public class ReservationService {
     public @ResponseBody void getToken() {
         log.info("GET /portOne/getToken..");
 
-        //URL
+        // URL
         String url = "https://api.iamport.kr/users/getToken";
-        //HEADER
+        // HEADER
         HttpHeaders headers = new HttpHeaders();
 
-        //PARAMS
+        // PARAMS
         MultiValueMap params = new LinkedMultiValueMap();
         params.add("imp_key", apiKey);
         params.add("imp_secret", apiSecret);
 
-        //ENTITY
+        // ENTITY
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity(params, headers);
 
-        //REQUEST
+        // REQUEST
         RestTemplate rt = new RestTemplate();
-        ResponseEntity<PortOneTokenResponse> response = rt.exchange(url, HttpMethod.POST, entity, PortOneTokenResponse.class);
-        //RESPONSE
+        ResponseEntity<PortOneTokenResponse> response = rt.exchange(url, HttpMethod.POST, entity,
+                PortOneTokenResponse.class);
+        // RESPONSE
         System.out.println(response.getBody());
         this.portOneTokenResponse = response.getBody();
 
@@ -191,8 +180,8 @@ public class ReservationService {
     public Map<String, Object> cancelReservation(Long reservationId) {
         System.out.println("received request : delete");
 
-//        String reservationIdStr = request.get("reservationId");
-//        Long reservationId = Long.parseLong(reservationIdStr);
+        // String reservationIdStr = request.get("reservationId");
+        // Long reservationId = Long.parseLong(reservationIdStr);
         Map<String, Object> response = new HashMap<>();
 
         try {
@@ -220,26 +209,26 @@ public class ReservationService {
         String imp_uid = reservation.getImp_uid();
         String merchant_uid = reservation.getMerchant_uid();
 
-        //URL
+        // URL
         String url = "https://api.iamport.kr/payments/cancel";
 
-        //Request Header
+        // Request Header
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + portOneTokenResponse.getResponse().getAccess_token());
         headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
 
-        //Request Body
+        // Request Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("imp_uid", imp_uid);
         params.add("merchant_uid", merchant_uid);
 
-        //Hader+Body
-        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity(params, headers);
+        // Header+Body
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
 
-        //요청
+        // 요청
         RestTemplate restTemplate = new RestTemplate();
 
-        //반환값확인
+        // 반환값확인
         ResponseEntity<String> resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
         System.out.println(resp);
@@ -268,10 +257,9 @@ public class ReservationService {
         return true;
     }
 
-
-    //---------------------------
+    // ---------------------------
     // AccessToken 발급 Class
-    //---------------------------
+    // ---------------------------
     @Data
     private static class TokenResponse {
         public String access_token;

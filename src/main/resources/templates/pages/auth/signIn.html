@@ -8,8 +8,8 @@
   <th:block layout:fragment="title">
     <title>signIn page</title>
   </th:block>
-  <th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/pages/auth/signIn.css}" />
+  <th:block layout:fragment="css"
+    ><link rel="stylesheet" th:href="@{/css/pages/auth/signIn.css}" />
     <link rel="stylesheet" th:href="@{/css/layouts/signin_mediaquery.css}" />
   </th:block>
   <th:block layout:fragment="main">
@@ -75,7 +75,7 @@
           </div>
           <div th:id="google_customBtn" th:class="customGPlusSignIn">
             <span class="G_icon"></span>
-            <a href="/oauth2/authorization/google">
+            <a th:href="@{/oauth2/authorization/google}">
               <span class="buttonText">Google로 시작하기</span></a
             >
           </div>
