@@ -41,6 +41,10 @@
 
             });
 
+            $('#hamburger-icon').click(function() {
+                $('#nav-menu').toggle(); // 메뉴 표시/숨기기 토글
+            });
+
             // 예약 취소 확인
             $('#confirmCancel').click(function () {
                 const reservationId = $(this).data('id');
@@ -58,17 +62,40 @@
                 processRefund(reservationId);
             });
 
+             // 회원 탈퇴 모달 열기
+            $('#deleteAccountBtn').click(function () {
+                const userId = $(this).data('id');
+                console.log("User ID in button click: " + userId); // 확인용 로그
+                $('#confirmDelete').data('id', userId);
+                $('#deleteAccountModal').modal('show');
+            });
+
+            // 회원 탈퇴 확인
+            $('#confirmDelete').click(function () {
+                const userId = $(this).data('id');
+                deleteUser(userId);
+            });
+
             // 모달 닫기 버튼 클릭 시 모달 숨기기
             $('.modal .btn-secondary').click(function () {
                 $(this).closest('.modal').modal('hide');
             });
         });
 
+
         function processRefund(reservationId) {
         console.log('환불 요청');
         location.href="/user/cancel_reservation?reservationId=" + reservationId;
     }
-    
+
+        function deleteUser(userId) {
+            console.log('회원 탈퇴 요청');
+            $.post("/user/deleteUser/" + userId, function () {
+                window.location.href = "/login?accountDeleted"; // 탈퇴 후 로그인 페이지로 리다이렉트
+            });
+    }
+
+
     </script>
 </th:block>
 <th:block layout:fragment="css">
@@ -176,6 +203,7 @@
                     </div>
 
                     <button type="submit" class="btn">수정</button>
+                    <button type="button" id="deleteAccountBtn" class="btn btn-danger" th:data-id="${userId}">회원탈퇴</button>
                 </form>
             </div>
         </div>
@@ -253,15 +281,31 @@
             </div>
         </div>
     </div>
+
+    <!-- 회원 탈퇴 확인 모달 -->
+    <div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog" aria-labelledby="deleteAccountModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteAccountModalLabel">회원 탈퇴 확인</h5>
+                </div>
+                <div class="modal-body">
+                    <h1>정말 탈퇴하시겠습니까?</h1>
+                    <p>계정을 삭제하면 회원님의 모든 예약 기록, 결제 내역이 삭제됩니다.</p>
+                    <p>삭제된 정보는 복구할 수 없으니 신중하게 결정해주세요.</p>
+                    <p>환불 신청 후 환불처리가 완료되기 전 계정을 삭제하는 경우 구매 기록을 확인할 수 없으므로 환불이 불가능하니 다시 한번 확인해주세요.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="confirmDelete" data-id="">네</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">아니요</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script th:src="@{/js/signUp/formatPhoneNumber.js}"></script>
 </th:block>
 <th:block layout:fragment="rightAside"></th:block>
 
-<script>
-    $(document).ready(function() {
-        $('#hamburger-icon').click(function() {
-            $('#nav-menu').toggle(); // 메뉴 표시/숨기기 토글
-        });
-    });
-</script>
+
 </html>

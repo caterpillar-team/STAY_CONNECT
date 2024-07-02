@@ -10,10 +10,16 @@ import org.springframework.stereotype.Service;
 import com.caterpillars.StayConnect.model.entities.Role;
 import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
-
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class UserService {
     @Autowired
     private UserRepository userRepository;
@@ -52,6 +58,7 @@ public class UserService {
     }
 
     public void deleteUserById(Long id) {
+        log.info("Deleting user with ID: " + id);
         userRepository.deleteById(id);
     }
 
