@@ -1,5 +1,19 @@
 package com.caterpillars.StayConnect.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.caterpillars.StayConnect.model.dto.ReviewDto;
 import com.caterpillars.StayConnect.model.entities.Review;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
@@ -7,16 +21,8 @@ import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
@@ -30,7 +36,6 @@ public class ReviewService {
 
     @Autowired
     private ReviewRepository reviewRepository;
-
 
     // 리뷰 추가
     @Transactional(rollbackFor = Exception.class)
@@ -125,12 +130,15 @@ public class ReviewService {
                 .orElse(null);
     }
 
-
     public Page<Review> findReviewsByAccommodationId(Long accommodationId, Pageable pageable) {
         return reviewRepository.findByRoomInfoAccommodationId(accommodationId, pageable);
     }
 
     public List<Review> findAllReviews(Long accId) {
         return reviewRepository.findByRoomInfoAccommodationIdOrderByIdDesc(accId);
+    }
+
+    public List<Review> findAllReviews() {
+        return reviewRepository.findAll();
     }
 }

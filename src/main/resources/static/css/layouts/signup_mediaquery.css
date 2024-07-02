@@ -1,0 +1,77 @@
+/* mobile */
+@media (max-width: 768px) {
+  .main {
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .btn_goChat {
+    display: none;
+  }
+
+  .header {
+    height: 100px;
+  }
+
+  .header div .logo a .img-fluid {
+    width: auto;
+    height: 100px;
+  }
+
+  .header nav .nav-link {
+    top: -6px;
+  }
+
+  .header nav .nav-icon {
+    top: -6px;
+  }
+
+  .join-form {
+    width: 500px;
+  }
+
+  .mid__join .all-agree .agree-list {
+    text-align: left;
+    padding-left: 15px;
+  }
+
+  .mid__join .agree .agree-list {
+    text-align: left;
+    padding: 0px 0px 0px 15px;
+  }
+  .mid__join .agree .agree-list-select {
+    text-align: left;
+    padding-left: 25px;
+  }
+}
+
+/* tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .indexContainer {
+    padding: 20px;
+  }
+
+  .rightAside,
+  .leftAside {
+    width: 20%;
+    display: block;
+  }
+
+  .main {
+    width: 60%;
+    float: left;
+  }
+}
+
+/* monitor */
+@media (min-width: 1065px) {
+  .indexContainer {
+    padding: 30px;
+  }
+
+  .rightAside,
+  .leftAside {
+    width: 25%;
+    display: block;
+  }
+}

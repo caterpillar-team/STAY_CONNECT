@@ -1,13 +1,13 @@
 package com.caterpillars.StayConnect.model.dto;
 
-import com.caterpillars.StayConnect.model.entities.Accommodation;
+import java.util.List;
+
 import com.caterpillars.StayConnect.model.entities.Review;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter

@@ -1,0 +1,128 @@
+/* mobile */
+@media (max-width: 768px) {
+  .indexContainer {
+    padding: 10px;
+  }
+
+  .btn_gotop {
+    display: none;
+  }
+
+  .main {
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .btn_goChat {
+    position: fixed;
+    top: 140px;
+    left: -200px;
+    width: 100%;
+    /* background-color: #fff; */
+    z-index: 1000;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+    /* padding: 10px 0; */
+    text-align: center;
+    height: 50px;
+    font-size: 14px;
+  }
+
+  .header {
+    height: 100px;
+  }
+
+  .header div .logo a .img-fluid {
+    width: auto;
+    height: 100px;
+  }
+
+  .header nav .nav-link {
+    top: -6px;
+  }
+
+  .header nav .nav-icon {
+    top: -6px;
+  }
+
+  .main-section {
+    min-width: 768px;
+    position: relative;
+    margin-top: 10%;
+  }
+
+  .map-searchCard {
+    transform: translateX(-350px);
+  }
+
+  .city1,
+  .city2 {
+    justify-content: center;
+  }
+
+  .city1 .box,
+  .city2 .box {
+    width: 120px;
+    height: 120px;
+    margin: 15px;
+  }
+}
+
+/* tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .indexContainer {
+    padding: 20px;
+  }
+
+  .rightAside,
+  .leftAside {
+    width: 20%;
+    display: block;
+  }
+
+  .main {
+    width: 60%;
+    float: left;
+  }
+
+  .city1,
+  .city2 {
+    justify-content: center;
+  }
+
+  .city1 .box,
+  .city2 .box {
+    width: 120px;
+    height: 120px;
+    margin: 15px;
+  }
+}
+
+/* monitor */
+@media (min-width: 1065px) {
+  .indexContainer {
+    padding: 30px;
+  }
+
+  .rightAside,
+  .leftAside {
+    width: 25%;
+    display: block;
+  }
+
+  .main {
+    width: 50%;
+    float: left;
+  }
+
+  .city1,
+  .city2 {
+    justify-content: center;
+  }
+
+  .city1 .box,
+  .city2 .box {
+    width: 120px;
+    height: 120px;
+    margin: 15px;
+  }
+}

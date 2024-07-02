@@ -1,11 +1,12 @@
 package com.caterpillars.StayConnect.service;
 
-import com.caterpillars.StayConnect.model.entities.RoomInfo;
-import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.caterpillars.StayConnect.model.entities.RoomInfo;
+import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 
 @Service
 public class RoomInfoService {
@@ -24,5 +25,4 @@ public class RoomInfoService {
     public RoomInfo findById(Long id) {
         return roomInfoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다."));
     }
-
 }

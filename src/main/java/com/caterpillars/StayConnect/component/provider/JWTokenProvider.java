@@ -55,6 +55,7 @@ public class JWTokenProvider {
     return false;
   }
 
+
   public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
     final Claims claims = extractAllClaims(token);
     return claimsResolver.apply(claims);
@@ -72,7 +73,7 @@ public class JWTokenProvider {
     return extractClaim(token, claims -> claims.get("role", String.class));
   }
 
-  private Claims extractAllClaims(String token) {
+  public Claims extractAllClaims(String token) {
     return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
   }
 
@@ -87,6 +88,8 @@ public class JWTokenProvider {
     return Jwts.builder()
         .subject(user.getUsername())
         .claim("role", user.getRole().getName())
+        .claim("credentials",authentication.getCredentials())
+        .claim("details",authentication.getDetails())
         .issuedAt(new Date())
         .expiration(new Date(System.currentTimeMillis() + expiration))
         .signWith(secretKey)
