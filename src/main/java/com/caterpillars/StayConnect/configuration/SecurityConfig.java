@@ -47,7 +47,7 @@ public class SecurityConfig {
                                                 .requestMatchers("/auth/**").not().authenticated()
                                                 .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/fonts/**")
                                                 .permitAll()
-                                                .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                                                .requestMatchers("/user/**","/chat/**").hasAnyRole("USER", "ADMIN")
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
 

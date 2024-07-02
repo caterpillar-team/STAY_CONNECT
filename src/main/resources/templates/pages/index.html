@@ -1,53 +1,70 @@
 <!DOCTYPE html>
 <html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layouts/layout}"
+    lang="en"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}"
 >
-  <th:block layout:fragment="javascript">
-    <!-- 주소 검색 api -->
-    <script
-      src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
-    ></script>
-    <!-- 지도 api -->
-    <script
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=929477699640084fe20e16282c9f60b5&libraries=services"
-    ></script>
-    <script th:src="@{/lib/swiper/swiper-bundle.min.js}"></script>
-  </th:block>
-  <th:block layout:fragment="title">
-    <title>index page</title>
-  </th:block>
-  <th:block layout:fragment="css"
-    ><link rel="stylesheet" th:href="@{/css/pages/index.css}" />
-    <link rel="stylesheet" th:href="@{/css/layouts/index_mediaquery.css}" />
-    <!-- SWIPER -->
-    <script th:src="@{lib/swiper/swiper-bundle.min.js}"></script>
-  </th:block>
-  <th:block layout:fragment="leftAside">
-    <section th:replace="~{fragments/user/userChat_frag::userChat}"></section>
-  </th:block>
-  <th:block layout:fragment="main">
-    <div class="indexContainer">
-      <section
-        th:replace="~{fragments/index/mainSection_frag::mainSection}"
-      ></section>
-      <section
-        th:replace="~{fragments/index/conditionalSection_frag::conditionalSection}"
-      ></section>
-      <section></section>
-    </div>
-    <script th:src="@{/js/index/kakaoMapAPI.js}"></script>
-    <script th:src="@{/js/index/index_scroll.js}"></script>
-  </th:block>
-  <th:block layout:fragment="rightAside">
-    <a href="#" class="btn_gotop">
-      <span class="material-symbols-outlined"> keyboard_arrow_up </span>
-      <p>
-        지도로 <br />
-        검색하기
-      </p>
-    </a>
-  </th:block>
+    <th:block layout:fragment="javascript">
+        <!-- 주소 검색 api -->
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <!-- 지도 api -->
+        <script
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=929477699640084fe20e16282c9f60b5&libraries=services"
+        ></script>
+        <script th:src="@{/lib/swiper/swiper-bundle.min.js}"></script>
+        <script src="https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    </th:block>
+    <th:block layout:fragment="title">
+        <title>index page</title>
+    </th:block>
+    <th:block layout:fragment="css"
+        ><link rel="stylesheet" th:href="@{/css/pages/index.css}" />
+        <link rel="stylesheet" th:href="@{/css/layouts/index_mediaquery.css}" />
+        <!-- SWIPER -->
+        <script th:src="@{lib/swiper/swiper-bundle.min.js}"></script>
+    </th:block>
+    <th:block layout:fragment="leftAside">
+        <a
+            href="javascript:void(0)"
+            type="button"
+            class="btn_goChat"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            onclick="showPopup();"
+        >
+            <img th:src="@{/img/chat.png}" alt="Chat Icon" />
+            <div>
+                <br />
+                실시간 1:1 <br />
+                채팅 문의하기
+            </div>
+        </a>
+        <script>
+            let options =
+                'toolbar=no,scrollbars=yes,resizable=no,status=no,menubar=no,width=500, height=700, top=50,left=100';
+            function showPopup() {
+                window.open('/chat/clientChatPopup', 'clientChatPopup', options); // /chat/popup 경로로 요청
+            }
+        </script>
+    </th:block>
+    <th:block layout:fragment="main">
+        <div class="indexContainer">
+            <section th:replace="~{fragments/index/mainSection_frag::mainSection}"></section>
+            <section th:replace="~{fragments/index/conditionalSection_frag::conditionalSection}"></section>
+            <section></section>
+        </div>
+        <script th:src="@{/js/index/kakaoMapAPI.js}"></script>
+        <script th:src="@{/js/index/index_scroll.js}"></script>
+    </th:block>
+    <th:block layout:fragment="rightAside">
+        <a href="#" class="btn_gotop">
+            <span class="material-symbols-outlined"> keyboard_arrow_up </span>
+            <p>
+                지도로 <br />
+                검색하기
+            </p>
+        </a>
+    </th:block>
 </html>

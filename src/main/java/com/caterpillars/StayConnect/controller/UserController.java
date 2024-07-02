@@ -1,14 +1,9 @@
 package com.caterpillars.StayConnect.controller;
 
-import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
-import com.caterpillars.StayConnect.model.dto.ReservationDto;
-import com.caterpillars.StayConnect.model.entities.User;
-import com.caterpillars.StayConnect.model.repository.ReservationRepository;
-import com.caterpillars.StayConnect.model.repository.UserRepository;
-import com.caterpillars.StayConnect.service.ReservationService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,9 +14,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
+import com.caterpillars.StayConnect.model.dto.ReservationDto;
+import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.model.repository.ReservationRepository;
+import com.caterpillars.StayConnect.model.repository.UserRepository;
+import com.caterpillars.StayConnect.service.ReservationService;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/user")
@@ -41,7 +43,6 @@ public class UserController {
 
     @Autowired
     private ReservationService reservationService;
-
 
     @GetMapping("/myPage")
     public String editUser(Model model, HttpServletRequest request) {
@@ -107,6 +108,5 @@ public class UserController {
             return "pages/user/myPage";
         }
     }
-
 
 }
