@@ -72,7 +72,7 @@
     <div class="search">
         <p class="title-2">조건으로 검색하기</p>
         <div class="underline2"></div>
-        <form>
+        <form id="searchForm" method="get" onsubmit="performSearch(); return false;">
             <div>
                 <!-- 숙소검색 -->
                 <div class="input-group">
@@ -80,15 +80,17 @@
                     <input
                             aria-label="Room search"
                             class="form-control"
+                            id="searchText"
+                            name="searchText"
                             placeholder="이름 검색하기"
                             type="text"
                     />
                 </div>
                 <!-- 날짜검색 -->
                 <div class="input-group">
-          <span class="input-group-text material-symbols-outlined"
-          >event_available</span
-          >
+                      <span class="input-group-text material-symbols-outlined"
+                      >event_available</span
+                      >
                     <input aria-label="Date picker" class="form-control" type="date"/>
                 </div>
                 <!-- 인원 -->
@@ -113,16 +115,31 @@
                     </select>
                 </div>
                 <!-- 버튼 -->
-                <button class="btn btn-primary" type="button">조회하기</button>
+                <button class="searchBtn btn btn-primary" type="submit">조회하기</button>
             </div>
         </form>
     </div>
-    <div class="hotels">
+    <div class="hotels" id="hotelList">
         <div class="card" th:each="accommodation : ${accommodations}">
             <img th:src="@{https://placehold.co/300}"/>
             <a th:href="@{'/accommodation/detail/'+${accommodation.id}}">
                 <p th:text="${accommodation.accommodationName}">숙소이름</p>
-                <p th:text="${#numbers.formatInteger(accommodation.minPrice, 3, 'COMMA') + '원 ~'}">47000원</p>  <!-- 최저값 나오게 수정중 -->
+                <p th:text="${#numbers.formatInteger(accommodation.minPrice, 3, 'COMMA') + '원 ~'}">47000원</p>
+            </a>
+        </div>
+    </div>
+    <!--    <div class="pagination">-->
+    <!--        <a href="#" onclick="navigateToPage(${nowPage - 1}); return false;" th:if="${nowPage > 0}">Previous</a>-->
+    <!--        <span th:text="'Page ' + (${nowPage + 1}) + ' of ' + ${totalPages}">Page 1 of 1</span>-->
+    <!--        <a href="#" onclick="navigateToPage(${nowPage + 1}); return false;" th:if="${nowPage < totalPages - 1}">Next</a>-->
+    <!--    </div>-->
+    <!-- 페이징 블록 생성 -->
+    <div th:if="${accommodations.size() >= 1}">
+        <div class="pagination">
+            <a th:classappend="${pageNumber == nowPage} ? 'active' : ''"
+               th:each="pageNumber : ${#numbers.sequence(startPage, endPage)}"
+               th:href="@{'/?page=' + (${pageNumber - 1}) + '&scroll=true'}">
+                <span th:text="${pageNumber}"></span>
             </a>
         </div>
     </div>

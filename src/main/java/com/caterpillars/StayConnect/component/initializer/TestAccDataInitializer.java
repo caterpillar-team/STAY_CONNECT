@@ -8,15 +8,13 @@ import com.caterpillars.StayConnect.model.repository.CategoryRepository;
 import com.caterpillars.StayConnect.model.repository.GradeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
-@Profile("dev")
-@Order(2)
 @Component
+@Order(2)
 public class TestAccDataInitializer implements CommandLineRunner {
 
     @Autowired
@@ -68,6 +66,60 @@ public class TestAccDataInitializer implements CommandLineRunner {
                 .category(bungalowCategory)
                 .build();
 
+        Accommodation acc4 = Accommodation.builder()
+                .name("Test Bungalow")
+                .address("경상북도 구미시 인동36길 14-4 (진평동)")
+                .latitude(36.0937439897086)
+                .longitude(128.432015932589)
+                .category(bungalowCategory)
+                .build();
+
+        Accommodation acc5 = Accommodation.builder()
+                .name("Test Beachside Hotel")
+                .address("경상북도 구미시 인동36길 14-4 (진평동)")
+                .latitude(36.0937439897086)
+                .longitude(128.432015932589)
+                .category(bungalowCategory)
+                .build();
+
+        Accommodation acc6 = Accommodation.builder()
+                .name("Test Hotel")
+                .address("경상북도 구미시 인동36길 14-4 (진평동)")
+                .latitude(36.0937439897086)
+                .longitude(128.432015932589)
+                .category(bungalowCategory)
+                .build();
+
+        Accommodation acc7 = Accommodation.builder()
+                .name("Test Beachside Bungalow")
+                .address("경상북도 구미시 인동36길 14-4 (진평동)")
+                .latitude(36.0937439897086)
+                .longitude(128.432015932589)
+                .category(bungalowCategory)
+                .build();
+
+        Accommodation acc8 = Accommodation.builder()
+                .name("Test Beachside Retreat")
+                .address("경상북도 구미시 인동36길 14-4 (진평동)")
+                .latitude(36.0937439897086)
+                .longitude(128.432015932589)
+                .category(bungalowCategory)
+                .build();
+        Accommodation acc9 = Accommodation.builder()
+                .name("Test Retreat")
+                .address("경상북도 구미시 인동36길 14-4 (진평동)")
+                .latitude(36.0937439897086)
+                .longitude(128.432015932589)
+                .category(bungalowCategory)
+                .build();
+        Accommodation acc10 = Accommodation.builder()
+                .name("Test Mountain Bungalow")
+                .address("경상북도 구미시 인동36길 14-4 (진평동)")
+                .latitude(36.0937439897086)
+                .longitude(128.432015932589)
+                .category(bungalowCategory)
+                .build();
+
         if (!accommodationRepository.findByNameAndAddress(acc1.getName(), acc1.getAddress()).isPresent()) {
             accommodationRepository.save(acc1);
         }
@@ -77,6 +129,26 @@ public class TestAccDataInitializer implements CommandLineRunner {
         if (!accommodationRepository.findByNameAndAddress(acc3.getName(), acc3.getAddress()).isPresent()) {
             accommodationRepository.save(acc3);
         }
-
+        if (!accommodationRepository.findByNameAndAddress(acc4.getName(), acc4.getAddress()).isPresent()) {
+            accommodationRepository.save(acc4);
+        }
+        if (!accommodationRepository.findByNameAndAddress(acc5.getName(), acc5.getAddress()).isPresent()) {
+            accommodationRepository.save(acc5);
+        }
+        if (!accommodationRepository.findByNameAndAddress(acc6.getName(), acc6.getAddress()).isPresent()) {
+            accommodationRepository.save(acc6);
+        }
+        if (!accommodationRepository.findByNameAndAddress(acc7.getName(), acc7.getAddress()).isPresent()) {
+            accommodationRepository.save(acc7);
+        }
+        if (!accommodationRepository.findByNameAndAddress(acc8.getName(), acc8.getAddress()).isPresent()) {
+            accommodationRepository.save(acc8);
+        }
+        if (!accommodationRepository.findByNameAndAddress(acc9.getName(), acc9.getAddress()).isPresent()) {
+            accommodationRepository.save(acc9);
+        }
+        if (!accommodationRepository.findByNameAndAddress(acc10.getName(), acc10.getAddress()).isPresent()) {
+            accommodationRepository.save(acc10);
+        }
     }
 }
