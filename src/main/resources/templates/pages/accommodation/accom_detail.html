@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layouts/layout}"
+>
+<head>
+    <meta charset="UTF-8">
+    <th:block layout:fragment="title">
+        <title>Accommodation Detail</title>
+    </th:block>
+
+    <!-- Google Icon -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+          rel="stylesheet"/>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+    <th:block layout:fragment="script">
+        <script th:src="@{/lib/bootstrap/bootstrap.min.js}"></script>
+        <script th:src="@{/lib/jquery/jquery.min.js}"></script>
+        <script th:src="@{/lib/ajax/popper.min.js}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script th:src="@{/js/accommodation/accom_detail.js}"></script>
+        <script th:src="@{/js/accommodation/review.js}"></script>
+    </th:block>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/pages/index.css}">
+        <link rel="stylesheet" th:href="@{/lib/bootstrap/bootstrap.min.css}"/>
+        <link rel="stylesheet" th:href="@{/css/accommodation/accom_detail.css}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    </th:block>
+
+</head>
+
+<body>
+<!-- fragment main -->
+<th:block layout:fragment="main">
+    <section class="conditional-section" th:replace="~{fragments/index/conditionalSection_frag :: conditionalSection}">
+    </section>
+    <section class="accomDetailInfo-section" th:replace="~{fragments/accommodatiion/accomDetailInfo_frag :: accomDetailInfo}">
+    </section>
+    <section class="accomMain">
+        <div>
+            <span class="category_name" th:text="${accom.accommodation.category.name}">호텔/펜션</span>
+            <span class="category_grade" th:text="${' • '+accom.accommodation.accommodationGrade.getGrade()}">등급</span>
+            <div class="accomName" th:text="${accom.accommodation.name}">숙소이름</div>
+        </div>
+        <div >
+            <!-- 평균 별점 별표시 -->
+            <div class="ratingStar">
+                <span class="ratingResult"></span>
+                <span th:each="star : ${#numbers.sequence(1, 5)}">
+                    <!-- 꽉 찬 별 -->
+                    <i class="fa fa-star" th:if="${star <= averageRating && star < averageRating + 1 || star > averageRating && star < averageRating + 1}"></i>
+                </span>
+            </div>
+            <!-- 평균 별점 수치 -->
+            <div class="averageRating" th:text="${'('+#numbers.formatDecimal(averageRating, 0, 0)+') '}">0.0</div>
+            <div>평가인원: <span th:text="${#lists.size(reviews)}">0</span></div>
+            <a th:href="@{#}">리뷰보기</a>
+        </div>
+        <div class="reviewBox">
+            <div class="reviewSlider">
+                <div th:each="review : ${reviews}">
+                    <div class="review">
+                        <div class="content" th:text="${review.contents}">리뷰</div>
+                        <div class="ratingStar">
+                            <span th:each="star : ${#numbers.sequence(1, 5)}">
+                              <i class="fa" th:classappend="${star <= review.rate} ? 'fas fa-star' : 'far fa-star'"></i>
+                            </span>
+                        </div>
+                        <div class="reviewWriter">
+                            <div class="user" th:text="${review.user.username}">닉네임</div>
+                            <div class="createdAt" th:text="${#dates.format(review.createdAt, 'yyyy-MM-dd HH:mm')}">시기</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <br>
+    <section>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="roomchk-tab" data-bs-toggle="tab"
+                        data-bs-target="#roomchk" type="button" role="tab" aria-controls="roomchk"
+                        aria-selected="true">객실확인</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                        data-bs-target="#profile" type="button" role="tab"
+                        aria-controls="profile" aria-selected="false">호텔상세</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="location-tab" data-bs-toggle="tab"
+                        data-bs-target="#location" type="button" role="tab"
+                        aria-controls="location" aria-selected="false">위치</button>
+            </li>
+            <li class="nav-item" role="presentation">
+            <button class="nav-link" id="review-tab" data-bs-toggle="tab"
+                    data-bs-target="#review" type="button" role="tab"
+                    aria-controls="review" aria-selected="false">리뷰</button>
+            </li>
+        </ul>
+    </section>
+    <div class="tab-content" id="myTabContent">
+        <section class="tab-pane fade show active accomDetail" id="roomchk" role="tabpanel"
+                 aria-labelledby="roomchk-tab">
+            <div th:each="accom : ${accoms}" class="accomDetailContainer" >
+                <div class="accomType">
+                    <img alt="" th:src="@{/img/StayConnect-main.jpg}"> <!-- 객실타입사진 -->
+                    <div class="detail">
+                        <div class="roomType" th:text="${accom.roomType}">객실타입이름</div>
+                        <div class="numberOfPeople">
+                            <span class="material-symbols-outlined">person</span>
+                            <span class="standard"
+                                  th:text="${'기준인원 ' + accom.numberOfPeopleStandard + '인 / '}">기준인원</span>
+                            <span class="max" th:text="${'최대인원 ' + accom.numberOfPeopleMax + '인'}">최대인원</span>
+                        </div>
+                        <div class="bedType">
+                            <span class="material-symbols-outlined">bed</span>
+                            <span class="bedType" th:text="${accom.bedType}">침대타입</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="detail">
+                    <div class="" th:text="${accom.stayType}">숙박/대실</div>
+                    <div class="">
+                        <span th:text="${'체크인 : ' + accom.ckiTime}">체크인시간</span>
+                        <span>/</span>
+                        <span th:text="${'체크아웃 : ' + accom.ckoTime}">체크아웃시간</span>
+                    </div>
+                    <div class="price" th:text="${accom.price + '원'}">가격</div>
+                    <div class="cancellationPolicy">취소정책</div>
+                    <div>
+                        <a th:href="@{#}">예약하기</a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </section>
+        <section class="tab-pane fade" id="profile" role="tabpanel"
+                 aria-labelledby="profile-tab">
+            <h4>호텔상세</h4>
+        </section>
+        <section class="tab-pane fade" id="location" role="tabpanel"
+                 aria-labelledby="location-tab">
+            <h4>위치</h4>
+        </section>
+        <section class="accomDetailReview-section" th:replace="~{fragments/accommodatiion/accomDetailReview_frag :: accomDetailReview}">
+        </section>
+    </div>
+</th:block>
+
+</body>
+</html>
