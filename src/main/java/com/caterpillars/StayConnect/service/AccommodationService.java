@@ -7,9 +7,9 @@ import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.repository.AccommodationRepository;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Slf4j
+// @Slf4j
 public class AccommodationService {
 
     @Autowired
@@ -32,10 +32,6 @@ public class AccommodationService {
     @Autowired
     private RoomInfoService roomInfoService;
 
-
-    public Page<Accommodation> findAllAccommodations(Pageable pageable) {
-        return accommodationRepository.findAll(pageable);
-    }
 
     public int findMinPrice(List<RoomInfo> roomInfos) {
         return roomInfos.stream()
@@ -107,7 +103,8 @@ public class AccommodationService {
         AccommodationDto accommodationDto = new AccommodationDto();
         accommodationDto.setId(accommodation.getId());
         accommodationDto.setAccommodationName(accommodation.getName());
-        accommodationDto.setCategoryName(accommodation.getCategory() != null ? accommodation.getCategory().getName() : "");
+        accommodationDto
+                .setCategoryName(accommodation.getCategory() != null ? accommodation.getCategory().getName() : "");
         accommodationDto.setGrade(accommodation.getGrade() != null ? accommodation.getGrade().getGrade() : "");
         accommodationDto.setAddress(accommodation.getAddress());
         accommodationDto.setLatitude(accommodation.getLatitude());
@@ -128,38 +125,30 @@ public class AccommodationService {
         return reviewRepository.findByRoomInfoAccommodationIdOrderByIdDesc(accId);
     }
 
-    public List<AccommodationDto> getAccommodationDtos(Page<Accommodation> accommodationPage) {
-        List<Accommodation> accommodations = accommodationPage.getContent();
+    private Page<AccommodationDto> convertToDtoPage(Page<Accommodation> accommodationPage) {
         List<AccommodationDto> accommodationDtos = new ArrayList<>();
-
-        for (Accommodation accommodation : accommodations) {
+        for (Accommodation accommodation : accommodationPage.getContent()) {
             List<RoomInfo> roomInfos = roomInfoService.findByAccommodationId(accommodation.getId());
             int minPrice = findMinPrice(roomInfos);
-
             AccommodationDto dto = convertToDto(accommodation, minPrice);
             accommodationDtos.add(dto);
         }
 
-        return accommodationDtos;
+        return new PageImpl<>(accommodationDtos, accommodationPage.getPageable(), accommodationPage.getTotalElements());
     }
 
     // 키워드 검색
     @Transactional
-    public List<AccommodationDto> search(String searchText) {
-        List<Accommodation> searchResult = accommodationRepository.findAllByNameContaining(searchText);
+    public Page<AccommodationDto> search(String searchText, Pageable pageable) {
+        Page<Accommodation> accommodationPage;
 
-        List<AccommodationDto> dtos = new ArrayList<>();
-        for (Accommodation accommodation : searchResult) {
-            AccommodationDto dto = new AccommodationDto();
-            dto.setId(accommodation.getId());
-            dto.setAccommodationName(accommodation.getName());
-            dto.setMinPrice(findMinPrice(findRoomInfosByAccommodationId(accommodation.getId())));
-
-            dtos.add(dto);
+        if (searchText != null && !searchText.isEmpty()) {
+            accommodationPage = accommodationRepository.findAllByNameContaining(searchText, pageable);
+        } else {
+            accommodationPage = accommodationRepository.findAll(pageable);
         }
 
-        return dtos;
+        return convertToDtoPage(accommodationPage);
     }
-
 
 }
