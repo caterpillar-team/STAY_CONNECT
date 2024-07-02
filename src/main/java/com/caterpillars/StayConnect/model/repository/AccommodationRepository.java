@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
 
   Optional<Accommodation> findByNameAndAddress(String name, String address);
+
 }

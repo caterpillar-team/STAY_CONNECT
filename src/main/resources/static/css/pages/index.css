@@ -33,8 +33,8 @@
   justify-content: center;
   top: 30%;
   left: 55%;
-  width: 50%;
-  height: 80%;
+  width: 500px;
+  height: 500px;
   z-index: 2;
   background-color: rgba(255, 255, 255);
   border-radius: 45px 45px 45px 45px;
@@ -116,6 +116,8 @@
 .conditional-section > .city-category > .title-1 {
   font-size: 1.4rem;
   margin-bottom: 10px;
+  text-align: left;
+  width: 100%;
 }
 
 .conditional-section > .city-category > .underline1 {
@@ -123,6 +125,8 @@
   height: 2px;
   width: 200px;
   margin-bottom: 50px;
+  text-align: left;
+  margin-right: 870px;
 }
 
 .conditional-section > .city-category > .city1 {
@@ -138,6 +142,8 @@
   justify-content: center;
   box-shadow: 5px 5px 5px gray;
   border-radius: 15%;
+  margin: 20px;
+  transition: transform 0.6s;
 }
 
 .conditional-section > .city-category > .city1 > .box > a {
@@ -174,15 +180,6 @@
   justify-content: space-between;
 }
 
-.conditional-section > .city-category > .city1 > .box {
-  width: 150px;
-  height: 150px;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 5px 5px 5px gray;
-  border-radius: 15%;
-}
-
 .conditional-section > .city-category > .city2 > .box:hover {
   transform: scale(1.2);
 }
@@ -194,6 +191,8 @@
   justify-content: center;
   box-shadow: 5px 5px 5px gray;
   border-radius: 15%;
+  margin: 20px;
+  transition: transform 0.6s;
 }
 
 .conditional-section > .city-category > .city2 > .box > a {
@@ -246,6 +245,8 @@
 .conditional-section > .search > .title-2 {
   font-size: 1.4rem;
   margin-bottom: 4px;
+  text-align: left;
+  width: 100%;
 }
 
 .conditional-section > .search > .underline2 {
@@ -253,6 +254,8 @@
   height: 2px;
   width: 170px;
   margin-bottom: 30px;
+  text-align: left;
+  margin-right: 900px;
 }
 
 .conditional-section > .search > form {
@@ -260,6 +263,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  margin-top: 20px;
 }
 
 .conditional-section > .search > form > div {
@@ -297,60 +301,6 @@
   line-height: 10px;
   color: black;
 }
-
-/* button - goChat */
-
-.btn_goChat {
-  position: fixed;
-  bottom: 450px;
-  left: 50px;
-  z-index: 999;
-  width: 120px;
-  height: 120px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-}
-
-.btn_goChat img {
-  width: 120px;
-  height: 120px;
-  backface-visibility: hidden;
-}
-
-.btn_goChat:hover {
-  transform: rotateY(180deg);
-}
-
-.btn_goChat > div {
-  font-size: 1rem;
-  text-align: center;
-  border: 3px solid gray;
-  border-radius: 50%;
-  width: 110px;
-  height: 100px;
-  margin-bottom: 10px;
-  color: black;
-  backface-visibility: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: rotateY(180deg);
-  line-height: 25px;
-  padding-bottom: 25px;
-}
-
-
 
 /* button - gotop */
 

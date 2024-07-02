@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
 
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -27,9 +29,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
   @Autowired
   private JWTokenProvider jwTokenProvider;
 
-  @SuppressWarnings("null")
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+  protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
+      @NonNull FilterChain filterChain)
       throws ServletException, IOException {
     String token = getTokenFromRequest(request);
 
@@ -38,8 +40,11 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
       String role = jwTokenProvider.extractRole(token);
       List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
 
-      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null,
+      Claims claims =  jwTokenProvider.extractAllClaims(token);
+
+      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, claims.get("credentials"),
           authorities);
+          authentication.setDetails(claims.get("details"));
       SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 

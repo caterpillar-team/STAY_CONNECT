@@ -8,8 +8,8 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("file:./.env")
 public class StayConnectApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(StayConnectApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(StayConnectApplication.class, args);
+    }
 
 }
