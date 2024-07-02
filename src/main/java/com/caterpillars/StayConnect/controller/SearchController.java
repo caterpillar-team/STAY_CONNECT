@@ -1,8 +1,8 @@
 package com.caterpillars.StayConnect.controller;
 
-import com.caterpillars.StayConnect.model.dto.AccommodationDto;
-import com.caterpillars.StayConnect.service.AccommodationService;
-import lombok.extern.slf4j.Slf4j;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.caterpillars.StayConnect.model.dto.AccommodationDto;
+import com.caterpillars.StayConnect.service.AccommodationService;
 
 @RestController
-@Slf4j
 public class SearchController {
 
     @Autowired
