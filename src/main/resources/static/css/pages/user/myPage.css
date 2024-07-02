@@ -7,31 +7,56 @@
   border-right: 1px solid #dee2e6;
   height: 100%;
 }
+
 .menu h3 {
   color: #495057;
   padding-bottom: 10px;
   border-bottom: 2px solid #dee2e6;
   margin-bottom: 20px;
 }
+
 .menu div {
+  position: relative;
+  overflow: hidden;
   margin-bottom: 10px;
+  border-radius: 5px; /* Div 태그도 border-radius 적용 */
 }
+
 .menu a {
   display: block;
   padding: 10px 15px;
   text-decoration: none;
   color: #495057;
   font-size: 16px;
-  transition: background-color 0.3s, color 0.3s;
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s;
 }
-.menu a:hover {
+
+.menu div:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
   background-color: #007bff;
+  transition: left 0.5s ease;
+  z-index: 0;
+}
+
+.menu div:hover:before {
+  left: 0;
+}
+
+.menu a:hover {
   color: white;
+  font-weight: bolder;
 }
 
 /* reservation card */
 .reservation-chk {
-  max-width: 100%; /* 컨테이너의 최대 너비 설정 */
+  max-width: 100%;
   margin: auto;
 }
 h3 {
@@ -41,18 +66,21 @@ h3 {
 .reservation-list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
+
 .reservation-card {
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 10px;
   margin: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  flex: 1 1 45%; /* 카드가 flexbox 안에서 자동으로 크기 조정 */
+  width: 100%;
+  min-width: 1000px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 220px;
+  height: auto;
 }
 .reservation-card h4,
 .reservation-card p {
@@ -73,16 +101,44 @@ h3 {
   margin: 10px 0;
 }
 
+/* my-info */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+}
+
 .my-info {
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 10px;
-  margin: 10px;
+  padding: 100px;
+  margin: 100px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   flex: 1 1 45%; /* 카드가 flexbox 안에서 자동으로 크기 조정 */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  width: 600px;
+  height: auto;
+}
+
+.my-info > .myinfo-card {
+  width: 400px;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+}
+.my-info > .myinfo-card > p {
+  text-align: center;
+  font-size: 1.7rem;
+  color: #495057;
+  margin-top: -30px;
+  margin-bottom: 50px;
 }
 .underline {
   height: 2px;
@@ -97,7 +153,7 @@ label {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
@@ -110,9 +166,28 @@ label {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 .btn:hover {
   background-color: #0056b3;
+}
+
+.btn.cancel-reservation {
+  width: 150px;
+  height: 60px;
+  border: 2px solid #007bff;
+  color: #000;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  margin-top: 40px;
+  line-height: 35px;
+  font-size: 1.3rem;
+}
+
+.btn.cancel-reservation:hover {
+  background-color: #007bff;
 }
 
 /* selected */

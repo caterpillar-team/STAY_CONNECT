@@ -11,20 +11,18 @@ a {
   justify-content: center;
 }
 .signIn-card {
-  margin-top: 10%;
-  margin-bottom: 10%;
-  width: 60%;
-  background-color: rgb(255, 253, 245);
-  box-shadow: 2px 2px 10px 4px #888;
+  margin-top: 150px;
+  margin-bottom: 150px;
+  width: 650px;
+  box-shadow: 1px 1px 2px 1px #b2b2b2;
+  border: #9a9a9a;
 }
 .signIn-card > form {
   margin: 0% 15%;
 }
 /* .signIn-card .logo_image {
-  width: 100px;
-  height: 100px;
-} */
-
+width: 100px;
+@@ -28,175 +28,184 @@ a {
 /* 아이디 인풋 */
 
 .id {
@@ -67,8 +65,13 @@ a {
   justify-content: space-between;
   align-items: center;
   margin: 20px 0;
+  white-space: nowrap;
 }
 .id__save > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
   margin-bottom: 50px;
 }
 /* .id__save > div > input {
@@ -78,6 +81,7 @@ a {
 }
 .id__save > div > ul {
   display: flex;
+  margin: 0;
 }
 .id__save > div > ul > li {
   list-style: none;
@@ -182,21 +186,25 @@ span.buttonText {
   padding-right: 42px;
   font-size: 14px;
   font-weight: bold;
+  color: black;
   /* Use the Roboto font that is loaded in the <head> */
   font-family: 'Roboto', sans-serif;
 }
 
-.button-login {
-  margin: 50px;
+hr {
+  border: 2px solid #007bff;
+  height: 2px;
+  width: 100%;
+  margin-top: 40px;
+  justify-self: center;
 }
-.button-login div {
+
+.button-login {
+  margin: 40px 0 50px;
   display: flex;
   justify-content: center;
-  border: 1px solid;
-  border-radius: 25px;
-  background-color: rgb(255, 250, 239);
 }
-.button-login div a {
-  font-size: 38px;
-  text-decoration: none;
+
+.button-login > .btn {
+  font-weight: bold;
 }

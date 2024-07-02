@@ -1,8 +1,9 @@
 package com.caterpillars.StayConnect.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,46 +11,73 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.caterpillars.StayConnect.dto.UserSignUpDto;
-import com.caterpillars.StayConnect.model.User;
+import com.caterpillars.StayConnect.model.dto.UserSignUpDto;
+import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.service.AuthService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
-  private final Logger log = LoggerFactory.getLogger(getClass());
 
-  @Autowired
-  private AuthService userService;
+    @Autowired
+    private AuthService authService;
 
-  @GetMapping("/signin")
-  public String getSignIn() {
-    return "pages/auth/signIn";
-  }
-
-  @GetMapping("/signup")
-  public String getSignUp(Model model) {
-    model.addAttribute("user", new UserSignUpDto());
-    return "pages/auth/signUp";
-  }
-
-  @PostMapping("/signup")
-  public String signUp(@ModelAttribute("user") @Valid UserSignUpDto signUpDto, BindingResult result, Model model,
-      RedirectAttributes redirectAttributes) {
-
-    if (result.hasErrors()) { // @Valid에 오류가 있을 시 formErrors 키워드로 에러 메시지들을 signUp에 반환
-      model.addAttribute("formErrors", result.getAllErrors());
-      return "pages/auth/signUp";
+    @GetMapping("/signin")
+    public ModelAndView getSignIn() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken)) {
+            return new ModelAndView("redirect:/");
+        }
+        return new ModelAndView("pages/auth/signIn");
     }
 
-    User user = userService.signUp(signUpDto);
-    log.info(user.toString());
+    @GetMapping("/signup")
+    public String getSignUp(HttpServletRequest httpServletRequest, Model model) {
 
-    redirectAttributes.addFlashAttribute("success", true);
-    return "redirect:/auth/signin";
-  }
+        String realName = httpServletRequest.getAttribute("realName") != null
+                ? httpServletRequest.getAttribute("realName").toString()
+                : "";
+        String phoneNumber = httpServletRequest.getAttribute("phoneNumber") != null
+                ? httpServletRequest.getAttribute("phoneNumber").toString()
+                : "";
+
+        log.info(realName);
+        log.info(phoneNumber);
+
+        UserSignUpDto userSignUpDto = new UserSignUpDto();
+
+        if (realName != null && phoneNumber != null) {
+            userSignUpDto.setRealName(realName);
+            userSignUpDto.setPhoneNumber(phoneNumber);
+        }
+
+        model.addAttribute("user", userSignUpDto);
+
+        return "pages/auth/signup";
+    }
+
+    @PostMapping("/signup")
+    public String signUp(@ModelAttribute("user") @Valid UserSignUpDto signUpDto, BindingResult result, Model model,
+            RedirectAttributes redirectAttributes) {
+
+        if (result.hasErrors()) { // @Valid에 오류가 있을 시 formErrors 키워드로 에러 메시지들을 signUp에 반환
+            model.addAttribute("formErrors", result.getAllErrors());
+            return "pages/auth/signup";
+        }
+
+        User user = authService.signUp(signUpDto);
+        log.info(user.toString());
+
+        redirectAttributes.addFlashAttribute("success", true);
+        return "redirect:/auth/signIn";
+    }
 }

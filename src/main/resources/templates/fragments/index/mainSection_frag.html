@@ -1,13 +1,76 @@
-<section class="main-section" th:fragment="mainSection">
-  <div class="main-image">
-    <img th:src="@{/img/StayConnect-main.jpg}" alt="main image" />
-  </div>
-  <div class="map-searchCard">
-    <form class="search__form" action="">
-      <input type="text" />
-      <button class="btn btn-primary">search</button>
-    </form>
-    <div id="map"></div>
-  </div>
-  <div class="conditional-searchCard"></div>
+<section th:fragment="mainSection">
+  <section class="main-section">
+    <div
+      id="carouselExampleInterval"
+      class="carousel slide"
+      data-bs-ride="carousel"
+    >
+      <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="4000">
+          <img
+            th:src="@{/img/StayConnect-main.jpg}"
+            alt="main image"
+            class="d-block w-100"
+          />
+        </div>
+        <div class="carousel-item" data-bs-interval="4000">
+          <img
+            th:src="@{/img/StayConnect_main2.jpg}"
+            alt="main image"
+            class="d-block w-100"
+          />
+        </div>
+        <div class="carousel-item" data-bs-interval="4000">
+          <img
+            th:src="@{/img/StayConnect_main3.jpg}"
+            alt="main image"
+            class="d-block w-100"
+          />
+        </div>
+      </div>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleInterval"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden"></span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleInterval"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden"></span>
+      </button>
+    </div>
+
+    <div class="map-searchCard">
+      <form class="search__form" action="">
+        <span class="material-symbols-outlined"> location_on </span>
+        <label for="searchByAddress" class="form-label">주소로 검색하기</label>
+        <div class="underline"></div>
+        <div class="AddressSearch">
+          <input
+            type="text"
+            class="form-control"
+            id="searchByAddress"
+            placeholder="어디로 떠나시나요?"
+          />
+          <input
+            type="button"
+            class="btn btn-primary btn_addrSearch"
+            onclick="DaumPostcode()"
+            value="주소 검색"
+          />
+          <button class="btn btn-primary btn_search">검색</button>
+        </div>
+      </form>
+      <div id="map"></div>
+    </div>
+    <div class="conditional-searchCard"></div>
+  </section>
 </section>

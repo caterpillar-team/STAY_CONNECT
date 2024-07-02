@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Chat Messages</title>
+        <style>
+            /* 메시지 컨테이너의 기본 스타일 */
+            .message-container {
+                margin-bottom: 15px;
+            }
+            /* 시스템 메시지 컨테이너의 스타일 */
+            .system-message-container {
+                text-align: center;
+            }
+            /* 시스템 메시지의 스타일 */
+            .system-message {
+                color: gray;
+            }
+            /* 자신의 메시지 컨테이너의 스타일 */
+            .my-message-container {
+                text-align: right;
+            }
+            /* 자신의 메시지의 스타일 */
+            .my-message {
+                display: inline-block;
+                background-color: lightblue;
+                padding: 10px;
+                border-radius: 5px;
+            }
+            /* 상대방의 메시지 컨테이너의 스타일 */
+            .your-message-container {
+                display: flex;
+                align-items: center;
+            }
+            /* 프로필 이미지의 스타일 */
+            .profile-image {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+            /* 상대방의 메시지의 스타일 */
+            .your-message {
+                display: inline-block;
+                background-color: lightgreen;
+                padding: 10px;
+                border-radius: 5px;
+            }
+            .input-area {
+                display: flex;
+                align-items: center;
+            }
+            .plus-button {
+                margin-right: 10px;
+                cursor: pointer;
+                font-size: 24px;
+            }
+            .input-container {
+                display: flex;
+                align-items: center;
+                width: 100%;
+            }
+            .send-button {
+                margin-left: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 메시지 리스트를 담을 컨테이너 -->
+        <div id="messageListContainer"></div>
+
+        <div class="input-area">
+            <div class="plus-button">+</div>
+            <form id="inputForm" class="input-container">
+                <input
+                    id="messageInput"
+                    type="text"
+                    placeholder="Type in here…"
+                    style="flex-grow: 1; padding: 10px; border-radius: 5px; border: 1px solid #ccc"
+                />
+                <button
+                    id="sendButton"
+                    type="submit"
+                    class="send-button"
+                    style="
+                        padding: 10px 20px;
+                        border: none;
+                        border-radius: 5px;
+                        background-color: #007bff;
+                        color: white;
+                        cursor: pointer;
+                    "
+                    disabled
+                >
+                    전송
+                </button>
+            </form>
+        </div>
+        <script src="https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+        <script th:inline="javascript">
+            var stompClient = null;
+            var username = /*[[${username}]]*/ 'Someone';
+            var roomId = /*[[${roomId}]]*/ 'defaultRoom';
+
+            document.addEventListener('DOMContentLoaded', () => {
+                createChatRoom();
+                const inputForm = document.getElementById('inputForm');
+                const messageInput = document.getElementById('messageInput');
+                const sendButton = document.getElementById('sendButton');
+
+                messageInput.addEventListener('input', () => {
+                    sendButton.disabled = messageInput.value.trim() === '';
+                });
+
+                inputForm.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    sendMessage();
+                });
+
+                connect();
+
+                function connect() {
+                    const socket = new SockJS('/ws');
+                    stompClient = Stomp.over(socket);
+                    stompClient.connect(
+                        {},
+                        (frame) => {
+                            console.log('Connected: ' + frame);
+                            stompClient.subscribe('/sub/chatroom/' + roomId, (messageOutput) => {
+                                showMessage(JSON.parse(messageOutput.body));
+                            });
+                            fetchMessages(roomId);
+                        },
+                        (error) => {
+                            console.error('STOMP error', error);
+                        }
+                    );
+                }
+
+                function fetchMessages(roomId) {
+                    fetch('/chat/messages/' + roomId)
+                        .then((response) => response.json())
+                        .then((messages) => {
+                            messages.forEach(showMessage);
+                        })
+                        .catch((error) => console.error('Error fetching messages:', error));
+                }
+
+                function sendMessage() {
+                    const messageContent = messageInput.value.trim();
+                    if (messageContent) {
+                        const message = {
+                            sender: username,
+                            contents: messageContent,
+                            createdAt: new Date().toISOString(),
+                            roomId: roomId,
+                        };
+                        console.log(message.sender);
+                        stompClient.send('/app/chat.sendMessage', {}, JSON.stringify(message));
+                        messageInput.value = '';
+                        sendButton.disabled = true;
+                    }
+                }
+
+                function showMessage(message) {
+                    const messageListContainer = document.getElementById('messageListContainer');
+                    const container = document.createElement('div');
+                    container.className = 'message-container';
+
+                    if (message.sender == username) {
+                        const myMessageContainer = document.createElement('div');
+                        myMessageContainer.className = 'my-message-container';
+
+                        const myMessage = document.createElement('div');
+                        myMessage.className = 'my-message';
+                        myMessage.innerText = message.contents;
+
+                        myMessageContainer.appendChild(myMessage);
+                        container.appendChild(myMessageContainer);
+                    } else {
+                        const yourMessageContainer = document.createElement('div');
+                        yourMessageContainer.className = 'your-message-container';
+
+                        const profileImage = document.createElement('img');
+                        profileImage.src = '/img/logo.svg';
+                        profileImage.className = 'profile-image';
+                        profileImage.style.visibility = 'visible';
+
+                        const yourMessage = document.createElement('div');
+                        yourMessage.className = 'your-message';
+                        yourMessage.innerText = message.sender + ' : ' + message.contents;
+
+                        yourMessageContainer.appendChild(profileImage);
+                        yourMessageContainer.appendChild(yourMessage);
+                        container.appendChild(yourMessageContainer);
+                    }
+
+                    messageListContainer.appendChild(container);
+                }
+            });
+
+            function createChatRoom() {
+                fetch('/chat/createRoom')
+                    .then((response) => response.json())
+                    .then((data) => {
+                        roomId = data.roomId;
+                        connect(roomId);
+                    })
+                    .catch((error) => console.error('Error creating room:', error));
+            }
+        </script>
+    </body>
+</html>
