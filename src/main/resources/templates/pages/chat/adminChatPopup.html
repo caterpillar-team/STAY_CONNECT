@@ -3,68 +3,8 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Chat Messages</title>
+        <title>Chat Room</title>
         <style>
-            /* 메시지 컨테이너의 기본 스타일 */
-            .message-container {
-                margin-bottom: 15px;
-            }
-            /* 시스템 메시지 컨테이너의 스타일 */
-            .system-message-container {
-                text-align: center;
-            }
-            /* 시스템 메시지의 스타일 */
-            .system-message {
-                color: gray;
-            }
-            /* 자신의 메시지 컨테이너의 스타일 */
-            .my-message-container {
-                text-align: right;
-            }
-            /* 자신의 메시지의 스타일 */
-            .my-message {
-                display: inline-block;
-                background-color: lightblue;
-                padding: 10px;
-                border-radius: 5px;
-            }
-            /* 상대방의 메시지 컨테이너의 스타일 */
-            .your-message-container {
-                display: flex;
-                align-items: center;
-            }
-            /* 프로필 이미지의 스타일 */
-            .profile-image {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                margin-right: 10px;
-            }
-            /* 상대방의 메시지의 스타일 */
-            .your-message {
-                display: inline-block;
-                background-color: lightgreen;
-                padding: 10px;
-                border-radius: 5px;
-            }
-            .input-area {
-                display: flex;
-                align-items: center;
-            }
-            .plus-button {
-                margin-right: 10px;
-                cursor: pointer;
-                font-size: 24px;
-            }
-            .input-container {
-                display: flex;
-                align-items: center;
-                width: 100%;
-            }
-            .send-button {
-                margin-left: 10px;
-            }
-            /* 관리자 페이지 스타일 */
             .chatContainer {
                 margin-bottom: 30px;
                 border: 1px solid #ccc;
@@ -97,15 +37,21 @@
         </style>
     </head>
     <body>
-        <!-- 메시지 리스트를 담을 컨테이너 -->
-        <div id="messageListContainer"></div>
+        <div class="chatContainer">
+            <h2 id="roomTitle">Chat Room</h2>
+            <div class="chatLog" id="chatLog"></div>
+            <form class="messageForm">
+                <input type="text" id="messageInput" placeholder="메시지를 작성해주세요" />
+                <button type="button" onclick="sendMessage()">전송</button>
+            </form>
+        </div>
 
         <script src="https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-        <script th:inline="javascript">
+        <script>
             var stompClient = null;
             var username = /*[[${username}]]*/ 'Admin';
-            var currentRooms = {};
+            var roomId = new URLSearchParams(window.location.search).get('roomId');
 
             function connect() {
                 var socket = new SockJS('/ws');
@@ -114,7 +60,7 @@
                     {},
                     function (frame) {
                         console.log('Connected: ' + frame);
-                        fetchActiveRooms();
+                        subscribeToRoom(roomId); // roomId를 구독
                     },
                     function (error) {
                         console.error('STOMP error', error);
@@ -122,49 +68,10 @@
                 );
             }
 
-            function fetchActiveRooms() {
-                fetch('/chat/rooms')
-                    .then((response) => response.json())
-                    .then((rooms) => {
-                        rooms.forEach((room) => {
-                            if (!currentRooms[room.roomId]) {
-                                // 새로운 roomId인 경우에만 구독
-                                currentRooms[room.roomId] = true;
-                                createChatLog(room.roomId, room.username);
-                                stompClient.subscribe('/sub/chatroom/' + room.roomId, function (messageOutput) {
-                                    showMessage(JSON.parse(messageOutput.body), room.roomId);
-                                });
-                            }
-                        });
-                    })
-                    .catch((error) => console.error('Error fetching rooms:', error));
-            }
-
-            function createChatLog(roomId, username) {
-                var chatLogContainer = document.createElement('div');
-                chatLogContainer.id = 'chatContainer-' + roomId;
-                chatLogContainer.classList.add('chatContainer');
-                var messageListContainer = document.getElementById('messageListContainer');
-                messageListContainer.appendChild(chatLogContainer);
-
-                var roomTitle = document.createElement('h2');
-                roomTitle.textContent = 'User: ' + username;
-                chatLogContainer.appendChild(roomTitle);
-
-                var chatLog = document.createElement('div');
-                chatLog.id = 'chatLog-' + roomId;
-                chatLog.classList.add('chatLog');
-                chatLogContainer.appendChild(chatLog);
-
-                var messageForm = document.createElement('form');
-                messageForm.id = `messageForm-${roomId}`;
-                messageForm.classList.add('messageForm');
-                messageForm.innerHTML = `
-                <input type="text" id="messageInput-${roomId}" placeholder="메시지를 작성해주세요" />
-                <button type="button" onclick="sendMessage('${roomId}')">전송</button>
-            `;
-                chatLogContainer.appendChild(messageForm);
-
+            function subscribeToRoom(roomId) {
+                stompClient.subscribe('/sub/chatroom/' + roomId, function (messageOutput) {
+                    showMessage(JSON.parse(messageOutput.body));
+                });
                 fetchMessages(roomId); // Fetch and display all messages for this room
             }
 
@@ -172,13 +79,13 @@
                 fetch('/chat/messages/' + roomId)
                     .then((response) => response.json())
                     .then((messages) => {
-                        messages.forEach((message) => showMessage(message, roomId));
+                        messages.forEach((message) => showMessage(message));
                     })
                     .catch((error) => console.error('Error fetching messages:', error));
             }
 
-            function sendMessage(roomId) {
-                var messageContent = document.querySelector(`#messageInput-${roomId}`).value;
+            function sendMessage() {
+                var messageContent = document.querySelector(`#messageInput`).value;
                 var message = {
                     sender: username,
                     contents: messageContent,
@@ -187,18 +94,27 @@
                 };
 
                 stompClient.send('/app/chat.sendMessage', {}, JSON.stringify(message));
-                document.querySelector(`#messageInput-${roomId}`).value = '';
+                document.querySelector(`#messageInput`).value = '';
             }
 
-            function showMessage(message, roomId) {
-                var chatLog = document.querySelector('#chatLog-' + roomId);
+            function showMessage(message) {
+                var chatLog = document.querySelector('#chatLog');
                 var messageElement = document.createElement('div');
                 messageElement.classList.add('message');
                 messageElement.textContent = message.sender + ' : ' + message.contents;
                 chatLog.appendChild(messageElement);
+                chatLog.scrollTop = chatLog.scrollHeight;
             }
 
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Enter 키로 인한 폼 제출 방지
+                    sendMessage();
+                }
+            });
+
             window.addEventListener('load', function () {
+                document.getElementById('roomTitle').textContent = 'USER :' + username;
                 connect();
             });
         </script>

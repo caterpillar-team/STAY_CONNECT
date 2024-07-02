@@ -157,7 +157,7 @@
                             createdAt: new Date().toISOString(),
                             roomId: roomId,
                         };
-
+                        console.log(message.sender);
                         stompClient.send('/app/chat.sendMessage', {}, JSON.stringify(message));
                         messageInput.value = '';
                         sendButton.disabled = true;
@@ -169,17 +169,7 @@
                     const container = document.createElement('div');
                     container.className = 'message-container';
 
-                    if (message.sender === 'system') {
-                        const systemMessageContainer = document.createElement('div');
-                        systemMessageContainer.className = 'system-message-container';
-
-                        const systemMessage = document.createElement('p');
-                        systemMessage.className = 'system-message';
-                        systemMessage.innerText = message.contents;
-
-                        systemMessageContainer.appendChild(systemMessage);
-                        container.appendChild(systemMessageContainer);
-                    } else if (message.sender === username) {
+                    if (message.sender == username) {
                         const myMessageContainer = document.createElement('div');
                         myMessageContainer.className = 'my-message-container';
 
