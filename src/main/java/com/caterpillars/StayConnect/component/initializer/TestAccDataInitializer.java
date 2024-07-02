@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
-@Profile("dev")
+
 @Order(2)
 @Component
 public class TestAccDataInitializer implements CommandLineRunner {

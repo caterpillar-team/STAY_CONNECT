@@ -18,7 +18,7 @@ import com.caterpillars.StayConnect.model.repository.ReviewRepository;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
 
-@Profile("dev")
+
 @Order(5)
 @Component
 public class TestReviewDataInitializer implements CommandLineRunner {
