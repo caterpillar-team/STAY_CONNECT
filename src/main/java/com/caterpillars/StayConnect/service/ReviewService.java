@@ -2,7 +2,9 @@ package com.caterpillars.StayConnect.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -20,11 +22,9 @@ import com.caterpillars.StayConnect.model.repository.ReviewRepository;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class ReviewService {
 
@@ -82,14 +82,21 @@ public class ReviewService {
 
     // 리뷰 수정
     @Transactional
-    public void updateReview(ReviewDto reviewDto) {
-        Review review = reviewRepository.findById(reviewDto.getReviewId())
-                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
+    public Map<String, Object> updateReview(ReviewDto reviewDto) {
+        Map<String, Object> result = new HashMap<>();
+        Optional<Review> reviewOptional = reviewRepository.findById(reviewDto.getReviewId());
+        if (reviewOptional.isEmpty()) {
+            result.put("message", "리뷰를 찾을 수 없습니다.");
+            return result;
+        }
+        Review review = reviewOptional.get();
+
         // 리뷰 내용 및 평점 수정
         review.setContents(reviewDto.getContents());
         review.setRate(reviewDto.getRate());
         // 리뷰 저장
         reviewRepository.save(review);
+        return result;
     }
 
     // 리뷰 조회
@@ -125,6 +132,10 @@ public class ReviewService {
 
     public Page<Review> findReviewsByAccommodationId(Long accommodationId, Pageable pageable) {
         return reviewRepository.findByRoomInfoAccommodationId(accommodationId, pageable);
+    }
+
+    public List<Review> findAllReviews(Long accId) {
+        return reviewRepository.findByRoomInfoAccommodationIdOrderByIdDesc(accId);
     }
 
     public List<Review> findAllReviews() {

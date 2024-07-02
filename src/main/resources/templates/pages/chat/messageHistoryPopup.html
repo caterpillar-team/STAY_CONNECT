@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <h2>Search Results</h2>
+        <div id="searchResults" th:if="${#lists.isEmpty(messageHistory)}">No messages found.</div>
+        <div th:each="message : ${messageHistory}" class="message">
+            <div><strong>Sender:</strong> <span th:text="${message.sender}"></span></div>
+            <div><strong>Content:</strong> <span th:text="${message.contents}"></span></div>
+            <div><strong>Date:</strong> <span th:text="${message.createdAt}"></span></div>
+        </div>
+    </body>
+</html>

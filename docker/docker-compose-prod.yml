@@ -1,6 +1,6 @@
 services:
   nginx:
-    image: ghcr.io/koonlx/stay_connect_nginx
+    image: ghcr.io/caterpillar-team/stay_connect_nginx
     build:
       context: ../
       dockerfile: docker/dockerfile.nginx
@@ -19,7 +19,7 @@ services:
       - certbot
 
   stay_connect_app:
-    image: ghcr.io/koonlx/stay_connect_app
+    image: ghcr.io/caterpillar-team/stay_connect_app
     build:
       context: ../
       dockerfile: docker/dockerfile.springboot
@@ -36,7 +36,7 @@ services:
       - ../.env
 
   certbot:
-    image: ghcr.io/koonlx/stay_connect_certbot
+    image: ghcr.io/caterpillar-team/stay_connect_certbot
     build:
       context: ../
       dockerfile: docker/dockerfile.certbot

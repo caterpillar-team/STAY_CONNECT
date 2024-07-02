@@ -1,5 +1,6 @@
 package com.caterpillars.StayConnect.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,9 @@ import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.repository.AccommodationRepository;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
 
-import lombok.RequiredArgsConstructor;
+import jakarta.transaction.Transactional;
 
 @Service
-@RequiredArgsConstructor
 // @Slf4j
 public class AccommodationService {
 
@@ -33,8 +33,8 @@ public class AccommodationService {
     @Autowired
     private RoomInfoService roomInfoService;
 
-    public List<Accommodation> findAllAccommodations() {
-        return accommodationRepository.findAll();
+    public Page<Accommodation> findAllAccommodations(Pageable pageable) {
+        return accommodationRepository.findAll(pageable);
     }
 
     public int findMinPrice(List<RoomInfo> roomInfos) {
@@ -75,7 +75,7 @@ public class AccommodationService {
 
     // 별점 평균 계산
     public int calculateAverageRating(List<Review> reviews) {
-        if (reviews.isEmpty()) {
+        if (reviews == null || reviews.isEmpty()) {
             return 0;
         }
 
@@ -96,7 +96,7 @@ public class AccommodationService {
 
         List<RoomInfo> roomInfos = findRoomInfosByAccommodationId(accId);
         Page<Review> reviewPage = findReviewsByAccommodationId(accId, pageable);
-        List<Review> allReviews = reviewService.findAllReviews();
+        List<Review> allReviews = reviewService.findAllReviews(accId);
         List<Review> reviews = reviewPage.getContent();
         int averageRating = calculateAverageRating(allReviews);
 
@@ -128,4 +128,38 @@ public class AccommodationService {
     public List<Review> findAllReviews(Long accId) {
         return reviewRepository.findByRoomInfoAccommodationIdOrderByIdDesc(accId);
     }
+
+    public List<AccommodationDto> getAccommodationDtos(Page<Accommodation> accommodationPage) {
+        List<Accommodation> accommodations = accommodationPage.getContent();
+        List<AccommodationDto> accommodationDtos = new ArrayList<>();
+
+        for (Accommodation accommodation : accommodations) {
+            List<RoomInfo> roomInfos = roomInfoService.findByAccommodationId(accommodation.getId());
+            int minPrice = findMinPrice(roomInfos);
+
+            AccommodationDto dto = convertToDto(accommodation, minPrice);
+            accommodationDtos.add(dto);
+        }
+
+        return accommodationDtos;
+    }
+
+    // 키워드 검색
+    @Transactional
+    public List<AccommodationDto> search(String searchText) {
+        List<Accommodation> searchResult = accommodationRepository.findAllByNameContaining(searchText);
+
+        List<AccommodationDto> dtos = new ArrayList<>();
+        for (Accommodation accommodation : searchResult) {
+            AccommodationDto dto = new AccommodationDto();
+            dto.setId(accommodation.getId());
+            dto.setAccommodationName(accommodation.getName());
+            dto.setMinPrice(findMinPrice(findRoomInfosByAccommodationId(accommodation.getId())));
+
+            dtos.add(dto);
+        }
+
+        return dtos;
+    }
+
 }

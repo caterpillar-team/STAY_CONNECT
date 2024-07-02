@@ -38,6 +38,9 @@ import lombok.extern.slf4j.Slf4j;
 public class ReservationService {
 
     @Autowired
+    private PortOnePaymentService portOnePaymentService;
+
+    @Autowired
     private ReservationRepository reservationRepository;
 
     private PortOneTokenResponse portOneTokenResponse;
@@ -255,6 +258,15 @@ public class ReservationService {
         }
 
         return true;
+    }
+
+    public int getTotalReservations() {
+
+        return reservationRepository.countTotalReservations();
+    }
+
+    public int getTotalSales() {
+        return reservationRepository.totalSales();
     }
 
     // ---------------------------

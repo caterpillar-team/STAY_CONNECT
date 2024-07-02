@@ -9,31 +9,17 @@
         <title>reviewList page</title>
     </th:block>
     <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/pages/admin/reviewList.css}" />
-        <link rel="stylesheet" th:href="@{/css/pages/admin/chatCard.css}" />
+        <link rel="stylesheet" th:href="@{/css/pages/admin/listPage.css}" />
+        <link rel="stylesheet" th:href="@{/css/pages/chatCard.css}" />
     </th:block>
     <th:block layout:fragment="javascript">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+        <script th:src="@{/js/chat/chat.js}"></script>
     </th:block>
 
     <th:block layout:fragment="leftAside">
-        <div class="menu">
-            <h3>관리자 페이지</h3>
-            <div><a th:href="@{/admin/home}">&nbsp;&nbsp;&nbsp;&nbsp;대시 보드</a></div>
-            <div><a th:href="@{/admin/userList}">&nbsp;&nbsp;&nbsp;&nbsp;사용자 리스트</a></div>
-            <div><a th:href="@{/admin/reviewList}">&nbsp;&nbsp;&nbsp;&nbsp;리뷰 리스트</a></div>
-            <div>
-                <a
-                    class="inquery"
-                    data-bs-toggle="offcanvas"
-                    href="#offcanvasRight"
-                    role="button"
-                    aria-controls="offcanvasRight"
-                >
-                    &nbsp;&nbsp;&nbsp;&nbsp;문의 관리
-                </a>
-            </div>
-        </div>
+        <div th:insert="~{fragments/admin/adminMenu_frag :: adminMenu}"></div>
     </th:block>
     <th:block layout:fragment="main">
         <h3 class="list-title">REVIEW LIST</h3>
@@ -85,36 +71,17 @@
     </th:block>
 
     <th:block layout:fragment="rightAside">
-        <div
-            class="offcanvas offcanvas-end"
-            data-bs-scroll="true"
-            data-bs-backdrop="false"
-            tabindex="-1"
-            id="offcanvasRight"
-            aria-labelledby="offcanvasRightLabel"
-            th:fragment="chatBlock"
-        >
-            <div class="offcanvas-header">
-                <h5 id="offcanvasRightLabel">나는 문의 채팅창</h5>
-                <button
-                    type="button"
-                    class="btn-close text-reset"
-                    data-bs-dismiss="offcanvas"
-                    aria-label="Close"
-                ></button>
-            </div>
-            <div class="offcanvas-body">
-                <div class="chatCard">
-                    <div class="chatLog"></div>
-                    <form id="message" action="">
-                        <input type="text" id="myMessage" placeholder="메시지를 작성해주세요" />
-                        <button onclick="">전송</button>
-                        <p>
-                            <span class="notification"></span>
-                        </p>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <div th:insert="~{fragments/chat/chatOffCanvas_frag :: chatOffCanvas}"></div>
+
+        <script>
+            let options = 'toolbar=no,scrollbars=yes,resizable=no,status=no,menubar=no,width=500, height=700, top=50,left=100';
+            function showPopup(element) {
+                window.open('/chat/adminChatPopup', 'adminChatPopup', options); // /chat/popup 경로로 요청
+            }
+            function searchMessages() {
+                var username = document.getElementById('searchUsername').value;
+                window.open('/chat/searchMessages?sender=' + encodeURIComponent(username), 'resultOfSearchPopup', options);
+            }
+        </script>
     </th:block>
 </html>
