@@ -1,5 +1,6 @@
 package com.caterpillars.StayConnect.model.dto;
 
+<<<<<<< Updated upstream
 import com.caterpillars.StayConnect.model.entities.Review;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -9,12 +10,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.format.DateTimeFormatter;
+=======
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+>>>>>>> Stashed changes
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewDto {
 
+<<<<<<< Updated upstream
     private long reviewId;
     @NotBlank(message = "Username is required")
     private String username;
@@ -22,6 +29,9 @@ public class ReviewDto {
     private String contents;
     @Min(value = 1, message = "Rate must be at least 1")
     @NotNull(message = "Rate is required")
+=======
+    private String contents;
+>>>>>>> Stashed changes
     private int rate;
     private String createdAt;
     private long roomInfoId;

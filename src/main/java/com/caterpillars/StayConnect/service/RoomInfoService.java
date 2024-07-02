@@ -1,5 +1,6 @@
 package com.caterpillars.StayConnect.service;
 
+<<<<<<< Updated upstream
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
+=======
+import com.caterpillars.StayConnect.model.entities.RoomInfo;
+import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+>>>>>>> Stashed changes
 
 @Service
 public class RoomInfoService {
@@ -14,6 +23,7 @@ public class RoomInfoService {
     @Autowired
     private RoomInfoRepository roomInfoRepository;
 
+<<<<<<< Updated upstream
     public RoomInfoService(RoomInfoRepository roomInfoRepository) {
         this.roomInfoRepository = roomInfoRepository;
     }
@@ -24,5 +34,9 @@ public class RoomInfoService {
 
     public RoomInfo findById(Long id) {
         return roomInfoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("유효하지 않은 정보입니다."));
+=======
+    public Optional<RoomInfo> findById(Long id) {
+        return roomInfoRepository.findById(id);
+>>>>>>> Stashed changes
     }
 }

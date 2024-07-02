@@ -1,5 +1,6 @@
 package com.caterpillars.StayConnect.component.initializer;
 
+<<<<<<< Updated upstream
 import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.model.entities.Category;
 import com.caterpillars.StayConnect.model.entities.Grade;
@@ -10,6 +11,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+=======
+
+import com.caterpillars.StayConnect.model.entities.AccommodationGrade;
+import com.caterpillars.StayConnect.model.repository.AccommodationGradeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
+import com.caterpillars.StayConnect.model.entities.Accommodation;
+import com.caterpillars.StayConnect.model.entities.Category;
+import com.caterpillars.StayConnect.model.repository.AccommodationRepository;
+import com.caterpillars.StayConnect.model.repository.CategoryRepository;
+>>>>>>> Stashed changes
 
 import java.util.ArrayList;
 
@@ -21,10 +36,16 @@ public class TestAccDataInitializer implements CommandLineRunner {
     private AccommodationRepository accommodationRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private AccommodationGradeRepository accommodationGradeRepository;
 
     @Autowired
+    private CategoryRepository categoryRepository;
+
+<<<<<<< Updated upstream
+    @Autowired
     private GradeRepository gradeRepository;
+=======
+>>>>>>> Stashed changes
 
     @Override
     public void run(String... args) throws Exception {
@@ -41,13 +62,19 @@ public class TestAccDataInitializer implements CommandLineRunner {
         Grade grade5 = gradeRepository.findByGrade("5성급")
                 .orElseGet(() -> gradeRepository.save(new Grade(null, "5성급", new ArrayList<>())));
 
+        AccommodationGrade grade5 = accommodationGradeRepository.getReferenceById(5);
+
         Accommodation acc1 = Accommodation.builder()
                 .name("Test Hotel Paradise")
                 .address("경상남도 진주시 장대로5번길 3 (장대동)")
                 .latitude(35.1919006911647)
                 .longitude(128.08842405491)
                 .category(hotelCategory)
+<<<<<<< Updated upstream
                 .grade(grade5)
+=======
+                .accommodationGrade(grade5)
+>>>>>>> Stashed changes
                 .build();
 
         Accommodation acc2 = Accommodation.builder()
@@ -66,6 +93,7 @@ public class TestAccDataInitializer implements CommandLineRunner {
                 .category(bungalowCategory)
                 .build();
 
+<<<<<<< Updated upstream
         Accommodation acc4 = Accommodation.builder()
                 .name("Test Bungalow")
                 .address("경상북도 구미시 인동36길 14-4 (진평동)")
@@ -150,5 +178,20 @@ public class TestAccDataInitializer implements CommandLineRunner {
         if (!accommodationRepository.findByNameAndAddress(acc10.getName(), acc10.getAddress()).isPresent()) {
             accommodationRepository.save(acc10);
         }
+=======
+
+
+
+    if (!accommodationRepository.findByNameAndAddress(acc1.getName(), acc1.getAddress()).isPresent()) {
+      accommodationRepository.save(acc1);
+>>>>>>> Stashed changes
     }
+    if (!accommodationRepository.findByNameAndAddress(acc2.getName(), acc2.getAddress()).isPresent()) {
+      accommodationRepository.save(acc2);
+    }
+    if (!accommodationRepository.findByNameAndAddress(acc3.getName(), acc3.getAddress()).isPresent()) {
+      accommodationRepository.save(acc3);
+    }
+
+  }
 }

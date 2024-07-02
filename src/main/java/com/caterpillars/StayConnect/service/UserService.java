@@ -1,10 +1,18 @@
 package com.caterpillars.StayConnect.service;
 
+<<<<<<< Updated upstream
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+=======
+import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.model.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+>>>>>>> Stashed changes
 import org.springframework.stereotype.Service;
 
 import com.caterpillars.StayConnect.model.entities.Role;
@@ -41,6 +49,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+<<<<<<< Updated upstream
     public User findById(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유효하지 않은 사용자 ID입니다."));
     }
@@ -66,4 +75,11 @@ public class UserService {
 
         return userRepository.countTotalUsers();
     }
+=======
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+    }
+
+>>>>>>> Stashed changes
 }

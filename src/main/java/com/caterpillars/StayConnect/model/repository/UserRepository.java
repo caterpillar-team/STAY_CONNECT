@@ -15,6 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   Optional<User> findByUsername(String username);
 
+<<<<<<< Updated upstream
   List<User> findByRealName (String realName);
 
     Optional<User> findByRealNameAndPhoneNumber(String username, String phoneNumber);
@@ -27,4 +28,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   @Query("SELECT COUNT(u) FROM User u")
   int countTotalUsers();
+=======
+>>>>>>> Stashed changes
 }

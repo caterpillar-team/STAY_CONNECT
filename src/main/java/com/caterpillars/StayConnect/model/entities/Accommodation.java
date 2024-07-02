@@ -34,9 +34,18 @@ public class Accommodation {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
+<<<<<<< Updated upstream
         @ManyToOne
         @JoinColumn(name = "category_id", nullable = false)
         private Category category;
+=======
+  @ManyToOne
+  @JoinColumn(name = "category_id")
+  private Category category;
+  @ManyToOne
+  @JoinColumn(name = "accommodation_grade")
+  private AccommodationGrade accommodationGrade;
+>>>>>>> Stashed changes
 
         @ManyToOne
         @JoinColumn(name = "grade")

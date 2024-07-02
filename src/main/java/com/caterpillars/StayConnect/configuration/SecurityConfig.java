@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -42,11 +43,18 @@ public class SecurityConfig {
                 .csrf((csrf) -> csrf.disable())
 
                                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
+<<<<<<< Updated upstream
                                                 .requestMatchers("/", "/accommodation/**", "/search").permitAll()
                                                 .requestMatchers("/auth/**").not().authenticated()
                                                 .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/fonts/**")
                                                 .permitAll()
                                                 .requestMatchers("/user/**","/chat/**").hasAnyRole("USER", "ADMIN")
+=======
+
+                                                .requestMatchers("/**").permitAll()
+                                                .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**").permitAll()
+                                                .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+>>>>>>> Stashed changes
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
 

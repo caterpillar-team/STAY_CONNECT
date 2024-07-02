@@ -28,4 +28,10 @@ public class Category {
     @Column(unique = true)
     private List<Accommodation> accommodations = new ArrayList<>();
 
+<<<<<<< Updated upstream
+=======
+  @Column(unique = true)
+  private String name;
+
+>>>>>>> Stashed changes
 }
