@@ -78,7 +78,8 @@ public class AccommodationController {
 
             return "pages/accommodation/detail";
         } else {
-            return "redirect:/error";
+            return null;
         }
     }
+
 }

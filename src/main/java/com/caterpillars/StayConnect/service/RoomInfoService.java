@@ -14,12 +14,12 @@ public class RoomInfoService {
     @Autowired
     private RoomInfoRepository roomInfoRepository;
 
-    public List<RoomInfo> findByAccommodationId(Long accId) {
-        return roomInfoRepository.findByAccommodationId(accId);
-    }
-
     public RoomInfoService(RoomInfoRepository roomInfoRepository) {
         this.roomInfoRepository = roomInfoRepository;
+    }
+
+    public List<RoomInfo> findByAccommodationId(Long accId) {
+        return roomInfoRepository.findByAccommodationId(accId);
     }
 
     public RoomInfo findById(Long id) {

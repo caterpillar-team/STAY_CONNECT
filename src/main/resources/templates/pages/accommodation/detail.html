@@ -21,9 +21,9 @@
 <th:block layout:fragment="javascript">
     <script th:src="@{/lib/axios/axios.min.js}"></script>
     <script th:src="@{/lib/portone/iamport.js}"></script>
-    <script th:src="@{/js/accommodation/detail.js }"></script>
-    <script th:src="@{/js/accommodation/review.js}"></script>
-    <script th:src="@{/js/accommodation/payment.js}"></script>
+    <script defer th:src="@{/js/accommodation/detail.js }"></script>
+    <script defer th:src="@{/js/accommodation/review.js}"></script>
+    <script defer th:src="@{/js/accommodation/payment.js}"></script>
 </th:block>
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/lib/ajax/all.css}"/>
@@ -38,11 +38,12 @@
     </section>
     <section class="accomMain">
         <div>
-            <span class="category_name"
-                th:text="${accommodationDto.categoryName != null ? accommodationDto.categoryName : ''}">호텔/펜션
-            </span>
-            <span th:if="${accommodationDto.grade != null && accommodationDto.grade != ''}" th:text="| • ${accommodationDto.grade}|">
-            </span>
+                <span class="category_name"
+                      th:text="${accommodationDto.categoryName != null ? accommodationDto.categoryName : ''}">호텔/펜션
+                </span>
+            <span th:if="${accommodationDto.grade != null && accommodationDto.grade != ''}"
+                  th:text="| • ${accommodationDto.grade}|">
+                </span>
             <div class="accomName" th:text="${accommodationDto.accommodationName}">
                 숙소이름
             </div>
@@ -51,10 +52,10 @@
         <div class="ratingStar">
             <span class="ratingResult"></span>
             <span th:each="star : ${#numbers.sequence(1, 5)}">
-                <!-- 꽉 찬 별 -->
-                <i class="fa fa-star"
-                   th:if="${star <= accommodationDto.averageRating && star < accommodationDto.averageRating + 1 || star > accommodationDto.averageRating && star < accommodationDto.averageRating + 1}"></i>
-            </span>
+                    <!-- 꽉 찬 별 -->
+                    <i class="fa fa-star"
+                       th:if="${star <= accommodationDto.averageRating && star < accommodationDto.averageRating + 1 || star > accommodationDto.averageRating && star < accommodationDto.averageRating + 1}"></i>
+                </span>
         </div>
         <!-- 평균 별점 수치 -->
         <div class="averageRating">
@@ -68,13 +69,15 @@
                     <div class="review">
                         <div class="content" th:text="${review.contents}">리뷰</div>
                         <div class="ratingStar">
-                    <span th:each="star : ${#numbers.sequence(1, 5)}">
-                        <i class="fa" th:classappend="${star <= review.rate ? 'fas fa-star' : 'far fa-star'}"></i>
-                    </span>
+                        <span th:each="star : ${#numbers.sequence(1, 5)}">
+                            <i class="fa" th:classappend="${star <= review.rate ? 'fas fa-star' : 'far fa-star'}"></i>
+                        </span>
                         </div>
                         <div class="reviewWriter">
                             <div class="user" th:text="${review.user.username}">닉네임</div>
-                            <div class="createdAt" th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd HH:mm:ss')}">시기</div>
+                            <div class="createdAt"
+                                 th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd HH:mm:ss')}">시기
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -161,13 +164,15 @@
                     </div>
                     <div class="price" th:text="${#numbers.formatInteger(roomInfo.price, 3, 'COMMA') + '원'}">가격</div>
                     <div class="buttonContainer">
-                        <input type="hidden" id="userId" th:value="${userId}" />
-                        <input type="hidden" id="buyerTel" th:value="${phoneNumber}" />
-                        <input type="hidden" id="roomInfoId" th:value="${roomInfo.id}" />
-                        <a id="reservationLink" class="btn btn-outline-primary" data-toggle="modal" th:attr="data-target='reservationModal-' + ${roomInfo.id}">예약하기</a>
+                        <input id="userId" name="userId" th:value="${userId}" type="hidden"/>
+                        <input id="buyerTel" name="buyerTel" th:value="${phoneNumber}" type="hidden"/>
+                        <input id="roomInfoId" name="roomInfoId" th:value="${roomInfo.id}" type="hidden"/>
+                        <a class="btn btn-outline-primary" data-toggle="modal" id="reservationLink"
+                           th:attr="data-target='reservationModal-' + ${roomInfo.id}">예약하기</a>
                     </div>
                     <!-- 모달 -->
-                    <div class="modal fade" th:id="'reservationModal-' + ${roomInfo.id}" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
+                    <div aria-hidden="true" aria-labelledby="reservationModalLabel" class="modal fade"
+                         tabindex="-1" th:id="'reservationModal-' + ${roomInfo.id}">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -175,10 +180,11 @@
                                 </div>
                                 <div class="modal-body">
                                     <!-- 모달 내용 -->
-                                    <div class="roomType" th:text="${roomInfo.roomType}" style="font-weight:bold; font-size:1.2rem;">
+                                    <div class="roomType" style="font-weight:bold; font-size:1.2rem;"
+                                         th:text="${roomInfo.roomType}">
                                         객실타입이름
                                     </div>
-                                    </br>
+                                    <br/>
 
                                     <div class="people">
                                         <span class="material-symbols-outlined">person</span>
@@ -192,10 +198,11 @@
                                         <span class="material-symbols-outlined">bed</span>
                                         <span class="bedType" th:text="${roomInfo.bedType}">침대타입</span>
                                     </div>
-                                    </br>
+                                    <br/>
 
-                                    <div class="stayType" th:text="${roomInfo.stayType}" style="font-weight:bold; font-size:1.2rem;"></div>
-                                    </hr>
+                                    <div class="stayType" style="font-weight:bold; font-size:1.2rem;"
+                                         th:text="${roomInfo.stayType}"></div>
+                                    <hr/>
 
                                     <div class="checkInOut">
                                         <span th:text="${'체크인 : '+roomInfo.checkInTime}">체크인시간</span>
@@ -204,14 +211,16 @@
                                         >체크아웃시간</span
                                         >
                                     </div>
-                                    </hr>
-                                    </br>
-                                    <div class="price" th:text="${#numbers.formatInteger(roomInfo.price, 3, 'COMMA') + '원'}">가격</div>
-                                    </br>
+                                    <hr/>
+                                    <br/>
+                                    <div class="price"
+                                         th:text="${#numbers.formatInteger(roomInfo.price, 3, 'COMMA') + '원'}">가격
+                                    </div>
+                                    <br/>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                                    <button id="confirm_btn" type="button" class="btn btn-primary">결제하기</button>
+                                    <button class="btn btn-secondary" data-dismiss="modal" type="button">닫기</button>
+                                    <button class="btn btn-primary" id="confirm_btn" type="button">결제하기</button>
                                 </div>
                             </div>
                         </div>
@@ -221,7 +230,7 @@
             <hr/>
             <!-- 후기 목록 -->
             <div id="review" th:if="${not #lists.isEmpty(accommodationDto.reviews)}">
-                <div th:each="review : ${accommodationDto.reviews}" class="reviewContainer">
+                <div class="reviewContainer" th:each="review : ${accommodationDto.reviews}">
                     <div class="reviewContainer1">
                         <div class="reviewWriter">
                             <img alt="" th:src="@{/img/StayConnect-main.jpg}"/>
@@ -245,28 +254,32 @@
                             <p th:text="${review.contents}">리뷰 내용</p>
                         </div>
                         <div class="reviewActions"
-                                th:if="${currentUser == review.user.username}">
+                             th:if="${currentUser == review.user.username}">
                             <a class="editButton btn btn-outline-primary"
                                th:onclick="|javascript:updateReview('${accommodationDto.id}','${review.id}',this)|"
                             >수정</a>
                             <form
                                     id="deleteReviewForm"
                                     method="post"
-                                    onsubmit="return confirm('삭제하시겠습니까?')"
+                                    onsubmit="return false"
                                     th:action="@{/accommodation/detail/{accId}/delete/{reviewId}(accId=${accommodationDto.id}, reviewId=${review.id})}"
                             >
-                                <button type="submit" class="deleteButton btn btn-outline-primary">삭제</button>
+                                <input name="accId" th:value="${accommodationDto.id}" type="hidden"/>
+                                <input name="reviewId" th:value="${review.id}" type="hidden"/>
+                                <button class="deleteButton btn btn-outline-primary" type="submit">삭제</button>
                             </form>
                             <!-- 수정폼 -->
-                            <form th:action="@{/accommodation/detail/update/review}"
-                                  class="updateReviewForm hidden"
+                            <form class="updateReviewForm hidden"
                                   method="post"
                                   name="updateReviewForm"
+                                  onsubmit="return false"
+                                  th:action="@{/accommodation/detail/update/review}"
                                   th:id="'editForm' + ${review.id}">
                                 <input name="accId" th:value="${accommodationDto.id}" type="hidden"/>
                                 <input name="reviewId" th:value="${review.id}" type="hidden"/>
                                 <div class="reviewInputRatingEdit">
-                                    <span class="reviewInputRatingResultEdit" th:id="'ratingResultEdit' + ${review.id}"></span>
+                                    <span class="reviewInputRatingResultEdit"
+                                          th:id="'ratingResultEdit' + ${review.id}"></span>
                                     <th:block th:each="starNumber : ${#numbers.sequence(1, 5)}">
                                         <i class="reviewInputRatingStarEdit far fa-star"
                                            th:classappend="'reviewInputRatingStarEdit' + ${review.id}"
@@ -276,7 +289,9 @@
                                 <input name="rate" th:id="'ratingInputEdit' + ${review.id}" type="hidden" value="0"/>
                                 <textarea name="contents" placeholder="리뷰를 수정하세요..."></textarea>
                                 <div class="buttonContainer">
-                                    <button class="updateButton btn btn-outline-primary" th:attr="data-review-id=${review.id}">수정요청</button>
+                                    <button class="updateButton btn btn-outline-primary"
+                                            th:attr="data-review-id=${review.id}">수정요청
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -287,9 +302,9 @@
             <!-- 페이징 블록 생성 -->
             <div th:if="${accommodationDto.totalReviews > 1}">
                 <div class="pagination">
-                    <a th:each="pageNumber : ${#numbers.sequence(startPage, endPage)}"
-                       th:href="@{/accommodation/detail/{accId}(accId=${accommodationDto.id}, page=${pageNumber - 1})}"
-                       th:class="${pageNumber == nowPage} ? 'active'">
+                    <a th:class="${pageNumber == nowPage} ? 'active'"
+                       th:each="pageNumber : ${#numbers.sequence(startPage, endPage)}"
+                       th:href="@{/accommodation/detail/{accId}(accId=${accommodationDto.id}, page=${pageNumber - 1})}">
                         <span th:text="${pageNumber}"></span>
                     </a>
                 </div>
@@ -333,7 +348,7 @@
                             rows="4"
                     ></textarea>
                     <div class="buttonContainer">
-                        <button id="addReview" type="submit" class="btn btn-outline-primary">후기 작성</button>
+                        <button class="btn btn-outline-primary" id="addReview" type="submit">후기 작성</button>
                     </div>
                 </form>
             </div>

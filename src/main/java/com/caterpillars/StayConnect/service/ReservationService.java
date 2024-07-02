@@ -261,13 +261,13 @@ public class ReservationService {
     }
 
     public int getTotalReservations() {
-        
-        return reservationRepository.countTotalReservations();
-}
 
-public int getTotalSales() {
+        return reservationRepository.countTotalReservations();
+    }
+
+    public int getTotalSales() {
         return reservationRepository.totalSales();
-}
+    }
 
     // ---------------------------
     // AccessToken 발급 Class
