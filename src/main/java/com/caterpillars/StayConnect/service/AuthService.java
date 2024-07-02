@@ -48,6 +48,9 @@ public class AuthService implements UserDetailsService,
   @Autowired
   private PasswordEncoder passwordEncoder;
 
+  // @Autowired
+  // private ReviewRepository reviewRepository;
+
   public User signUp(UserSignUpDto signUpDto) {
     Role role = roleRepository.findByName("ROLE_USER")
         .orElseGet(() -> roleRepository.save(new Role(null, "ROLE_USER", null)));
@@ -101,7 +104,7 @@ public class AuthService implements UserDetailsService,
 
     log.info(registrationId.toString());
 
-      return processGoogleLogin(oAuth2User, userRequest);
+    return processGoogleLogin(oAuth2User, userRequest);
 
   }
 

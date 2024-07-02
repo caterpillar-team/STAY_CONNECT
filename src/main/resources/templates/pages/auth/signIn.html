@@ -9,8 +9,9 @@
     <title>signIn page</title>
   </th:block>
   <th:block layout:fragment="css"
-    ><link rel="stylesheet" th:href="@{/css/pages/auth/signIn.css}"
-  /></th:block>
+    ><link rel="stylesheet" th:href="@{/css/pages/auth/signIn.css}" />
+    <link rel="stylesheet" th:href="@{/css/layouts/signin_mediaquery.css}" />
+  </th:block>
   <th:block layout:fragment="main">
     <div class="signIn-container">
       <div class="signIn-card">
@@ -65,8 +66,8 @@
           <div th:id="kakao_customBtn" th:class="customKPlusSignIn">
             <span class="K_icon"></span>
             <a href="/oauth2/authorization/kakao">
-            <span class="buttonText">카카오로 시작하기</span>
-        </a>
+              <span class="buttonText">카카오로 시작하기</span>
+            </a>
           </div>
           <div th:id="naver_customBtn" th:class="customNPlusSignIn">
             <span class="N_icon"></span>
@@ -74,10 +75,9 @@
           </div>
           <div th:id="google_customBtn" th:class="customGPlusSignIn">
             <span class="G_icon"></span>
-            <a href="/oauth2/authorization/google">
-            <span class="buttonText"
-              >Google로 시작하기</span
-            ></a>
+            <a th:href="@{/oauth2/authorization/google}">
+              <span class="buttonText">Google로 시작하기</span></a
+            >
           </div>
           <hr />
           <div class="button-login">

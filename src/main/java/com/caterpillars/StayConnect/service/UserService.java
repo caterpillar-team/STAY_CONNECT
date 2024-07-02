@@ -1,5 +1,8 @@
 package com.caterpillars.StayConnect.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,8 +12,6 @@ import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
-
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -38,7 +39,24 @@ public class UserService {
         return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유효하지 않은 사용자 ID입니다."));
     }
 
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public List<User> findByRealName(String realName) {
+        return userRepository.findByRealName(realName);
+    }
+
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public int getTotalUsers() {
+
+        return userRepository.countTotalUsers();
     }
 }

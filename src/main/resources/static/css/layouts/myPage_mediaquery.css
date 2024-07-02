@@ -1,0 +1,122 @@
+/* mobile */
+@media (max-width: 768px) {
+  .main {
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .btn_goChat {
+    display: none;
+  }
+
+  #nav-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    z-index: 1000;
+  }
+  #hamburger-icon {
+    display: block;
+    cursor: pointer;
+  }
+
+  .reservation-chk {
+    max-width: 400px;
+  }
+
+  .reservation-card {
+    width: 350px;
+    height: auto;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .reservation-details,
+  .reservation-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .reservation-info > div {
+    margin-bottom: 10px;
+  }
+
+  .my-info {
+    width: 400px;
+    margin-left: 20px;
+  }
+  .my-info .myinfo-card {
+    width: 300px;
+    /* margin-left: -40px; */
+  }
+
+  .my-info .myinfo-card p {
+    margin-left: -100px;
+  }
+
+  .my-info .myinfo-card form .mb-2 {
+    width: 250px;
+    margin-left: -23px;
+  }
+  .my-info .myinfo-card form .btn {
+    width: 250px;
+    margin-left: -23px;
+  }
+}
+
+/* tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .indexContainer {
+    padding: 20px;
+  }
+
+  .rightAside,
+  .leftAside {
+    width: 20%;
+    display: block;
+  }
+
+  .main {
+    width: 60%;
+    float: left;
+  }
+
+  #nav-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    z-index: 1000;
+  }
+  #hamburger-icon {
+    display: block;
+    cursor: pointer;
+  }
+
+  .reservation-chk {
+    max-width: 800px;
+    margin: auto;
+  }
+}
+
+/* monitor */
+@media (min-width: 1065px) {
+  .indexContainer {
+    padding: 30px;
+  }
+
+  .rightAside,
+  .leftAside {
+    width: 25%;
+    display: block;
+  }
+
+  #hamburger-icon {
+    display: none;
+  }
+  #nav-menu {
+    display: block;
+  }
+}

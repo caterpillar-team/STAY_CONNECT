@@ -1,23 +1,24 @@
 package com.caterpillars.StayConnect.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
 import com.caterpillars.StayConnect.model.dto.AccommodationDto;
 import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.model.entities.Review;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.repository.AccommodationRepository;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
-import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.transaction.Transactional;
 
 @Service
-@Slf4j
+// @Slf4j
 public class AccommodationService {
 
     @Autowired
@@ -31,7 +32,6 @@ public class AccommodationService {
 
     @Autowired
     private RoomInfoService roomInfoService;
-
 
     public Page<Accommodation> findAllAccommodations(Pageable pageable) {
         return accommodationRepository.findAll(pageable);
@@ -107,7 +107,8 @@ public class AccommodationService {
         AccommodationDto accommodationDto = new AccommodationDto();
         accommodationDto.setId(accommodation.getId());
         accommodationDto.setAccommodationName(accommodation.getName());
-        accommodationDto.setCategoryName(accommodation.getCategory() != null ? accommodation.getCategory().getName() : "");
+        accommodationDto
+                .setCategoryName(accommodation.getCategory() != null ? accommodation.getCategory().getName() : "");
         accommodationDto.setGrade(accommodation.getGrade() != null ? accommodation.getGrade().getGrade() : "");
         accommodationDto.setAddress(accommodation.getAddress());
         accommodationDto.setLatitude(accommodation.getLatitude());
@@ -160,6 +161,5 @@ public class AccommodationService {
 
         return dtos;
     }
-
 
 }
