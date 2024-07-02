@@ -26,5 +26,15 @@ public class SearchController {
         log.info("result : " + result);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+<<<<<<< HEAD
+
+    @GetMapping("/mapsearch")
+    public @ResponseBody ResponseEntity<List<AccommodationDto>> mapsearch(String address) {
+        List<AccommodationDto> result = accommodationService.mapsearch(address);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+=======
     
+>>>>>>> 910a0f3417227ed563f436cbf7567fa417a7a1b9
 }

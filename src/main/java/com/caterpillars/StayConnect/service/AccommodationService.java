@@ -1,5 +1,7 @@
 package com.caterpillars.StayConnect.service;
 
+<<<<<<< HEAD
+=======
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,17 +10,32 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+>>>>>>> 910a0f3417227ed563f436cbf7567fa417a7a1b9
 import com.caterpillars.StayConnect.model.dto.AccommodationDto;
 import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.model.entities.Review;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.repository.AccommodationRepository;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@Slf4j
+=======
 import jakarta.transaction.Transactional;
 
 @Service
 // @Slf4j
+>>>>>>> 910a0f3417227ed563f436cbf7567fa417a7a1b9
 public class AccommodationService {
 
     @Autowired
@@ -33,6 +50,10 @@ public class AccommodationService {
     @Autowired
     private RoomInfoService roomInfoService;
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 910a0f3417227ed563f436cbf7567fa417a7a1b9
     public Page<Accommodation> findAllAccommodations(Pageable pageable) {
         return accommodationRepository.findAll(pageable);
     }
@@ -107,8 +128,7 @@ public class AccommodationService {
         AccommodationDto accommodationDto = new AccommodationDto();
         accommodationDto.setId(accommodation.getId());
         accommodationDto.setAccommodationName(accommodation.getName());
-        accommodationDto
-                .setCategoryName(accommodation.getCategory() != null ? accommodation.getCategory().getName() : "");
+        accommodationDto.setCategoryName(accommodation.getCategory() != null ? accommodation.getCategory().getName() : "");
         accommodationDto.setGrade(accommodation.getGrade() != null ? accommodation.getGrade().getGrade() : "");
         accommodationDto.setAddress(accommodation.getAddress());
         accommodationDto.setLatitude(accommodation.getLatitude());
@@ -162,4 +182,8 @@ public class AccommodationService {
         return dtos;
     }
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 910a0f3417227ed563f436cbf7567fa417a7a1b9
 }

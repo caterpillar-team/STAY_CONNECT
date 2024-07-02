@@ -15,4 +15,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     List<Review> findByRoomInfoAccommodationIdOrderByIdDesc(Long accommodationId);
 
+    List<Review> findByRoomInfoAccommodationIdOrderByIdDesc();
+
 }

@@ -1,5 +1,10 @@
 package com.caterpillars.StayConnect.controller;
 
+<<<<<<< HEAD
+import com.caterpillars.StayConnect.model.dto.AccommodationDto;
+import com.caterpillars.StayConnect.model.entities.Accommodation;
+import com.caterpillars.StayConnect.service.AccommodationService;
+=======
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +23,21 @@ import com.caterpillars.StayConnect.model.dto.AccommodationDto;
 import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.service.AccommodationService;
 
+>>>>>>> 910a0f3417227ed563f436cbf7567fa417a7a1b9
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -50,8 +69,12 @@ public class URIController {
     }
 
     @GetMapping("/accommodation")
+<<<<<<< HEAD
+    public ResponseEntity<Map<String, Object>> getAccommodations(@RequestParam(name = "page", defaultValue = "0") int page) {
+=======
     public ResponseEntity<Map<String, Object>> getAccommodations(
             @RequestParam(name = "page", defaultValue = "0") int page) {
+>>>>>>> 910a0f3417227ed563f436cbf7567fa417a7a1b9
         Pageable pageable = PageRequest.of(page, 8);
 
         // 숙소 목록 조회 및 DTO 변환

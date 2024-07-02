@@ -1,5 +1,7 @@
 package com.caterpillars.StayConnect.service;
 
+<<<<<<< HEAD
+=======
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+>>>>>>> 910a0f3417227ed563f436cbf7567fa417a7a1b9
 import com.caterpillars.StayConnect.model.dto.ReviewDto;
 import com.caterpillars.StayConnect.model.entities.Review;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
@@ -21,8 +24,20 @@ import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
+<<<<<<< HEAD
+=======
 
+>>>>>>> 910a0f3417227ed563f436cbf7567fa417a7a1b9
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -36,6 +51,7 @@ public class ReviewService {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
 
     // 리뷰 추가
     @Transactional(rollbackFor = Exception.class)
@@ -130,6 +146,7 @@ public class ReviewService {
                 .orElse(null);
     }
 
+
     public Page<Review> findReviewsByAccommodationId(Long accommodationId, Pageable pageable) {
         return reviewRepository.findByRoomInfoAccommodationId(accommodationId, pageable);
     }
@@ -139,6 +156,6 @@ public class ReviewService {
     }
 
     public List<Review> findAllReviews() {
-        return reviewRepository.findAll();
+        return reviewRepository.findByRoomInfoAccommodationIdOrderByIdDesc();
     }
 }
