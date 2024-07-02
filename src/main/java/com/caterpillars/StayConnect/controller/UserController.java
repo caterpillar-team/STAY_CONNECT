@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
 import com.caterpillars.StayConnect.model.dto.ReservationDto;
 import com.caterpillars.StayConnect.model.entities.User;
-import com.caterpillars.StayConnect.model.repository.ReservationRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
 import com.caterpillars.StayConnect.service.ReservationService;
 
@@ -38,8 +37,8 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private ReservationRepository reservationRepository;
+    // @Autowired
+    // private ReservationRepository reservationRepository;
 
     @Autowired
     private ReservationService reservationService;

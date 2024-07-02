@@ -20,7 +20,6 @@ import com.caterpillars.StayConnect.model.dto.PaymentDto;
 import com.caterpillars.StayConnect.model.dto.ReservationDto;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.entities.User;
-import com.caterpillars.StayConnect.service.PortOnePaymentService;
 import com.caterpillars.StayConnect.service.ReservationService;
 import com.caterpillars.StayConnect.service.RoomInfoService;
 import com.caterpillars.StayConnect.service.UserService;
@@ -45,10 +44,10 @@ public class ReservationController {
     @Autowired
     private RoomInfoService roomInfoService;
 
-    @Autowired
-    private PortOnePaymentService portOnePaymentService;
+    // @Autowired
+    // private PortOnePaymentService portOnePaymentService;
 
-    private PortOneTokenResponse portOneTokenResponse;
+    // private PortOneTokenResponse portOneTokenResponse;
 
     @Value("${PORTONE_API_KEY}")
     private String apiKey;

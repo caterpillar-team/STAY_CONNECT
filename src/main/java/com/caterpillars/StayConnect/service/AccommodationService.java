@@ -1,5 +1,16 @@
 package com.caterpillars.StayConnect.service;
 
+<<<<<<< HEAD
+=======
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+>>>>>>> 910a0f3417227ed563f436cbf7567fa417a7a1b9
 import com.caterpillars.StayConnect.model.dto.AccommodationDto;
 import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.model.entities.Review;
@@ -13,11 +24,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Slf4j
+=======
+import jakarta.transaction.Transactional;
+
+@Service
+// @Slf4j
+>>>>>>> 910a0f3417227ed563f436cbf7567fa417a7a1b9
 public class AccommodationService {
 
     @Autowired
@@ -32,7 +50,10 @@ public class AccommodationService {
     @Autowired
     private RoomInfoService roomInfoService;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 910a0f3417227ed563f436cbf7567fa417a7a1b9
     public Page<Accommodation> findAllAccommodations(Pageable pageable) {
         return accommodationRepository.findAll(pageable);
     }
@@ -161,5 +182,8 @@ public class AccommodationService {
         return dtos;
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 910a0f3417227ed563f436cbf7567fa417a7a1b9
 }
