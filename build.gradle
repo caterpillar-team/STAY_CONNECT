@@ -34,7 +34,7 @@ dependencies {
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0'
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
-	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
 	// dependabot settings start
 	implementation 'org.xmlunit:xmlunit-core:2.10.0'
 	// dependabot settings end
