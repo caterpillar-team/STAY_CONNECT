@@ -11,7 +11,7 @@ import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.repository.AccommodationRepository;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 
-@Profile("dev")
+
 @Order(4)
 @Component
 public class TestRoomInfoDataInitializer implements CommandLineRunner {

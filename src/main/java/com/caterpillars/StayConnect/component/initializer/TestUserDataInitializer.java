@@ -14,7 +14,7 @@ import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.RoleRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
 
-@Profile("dev")
+
 @Order(1)
 @Component
 public class TestUserDataInitializer implements CommandLineRunner {
