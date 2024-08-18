@@ -1,20 +1,20 @@
 package com.caterpillars.StayConnect.component.initializer;
 
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
 import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.model.entities.Category;
 import com.caterpillars.StayConnect.model.entities.Grade;
 import com.caterpillars.StayConnect.model.repository.AccommodationRepository;
 import com.caterpillars.StayConnect.model.repository.CategoryRepository;
 import com.caterpillars.StayConnect.model.repository.GradeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-
-@Profile("dev")
+// @Profile("dev")
 @Order(2)
 @Component
 public class TestAccDataInitializer implements CommandLineRunner {
