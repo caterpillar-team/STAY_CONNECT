@@ -34,7 +34,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
     String token = getTokenFromRequest(request);
 
-    if (token != null && jwTokenProvider.validateToken(token) && !isTokenExpired(token)) {
+    if (token != null && jwTokenProvider.validateToken(token)) {
       String username = jwTokenProvider.extractUsername(token);
       String role = jwTokenProvider.extractRole(token);
       List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
@@ -63,8 +63,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     return null;
   }
 
-  private boolean isTokenExpired(String token) {
-    Long expiration = jwTokenProvider.extractExpiration(token);
-    return expiration != null && expiration < System.currentTimeMillis();
-  }
+  // private boolean isTokenExpired(String token) {
+  //   Long expiration = jwTokenProvider.extractExpiration(token);
+  //   return expiration != null && expiration < System.currentTimeMillis();
+  // }
 }
