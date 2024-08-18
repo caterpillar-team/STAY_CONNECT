@@ -27,5 +27,4 @@ public class JWTLogoutSuccessHandler implements LogoutSuccessHandler {
     response.setStatus(HttpServletResponse.SC_OK);
     response.sendRedirect("/auth/signin?logout"); // 로그아웃 후 리다이렉트
   }
-
 }

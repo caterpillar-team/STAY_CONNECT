@@ -65,8 +65,8 @@ public class JWTokenProvider {
     return extractClaim(token, Claims::getSubject);
   }
 
-  public Date extractExpiration(String token) {
-    return extractClaim(token, Claims::getExpiration);
+  public Long extractExpiration(String token) {
+    return extractClaim(token, Claims::getExpiration).getTime();
   }
 
   public String extractRole(String token) {
@@ -77,10 +77,6 @@ public class JWTokenProvider {
     return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
   }
 
-  // private Boolean isTokenExpired(String token) {
-  // return extractExpiration(token).before(new Date());
-  // }
-
   private String createToken(Authentication authentication) {
 
     User user = (User) authentication.getPrincipal();
@@ -88,8 +84,6 @@ public class JWTokenProvider {
     return Jwts.builder()
         .subject(user.getUsername())
         .claim("role", user.getRole().getName())
-        .claim("credentials",authentication.getCredentials())
-        .claim("details",authentication.getDetails())
         .issuedAt(new Date())
         .expiration(new Date(System.currentTimeMillis() + expiration))
         .signWith(secretKey)
