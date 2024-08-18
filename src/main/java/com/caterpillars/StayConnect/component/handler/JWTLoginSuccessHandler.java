@@ -33,5 +33,4 @@ public class JWTLoginSuccessHandler implements AuthenticationSuccessHandler {
     response.addCookie(cookie);
     response.sendRedirect("/");
   }
-
 }

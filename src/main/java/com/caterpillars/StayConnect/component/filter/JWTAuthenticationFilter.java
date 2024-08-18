@@ -16,7 +16,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
 
-import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -35,17 +34,18 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
     String token = getTokenFromRequest(request);
 
-    if (token != null && jwTokenProvider.validateToken(token)) {
+    if (token != null && jwTokenProvider.validateToken(token) && !isTokenExpired(token)) {
       String username = jwTokenProvider.extractUsername(token);
       String role = jwTokenProvider.extractRole(token);
       List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
 
-      Claims claims =  jwTokenProvider.extractAllClaims(token);
-
-      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, claims.get("credentials"),
+      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null,
           authorities);
-          authentication.setDetails(claims.get("details"));
       SecurityContextHolder.getContext().setAuthentication(authentication);
+    } else if (token != null) {
+      SecurityContextHolder.clearContext();
+      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      response.getWriter().write("Invalid or expired token. Please log in again.");
     }
 
     filterChain.doFilter(request, response);
@@ -61,5 +61,10 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
           .orElse(null);
     }
     return null;
+  }
+
+  private boolean isTokenExpired(String token) {
+    Long expiration = jwTokenProvider.extractExpiration(token);
+    return expiration != null && expiration < System.currentTimeMillis();
   }
 }
