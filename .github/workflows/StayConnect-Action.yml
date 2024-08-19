@@ -26,6 +26,7 @@ jobs:
           echo "SERVER_PORT=${{ secrets.SERVER_PORT }}" >> .env
           echo "JSON_WEB_TOKEN_SECRET_KEY=${{ secrets.JSON_WEB_TOKEN_SECRET_KEY }}" >> .env
           echo "JSON_WEB_TOKEN_EXPIRATION_TIME=${{ secrets.JSON_WEB_TOKEN_EXPIRATION_TIME }}" >> .env
+          echo "JSON_WEB_TOKEN_ISSUER=${{ secrets.JSON_WEB_TOKEN_ISSUER }}" >> .env
           echo "MYSQL_SERVER_URL=${{ secrets.MYSQL_SERVER_URL }}" >> .env
           echo "MYSQL_SERVER_USERNAME=${{ secrets.MYSQL_SERVER_USERNAME }}" >> .env
           echo "MYSQL_SERVER_PASSWORD=${{ secrets.MYSQL_SERVER_PASSWORD }}" >> .env
@@ -91,6 +92,7 @@ jobs:
           echo "SERVER_PORT=${{ secrets.SERVER_PORT }}" >> .env
           echo "JSON_WEB_TOKEN_SECRET_KEY=${{ secrets.JSON_WEB_TOKEN_SECRET_KEY }}" >> .env
           echo "JSON_WEB_TOKEN_EXPIRATION_TIME=${{ secrets.JSON_WEB_TOKEN_EXPIRATION_TIME }}" >> .env
+          echo "JSON_WEB_TOKEN_ISSUER=${{ secrets.JSON_WEB_TOKEN_ISSUER }}" >> .env
           echo "MYSQL_SERVER_URL=${{ secrets.MYSQL_SERVER_URL }}" >> .env
           echo "MYSQL_SERVER_USERNAME=${{ secrets.MYSQL_SERVER_USERNAME }}" >> .env
           echo "MYSQL_SERVER_PASSWORD=${{ secrets.MYSQL_SERVER_PASSWORD }}" >> .env
