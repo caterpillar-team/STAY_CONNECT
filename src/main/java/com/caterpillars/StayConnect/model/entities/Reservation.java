@@ -2,6 +2,9 @@ package com.caterpillars.StayConnect.model.entities;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +30,7 @@ public class Reservation {
 
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private User user;
 
   @ManyToOne
