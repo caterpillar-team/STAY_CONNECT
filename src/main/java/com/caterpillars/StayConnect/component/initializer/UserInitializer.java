@@ -1,7 +1,6 @@
 package com.caterpillars.StayConnect.component.initializer;
 
 import java.time.LocalDate;
-import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -39,14 +38,22 @@ public class UserInitializer implements CommandLineRunner {
         final String USER_EMAIL_PREFIX = "user@example.com";
         final LocalDate USER_BIRTH_DATE = LocalDate.of(1995, 1, 1);
 
-        Role adminRole = roleRepository.findByName("ROLE_ADMIN").orElseThrow(NoSuchElementException::new);
+        Role adminRole = roleRepository.findByName("ROLE_ADMIN").orElseGet(() -> {
+            Role role = new Role();
+            role.setName("ROLE_ADMIN");
+            return roleRepository.save(role);
+        });
         if (adminRole == null) {
             adminRole = new Role();
             adminRole.setName("ROLE_ADMIN");
             roleRepository.save(adminRole);
         }
 
-        Role userRole = roleRepository.findByName("ROLE_USER").orElseThrow(NoSuchElementException::new);
+        Role userRole = roleRepository.findByName("ROLE_USER").orElseGet(() -> {
+            Role role = new Role();
+            role.setName("ROLE_USER");
+            return roleRepository.save(role);
+        });
         if (userRole == null) {
             userRole = new Role();
             userRole.setName("ROLE_USER");
