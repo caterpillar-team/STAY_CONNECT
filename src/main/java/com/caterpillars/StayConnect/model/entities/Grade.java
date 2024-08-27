@@ -2,6 +2,7 @@ package com.caterpillars.StayConnect.model.entities;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +28,6 @@ public class Grade {
 
     private String grade;
 
-    @OneToMany(mappedBy = "grade")
+    @OneToMany(mappedBy = "grade", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Accommodation> accommodations;
 }
