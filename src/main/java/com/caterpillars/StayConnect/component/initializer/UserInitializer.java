@@ -1,6 +1,7 @@
 package com.caterpillars.StayConnect.component.initializer;
 
 import java.time.LocalDate;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -38,14 +39,14 @@ public class UserInitializer implements CommandLineRunner {
         final String USER_EMAIL_PREFIX = "user@example.com";
         final LocalDate USER_BIRTH_DATE = LocalDate.of(1995, 1, 1);
 
-        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+        Role adminRole = roleRepository.findByName("ROLE_ADMIN").orElseThrow(NoSuchElementException::new);
         if (adminRole == null) {
             adminRole = new Role();
             adminRole.setName("ROLE_ADMIN");
             roleRepository.save(adminRole);
         }
 
-        Role userRole = roleRepository.findByName("ROLE_USER");
+        Role userRole = roleRepository.findByName("ROLE_USER").orElseThrow(NoSuchElementException::new);
         if (userRole == null) {
             userRole = new Role();
             userRole.setName("ROLE_USER");
@@ -63,16 +64,16 @@ public class UserInitializer implements CommandLineRunner {
                     .email(ADMIN_EMAIL)
                     .role(adminRole)
                     .build()
-                : User.builder()
-                    .username(USER_PASSWORD_PREFIX + i)
-                    .password(passwordEncoder.encode(USER_PASSWORD_PREFIX + i))
-                    .realName("User " + i)
-                    .birth(USER_BIRTH_DATE)
-                    .gender(true)
-                    .phoneNumber("010-1234-567" + i)
-                    .email("user" + i + "@" + USER_EMAIL_PREFIX)
-                    .role(userRole)
-                    .build();
+                    : User.builder()
+                            .username(USER_PASSWORD_PREFIX + i)
+                            .password(passwordEncoder.encode(USER_PASSWORD_PREFIX + i))
+                            .realName("User " + i)
+                            .birth(USER_BIRTH_DATE)
+                            .gender(true)
+                            .phoneNumber("010-1234-567" + i)
+                            .email("user" + i + "@" + USER_EMAIL_PREFIX)
+                            .role(userRole)
+                            .build();
             userRepository.save(user);
         }
     }
