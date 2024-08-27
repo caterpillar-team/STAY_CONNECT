@@ -32,9 +32,9 @@ public class ReviewInitializer implements CommandLineRunner {
     for (int i = 1; i <= TOTAL_ROOM_INFOS; i++) {
       Review review1 = new Review();
       review1.setUser(userRepository.findById((long) ((i - 1) % 10 + 1))
-          .orElseThrow(() -> new NoSuchElementException("User not found for id: ")));
+          .orElseThrow(NoSuchElementException::new));
       review1.setRoomInfo(roomInfoRepository.findById((long) i)
-          .orElseThrow(() -> new NoSuchElementException("RoomInfo not found for id: ")));
+          .orElseThrow(NoSuchElementException::new));
       review1.setContents("Review comment for RoomInfo " + i);
       review1.setRate((int) (Math.random() * 5) + 1); // 1에서 5 사이의 랜덤 평점
       review1.setCreatedAt(LocalDateTime.now());
@@ -42,9 +42,9 @@ public class ReviewInitializer implements CommandLineRunner {
 
       Review review2 = new Review();
       review2.setUser(userRepository.findById((long) ((i - 1) % 10 + 1))
-          .orElseThrow(() -> new NoSuchElementException("User not found for id: ")));
+          .orElseThrow(NoSuchElementException::new));
       review2.setRoomInfo(roomInfoRepository.findById((long) i)
-          .orElseThrow(() -> new NoSuchElementException("RoomInfo not found for id: ")));
+          .orElseThrow(NoSuchElementException::new));
       review2.setContents("Another review comment for RoomInfo " + i);
       review2.setRate((int) (Math.random() * 5) + 1); // 1에서 5 사이의 랜덤 평점
       review2.setCreatedAt(LocalDateTime.now());
