@@ -2,6 +2,7 @@ package com.caterpillars.StayConnect.service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,7 @@ public class AuthService implements UserDetailsService,
   // private ReviewRepository reviewRepository;
 
   public User signUp(UserSignUpDto signUpDto) {
-    Role role = roleRepository.findByName("ROLE_USER");
+    Role role = roleRepository.findByName("ROLE_USER").orElseThrow(NoSuchElementException::new);
     if (emailExist(signUpDto.getEmail())) {
       throw new RuntimeException("이미 해당 email로 등록된 계정이 존재합니다. : " + signUpDto.getEmail());
     }
