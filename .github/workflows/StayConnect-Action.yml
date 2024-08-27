@@ -196,7 +196,7 @@ jobs:
 
    clear:
       runs-on: ubuntu-latest
-      needs: deploy
+      needs: [deploy, build]
       steps:
          - name: Delete Artifact
            uses: geekyeggo/delete-artifact@v5
