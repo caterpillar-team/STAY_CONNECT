@@ -52,8 +52,7 @@ public class AuthService implements UserDetailsService,
   // private ReviewRepository reviewRepository;
 
   public User signUp(UserSignUpDto signUpDto) {
-    Role role = roleRepository.findByName("ROLE_USER")
-        .orElseGet(() -> roleRepository.save(new Role(null, "ROLE_USER", null)));
+    Role role = roleRepository.findByName("ROLE_USER");
     if (emailExist(signUpDto.getEmail())) {
       throw new RuntimeException("이미 해당 email로 등록된 계정이 존재합니다. : " + signUpDto.getEmail());
     }

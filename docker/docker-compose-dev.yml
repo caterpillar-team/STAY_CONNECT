@@ -3,13 +3,16 @@ services:
     image: mysql:8.3
     container_name: mysql-container
     ports:
-      - 43306:3306
+      - 43305:3306
     volumes:
-      - ../mysql/data:/var/lib/mysql
-      - ../mysql/init:/docker-entrypoint-initdb.d
+      - stay-connect-mysql-data:/var/lib/mysql
     command:
       - '--character-set-server=utf8mb4'
       - '--collation-server=utf8mb4_unicode_ci'
     environment:
       MYSQL_ROOT_PASSWORD: princess
       MYSQL_DATABASE: stayconnect
+
+
+volumes:
+   stay-connect-mysql-data:
