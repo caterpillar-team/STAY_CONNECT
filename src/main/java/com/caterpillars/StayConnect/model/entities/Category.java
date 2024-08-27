@@ -1,14 +1,19 @@
 package com.caterpillars.StayConnect.model.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import groovy.transform.builder.Builder;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -24,8 +29,6 @@ public class Category {
 
     private String name;
 
-    @OneToMany(mappedBy = "category")
-    @Column(unique = true)
+    @OneToMany(mappedBy = "category", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Accommodation> accommodations = new ArrayList<>();
-
 }
