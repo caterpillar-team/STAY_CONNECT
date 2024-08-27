@@ -25,10 +25,8 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "accommodation", uniqueConstraints = {
-                @UniqueConstraint(name = "UK_name_address", columnNames = { "name", "address" })
-}, indexes = {
-                @Index(name = "fulltext_index", columnList = "name")
-})
+                @UniqueConstraint(name = "UK_name_address", columnNames = { "name", "address" }) }, indexes = {
+                                @Index(name = "fulltext_index", columnList = "name") })
 public class Accommodation {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,5 +50,4 @@ public class Accommodation {
 
         @OneToMany(mappedBy = "accommodation")
         private List<RoomInfo> roomInfos;
-
 }
