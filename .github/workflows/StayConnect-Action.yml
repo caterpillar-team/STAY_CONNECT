@@ -20,14 +20,6 @@ jobs:
               distribution: 'temurin'
               java-version: '21'
 
-         - name: Set up environment variables
-           id: setup-env
-           uses: ./.github/workflows/env-Action.yml
-
-         - name: Load environment variables
-           run: |
-              echo "${{ steps.setup-env.outputs.env-vars}}" >> .env
-
          - name: Cache Gradle packages
            uses: actions/cache@v4
            with:
@@ -37,6 +29,14 @@ jobs:
               key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
               restore-keys: |
                  gradle-${{ runner.os }}-
+
+         - name: Set up environment variables
+           id: setup-env
+           uses: ./.github/workflows/env-Action.yml
+
+         - name: Load environment variables
+           run: |
+              echo "${{ steps.setup-env.outputs.env-vars}}" >> .env
 
          - name: Grant execute permission for gradlew
            run: chmod +x gradlew
