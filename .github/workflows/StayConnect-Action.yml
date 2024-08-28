@@ -35,7 +35,7 @@ jobs:
               echo "PRODUCTION_MYSQL_DATABASE=${{ secrets.PRODUCTION_MYSQL_DATABASE }}" >> .env
               echo "PRODUCTION_MYSQL_USERNAME=${{ secrets.PRODUCTION_MYSQL_USERNAME }}" >> .env
               echo "PRODUCTION_MYSQL_PASSWORD=${{ secrets.PRODUCTION_MYSQL_PASSWORD }}" >> .env
-              echo "::set-output name=env-file::$(pwd)/.env"
+              echo "::set-output name=env-file::.env"
 
    build:
       runs-on: ubuntu-latest
