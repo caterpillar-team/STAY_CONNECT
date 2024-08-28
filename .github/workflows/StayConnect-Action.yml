@@ -51,6 +51,13 @@ jobs:
               path: build/libs/StayConnect-0.0.2.jar
               retention-days: 1
 
+         - name: Upload build artifacts
+           uses: actions/upload-artifact@v4
+           with:
+              name: build-artifacts
+              path: .
+              retention-days: 1
+
    deploy:
       # if: github.ref == 'refs/heads/main'
       runs-on: ubuntu-latest
