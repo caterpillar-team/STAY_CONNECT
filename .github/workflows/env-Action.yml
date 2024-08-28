@@ -1,0 +1,74 @@
+name: Create Environment Variables File
+
+on:
+   workflow_call:
+      secrets:
+         BASE_URL:
+            required: true
+         SERVER_PORT:
+            required: true
+         JSON_WEB_TOKEN_SECRET_KEY:
+            required: true
+         JSON_WEB_TOKEN_EXPIRATION_TIME:
+            required: true
+         JSON_WEB_TOKEN_ISSUER:
+            required: true
+         MYSQL_SERVER_URL:
+            required: true
+         MYSQL_SERVER_USERNAME:
+            required: true
+         MYSQL_SERVER_PASSWORD:
+            required: true
+         GOOGLE_CLIENT_ID:
+            required: true
+         GOOGLE_CLIENT_SECRET:
+            required: true
+         KAKAO_CLIENT_ID:
+            required: true
+         KAKAO_CLIENT_SECRET:
+            required: true
+         PORTONE_API_URL:
+            required: true
+         PORTONE_API_KEY:
+            required: true
+         PORTONE_SECRET_KEY:
+            required: true
+         PRODUCTION_MYSQL_URL:
+            required: true
+         PRODUCTION_MYSQL_ROOT_PASSWORD:
+            required: true
+         PRODUCTION_MYSQL_DATABASE:
+            required: true
+         PRODUCTION_MYSQL_USERNAME:
+            required: true
+         PRODUCTION_MYSQL_PASSWORD:
+            required: true
+
+jobs:
+   set-env:
+      runs-on: ubuntu-latest
+      outputs:
+         env-vars: ${{ steps.set-env-vars.outputs.env-vars}}
+      steps:
+         - id: set-env-vars
+           run: |
+              echo "BASE_URL=${{ secrets.BASE_URL }}"
+              echo "SERVER_PORT=${{ secrets.SERVER_PORT }}"
+              echo "JSON_WEB_TOKEN_SECRET_KEY=${{ secrets.JSON_WEB_TOKEN_SECRET_KEY }}"
+              echo "JSON_WEB_TOKEN_EXPIRATION_TIME=${{ secrets.JSON_WEB_TOKEN_EXPIRATION_TIME }}"
+              echo "JSON_WEB_TOKEN_ISSUER=${{ secrets.JSON_WEB_TOKEN_ISSUER }}"
+              echo "MYSQL_SERVER_URL=${{ secrets.MYSQL_SERVER_URL }}"
+              echo "MYSQL_SERVER_USERNAME=${{ secrets.MYSQL_SERVER_USERNAME }}"
+              echo "MYSQL_SERVER_PASSWORD=${{ secrets.MYSQL_SERVER_PASSWORD }}"
+              echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}"
+              echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}"
+              echo "KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}"
+              echo "KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}"
+              echo "PORTONE_API_URL=${{ secrets.PORTONE_API_URL }}"
+              echo "PORTONE_API_KEY=${{ secrets.PORTONE_API_KEY }}"
+              echo "PORTONE_SECRET_KEY=${{ secrets.PORTONE_SECRET_KEY }}"
+              echo "PRODUCTION_MYSQL_URL=${{ secrets.PRODUCTION_MYSQL_URL }}"
+              echo "PRODUCTION_MYSQL_ROOT_PASSWORD=${{ secrets.PRODUCTION_MYSQL_ROOT_PASSWORD }}"
+              echo "PRODUCTION_MYSQL_DATABASE=${{ secrets.PRODUCTION_MYSQL_DATABASE }}"
+              echo "PRODUCTION_MYSQL_USERNAME=${{ secrets.PRODUCTION_MYSQL_USERNAME }}"
+              echo "PRODUCTION_MYSQL_PASSWORD=${{ secrets.PRODUCTION_MYSQL_PASSWORD }}"
