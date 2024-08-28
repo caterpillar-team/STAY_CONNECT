@@ -32,7 +32,7 @@ jobs:
 
          - name: Set up environment variables
            id: setup-env
-           uses: ./.github/workflows/env-Action.yml
+           uses: ./env-Action.yml
 
          - name: Load environment variables
            run: |
