@@ -114,7 +114,7 @@ jobs:
            uses: docker/login-action@v3
            with:
               registry: ghcr.io
-              username: ${{ steps.lowercase.outputs.repo_owner }}
+              username: ${{ steps.lowercase.outputs.repository_owner }}
               password: ${{ secrets.GITHUB_TOKEN }}
 
          - name: Build and push Nginx image
