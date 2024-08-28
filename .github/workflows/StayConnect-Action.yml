@@ -35,7 +35,7 @@ jobs:
               echo "PRODUCTION_MYSQL_DATABASE=${{ secrets.PRODUCTION_MYSQL_DATABASE }}" >> .env
               echo "PRODUCTION_MYSQL_USERNAME=${{ secrets.PRODUCTION_MYSQL_USERNAME }}" >> .env
               echo "PRODUCTION_MYSQL_PASSWORD=${{ secrets.PRODUCTION_MYSQL_PASSWORD }}" >> .env
-              echo "::set-output name=env-file::.env"
+              echo "::set-output name=env-file::$(pwd)/.env"
 
    build:
       runs-on: ubuntu-latest
@@ -53,7 +53,7 @@ jobs:
 
          - name: Load environment variables file
            run: |
-              source ${{ needs.env.outputs.env-file}}
+              ${{ needs.env.outputs.env-file}}
 
          - name: Cache Gradle packages
            uses: actions/cache@v4
@@ -95,7 +95,7 @@ jobs:
 
          - name: Load environment variables file
            run: |
-              source ${{ needs.env.outputs.env-file}}
+              ${{ needs.env.outputs.env-file}}
 
          - name: Set up JDK 21
            uses: actions/setup-java@v4
