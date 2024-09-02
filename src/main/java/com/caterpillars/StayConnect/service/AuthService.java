@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.caterpillars.StayConnect.model.dto.UserSignUpDto;
@@ -52,6 +53,7 @@ public class AuthService implements UserDetailsService,
   // @Autowired
   // private ReviewRepository reviewRepository;
 
+  @Transactional
   public User signUp(UserSignUpDto signUpDto) {
     Role role = roleRepository.findByName("ROLE_USER").orElseThrow(NoSuchElementException::new);
     if (emailExist(signUpDto.getEmail())) {
@@ -81,6 +83,7 @@ public class AuthService implements UserDetailsService,
   }
 
   @Override
+  @Transactional(readOnly = true)
   public User loadUserByUsername(String username) throws UsernameNotFoundException {
     User user = userRepository.findByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException("user not found username"));
@@ -105,21 +108,15 @@ public class AuthService implements UserDetailsService,
     log.info(registrationId.toString());
 
     return processGoogleLogin(oAuth2User, userRequest);
-
   }
 
+  @Transactional(readOnly = true)
   private OAuth2User processGoogleLogin(OAuth2User oAuth2User, OAuth2UserRequest userRequest) {
     String accessToken = userRequest.getAccessToken().getTokenValue();
-    log.info("Access Token: " + accessToken);
-
     String phoneNumber = fetchGooglePhoneNumber(accessToken);
-    log.info("Phone Number: " + phoneNumber);
-
     Map<String, Object> attributes = new HashMap<>(oAuth2User.getAttributes());
     attributes.put("phone_number", phoneNumber);
     String realName = attributes.get("name").toString();
-
-    log.info(attributes.toString());
 
     httpServletRequest.setAttribute("realName", realName);
     httpServletRequest.setAttribute("phoneNumber", phoneNumber);

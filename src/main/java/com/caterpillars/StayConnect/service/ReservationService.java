@@ -38,9 +38,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ReservationService {
 
     @Autowired
-    private PortOnePaymentService portOnePaymentService;
-
-    @Autowired
     private ReservationRepository reservationRepository;
 
     private PortOneTokenResponse portOneTokenResponse;
@@ -51,10 +48,12 @@ public class ReservationService {
     @Value("${PORTONE_SECRET_KEY}")
     private String apiSecret;
 
+    @Transactional(readOnly = true)
     public List<Object[]> getMonthlyReservationCount() {
         return reservationRepository.findMonthlyReservationCount();
     }
 
+    @Transactional(readOnly = true)
     public List<Map<String, Object>> getReservationsByRegion() {
         List<Reservation> reservations = reservationRepository.findAll();
 
@@ -75,10 +74,9 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
-    // getPaymentDetails 메소드 호출
+    @Transactional
     public Reservation createReservation(String imp_uid, User user, RoomInfo roomInfo, LocalDateTime checkIn,
             LocalDateTime checkOut, PaymentDto paymentDto) {
-        // PaymentDto paymentDto = portOnePaymentService.getPaymentDetails(imp_uid);
 
         Reservation reservation = Reservation.builder()
                 .imp_uid(imp_uid)
@@ -95,10 +93,12 @@ public class ReservationService {
         return reservationRepository.save(reservation);
     }
 
+    @Transactional
     public void cancelReservation(long id) {
         reservationRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     public ReservationDto getReservationDetails(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new RuntimeException("예약을 조회할 수 없습니다."));
@@ -120,6 +120,7 @@ public class ReservationService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     public List<ReservationDto> getReservationsByUserId(Long userId) {
         return reservationRepository.findByUserId(userId).stream() // stream : 컬렉션 데이터를 처리할 때 사용할 수 있는 유연한 API를 제공
                 .map(this::convertToDto) // convertToDto(Reservation 객체를 ReservationDto 객체로 변환) 메서드를 사용하여 Dto객체로 변환.
@@ -260,11 +261,13 @@ public class ReservationService {
         return true;
     }
 
+    @Transactional(readOnly = true)
     public int getTotalReservations() {
 
         return reservationRepository.countTotalReservations();
     }
 
+    @Transactional(readOnly = true)
     public int getTotalSales() {
         return reservationRepository.totalSales();
     }

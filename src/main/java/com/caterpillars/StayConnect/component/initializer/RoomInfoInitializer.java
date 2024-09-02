@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
@@ -25,6 +26,7 @@ public class RoomInfoInitializer implements CommandLineRunner {
     private List<Accommodation> accommodations;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
 
         accommodations = accommodationRepository.findAll();
@@ -44,7 +46,7 @@ public class RoomInfoInitializer implements CommandLineRunner {
                         .checkInTime("14:00")
                         .checkOutTime("11:00")
                         .count((int) (Math.random() * 10) + 1)
-                        .price(100 + (int) (Math.random() * 200)) 
+                        .price(100 + (int) (Math.random() * 200))
                         .build();
                 roomInfoRepository.save(roomInfo);
             }

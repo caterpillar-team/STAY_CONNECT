@@ -100,6 +100,7 @@ public class ReviewService {
     }
 
     // 리뷰 조회
+    @Transactional(readOnly = true)
     public ReviewDto getReviewDto(Long reviewId) {
         Optional<Review> optionalReview = reviewRepository.findById(reviewId);
 
@@ -125,19 +126,23 @@ public class ReviewService {
         }
     }
 
+    @Transactional(readOnly = true)
     public RoomInfo findRoomInfoById(long roomInfoId) {
         return roomInfoRepository.findById(roomInfoId)
                 .orElse(null);
     }
 
+    @Transactional(readOnly = true)
     public Page<Review> findReviewsByAccommodationId(Long accommodationId, Pageable pageable) {
         return reviewRepository.findByRoomInfoAccommodationId(accommodationId, pageable);
     }
 
+    @Transactional(readOnly = true)
     public List<Review> findAllReviews(Long accId) {
         return reviewRepository.findByRoomInfoAccommodationIdOrderByIdDesc(accId);
     }
 
+    @Transactional(readOnly = true)
     public List<Review> findAllReviews() {
         return reviewRepository.findAll();
     }

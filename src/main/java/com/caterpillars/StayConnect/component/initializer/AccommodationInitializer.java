@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.model.entities.Category;
@@ -31,8 +32,8 @@ public class AccommodationInitializer implements CommandLineRunner {
   private List<Category> categories;
 
   @Override
+  @Transactional
   public void run(String... args) throws Exception {
-    // 데이터베이스에서 모든 Grade와 Category를 미리 로드
     grades = gradeRepository.findAll();
     categories = categoryRepository.findAll();
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.caterpillars.StayConnect.model.dto.AccommodationDto;
 import com.caterpillars.StayConnect.model.entities.Accommodation;
@@ -14,8 +15,6 @@ import com.caterpillars.StayConnect.model.entities.Review;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.repository.AccommodationRepository;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
-
-import jakarta.transaction.Transactional;
 
 @Service
 // @Slf4j
@@ -145,7 +144,7 @@ public class AccommodationService {
     }
 
     // 키워드 검색
-    @Transactional
+    @Transactional(readOnly = true)
     public List<AccommodationDto> search(String searchText) {
         List<Accommodation> searchResult = accommodationRepository.findAllByNameContaining(searchText);
 
@@ -155,11 +154,8 @@ public class AccommodationService {
             dto.setId(accommodation.getId());
             dto.setAccommodationName(accommodation.getName());
             dto.setMinPrice(findMinPrice(findRoomInfosByAccommodationId(accommodation.getId())));
-
             dtos.add(dto);
         }
-
         return dtos;
     }
-
 }
