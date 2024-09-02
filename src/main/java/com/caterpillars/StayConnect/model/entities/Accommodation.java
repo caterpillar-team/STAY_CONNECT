@@ -3,6 +3,7 @@ package com.caterpillars.StayConnect.model.entities;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,11 +33,11 @@ public class Accommodation {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "category_id", nullable = false)
         private Category category;
 
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "grade")
         private Grade grade;
 
@@ -48,6 +49,6 @@ public class Accommodation {
 
         private Double longitude;
 
-        @OneToMany(mappedBy = "accommodation")
+        @OneToMany(mappedBy = "accommodation", fetch = FetchType.LAZY)
         private List<RoomInfo> roomInfos;
 }

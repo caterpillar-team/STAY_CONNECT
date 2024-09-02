@@ -1,7 +1,7 @@
 package com.caterpillars.StayConnect.component.initializer;
 
 import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -9,6 +9,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.caterpillars.StayConnect.model.entities.Review;
+import com.caterpillars.StayConnect.model.entities.RoomInfo;
+import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
@@ -26,27 +28,33 @@ public class ReviewInitializer implements CommandLineRunner {
   @Autowired
   private RoomInfoRepository roomInfoRepository;
 
+  private List<User> users;
+  private List<RoomInfo> roomInfos;
+
   @Override
   public void run(String... args) throws Exception {
-    final int TOTAL_ROOM_INFOS = 30 * 3; // 총 30개의 숙소에 대해 3개의 방 정보가 있으므로
+
+    users = userRepository.findAll();
+    roomInfos = roomInfoRepository.findAll();
+
+    final int TOTAL_ROOM_INFOS = 30 * 3;
     for (int i = 1; i <= TOTAL_ROOM_INFOS; i++) {
+      User user = users.get((i - 1) % 10);
+      RoomInfo roomInfo = roomInfos.get(i - 1);
+
       Review review1 = new Review();
-      review1.setUser(userRepository.findById((long) ((i - 1) % 10 + 1))
-          .orElseThrow(NoSuchElementException::new));
-      review1.setRoomInfo(roomInfoRepository.findById((long) i)
-          .orElseThrow(NoSuchElementException::new));
+      review1.setUser(user);
+      review1.setRoomInfo(roomInfo);
       review1.setContents("Review comment for RoomInfo " + i);
-      review1.setRate((int) (Math.random() * 5) + 1); // 1에서 5 사이의 랜덤 평점
+      review1.setRate((int) (Math.random() * 5) + 1);
       review1.setCreatedAt(LocalDateTime.now());
       reviewRepository.save(review1);
 
       Review review2 = new Review();
-      review2.setUser(userRepository.findById((long) ((i - 1) % 10 + 1))
-          .orElseThrow(NoSuchElementException::new));
-      review2.setRoomInfo(roomInfoRepository.findById((long) i)
-          .orElseThrow(NoSuchElementException::new));
+      review2.setUser(user);
+      review2.setRoomInfo(roomInfo);
       review2.setContents("Another review comment for RoomInfo " + i);
-      review2.setRate((int) (Math.random() * 5) + 1); // 1에서 5 사이의 랜덤 평점
+      review2.setRate((int) (Math.random() * 5) + 1);
       review2.setCreatedAt(LocalDateTime.now());
       reviewRepository.save(review2);
     }
