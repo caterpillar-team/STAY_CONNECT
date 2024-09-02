@@ -29,6 +29,6 @@ public class Grade {
 
     private String grade;
 
-    @OneToMany(mappedBy = "grade",fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(mappedBy = "grade", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Accommodation> accommodations;
 }

@@ -24,10 +24,9 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-
     @PostMapping("/{accId}/addReview")
     public String postAddReview(@PathVariable("accId") Long accId, @Valid @ModelAttribute("reviewDto") ReviewDto dto,
-                                BindingResult bindingResult, Model model) {
+            BindingResult bindingResult, Model model) {
         log.info("POST /accommodation/detail/" + accId + "/addReview " + dto);
 
         if (bindingResult.hasErrors()) {
@@ -54,9 +53,9 @@ public class ReviewController {
         return null;
     }
 
-    // 리뷰 삭제
     @DeleteMapping("/{accId}/delete/{reviewId}")
-    public @ResponseBody ResponseEntity<Map<String, Object>> deleteReview(@PathVariable("reviewId") Long reviewId, RedirectAttributes redirectAttributes) {
+    public @ResponseBody ResponseEntity<Map<String, Object>> deleteReview(@PathVariable("reviewId") Long reviewId,
+            RedirectAttributes redirectAttributes) {
         log.info("DELETE /accommodation/detail/{id}/delete id " + reviewId);
         Map<String, Object> response = new HashMap<>();
 
@@ -66,7 +65,6 @@ public class ReviewController {
                 response.put("message", "리뷰를 찾을 수 없습니다.");
             }
 
-            // 서비스 실행
             boolean isDelete = reviewService.deleteReview(reviewId);
 
             if (isDelete) {
@@ -92,7 +90,6 @@ public class ReviewController {
 
         if (result.get("message") == null)
             result.put("message", "리뷰 업데이트 성공!");
-
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
