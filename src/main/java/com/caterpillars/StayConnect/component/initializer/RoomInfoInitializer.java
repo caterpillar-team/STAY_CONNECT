@@ -1,11 +1,12 @@
 package com.caterpillars.StayConnect.component.initializer;
 
-import java.util.NoSuchElementException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
@@ -22,24 +23,30 @@ public class RoomInfoInitializer implements CommandLineRunner {
     @Autowired
     private AccommodationRepository accommodationRepository;
 
+    private List<Accommodation> accommodations;
+
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
+
+        accommodations = accommodationRepository.findAll();
+
         final int TOTAL_ACCOMMODATIONS = 30;
         for (int i = 1; i <= TOTAL_ACCOMMODATIONS; i++) {
-            Accommodation accommodation = accommodationRepository.findById((long) i)
-                    .orElseThrow(NoSuchElementException::new);
-            for (int j = 1; j <= 3; j++) { // 각 accommodation에 대해 3개의 roomInfo 생성
+
+            Accommodation accommodation = accommodations.get(i - 1);
+            for (int j = 1; j <= 3; j++) {
                 RoomInfo roomInfo = RoomInfo.builder()
                         .accommodation(accommodation)
-                        .roomType("Room " + ((i - 1) * 3 + j)) // 고유한 roomType 생성
-                        .bedType("Bed " + ((i - 1) * 3 + j)) // 고유한 bedType 생성
-                        .stayType("Stay " + ((i - 1) * 3 + j)) // 고유한 stayType 생성
-                        .numberOfPeopleStandard((int) (Math.random() * 5) + 1) // 1에서 5명까지 수용 가능
-                        .numberOfPeopleMax((int) (Math.random() * 5) + 1) // 1에서 5명까지 수용 가능
+                        .roomType("Room " + ((i - 1) * 3 + j))
+                        .bedType("Bed " + ((i - 1) * 3 + j))
+                        .stayType("Stay " + ((i - 1) * 3 + j))
+                        .numberOfPeopleStandard((int) (Math.random() * 5) + 1)
+                        .numberOfPeopleMax((int) (Math.random() * 5) + 1)
                         .checkInTime("14:00")
                         .checkOutTime("11:00")
-                        .count((int) (Math.random() * 10) + 1) // 1에서 10명까지 수용 가능
-                        .price(100 + (int) (Math.random() * 200)) // 100에서 300 사이의 가격
+                        .count((int) (Math.random() * 10) + 1)
+                        .price(100 + (int) (Math.random() * 200))
                         .build();
                 roomInfoRepository.save(roomInfo);
             }

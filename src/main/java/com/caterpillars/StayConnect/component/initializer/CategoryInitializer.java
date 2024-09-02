@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.caterpillars.StayConnect.model.entities.Category;
 import com.caterpillars.StayConnect.model.repository.CategoryRepository;
@@ -15,6 +16,7 @@ public class CategoryInitializer implements CommandLineRunner {
     private CategoryRepository categoryRepository;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         String[] categories = { "호텔", "모텔", "펜션", "게스트하우스", "리조트", "캠핑장", "민박", "아파트" };
         for (int i = 0; i < categories.length; i++) {

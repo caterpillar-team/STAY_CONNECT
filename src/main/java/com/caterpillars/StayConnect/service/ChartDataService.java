@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
@@ -19,6 +20,7 @@ public class ChartDataService {
     @Autowired
     private UserRepository userRepository;
 
+    @Transactional(readOnly = true)
     public List<Map<String, Object>> getAgeGroupCounts() {
         List<User> users = userRepository.findAll();
 

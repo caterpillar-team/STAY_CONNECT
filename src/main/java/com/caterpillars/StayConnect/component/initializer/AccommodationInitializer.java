@@ -1,11 +1,12 @@
 package com.caterpillars.StayConnect.component.initializer;
 
-import java.util.NoSuchElementException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.model.entities.Category;
@@ -27,8 +28,15 @@ public class AccommodationInitializer implements CommandLineRunner {
   @Autowired
   private CategoryRepository categoryRepository;
 
+  private List<Grade> grades;
+  private List<Category> categories;
+
   @Override
+  @Transactional
   public void run(String... args) throws Exception {
+    grades = gradeRepository.findAll();
+    categories = categoryRepository.findAll();
+
     final int TOTAL_ACCOMMODATIONS = 30;
     for (int i = 1; i <= TOTAL_ACCOMMODATIONS; i++) {
       Accommodation accommodation = Accommodation.builder()
@@ -44,14 +52,12 @@ public class AccommodationInitializer implements CommandLineRunner {
   }
 
   private Grade getRandomGrade() {
-    int randomValue = (int) (Math.random() * 5) + 1;
-    return gradeRepository.findById((long) randomValue)
-        .orElseThrow(() -> new NoSuchElementException("Grade not found for id: " + randomValue));
+    int randomIndex = (int) (Math.random() * grades.size());
+    return grades.get(randomIndex);
   }
 
   private Category getRandomCategory() {
-    int randomIndex = (int) (Math.random() * 8) + 1;
-    return categoryRepository.findById((long) randomIndex)
-        .orElseThrow(() -> new NoSuchElementException("Category not found for id: " + randomIndex));
+    int randomIndex = (int) (Math.random() * categories.size());
+    return categories.get(randomIndex);
   }
 }
