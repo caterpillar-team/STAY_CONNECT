@@ -35,53 +35,41 @@ public class UserInitializer implements CommandLineRunner {
         final String ADMIN_PHONE_NUMBER = "010-1234-5678";
         final String ADMIN_EMAIL = "admin@example.com";
         final String USER_PASSWORD_PREFIX = "user";
-        final String USER_EMAIL_PREFIX = "user@example.com";
+        final String USER_EMAIL_PREFIX = "example.com";
         final LocalDate USER_BIRTH_DATE = LocalDate.of(1995, 1, 1);
 
-        Role adminRole = roleRepository.findByName("ROLE_ADMIN").orElseGet(() -> {
-            Role role = new Role();
-            role.setName("ROLE_ADMIN");
-            return roleRepository.save(role);
-        });
-        if (adminRole == null) {
-            adminRole = new Role();
-            adminRole.setName("ROLE_ADMIN");
-            roleRepository.save(adminRole);
-        }
+        // Role 가져오기 또는 생성
+        Role adminRole = roleRepository.findByName("ROLE_ADMIN").orElseGet(() -> createRole("ROLE_ADMIN"));
+        Role userRole = roleRepository.findByName("ROLE_USER").orElseGet(() -> createRole("ROLE_USER"));
 
-        Role userRole = roleRepository.findByName("ROLE_USER").orElseGet(() -> {
-            Role role = new Role();
-            role.setName("ROLE_USER");
-            return roleRepository.save(role);
-        });
-        if (userRole == null) {
-            userRole = new Role();
-            userRole.setName("ROLE_USER");
-            roleRepository.save(userRole);
-        }
-
+        // 사용자 생성
         for (int i = 0; i < TOTAL_USERS; i++) {
-            User user = (i == 0) ? User.builder()
-                    .username(ADMIN_USERNAME)
-                    .password(passwordEncoder.encode(ADMIN_PASSWORD))
-                    .realName(ADMIN_REAL_NAME)
-                    .birth(LocalDate.of(1990, 1, 1))
-                    .gender(true)
-                    .phoneNumber(ADMIN_PHONE_NUMBER)
-                    .email(ADMIN_EMAIL)
-                    .role(adminRole)
-                    .build()
-                    : User.builder()
-                            .username(USER_PASSWORD_PREFIX + i)
-                            .password(passwordEncoder.encode(USER_PASSWORD_PREFIX + i))
-                            .realName("User " + i)
-                            .birth(USER_BIRTH_DATE)
-                            .gender(true)
-                            .phoneNumber("010-1234-567" + i)
-                            .email("user" + i + "@" + USER_EMAIL_PREFIX)
-                            .role(userRole)
-                            .build();
+            User user = (i == 0)
+                    ? createUser(ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_REAL_NAME, LocalDate.of(1990, 1, 1), true,
+                            ADMIN_PHONE_NUMBER, ADMIN_EMAIL, adminRole)
+                    : createUser(USER_PASSWORD_PREFIX + i, USER_PASSWORD_PREFIX + i, "User " + i, USER_BIRTH_DATE, true,
+                            "010-1234-567" + i, "user" + i + "@" + USER_EMAIL_PREFIX, userRole);
             userRepository.save(user);
         }
+    }
+
+    private Role createRole(String roleName) {
+        Role role = new Role();
+        role.setName(roleName);
+        return roleRepository.save(role);
+    }
+
+    private User createUser(String username, String password, String realName, LocalDate birth, boolean gender,
+            String phoneNumber, String email, Role role) {
+        return User.builder()
+                .username(username)
+                .password(passwordEncoder.encode(password))
+                .realName(realName)
+                .birth(birth)
+                .gender(gender)
+                .phoneNumber(phoneNumber)
+                .email(email)
+                .role(role)
+                .build();
     }
 }

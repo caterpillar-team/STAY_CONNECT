@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import groovy.util.logging.Slf4j;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,7 +33,7 @@ public class RoomInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "accommodation_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Accommodation accommodation;
@@ -55,9 +56,9 @@ public class RoomInfo {
 
     private int price;
 
-    @OneToMany(mappedBy = "roomInfo", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(mappedBy = "roomInfo", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Review> reviews;
 
-    @OneToMany(mappedBy = "roomInfo", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(mappedBy = "roomInfo", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Reservation> reservations;
 }

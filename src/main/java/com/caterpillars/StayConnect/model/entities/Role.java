@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,6 +31,6 @@ public class Role {
   @Column(unique = true)
   private String name;
 
-  @OneToMany(mappedBy = "role", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+  @OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
   private List<User> users;
 }
