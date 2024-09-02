@@ -43,7 +43,7 @@ public class AccommodationService {
                 .orElse(0);
     }
 
-    public AccommodationDto convertToDto(Accommodation accommodation, int minPrice) {
+    private AccommodationDto convertToDto(Accommodation accommodation, int minPrice) {
         AccommodationDto dto = new AccommodationDto();
         dto.setId(accommodation.getId());
         dto.setAccommodationName(accommodation.getName());

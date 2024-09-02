@@ -33,7 +33,7 @@ public class RoomInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "accommodation_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Accommodation accommodation;

@@ -30,6 +30,6 @@ public class Category {
 
     private String name;
 
-    @OneToMany(mappedBy = "category", fetch =FetchType.LAZY , cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Accommodation> accommodations = new ArrayList<>();
 }
