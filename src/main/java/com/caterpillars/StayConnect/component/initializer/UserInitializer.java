@@ -13,6 +13,8 @@ import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.RoleRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
 
+import jakarta.transaction.Transactional;
+
 @Order(3)
 @Component
 public class UserInitializer implements CommandLineRunner {
@@ -27,6 +29,7 @@ public class UserInitializer implements CommandLineRunner {
     private PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         final int TOTAL_USERS = 10;
         final String ADMIN_USERNAME = "admin";

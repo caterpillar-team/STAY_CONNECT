@@ -15,6 +15,8 @@ import com.caterpillars.StayConnect.model.repository.ReviewRepository;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
 
+import jakarta.transaction.Transactional;
+
 @Order(6)
 @Component
 public class ReviewInitializer implements CommandLineRunner {
@@ -32,6 +34,7 @@ public class ReviewInitializer implements CommandLineRunner {
   private List<RoomInfo> roomInfos;
 
   @Override
+  @Transactional
   public void run(String... args) throws Exception {
 
     users = userRepository.findAll();

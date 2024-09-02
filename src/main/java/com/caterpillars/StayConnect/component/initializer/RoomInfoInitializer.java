@@ -12,6 +12,8 @@ import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.repository.AccommodationRepository;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 
+import jakarta.transaction.Transactional;
+
 @Order(5)
 @Component
 public class RoomInfoInitializer implements CommandLineRunner {
@@ -25,6 +27,7 @@ public class RoomInfoInitializer implements CommandLineRunner {
     private List<Accommodation> accommodations;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
 
         accommodations = accommodationRepository.findAll();
@@ -44,7 +47,7 @@ public class RoomInfoInitializer implements CommandLineRunner {
                         .checkInTime("14:00")
                         .checkOutTime("11:00")
                         .count((int) (Math.random() * 10) + 1)
-                        .price(100 + (int) (Math.random() * 200)) 
+                        .price(100 + (int) (Math.random() * 200))
                         .build();
                 roomInfoRepository.save(roomInfo);
             }

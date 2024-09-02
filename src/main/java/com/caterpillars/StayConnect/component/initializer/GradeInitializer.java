@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import com.caterpillars.StayConnect.model.entities.Grade;
 import com.caterpillars.StayConnect.model.repository.GradeRepository;
 
+import jakarta.transaction.Transactional;
+
 @Order(2)
 @Component
 public class GradeInitializer implements CommandLineRunner {
@@ -15,6 +17,7 @@ public class GradeInitializer implements CommandLineRunner {
     private GradeRepository gradeRepository;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         String[] grades = {"1성급", "2성급", "3성급", "4성급", "5성급"};
         for (int i = 0; i < grades.length; i++) {

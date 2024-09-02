@@ -35,42 +35,40 @@ public class InquiryService {
         return inquiry;
     }
 
-
     @Transactional
     public Inquiry saveInquiry(String sender, String contents, String roomId) {
         Inquiry inquiry = Inquiry.builder()
-            .sender(sender)
-            .contents(contents)
-            .createdAt(LocalDateTime.now())
-            .build();
+                .sender(sender)
+                .contents(contents)
+                .createdAt(LocalDateTime.now())
+                .build();
         inquiry.setRoomId(roomId); // 방 ID를 설정
         Inquiry savedInquiry = inquiryRepository.save(inquiry);
         lastMessage.put(inquiry.getSender(), savedInquiry);
         return savedInquiry;
     }
 
-    public List<Inquiry> findAllInquiry(){
+    @Transactional(readOnly = true)
+    public List<Inquiry> findAllInquiry() {
         return inquiryRepository.findAll();
     }
 
-    public Map<String, Inquiry> getLastMessages(){
+    public Map<String, Inquiry> getLastMessages() {
         return lastMessage;
     }
 
+    @Transactional(readOnly = true)
     public List<Inquiry> findByRoomId(String roomId) {
         return inquiryRepository.findByRoomId(roomId);
     }
 
-    public List<Inquiry> findMessageBySender(String sender){
+    public List<Inquiry> findMessageBySender(String sender) {
         return inquiryRepository.findMessageBySender(sender);
     }
 
-
+    @Transactional(readOnly = true)
     public Long countMessagesByRoomId(String roomId) {
         return inquiryRepository.countByRoomId(roomId);
     }
-
-
-
 
 }

@@ -14,6 +14,8 @@ import com.caterpillars.StayConnect.model.repository.AccommodationRepository;
 import com.caterpillars.StayConnect.model.repository.CategoryRepository;
 import com.caterpillars.StayConnect.model.repository.GradeRepository;
 
+import jakarta.transaction.Transactional;
+
 @Order(4)
 @Component
 public class AccommodationInitializer implements CommandLineRunner {
@@ -31,8 +33,8 @@ public class AccommodationInitializer implements CommandLineRunner {
   private List<Category> categories;
 
   @Override
+  @Transactional
   public void run(String... args) throws Exception {
-    // 데이터베이스에서 모든 Grade와 Category를 미리 로드
     grades = gradeRepository.findAll();
     categories = categoryRepository.findAll();
 

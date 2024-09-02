@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import com.caterpillars.StayConnect.model.entities.Category;
 import com.caterpillars.StayConnect.model.repository.CategoryRepository;
 
+import jakarta.transaction.Transactional;
+
 @Order(1)
 @Component
 public class CategoryInitializer implements CommandLineRunner {
@@ -15,6 +17,7 @@ public class CategoryInitializer implements CommandLineRunner {
     private CategoryRepository categoryRepository;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         String[] categories = { "호텔", "모텔", "펜션", "게스트하우스", "리조트", "캠핑장", "민박", "아파트" };
         for (int i = 0; i < categories.length; i++) {
