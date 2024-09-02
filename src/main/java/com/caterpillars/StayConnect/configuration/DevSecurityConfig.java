@@ -3,6 +3,7 @@ package com.caterpillars.StayConnect.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,9 +17,10 @@ import com.caterpillars.StayConnect.component.handler.JWTLoginSuccessHandler;
 import com.caterpillars.StayConnect.component.handler.JWTLogoutSuccessHandler;
 import com.caterpillars.StayConnect.component.handler.OAuth2UserLoginFailureHandler;
 
+@Profile("dev")
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class DevSecurityConfig {
 
         @Autowired
         private JWTAuthenticationFilter jwtAuthenticationFilter;
@@ -71,9 +73,7 @@ public class SecurityConfig {
 
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-
-                ;
+                                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
                 return http.build();
         }
