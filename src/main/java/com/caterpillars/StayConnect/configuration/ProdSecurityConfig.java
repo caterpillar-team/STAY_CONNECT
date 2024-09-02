@@ -73,8 +73,8 @@ public class ProdSecurityConfig {
 
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                                .requiresChannel(channel -> channel.anyRequest().requiresSecure());
+                                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                                // .requiresChannel(channel -> channel.anyRequest().requiresSecure());
 
                 return http.build();
         }
