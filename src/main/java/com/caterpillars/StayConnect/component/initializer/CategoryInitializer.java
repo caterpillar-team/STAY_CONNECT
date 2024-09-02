@@ -4,11 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.caterpillars.StayConnect.model.entities.Category;
 import com.caterpillars.StayConnect.model.repository.CategoryRepository;
-
-import jakarta.transaction.Transactional;
 
 @Order(1)
 @Component

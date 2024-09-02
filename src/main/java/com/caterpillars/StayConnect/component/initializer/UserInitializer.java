@@ -7,13 +7,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.caterpillars.StayConnect.model.entities.Role;
 import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.RoleRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
-
-import jakarta.transaction.Transactional;
 
 @Order(3)
 @Component

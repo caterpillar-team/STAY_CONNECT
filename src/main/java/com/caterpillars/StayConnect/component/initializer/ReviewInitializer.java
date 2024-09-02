@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.caterpillars.StayConnect.model.entities.Review;
 import com.caterpillars.StayConnect.model.entities.RoomInfo;
@@ -14,8 +15,6 @@ import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
 import com.caterpillars.StayConnect.model.repository.RoomInfoRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
-
-import jakarta.transaction.Transactional;
 
 @Order(6)
 @Component
