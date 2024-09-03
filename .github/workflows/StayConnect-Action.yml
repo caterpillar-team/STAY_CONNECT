@@ -43,6 +43,9 @@ jobs:
               echo "PRODUCTION_MYSQL_USERNAME=${{ secrets.PRODUCTION_MYSQL_USERNAME }}" >> .env
               echo "PRODUCTION_MYSQL_PASSWORD=${{ secrets.PRODUCTION_MYSQL_PASSWORD }}" >> .env
 
+         - name: Check Directory
+           run: ls -al
+
          - name: Cache Gradle packages
            uses: actions/cache@v4
            with:
