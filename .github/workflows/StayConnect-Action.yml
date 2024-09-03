@@ -79,7 +79,7 @@ jobs:
            uses: actions/upload-artifact@v4
            with:
               name: env-artifacts
-              path: .env
+              path: ${{ github.workspace }}/.env
               retention-days: 1
 
    deploy:
