@@ -62,6 +62,9 @@ jobs:
          - name: Check Directory
            run: ls -al
 
+         - name: Print working directory
+           run: pwd
+
          - name: Ensure .env file permissions
            run: chmod 644 .env
 
