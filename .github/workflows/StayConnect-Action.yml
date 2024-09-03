@@ -59,15 +59,6 @@ jobs:
          - name: Build with Gradle
            run: ./gradlew clean build -Dspring.profiles.active=prod -x test
 
-         - name: Check Directory
-           run: ls -al
-
-         - name: Print working directory
-           run: pwd
-
-         - name: Ensure .env file permissions
-           run: chmod 644 .env
-
          - name: Upload build artifacts
            uses: actions/upload-artifact@v4
            with:
@@ -75,11 +66,14 @@ jobs:
               path: build/libs/StayConnect-0.0.2.jar
               retention-days: 1
 
+         - name: Check Directory
+           run: ls -al
+
          - name: Upload env artifacts
            uses: actions/upload-artifact@v4
            with:
               name: env-artifacts
-              path: ${{ github.workspace }}/.env
+              path: .env
               retention-days: 1
 
    deploy:
