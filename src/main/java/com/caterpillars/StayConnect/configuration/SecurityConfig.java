@@ -1,5 +1,7 @@
 package com.caterpillars.StayConnect.configuration;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,7 +53,8 @@ public class SecurityConfig {
                                                 .requestMatchers("/auth/**").not().authenticated()
                                                 .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/fonts/**")
                                                 .permitAll()
-                                                .requestMatchers("/user/**", "/chat/**", "/ws/**").hasAnyRole("USER", "ADMIN")
+                                                .requestMatchers("/user/**", "/chat/**", "/ws/**")
+                                                .hasAnyRole("USER", "ADMIN")
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
                                 .formLogin((formLogin) -> formLogin
@@ -78,9 +81,10 @@ public class SecurityConfig {
         @Bean
         public CorsConfigurationSource corsConfigurationSource() {
                 CorsConfiguration configuration = new CorsConfiguration();
-                configuration.addAllowedOrigin("*"); // Allow all origins
-                configuration.addAllowedMethod("*"); // Allow all HTTP methods
-                configuration.addAllowedHeader("*"); // Allow all headers
+                configuration.setAllowedOrigins(List.of("https://stayconnect.shop"));
+                configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                configuration.setAllowedHeaders(List.of("*"));
+                configuration.setAllowCredentials(true);
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
                 source.registerCorsConfiguration("/**", configuration);
                 return source;
