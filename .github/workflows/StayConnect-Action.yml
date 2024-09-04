@@ -66,13 +66,6 @@ jobs:
               path: build/libs/StayConnect-0.0.2.jar
               retention-days: 1
 
-         - name: Upload build artifacts
-           uses: actions/upload-artifact@v4
-           with:
-              name: env-artifacts
-              path: .env
-              retention-days: 1
-
    deploy:
       if: github.ref == 'refs/heads/main'
       runs-on: ubuntu-latest
@@ -88,21 +81,38 @@ jobs:
               name: build-artifacts
               path: build/libs
 
-         - name: Download env artifacts
-           uses: actions/download-artifact@v4
-           with:
-              name: env-artifacts
-              path: .
-
          - name: Set up JDK 21
            uses: actions/setup-java@v4
            with:
               distribution: 'temurin'
               java-version: '21'
 
-         - name: Set lower-case repository owner
-           id: lowercase
-           run: echo "::set-output name=repository_owner::$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')"
+         - name: Create environment variables file
+           run: |
+              echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
+              echo "SERVER_PORT=${{ secrets.SERVER_PORT }}" >> .env
+              echo "JSON_WEB_TOKEN_SECRET_KEY=${{ secrets.JSON_WEB_TOKEN_SECRET_KEY }}" >> .env
+              echo "JSON_WEB_TOKEN_EXPIRATION_TIME=${{ secrets.JSON_WEB_TOKEN_EXPIRATION_TIME }}" >> .env
+              echo "JSON_WEB_TOKEN_ISSUER=${{ secrets.JSON_WEB_TOKEN_ISSUER }}" >> .env
+              echo "MYSQL_SERVER_URL=${{ secrets.MYSQL_SERVER_URL }}" >> .env
+              echo "MYSQL_SERVER_USERNAME=${{ secrets.MYSQL_SERVER_USERNAME }}" >> .env
+              echo "MYSQL_SERVER_PASSWORD=${{ secrets.MYSQL_SERVER_PASSWORD }}" >> .env
+              echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
+              echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
+              echo "KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}" >> .env
+              echo "KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}" >> .env
+              echo "PORTONE_API_URL=${{ secrets.PORTONE_API_URL }}" >> .env
+              echo "PORTONE_API_KEY=${{ secrets.PORTONE_API_KEY }}" >> .env
+              echo "PORTONE_SECRET_KEY=${{ secrets.PORTONE_SECRET_KEY }}" >> .env
+              echo "PRODUCTION_MYSQL_URL=${{ secrets.PRODUCTION_MYSQL_URL }}" >> .env
+              echo "PRODUCTION_MYSQL_ROOT_PASSWORD=${{ secrets.PRODUCTION_MYSQL_ROOT_PASSWORD }}" >> .env
+              echo "PRODUCTION_MYSQL_DATABASE=${{ secrets.PRODUCTION_MYSQL_DATABASE }}" >> .env
+              echo "PRODUCTION_MYSQL_USERNAME=${{ secrets.PRODUCTION_MYSQL_USERNAME }}" >> .env
+              echo "PRODUCTION_MYSQL_PASSWORD=${{ secrets.PRODUCTION_MYSQL_PASSWORD }}" >> .env
+
+         - name: Convert repository owner to lowercase
+           id: to-lowercase
+           run: echo "::set-output name=repo_owner::$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')"
 
          - name: Set up QEMU
            uses: docker/setup-qemu-action@v3
@@ -114,8 +124,12 @@ jobs:
            uses: docker/login-action@v3
            with:
               registry: ghcr.io
-              username: ${{ steps.lowercase.outputs.repository_owner }}
+              username: ${{ steps.to-lowercase.outputs.repo_owner }}
               password: ${{ secrets.GITHUB_TOKEN }}
+
+         - name: Set lower-case repository owner
+           id: lowercase
+           run: echo "::set-output name=repository_owner::$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')"
 
          - name: Build and push Nginx image
            uses: docker/build-push-action@v4
