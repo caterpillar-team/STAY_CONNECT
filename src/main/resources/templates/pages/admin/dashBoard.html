@@ -308,11 +308,11 @@
             'toolbar=no,scrollbars=yes,resizable=no,status=no,menubar=no,width=500,height=700,top=50,left=100';
          function showPopup(element) {
             var roomId = element.getAttribute('data-room-id');
-            fetch('https://stayconnect.shop/chat/enter/' + roomId)
+            fetch('/chat/enter/' + roomId)
                .then(response => {
                   if (response.ok) {
                      window.open(
-                        'https://stayconnect.shop/chat/adminChatPopup?roomId=' + roomId,
+                        '/chat/adminChatPopup?roomId=' + roomId,
                         'chatPopup-' + roomId,
                         options,
                      );
