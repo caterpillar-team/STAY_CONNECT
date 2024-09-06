@@ -1,5 +1,7 @@
 package com.caterpillars.StayConnect.configuration;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -83,9 +85,11 @@ public class SecurityConfig {
         @Bean
         public CorsConfigurationSource corsConfigurationSource() {
                 CorsConfiguration configuration = new CorsConfiguration();
-                configuration.addAllowedOrigin("https://stayconnect.shop", "http://localhost:8080"); // Allow all origins
-                configuration.addAllowedMethod("*"); // Allow all HTTP methods
-                configuration.addAllowedHeader("*"); // Allow all headers
+                configuration.setAllowedOrigins(List.of("https://stayconnect.shop", "http://localhost:8080"));
+                configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                configuration.setAllowedHeaders(List.of("*"));
+                configuration.setAllowCredentials(true);
+
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
                 source.registerCorsConfiguration("/**", configuration);
                 return source;
