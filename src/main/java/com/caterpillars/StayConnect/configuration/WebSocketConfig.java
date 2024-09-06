@@ -22,7 +22,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
   // 웹소켓 엔드포인트 등록
   @Override
   public void registerStompEndpoints(@NonNull StompEndpointRegistry registry) {
-    registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
+    registry.addEndpoint("/ws").setAllowedOriginPatterns("https://stayconnect.shop", "http://localhost:8080").withSockJS();
   }
-
 }

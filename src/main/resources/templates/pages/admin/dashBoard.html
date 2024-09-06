@@ -308,13 +308,13 @@
             'toolbar=no,scrollbars=yes,resizable=no,status=no,menubar=no,width=500,height=700,top=50,left=100';
          function showPopup(element) {
             var roomId = element.getAttribute('data-room-id');
-            fetch('/chat/enter/' + roomId, {
+            fetch('https://stayconnect.shop/chat/enter/' + roomId, {
                method: 'GET',
                redirect: 'follow',
             })
                .then(response => {
                   if (response.ok) {
-                     window.open('/chat/adminChatPopup?roomId=' + roomId, 'chatPopup-' + roomId, options);
+                     window.open('https://stayconnect.shop/chat/adminChatPopup?roomId=' + roomId, 'chatPopup-' + roomId, options);
                   } else {
                      console.error('Failed to enter chat room:', response.status);
                   }
