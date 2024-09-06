@@ -3,7 +3,6 @@ package com.caterpillars.StayConnect.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,10 +16,9 @@ import com.caterpillars.StayConnect.component.handler.JWTLoginSuccessHandler;
 import com.caterpillars.StayConnect.component.handler.JWTLogoutSuccessHandler;
 import com.caterpillars.StayConnect.component.handler.OAuth2UserLoginFailureHandler;
 
-@Profile("prod")
 @Configuration
 @EnableWebSecurity
-public class ProdSecurityConfig {
+public class SecurityConfig {
 
         @Autowired
         private JWTAuthenticationFilter jwtAuthenticationFilter;
@@ -54,7 +52,7 @@ public class ProdSecurityConfig {
                                                 .anyRequest().authenticated())
 
                                 .formLogin((formLogin) -> formLogin
-                                                .loginPage("/auth/signin")
+                                                .loginPage("/auth/signin").permitAll()
                                                 .usernameParameter("username")
                                                 .passwordParameter("password")
                                                 .defaultSuccessUrl("/", true)
@@ -74,7 +72,6 @@ public class ProdSecurityConfig {
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-                                // .requiresChannel(channel -> channel.anyRequest().requiresSecure());
 
                 return http.build();
         }
