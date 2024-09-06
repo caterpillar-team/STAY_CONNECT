@@ -11,8 +11,6 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-
-
     @Override
     public void configureMessageBroker(@NonNull MessageBrokerRegistry config) {
         // '/sub' 경로로 시작하는 메시지는 브로커가 처리하도록 설정
@@ -26,6 +24,4 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(@NonNull StompEndpointRegistry registry) {
         registry.addEndpoint("/ws").setAllowedOriginPatterns("https://stayconnect.shop", "http://localhost:8080").withSockJS();
     }
-
-
 }
