@@ -28,9 +28,9 @@ public class PortOnePaymentService {
     @Value("${PORTONE_SECRET_KEY}")
     private String apiSecret;
 
+    @SuppressWarnings("null")
     public String getAccessToken() {
 
-        RestTemplate restTemplate = null;
         PortOneTokenResponse portOneTokenResponse = null;
 
         String tokenUrl = apiUrl + "/users/getToken";
@@ -38,17 +38,16 @@ public class PortOnePaymentService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        MultiValueMap params = new LinkedMultiValueMap();
-        params.put("imp_key", apiKey);
-        params.put("imp_secret", apiSecret);
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("imp_key", apiKey);
+        params.add("imp_secret", apiSecret);
 
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
 
-        RestTemplate rt = new RestTemplate();
+        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<PortOneTokenResponse> response = restTemplate.exchange(tokenUrl, HttpMethod.POST, entity,
                 PortOneTokenResponse.class);
 
-        log.info(response.getBody().toString());
         portOneTokenResponse = response.getBody();
 
         return portOneTokenResponse.toString();

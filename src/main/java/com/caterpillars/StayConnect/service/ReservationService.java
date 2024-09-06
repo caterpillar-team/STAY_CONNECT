@@ -162,16 +162,16 @@ public class ReservationService {
         HttpHeaders headers = new HttpHeaders();
 
         // PARAMS
-        MultiValueMap params = new LinkedMultiValueMap();
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("imp_key", apiKey);
         params.add("imp_secret", apiSecret);
 
         // ENTITY
-        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity(params, headers);
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
 
         // REQUEST
-        RestTemplate rt = new RestTemplate();
-        ResponseEntity<PortOneTokenResponse> response = rt.exchange(url, HttpMethod.POST, entity,
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<PortOneTokenResponse> response = restTemplate.exchange(url, HttpMethod.POST, entity,
                 PortOneTokenResponse.class);
         // RESPONSE
         System.out.println(response.getBody());
@@ -240,7 +240,6 @@ public class ReservationService {
 
         // JSON 파싱
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> responseMap = new HashMap<>();
 
         try {
             JsonNode rootNode = objectMapper.readTree(resp.getBody());
