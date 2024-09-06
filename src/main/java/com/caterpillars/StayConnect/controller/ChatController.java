@@ -23,7 +23,6 @@ import com.caterpillars.StayConnect.service.InquiryService;
 
 import jakarta.servlet.http.HttpSession;
 
-
 @Controller
 @RequestMapping("/chat")
 public class ChatController {
@@ -33,8 +32,6 @@ public class ChatController {
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
-
-
 
     @GetMapping("/clientChatPopup")
     public String showClientChatPopup(Model model, HttpSession session, Authentication authentication) {
@@ -56,7 +53,6 @@ public class ChatController {
         return "pages/chat/adminChatPopup";
     }
 
-
     @MessageMapping("/chat.sendMessage")
     public Inquiry sendMessage(Inquiry inquiry, Authentication authentication) {
         if (authentication != null) {
@@ -65,20 +61,20 @@ public class ChatController {
 
         }
 
-
-        Inquiry savedInquiry = inquiryService.saveInquiry(inquiry.getSender(), inquiry.getContents(), inquiry.getRoomId());
+        Inquiry savedInquiry = inquiryService.saveInquiry(inquiry.getSender(), inquiry.getContents(),
+                inquiry.getRoomId());
         messagingTemplate.convertAndSend("/sub/chatroom/" + inquiry.getRoomId(), savedInquiry);
         return savedInquiry;
     }
 
-    //특정 채팅방 입장하는 메서드
+    // 특정 채팅방 입장하는 메서드
     @GetMapping("/enter/{roomId}")
     public String enterChatRoom(@PathVariable String roomId, HttpSession session) {
         session.setAttribute("roomId", roomId);
         return "redirect:/chat/adminChatPopup?roomId=" + roomId;
     }
 
-    //채팅방 생성 메서드
+    // 채팅방 생성 메서드
     @GetMapping("/createRoom")
     @ResponseBody
     public ResponseEntity<Inquiry> createRoom(Authentication authentication) {
@@ -87,7 +83,7 @@ public class ChatController {
         return ResponseEntity.ok(inquiry);
     }
 
-    //모든 채팅방 조회 메서드
+    // 모든 채팅방 조회 메서드
     @GetMapping("/rooms")
     @ResponseBody
     public List<Map<String, String>> getRooms() {
@@ -99,36 +95,33 @@ public class ChatController {
             room.put("username", inquiry.getSender());
             rooms.add(room);
         }
-    return rooms;
-}
+        return rooms;
+    }
 
     @GetMapping("/messages/{roomId}")
-@ResponseBody
-public List<Inquiry> getMessages(@PathVariable String roomId) {
-    return inquiryService.findByRoomId(roomId);
-}
-
-@GetMapping("/messageCounts")
-@ResponseBody
-public Map<String, Long> getMessageCounts() {
-    List<Inquiry> inquiries = inquiryService.findAllInquiry();
-    Map<String, Long> messageCounts = new HashMap<>();
-    for (Inquiry inquiry : inquiries) {
-        String roomId = inquiry.getRoomId();
-        Long count = inquiryService.countMessagesByRoomId(roomId);
-        messageCounts.put(roomId, count);
+    @ResponseBody
+    public List<Inquiry> getMessages(@PathVariable String roomId) {
+        return inquiryService.findByRoomId(roomId);
     }
-    return messageCounts;
+
+    @GetMapping("/messageCounts")
+    @ResponseBody
+    public Map<String, Long> getMessageCounts() {
+        List<Inquiry> inquiries = inquiryService.findAllInquiry();
+        Map<String, Long> messageCounts = new HashMap<>();
+        for (Inquiry inquiry : inquiries) {
+            String roomId = inquiry.getRoomId();
+            Long count = inquiryService.countMessagesByRoomId(roomId);
+            messageCounts.put(roomId, count);
+        }
+        return messageCounts;
+    }
+
+    @GetMapping("/searchMessages")
+    public String searchMessagesBySender(@RequestParam String sender, Model model) {
+        List<Inquiry> searchMessage = inquiryService.findMessageBySender(sender);
+        model.addAttribute("messageHistory", searchMessage);
+        return "pages/chat/messageHistoryPopup";
+    }
+
 }
-
-@GetMapping("/searchMessages")
-public String searchMessagesBySender(@RequestParam String sender, Model model) {
-    List<Inquiry> searchMessage = inquiryService.findMessageBySender(sender);
-    model.addAttribute("messageHistory", searchMessage);
-    return "pages/chat/messageHistoryPopup";
-}
-
-
-}
-
-

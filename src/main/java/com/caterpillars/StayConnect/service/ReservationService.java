@@ -162,12 +162,12 @@ public class ReservationService {
         HttpHeaders headers = new HttpHeaders();
 
         // PARAMS
-        MultiValueMap params = new LinkedMultiValueMap();
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("imp_key", apiKey);
         params.add("imp_secret", apiSecret);
 
         // ENTITY
-        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity(params, headers);
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
 
         // REQUEST
         RestTemplate rt = new RestTemplate();
@@ -240,7 +240,6 @@ public class ReservationService {
 
         // JSON 파싱
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> responseMap = new HashMap<>();
 
         try {
             JsonNode rootNode = objectMapper.readTree(resp.getBody());

@@ -1,5 +1,7 @@
 package com.caterpillars.StayConnect.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,14 +25,13 @@ public class PortOnePaymentService {
     private String apiUrl;
 
     @Value("${PORTONE_API_KEY}")
-    private String apiKey;
+    private List<String> apiKey;
 
     @Value("${PORTONE_SECRET_KEY}")
-    private String apiSecret;
+    private List<String> apiSecret;
 
+    @SuppressWarnings("null")
     public String getAccessToken() {
-
-        RestTemplate restTemplate = null;
         PortOneTokenResponse portOneTokenResponse = null;
 
         String tokenUrl = apiUrl + "/users/getToken";
@@ -38,17 +39,17 @@ public class PortOnePaymentService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        MultiValueMap params = new LinkedMultiValueMap();
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.put("imp_key", apiKey);
         params.put("imp_secret", apiSecret);
 
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
 
         RestTemplate rt = new RestTemplate();
-        ResponseEntity<PortOneTokenResponse> response = restTemplate.exchange(tokenUrl, HttpMethod.POST, entity,
+        ResponseEntity<PortOneTokenResponse> response = rt.exchange(tokenUrl, HttpMethod.POST, entity,
                 PortOneTokenResponse.class);
 
-        log.info(response.getBody().toString());
+
         portOneTokenResponse = response.getBody();
 
         return portOneTokenResponse.toString();
