@@ -9,8 +9,6 @@
    </th:block>
    <th:block layout:fragment="css">
       <link rel="stylesheet" th:href="@{/css/pages/admin/dashBoard.css}" />
-      <link rel="stylesheet" th:href="@{/css/layouts/layout.css}" />
-      <link rel="stylesheet" th:href="@{/css/pages/admin/reviewList.css}" />
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
    </th:block>
    <th:block layout:fragment="javascript">
@@ -301,30 +299,5 @@
       </script>
    </th:block>
 
-   <th:block layout:fragment="rightAside">
-      <div th:insert="~{fragments/chat/chatOffCanvas_frag :: chatOffCanvas}"></div>
-      <script>
-         let options =
-            'toolbar=no,scrollbars=yes,resizable=no,status=no,menubar=no,width=500,height=700,top=50,left=100';
-         function showPopup(element) {
-            var roomId = element.getAttribute('data-room-id');
-            fetch('https://stayconnect.shop/chat/enter/' + roomId, {
-               method: 'GET',
-               redirect: 'follow',
-            })
-               .then(response => {
-                  if (response.ok) {
-                     window.open('https://stayconnect.shop/chat/adminChatPopup?roomId=' + roomId, 'chatPopup-' + roomId, options);
-                  } else {
-                     console.error('Failed to enter chat room:', response.status);
-                  }
-               })
-               .catch(error => console.error('Error entering chat room:', error));
-         }
-         function searchMessages() {
-            var username = document.getElementById('searchUsername').value;
-            window.open('/chat/searchMessages?sender=' + encodeURIComponent(username), 'resultOfSearchPopup', options);
-         }
-      </script>
-   </th:block>
+   <th:block layout:fragment="rightAside"> </th:block>
 </html>

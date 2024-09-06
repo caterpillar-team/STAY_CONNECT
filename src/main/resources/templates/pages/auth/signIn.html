@@ -1,101 +1,81 @@
 <!DOCTYPE html>
 <html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layouts/layout}"
->
-  <th:block layout:fragment="title">
-    <title>signIn page</title>
-  </th:block>
-  <th:block layout:fragment="css"
-    ><link rel="stylesheet" th:href="@{/css/pages/auth/signIn.css}" />
-    <link rel="stylesheet" th:href="@{/css/layouts/signin_mediaquery.css}" />
-  </th:block>
-  <th:block layout:fragment="main">
-    <div class="signIn-container">
-      <div class="signIn-card">
-        <a th:href="@{/}">
-          <img
-            class="logo__image"
-            th:src="@{/img/logo.svg}"
-            style="height: 180px; width: 100%"
-            alt="logo image"
-          />
-        </a>
-        <form class="form-signin" method="post" th:action="@{/auth/signin}">
-          <div class="id">
-            <span>아이디</span>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              placeholder="'아이디를 입력하세요'"
-              required
-              autofocus
-            />
-          </div>
-          <div class="pw">
-            <span>비밀번호</span>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="'비밀번호를 입력하세요'"
-              required
-            />
-          </div>
-          <div class="id__save">
-            <div>
-              <input type="checkbox" name="아이디저장" id="save" />
-              <a th:href="@{/}">아이디저장</a>
-            </div>
-            <div>
-              <ul>
-                <li class="search_id">
-                  <a href="@{/}">아이디 찾기</a>
-                </li>
-                <li class="split">|</li>
-                <li class="search_pw">
-                  <a th:href="@{/}">비밀번호 찾기</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div th:id="kakao_customBtn" th:class="customKPlusSignIn">
-            <span class="K_icon"></span>
-            <a href="/oauth2/authorization/kakao">
-              <span class="buttonText">카카오로 시작하기</span>
+   lang="en"
+   xmlns:th="http://www.thymeleaf.org"
+   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+   layout:decorate="~{layouts/layout}">
+   <th:block layout:fragment="title">
+      <title>signIn page</title>
+   </th:block>
+   <th:block layout:fragment="css"
+      ><link rel="stylesheet" th:href="@{/css/pages/auth/signIn.css}" />
+      <link rel="stylesheet" th:href="@{/css/layouts/signin_mediaquery.css}" />
+   </th:block>
+   <th:block layout:fragment="main">
+      <div class="signIn-container">
+         <div class="signIn-card">
+            <a th:href="@{/}">
+               <img class="logo__image" th:src="@{/img/logo.svg}" style="height: 180px; width: 100%" alt="logo image" />
             </a>
-          </div>
-          <div th:id="naver_customBtn" th:class="customNPlusSignIn">
-            <span class="N_icon"></span>
-            <span class="buttonText">네이버로 시작하기</span>
-          </div>
-          <div th:id="google_customBtn" th:class="customGPlusSignIn">
-            <span class="G_icon"></span>
-            <a th:href="@{/oauth2/authorization/google}">
-              <span class="buttonText">Google로 시작하기</span></a
-            >
-          </div>
-          <hr />
-          <div class="button-login">
-            <button
-              type="submit"
-              class="btn btn-light d-grid gap-3 col-12 mx-auto"
-            >
-              로그인
-            </button>
-          </div>
-        </form>
+            <form class="form-signin" method="post" th:action="@{/auth/signin}">
+               <div class="id">
+                  <span>아이디</span>
+                  <input
+                     type="text"
+                     id="username"
+                     name="username"
+                     placeholder="'아이디를 입력하세요'"
+                     required
+                     autofocus />
+               </div>
+               <div class="pw">
+                  <span>비밀번호</span>
+                  <input type="password" id="password" name="password" placeholder="'비밀번호를 입력하세요'" required />
+               </div>
+               <div class="id__save">
+                  <div>
+                     <input type="checkbox" name="아이디저장" id="save" />
+                     <a th:href="@{/}">아이디저장</a>
+                  </div>
+                  <div>
+                     <ul>
+                        <li class="search_id">
+                           <a href="@{/}">아이디 찾기</a>
+                        </li>
+                        <li class="split">|</li>
+                        <li class="search_pw">
+                           <a th:href="@{/}">비밀번호 찾기</a>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+
+               <div th:id="kakao_customBtn" th:class="customKPlusSignIn">
+                  <span class="K_icon"></span>
+                  <a href="/oauth2/authorization/kakao">
+                     <span class="buttonText">카카오로 시작하기</span>
+                  </a>
+               </div>
+               <div th:id="naver_customBtn" th:class="customNPlusSignIn">
+                  <span class="N_icon"></span>
+                  <span class="buttonText">네이버로 시작하기</span>
+               </div>
+               <div th:id="google_customBtn" th:class="customGPlusSignIn">
+                  <span class="G_icon"></span>
+                  <a th:href="@{/oauth2/authorization/google}"> <span class="buttonText">Google로 시작하기</span></a>
+               </div>
+               <hr />
+               <div class="button-login">
+                  <button type="submit" class="btn btn-light d-grid gap-3 col-12 mx-auto">로그인</button>
+               </div>
+            </form>
+         </div>
       </div>
-    </div>
-    <script>
-      // 로그인 전송 form
-      function submitForm() {
-        document.querySelector('.form-signin').submit(); // 폼 ID를 사용하여 제출
-      }
-    </script>
-  </th:block>
+      <script>
+         // 로그인 전송 form
+         function submitForm() {
+            document.querySelector('.form-signin').submit(); // 폼 ID를 사용하여 제출
+         }
+      </script>
+   </th:block>
 </html>
