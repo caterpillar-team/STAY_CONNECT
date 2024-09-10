@@ -1,7 +1,6 @@
 package com.caterpillars.StayConnect.service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,23 +53,18 @@ public class ReviewService {
         review.setUser(user);
         review.setRoomInfo(roomInfo);
 
-        String username = user != null ? user.getUsername() : "Unknown";
-        Long roomId = roomInfo.getId();
-        Long accId = roomInfo.getAccommodation() != null ? roomInfo.getAccommodation().getId() : null;
-        log.info("reviewServiceRoomId : " + roomId);
-        log.info("reviewServiceAccId : " + accId);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String formattedCreatedAt = review.getCreatedAt().format(formatter);
+        // String username = user != null ? user.getUsername() : "Unknown";
+        // Long roomId = roomInfo.getId();
+        // Long accId = roomInfo.getAccommodation() != null ? roomInfo.getAccommodation().getId() : null;
+
+        // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        // String formattedCreatedAt = review.getCreatedAt().format(formatter);
 
         try {
             // 리뷰 저장
             review = reviewRepository.save(review);
             // 리뷰id를 DTO에 설정
             dto.setReviewId(review.getId());
-            log.info(
-                    "Saving review: Review(id={}, user={}, roomInfo={}, accommodationId={}, contents={}, createdAt={}, rate={})",
-                    review.getId(), username, roomId, accId, review.getContents(),
-                    formattedCreatedAt, review.getRate());
 
         } catch (Exception e) {
             log.error("Error saving review", e);

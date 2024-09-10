@@ -1,115 +1,83 @@
 <!DOCTYPE html>
 <html
-    lang="en"
-    xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layouts/layout}"
->
-    <th:block layout:fragment="title">
-        <title>userList page</title>
-    </th:block>
-    <th:block layout:fragment="css"
-        ><link rel="stylesheet" th:href="@{/css/pages/admin/listPage.css}" />
-        <link rel="stylesheet" th:href="@{/css/pages/chatCard.css}" />
-    </th:block>
-    <th:block layout:fragment="javascript">
-        <script src="https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-        <script th:src="@{/js/chat/adminChat.js}"></script>
-    </th:block>
+   lang="en"
+   xmlns:th="http://www.thymeleaf.org"
+   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+   layout:decorate="~{layouts/layout}">
+   <th:block layout:fragment="title">
+      <title>userList page</title>
+   </th:block>
+   <th:block layout:fragment="css"
+      ><link rel="stylesheet" th:href="@{/css/pages/admin/listPage.css}" />
+      <link rel="stylesheet" th:href="@{/css/pages/chatCard.css}" />
+   </th:block>
+   <th:block layout:fragment="javascript"> </th:block>
 
-    <th:block layout:fragment="leftAside">
-        <div th:insert="~{fragments/admin/adminMenu_frag :: adminMenu}"></div>
-    </th:block>
-    <th:block layout:fragment="main">
-        <h3 class="list-title">USER LIST</h3>
-        <div class="rowCount">
-            <label for="">
-                <select name="" id="">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
-            </label>
-            <div>
-                <form th:action="@{/admin/userList}" method="get">
-                    <input type="text" name="username" placeholder="Search by Real Name" />
-                    <button type="submit">Search</button>
-                </form>
-            </div>
-        </div>
+   <th:block layout:fragment="leftAside">
+      <div th:insert="~{fragments/admin/adminMenu_frag :: adminMenu}"></div>
+   </th:block>
+   <th:block layout:fragment="main">
+      <h3 class="list-title">USER LIST</h3>
+      <div class="rowCount">
+         <label for="">
+            <select name="" id="">
+               <option value="10">10</option>
+               <option value="25">25</option>
+               <option value="50">50</option>
+               <option value="100">100</option>
+            </select>
+         </label>
+         <div>
+            <form th:action="@{/admin/userList}" method="get">
+               <input type="text" name="username" placeholder="Search by Real Name" />
+               <button type="submit">Search</button>
+            </form>
+         </div>
+      </div>
 
-        <div class="list-card">
-            <table class="table align-middle table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">IDENTIFY CODE</th>
-                        <th scope="col">REAL NAME</th>
-                        <th scope="col">USER NAME</th>
-                        <th scope="col">GENDER</th>
-                        <th scope="col">EMAIL</th>
-                        <th scope="col">PHONE</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="userList : ${userList}">
-                        <th scope="row" th:text="${userList.id}"></th>
-                        <td th:text="${userList.realName}"></td>
-                        <td th:text="${userList.username}"></td>
-                        <td th:text="${userList.gender}"></td>
-                        <td th:text="${userList.email}"></td>
-                        <td th:text="${userList.phoneNumber}"></td>
-                        <td>
-                            <a
-                                th:href="@{/admin/deleteUser/{id}(id=${userList.id})}"
-                                class="btn btn-danger"
-                                onclick="return confirm('Are you sure you want to delete this user?')"
-                                >Delete</a
-                            >
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th scope="col">IDENTIFY CODE</th>
-                        <th scope="col">REAL NAME</th>
-                        <th scope="col">USER NAME</th>
-                        <th scope="col">GENDER</th>
-                        <th scope="col">EMAIL</th>
-                        <th scope="col">PHONE</th>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-    </th:block>
+      <div class="list-card">
+         <table class="table align-middle table-hover">
+            <thead>
+               <tr>
+                  <th scope="col">IDENTIFY CODE</th>
+                  <th scope="col">REAL NAME</th>
+                  <th scope="col">USER NAME</th>
+                  <th scope="col">GENDER</th>
+                  <th scope="col">EMAIL</th>
+                  <th scope="col">PHONE</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr th:each="userList : ${userList}">
+                  <th scope="row" th:text="${userList.id}"></th>
+                  <td th:text="${userList.realName}"></td>
+                  <td th:text="${userList.username}"></td>
+                  <td th:text="${userList.gender}"></td>
+                  <td th:text="${userList.email}"></td>
+                  <td th:text="${userList.phoneNumber}"></td>
+                  <td>
+                     <a
+                        th:href="@{/admin/deleteUser/{id}(id=${userList.id})}"
+                        class="btn btn-danger"
+                        onclick="return confirm('Are you sure you want to delete this user?')"
+                        >Delete</a
+                     >
+                  </td>
+               </tr>
+            </tbody>
+            <tfoot>
+               <tr>
+                  <th scope="col">IDENTIFY CODE</th>
+                  <th scope="col">REAL NAME</th>
+                  <th scope="col">USER NAME</th>
+                  <th scope="col">GENDER</th>
+                  <th scope="col">EMAIL</th>
+                  <th scope="col">PHONE</th>
+               </tr>
+            </tfoot>
+         </table>
+      </div>
+   </th:block>
 
-    <th:block layout:fragment="rightAside">
-        <div th:insert="~{fragments/chat/chatOffCanvas_frag :: chatOffCanvas}"></div>
-
-        <script>
-            let options =
-                'toolbar=no,scrollbars=yes,resizable=no,status=no,menubar=no,width=500,height=700,top=50,left=100';
-            function showPopup(element) {
-                var roomId = element.getAttribute('data-room-id');
-                fetch('/chat/enter/' + roomId)
-                    .then((response) => {
-                        if (response.ok) {
-                            window.open('/chat/adminChatPopup', 'chatPopup-' + roomId, options);
-                        } else {
-                            console.error('Failed to enter chat room:', response.statusText);
-                        }
-                    })
-                    .catch((error) => console.error('Error entering chat room:', error));
-            }
-            function searchMessages() {
-                var username = document.getElementById('searchUsername').value;
-                window.open(
-                    '/chat/searchMessages?sender=' + encodeURIComponent(username),
-                    'resultOfSearchPopup',
-                    options
-                );
-            }
-        </script>
-    </th:block>
+   <th:block layout:fragment="rightAside"> </th:block>
 </html>

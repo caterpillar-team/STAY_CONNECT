@@ -154,7 +154,6 @@ public class ReservationService {
     // 토큰 발급 메서드
     @Transactional
     public @ResponseBody void getToken() {
-        log.info("GET /portOne/getToken..");
 
         // URL
         String url = "https://api.iamport.kr/users/getToken";
@@ -189,11 +188,9 @@ public class ReservationService {
         Map<String, Object> response = new HashMap<>();
 
         try {
-            log.info("Deleting reservation with ID: " + reservationId);
             deleteReservationById(reservationId);
             response.put("success", true);
         } catch (Exception e) {
-            log.info("Error while deleting reservation: " + e.getMessage());
             response.put("success", false);
             response.put("message", "예약 삭제 중 오류 발생: " + e.getMessage());
         }

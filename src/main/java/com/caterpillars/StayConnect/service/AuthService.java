@@ -103,9 +103,7 @@ public class AuthService implements UserDetailsService,
   public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
     OAuth2User oAuth2User = new DefaultOAuth2UserService().loadUser(userRequest);
-    String registrationId = userRequest.getClientRegistration().getRegistrationId();
-
-    log.info(registrationId.toString());
+    // String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
     return processGoogleLogin(oAuth2User, userRequest);
   }
@@ -140,7 +138,6 @@ public class AuthService implements UserDetailsService,
 
       ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
       String body = response.getBody();
-      log.info("Response Body: " + body);
 
       ObjectMapper objectMapper = new ObjectMapper();
       JsonNode rootNode = objectMapper.readTree(body);

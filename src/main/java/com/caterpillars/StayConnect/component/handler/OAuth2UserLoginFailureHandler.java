@@ -19,14 +19,8 @@ public class OAuth2UserLoginFailureHandler extends SimpleUrlAuthenticationFailur
   public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
       AuthenticationException exception) throws IOException, ServletException {
 
-    log.info(request.getAttribute("realName").toString());
-    log.info(request.getAttribute("phoneNumber").toString());
-
     String realName = request.getAttribute("realName").toString();
     String phoneNumber = request.getAttribute("phoneNumber").toString();
-
-    log.info(realName);
-    log.info(phoneNumber);
 
     request.setAttribute("realName", realName);
     request.setAttribute("phoneNumber", phoneNumber);

@@ -39,7 +39,6 @@ public class AccommodationController {
     @GetMapping("/detail/{accId}")
     public String accom_detail(@PathVariable("accId") Long accId, Model model,
             @PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        log.info("/detail/" + accId + " accId 실행");
 
         AccommodationDto accommodationDto = accommodationService.getAccommodationDto(accId, pageable);
 
@@ -62,7 +61,7 @@ public class AccommodationController {
 
             if (authentication != null && authentication.isAuthenticated()) {
                 Optional<User> userOptional = userService.findByUsername(authentication.getName());
-                log.info("userOptional" + userOptional);
+
                 if (userOptional.isPresent()) {
                     User user = userOptional.get();
                     System.out.println(user.getPhoneNumber());

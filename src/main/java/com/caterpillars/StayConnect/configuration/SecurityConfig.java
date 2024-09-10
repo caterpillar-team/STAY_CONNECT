@@ -44,7 +44,14 @@ public class SecurityConfig {
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-                http
+                http.requiresChannel(channel -> channel
+                                .requestMatchers(request -> request.getHeader("X-Forwarded-Proto") != null)
+                                .requiresSecure())
+                                .headers(headers -> headers.xssProtection(xss -> xss.disable())
+                                // .contentSecurityPolicy(
+                                // csp -> csp.policyDirectives(
+                                // "script-src 'self'"))
+                                )
                                 .csrf((csrf) -> csrf.disable())
                                 .cors(cors -> cors.configurationSource(
                                                 corsConfigurationSource()))
@@ -53,7 +60,7 @@ public class SecurityConfig {
                                                 .requestMatchers("/auth/**").not().authenticated()
                                                 .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/fonts/**")
                                                 .permitAll()
-                                                .requestMatchers("/user/**", "/chat/**", "/ws/**")
+                                                .requestMatchers("/user/**", "/chat/**")
                                                 .hasAnyRole("USER", "ADMIN")
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())

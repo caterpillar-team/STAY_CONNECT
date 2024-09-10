@@ -58,7 +58,6 @@ public class ReservationController {
     // 결제 성공
     @PostMapping("/paySuccess")
     public @ResponseBody ResponseEntity<String> paySuccess(@ModelAttribute PaymentDto paymentDto) {
-        log.info(paymentDto.toString());
 
         // userId와 roomInfoId를 사용하여 User와 RoomInfo 조회
         User user = userService.findById(paymentDto.getUserId());
@@ -78,7 +77,7 @@ public class ReservationController {
 
     @GetMapping("/cancel_reservation")
     public String cancel(@RequestParam("reservationId") Long reservationId, Model model) {
-        log.info("예약 ID에 대한 취소 요청: " + reservationId);
+
         boolean result = reservationService.cancel_reservation(reservationId);
 
         if (result) {

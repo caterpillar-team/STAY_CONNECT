@@ -60,7 +60,6 @@ public class UserController {
                     .findAny()
                     .orElse(null);
         }
-        log.info("token: " + token);
 
         String username = jwTokenProvider.extractUsername(token);
 

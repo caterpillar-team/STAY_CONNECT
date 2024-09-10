@@ -29,7 +29,6 @@ public class URIController {
 
     @GetMapping("/")
     public String index(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
-        log.info("/ 실행");
 
         Pageable pageable = PageRequest.of(page, 8);
 

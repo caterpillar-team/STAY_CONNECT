@@ -9,12 +9,9 @@
    </th:block>
    <th:block layout:fragment="css">
       <link rel="stylesheet" th:href="@{/css/pages/admin/dashBoard.css}" />
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
    </th:block>
    <th:block layout:fragment="javascript">
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+      <script th:src="@{/lib/cloudflare/chart.umd.min.js}"></script>
    </th:block>
 
    <th:block layout:fragment="leftAside">
@@ -169,7 +166,6 @@
 
          /*<![CDATA[*/
          var reservationsByRegion = /*[[${reservationsByRegion}]]*/ '[]';
-         // console.log(reservationsByRegion);
          document.addEventListener('DOMContentLoaded', function () {
             var ctx = document.getElementById('regionChart').getContext('2d');
 

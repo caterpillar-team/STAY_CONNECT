@@ -8,8 +8,6 @@
       <title>myPage page</title>
    </th:block>
    <th:block layout:fragment="javascript">
-      <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
       <script>
          $(document).ready(function () {
             $('#reservationLink').addClass('selected');
@@ -40,7 +38,6 @@
                $('#confirmCancel').data('id', reservationId);
                $('#reservationModal').data('id', reservationId);
                $('#cancelModal').modal('show');
-               console.log('예약취소 버튼 클릭 ! reservation Id : ', reservationId);
             });
 
             $('#hamburger-icon').click(function () {
@@ -50,7 +47,6 @@
             // 예약 취소 확인
             $('#confirmCancel').click(function () {
                const reservationId = $(this).data('id');
-               console.log('예약취소 확인 버튼 클릭 ! reservation Id : ', reservationId);
                // 예약 취소
                $('#cancelModal').modal('hide'); // 취소 확인 모달 닫기
                $('#reservationModal').modal('show'); // 예약 확인 모달 열기
@@ -60,14 +56,12 @@
             $('#refund_btn').click(function () {
                const reservationId = $('#reservationModal').data('id');
                // 환불
-               console.log('환불 시 해당 예약정보 Id : ', reservationId);
                processRefund(reservationId);
             });
 
             // 회원 탈퇴 모달 열기
             $('#deleteAccountBtn').click(function () {
                const userId = $(this).data('id');
-               console.log('User ID in button click: ' + userId); // 확인용 로그
                $('#confirmDelete').data('id', userId);
                $('#deleteAccountModal').modal('show');
             });
@@ -85,12 +79,10 @@
          });
 
          function processRefund(reservationId) {
-            console.log('환불 요청');
             location.href = '/user/cancel_reservation?reservationId=' + reservationId;
          }
 
          function deleteUser(userId) {
-            console.log('회원 탈퇴 요청');
             $.post('/user/deleteUser/' + userId, function () {
                window.location.href = '/login?accountDeleted'; // 탈퇴 후 로그인 페이지로 리다이렉트
             });

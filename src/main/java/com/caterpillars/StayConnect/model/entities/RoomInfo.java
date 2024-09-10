@@ -5,7 +5,6 @@ import java.util.List;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import groovy.util.logging.Slf4j;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,7 +22,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Slf4j
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
