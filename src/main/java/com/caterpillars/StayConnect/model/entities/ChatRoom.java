@@ -1,15 +1,15 @@
 package com.caterpillars.StayConnect.model.entities;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,15 +22,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 @Entity
-public class Role {
-
+public class ChatRoom {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(unique = true, nullable = false)
-  private String name;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "user_id", nullable = false)
+  private User user;
 
-  @OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-  private List<User> users;
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "admin_id", nullable = true)
+  private User admin;
+
+  @Column(columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", nullable = false)
+  private LocalDateTime createdAt;
 }

@@ -48,37 +48,41 @@ public class SecurityConfig {
                                 .requestMatchers(request -> request.getHeader("X-Forwarded-Proto") != null)
                                 .requiresSecure())
                                 .headers(headers -> headers.xssProtection(xss -> xss.disable())
-                                // .contentSecurityPolicy(
-                                // csp -> csp.policyDirectives(
-                                // "script-src 'self'"))
-                                )
-                                .csrf((csrf) -> csrf.disable())
+                                                .contentSecurityPolicy(
+                                                                csp -> csp.policyDirectives(
+                                                                                "script-src 'self' *.daumcdn.net;")))
+                                .csrf((csrf) -> csrf
+                                                .ignoringRequestMatchers("/ws/**")
+                                                .disable())
                                 .cors(cors -> cors.configurationSource(
                                                 corsConfigurationSource()))
                                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                                                 .requestMatchers("/", "/accommodation/**", "/search").permitAll()
+                                                .requestMatchers("/ws/**").permitAll()
                                                 .requestMatchers("/auth/**").not().authenticated()
                                                 .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/fonts/**")
                                                 .permitAll()
-                                                .requestMatchers("/user/**", "/chat/**")
-                                                .hasAnyRole("USER", "ADMIN")
+                                                .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
                                 .formLogin((formLogin) -> formLogin
-                                                .loginPage("/auth/signin").permitAll()
+                                                .loginPage("/auth/signin")
                                                 .usernameParameter("username")
                                                 .passwordParameter("password")
                                                 .defaultSuccessUrl("/", true)
-                                                .successHandler(jwtLoginSuccessHandler))
+                                                .successHandler(jwtLoginSuccessHandler)
+                                                .permitAll())
                                 .oauth2Login(oauth -> oauth
                                                 .defaultSuccessUrl("/", true)
                                                 .failureUrl("/auth/signin?error=true")
                                                 .successHandler(jwtLoginSuccessHandler)
-                                                .failureHandler(oAuth2UserLoginFailureHandler))
+                                                .failureHandler(oAuth2UserLoginFailureHandler)
+                                                .permitAll())
                                 .logout(logout -> logout
                                                 .logoutUrl("/user/logout")
                                                 .logoutSuccessUrl("/")
-                                                .logoutSuccessHandler(jwtLogoutSuccessHandler))
+                                                .logoutSuccessHandler(jwtLogoutSuccessHandler)
+                                                .permitAll())
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

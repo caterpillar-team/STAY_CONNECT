@@ -19,14 +19,6 @@
    <th:block layout:fragment="main">
       <h3 class="list-title">USER LIST</h3>
       <div class="rowCount">
-         <label for="">
-            <select name="" id="">
-               <option value="10">10</option>
-               <option value="25">25</option>
-               <option value="50">50</option>
-               <option value="100">100</option>
-            </select>
-         </label>
          <div>
             <form th:action="@{/admin/userList}" method="get">
                <input type="text" name="username" placeholder="Search by Real Name" />

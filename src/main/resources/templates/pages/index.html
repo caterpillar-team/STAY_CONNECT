@@ -14,20 +14,28 @@
    <th:block layout:fragment="css"
       ><link rel="stylesheet" th:href="@{/css/pages/index.css}" />
       <link rel="stylesheet" th:href="@{/css/layouts/index_mediaquery.css}" />
-      <!-- SWIPER -->
    </th:block>
    <th:block layout:fragment="javascript">
-      <script th:src="@{lib/swiper/swiper-bundle.min.js}"></script>
-      <script th:src="@{lib/axios/axios.min.js}"></script>
+      <script th:src="@{/lib/swiper/swiper-bundle.min.js}"></script>
+      <script th:src="@{/lib/axios/axios.min.js}"></script>
+      <script th:src="@{/lib/kakao/kakao_map.js}"></script>
    </th:block>
-   <th:block layout:fragment="leftAside"> </th:block>
+   <th:block layout:fragment="leftAside">
+      <div id="chatContainer" class="hidden">
+         <h2>문의</h2>
+         <div id="chatMessages"></div>
+         <form th:action="'javascript:void(0)'">
+            <input type="text" id="chatInput" placeholder="Type your message..." />
+            <button id="sendButton" type="submit">Send</button>
+         </form>
+      </div>
+      <script th:src="@{/js/index/toggleChat.js}"></script>
+   </th:block>
    <th:block layout:fragment="main">
-      <div class="indexContainer">
+      <div class="indexContainer" onload="connect()">
          <section th:replace="~{fragments/index/mainSection_frag::mainSection}"></section>
          <section th:replace="~{fragments/index/conditionalSection_frag::conditionalSection}"></section>
       </div>
-      <script
-         src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=929477699640084fe20e16282c9f60b5&libraries=services"></script>
       <script th:src="@{/js/index/loadCurrentLocation.js}"></script>
       <script th:src="@{/js/index/index_scroll.js}"></script>
       <script th:src="@{/js/index/search.js}"></script>

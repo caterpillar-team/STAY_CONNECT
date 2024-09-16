@@ -44,19 +44,25 @@ public class User implements UserDetails, OAuth2User {
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String realName;
 
+    @Column(nullable = false)
     private LocalDate birth;
 
+    @Column(nullable = false)
     private Boolean gender;
 
+    @Column(nullable = false)
     private String phoneNumber;
 
+    @Column(nullable = false)
     private String email;
 
     @JsonIgnore

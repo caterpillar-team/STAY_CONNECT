@@ -14,4 +14,6 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
     Optional<Accommodation> findByNameAndAddress(String name, String address);
 
     List<Accommodation> findAllByNameContaining(String name);
+
+    Optional<Accommodation> findByName(String name);
 }

@@ -2,6 +2,7 @@ package com.caterpillars.StayConnect.model.entities;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -38,15 +39,19 @@ public class Accommodation {
         private Category category;
 
         @ManyToOne(fetch = FetchType.EAGER)
-        @JoinColumn(name = "grade")
+        @JoinColumn(name = "grade", nullable = false)
         private Grade grade;
 
+        @Column(nullable = false)
         private String name;
 
+        @Column(nullable = false)
         private String address;
 
+        @Column(nullable = false)
         private Double latitude;
 
+        @Column(nullable = false)
         private Double longitude;
 
         @OneToMany(mappedBy = "accommodation", fetch = FetchType.LAZY)

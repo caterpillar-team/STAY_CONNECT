@@ -295,5 +295,16 @@
       </script>
    </th:block>
 
-   <th:block layout:fragment="rightAside"> </th:block>
+   <th:block layout:fragment="rightAside">
+      <div id="chatListContainer" class="hidden">
+         <h2>문의 채팅 목록</h2>
+         <div id="room">room1</div>
+      </div>
+      <script>
+         function toggleChatList() {
+            var chatContainer = document.getElementById('chatListContainer');
+            chatContainer.classList.toggle('hidden');
+         }
+      </script>
+   </th:block>
 </html>
