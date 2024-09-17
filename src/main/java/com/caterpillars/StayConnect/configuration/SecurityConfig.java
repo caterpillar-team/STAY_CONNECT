@@ -44,10 +44,13 @@ public class SecurityConfig {
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-                http
+                http.requiresChannel(channel -> channel
+                                .requestMatchers(request -> request.getHeader("X-Forwarded-Proto") != null).requiresSecure())
                                 .headers(headers -> headers.contentSecurityPolicy(
                                                 csp -> csp.policyDirectives("script-src 'self' *.daumcdn.net;")))
-                                .csrf((csrf) -> csrf.ignoringRequestMatchers("/ws/**").disable())
+                                .csrf((csrf) -> csrf
+                                                .ignoringRequestMatchers("/ws/**")
+                                                .disable())
                                 .cors(cors -> cors.configurationSource(
                                                 corsConfigurationSource()))
                                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
