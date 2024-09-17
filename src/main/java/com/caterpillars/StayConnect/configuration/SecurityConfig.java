@@ -47,10 +47,8 @@ public class SecurityConfig {
                 http.requiresChannel(channel -> channel
                                 .requestMatchers(request -> request.getHeader("X-Forwarded-Proto") != null)
                                 .requiresSecure())
-                                .headers(headers -> headers.xssProtection(xss -> xss.disable())
-                                                .contentSecurityPolicy(
-                                                                csp -> csp.policyDirectives(
-                                                                                "script-src 'self' *.daumcdn.net;")))
+                                .headers(headers -> headers.contentSecurityPolicy(
+                                                csp -> csp.policyDirectives("script-src 'self' *.daumcdn.net;")))
                                 .csrf((csrf) -> csrf
                                                 .ignoringRequestMatchers("/ws/**")
                                                 .disable())
