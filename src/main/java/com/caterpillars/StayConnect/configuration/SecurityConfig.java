@@ -44,10 +44,11 @@ public class SecurityConfig {
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-                http.requiresChannel(channel -> channel
-                                .requestMatchers(request -> request.getHeader("X-Forwarded-Proto") == "https").requiresInsecure())
+                http
+                                // .requiresChannel(channel -> channel.anyRequest().requiresSecure())
                                 .headers(headers -> headers.contentSecurityPolicy(
-                                                csp -> csp.policyDirectives("script-src 'self' *.daumcdn.net;")))
+                                                csp -> csp.policyDirectives(
+                                                                "script-src 'self' *.kakao.com *.daumcdn.net;")))
                                 .csrf((csrf) -> csrf
                                                 .ignoringRequestMatchers("/ws/**")
                                                 .disable())

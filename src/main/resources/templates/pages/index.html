@@ -18,7 +18,9 @@
    <th:block layout:fragment="javascript">
       <script th:src="@{/lib/swiper/swiper-bundle.min.js}"></script>
       <script th:src="@{/lib/axios/axios.min.js}"></script>
-      <script th:src="@{/lib/kakao/kakao_map.js}"></script>
+      <script
+         type="text/javascript"
+         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=929477699640084fe20e16282c9f60b5"></script>
    </th:block>
    <th:block layout:fragment="leftAside">
       <div id="chatContainer" class="hidden">
