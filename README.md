@@ -226,6 +226,14 @@ DEPENDENCIES LIST
 ---
 ![image](https://github.com/CATERPILLAR-TEAM/TEST_SERVLET/assets/155939946/fbf64d7c-94e0-4700-b3b9-79e5172d0a4d)
 
+## AWS Structure[StayConnect]
+---
+<img width="1440" alt="Screenshot 2024-06-25 at 03 05 18" src="https://github.com/user-attachments/assets/3217d916-c692-4299-ade4-94d82760306a">
+
+## Architecture[StayConnect]
+---
+![StayConnectArchitecture 001](https://github.com/user-attachments/assets/e09cd240-f0c5-4d64-947c-51950c6b5c0b)
+
 FILE TREES[THYMELEAF/SPRING BOOT]
 --- 
 ```STAY_CONNECT
