@@ -99,8 +99,7 @@
             </table>
          </div>
       </div>
-
-      <script th:inline="javascript">
+      <!-- <script th:inline="javascript">
          function showChart(chartId) {
             var charts = document.querySelectorAll('.chartContainer');
             charts.forEach(function (chart) {
@@ -292,7 +291,8 @@
             updateDateTime();
             setInterval(updateDateTime, 1000); // 매초마다 시간 업데이트
          });
-      </script>
+      </script> -->
+      <script th:src="@{/js/dashboard/chart.js}"></script>
    </th:block>
 
    <th:block layout:fragment="rightAside">
@@ -300,11 +300,5 @@
          <h2>문의 채팅 목록</h2>
          <div id="room">room1</div>
       </div>
-      <script>
-         function toggleChatList() {
-            var chatContainer = document.getElementById('chatListContainer');
-            chatContainer.classList.toggle('hidden');
-         }
-      </script>
    </th:block>
 </html>

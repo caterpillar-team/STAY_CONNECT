@@ -3,6 +3,7 @@ package com.caterpillars.StayConnect.component.handler;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -24,15 +25,18 @@ public class JWTLoginSuccessHandler implements AuthenticationSuccessHandler {
   @Autowired
   private JWTokenProvider jwTokenProvider;
 
+  @Autowired
+  private Environment env;
+
   private static final int MILLISECONDS_IN_SECOND = 1000;
 
   /**
    * 인증 성공 시 호출되는 메서드입니다.
    *
-   * @param request HTTP 요청
-   * @param response HTTP 응답
+   * @param request        HTTP 요청
+   * @param response       HTTP 응답
    * @param authentication 인증 정보
-   * @throws IOException 입출력 예외
+   * @throws IOException      입출력 예외
    * @throws ServletException 서블릿 예외
    */
   @Override
@@ -53,9 +57,18 @@ public class JWTLoginSuccessHandler implements AuthenticationSuccessHandler {
   private Cookie createJwtCookie(String token) {
     Cookie cookie = new Cookie("jwt", token);
     cookie.setHttpOnly(true);
-    cookie.setSecure(false);
     cookie.setPath("/");
+    if (isProduction()) {
+      cookie.setSecure(true);
+    } else {
+      cookie.setSecure(false);
+    }
     cookie.setMaxAge(jwTokenProvider.getExpiration() / MILLISECONDS_IN_SECOND);
     return cookie;
+  }
+
+  private boolean isProduction() {
+    // 운영 환경인지 확인하는 로직 (profile 등을 확인)
+    return "prod".equals(env.getProperty("spring.profiles.active"));
   }
 }

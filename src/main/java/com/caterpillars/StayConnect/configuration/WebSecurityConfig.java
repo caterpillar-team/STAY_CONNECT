@@ -10,8 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -21,9 +23,11 @@ import com.caterpillars.StayConnect.component.handler.JWTLoginSuccessHandler;
 import com.caterpillars.StayConnect.component.handler.JWTLogoutSuccessHandler;
 import com.caterpillars.StayConnect.component.handler.OAuth2UserLoginFailureHandler;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class WebSecurityConfig {
 
         @Autowired
         private JWTAuthenticationFilter jwtAuthenticationFilter;
@@ -47,7 +51,7 @@ public class SecurityConfig {
                 http
                                 .headers(headers -> headers.contentSecurityPolicy(
                                                 csp -> csp.policyDirectives(
-                                                                "script-src 'self' *.kakao.com *.daumcdn.net;")))
+                                                                "script-src 'self' *.daumcdn.net;")))
                                 .csrf((csrf) -> csrf
                                                 .ignoringRequestMatchers("/ws/**")
                                                 .disable())
@@ -55,13 +59,16 @@ public class SecurityConfig {
                                                 corsConfigurationSource()))
                                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                                                 .requestMatchers("/", "/accommodation/**", "/search").permitAll()
-                                                .requestMatchers("/ws/**").permitAll()
+                                                .requestMatchers("/ws/**").authenticated()
                                                 .requestMatchers("/auth/**").not().authenticated()
                                                 .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/fonts/**")
                                                 .permitAll()
                                                 .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
+
+                                .exceptionHandling(
+                                                exception -> exception.defaultAuthenticationEntryPointFor(unauthorizedEntryPoint(), new AntPathRequestMatcher("/ws/**")))
                                 .formLogin((formLogin) -> formLogin
                                                 .loginPage("/auth/signin")
                                                 .usernameParameter("username")
@@ -98,4 +105,11 @@ public class SecurityConfig {
                 source.registerCorsConfiguration("/**", configuration);
                 return source;
         }
+
+        private AuthenticationEntryPoint unauthorizedEntryPoint() {
+                return (request, response, authException) -> {
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                };
+        }
+
 }

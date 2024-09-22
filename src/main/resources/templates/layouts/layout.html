@@ -17,13 +17,13 @@
       <script th:src="@{/lib/jquery/jquery.min.js}"></script>
       <script th:src="@{/lib/jsdelivr/sockjs.min.js}"></script>
       <script th:src="@{/lib/jsdelivr/stomp.umd.min.js}"></script>
-      <script th:src="@{/js/index/stomp.js}"></script>
-      <th:block layout:fragment="title"></th:block>
+      <script th:src="@{/js/layout/wsManager.js}" defer></script>
       <!-- title -->
-      <th:block layout:fragment="css"></th:block>
+      <th:block layout:fragment="title"></th:block>
       <!-- css -->
-      <th:block layout:fragment="javascript"></th:block>
+      <th:block layout:fragment="css"></th:block>
       <!-- javascript -->
+      <th:block layout:fragment="javascript"></th:block>
    </head>
    <body>
       <div class="layoutContainer">
@@ -39,6 +39,7 @@
                <th:block layout:fragment="rightAside"></th:block>
             </aside>
          </section>
+         <div th:insert="~{fragments/common/chatCard_frag::chatCard}"></div>
          <footer>
             <div th:insert="~{fragments/common/footer_frag::footer}"></div>
          </footer>
