@@ -35,7 +35,10 @@ public class JWTLoginSuccessHandler implements AuthenticationSuccessHandler {
    *
    * @param request        HTTP 요청
    * @param response       HTTP 응답
+   * @param request        HTTP 요청
+   * @param response       HTTP 응답
    * @param authentication 인증 정보
+   * @throws IOException      입출력 예외
    * @throws IOException      입출력 예외
    * @throws ServletException 서블릿 예외
    */

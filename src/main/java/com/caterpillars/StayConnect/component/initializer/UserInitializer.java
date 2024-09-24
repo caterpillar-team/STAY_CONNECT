@@ -47,7 +47,7 @@ public class UserInitializer implements CommandLineRunner {
                         .build());
             }
         }
-        String adminName = userRepository.findByUsername("admin").toString();
+        Optional<User> adminName = userRepository.findByUsername("admin");
         if (adminName.isEmpty()) {
             userRepository.save(User.builder()
                     .username("admin")
