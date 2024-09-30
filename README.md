@@ -232,6 +232,7 @@ DEPENDENCIES LIST
 
 ## Architecture[StayConnect]
 ---
+
 ![StayConnectArchitecture 001](https://github.com/user-attachments/assets/c0e4bd82-53cd-4dc2-a96c-34120f9bea34)
 
 FILE TREES[THYMELEAF/SPRING BOOT]
