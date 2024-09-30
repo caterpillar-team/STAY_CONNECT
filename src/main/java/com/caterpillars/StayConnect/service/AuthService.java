@@ -10,6 +10,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import com.caterpillars.StayConnect.custom.CustomOAuth2UserDetails;
+import com.caterpillars.StayConnect.custom.CustomUserDetails;
 import com.caterpillars.StayConnect.model.dto.UserSignUpDto;
 import com.caterpillars.StayConnect.model.entities.Role;
 import com.caterpillars.StayConnect.model.entities.User;
@@ -49,9 +52,6 @@ public class AuthService implements UserDetailsService,
 
   @Autowired
   private PasswordEncoder passwordEncoder;
-
-  // @Autowired
-  // private ReviewRepository reviewRepository;
 
   @Transactional
   public User signUp(UserSignUpDto signUpDto) {
@@ -84,26 +84,25 @@ public class AuthService implements UserDetailsService,
 
   @Override
   @Transactional(readOnly = true)
-  public User loadUserByUsername(String username) throws UsernameNotFoundException {
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     User user = userRepository.findByUsername(username)
-        .orElseThrow(() -> new UsernameNotFoundException("user not found username"));
+        .orElseThrow(() -> new UsernameNotFoundException("user not found with username: " + username));
 
     String requestURI = httpServletRequest.getRequestURI();
     if (requestURI.contains("/signin")) {
-      return User.builder()
-          .username(user.getUsername())
-          .password(user.getPassword())
-          .role(user.getRole())
-          .build();
+      return new CustomUserDetails(
+          User.builder()
+              .username(user.getUsername())
+              .password(user.getPassword())
+              .role(user.getRole())
+              .build());
     }
-    return user;
+    return new CustomUserDetails(user);
   }
 
   @Override
   public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-
     OAuth2User oAuth2User = new DefaultOAuth2UserService().loadUser(userRequest);
-    // String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
     return processGoogleLogin(oAuth2User, userRequest);
   }
@@ -112,17 +111,19 @@ public class AuthService implements UserDetailsService,
   private OAuth2User processGoogleLogin(OAuth2User oAuth2User, OAuth2UserRequest userRequest) {
     String accessToken = userRequest.getAccessToken().getTokenValue();
     String phoneNumber = fetchGooglePhoneNumber(accessToken);
+
     Map<String, Object> attributes = new HashMap<>(oAuth2User.getAttributes());
     attributes.put("phone_number", phoneNumber);
+
     String realName = attributes.get("name").toString();
 
     httpServletRequest.setAttribute("realName", realName);
     httpServletRequest.setAttribute("phoneNumber", phoneNumber);
 
     User user = userRepository.findByRealNameAndPhoneNumber(realName, phoneNumber)
-        .orElseThrow(() -> new OAuth2AuthenticationException("db에 일치하는 유저가 없음."));
+        .orElseThrow(() -> new OAuth2AuthenticationException("DB에 일치하는 유저가 없습니다."));
 
-    return user;
+    return new CustomOAuth2UserDetails(user, attributes);
   }
 
   private String fetchGooglePhoneNumber(String accessToken) {
@@ -142,12 +143,13 @@ public class AuthService implements UserDetailsService,
       ObjectMapper objectMapper = new ObjectMapper();
       JsonNode rootNode = objectMapper.readTree(body);
       JsonNode phoneNumbersNode = rootNode.path("phoneNumbers");
+
       if (phoneNumbersNode.isArray() && phoneNumbersNode.size() > 0) {
         JsonNode firstPhoneNumberNode = phoneNumbersNode.get(0);
         phoneNumber = firstPhoneNumberNode.path("value").asText();
       }
     } catch (Exception e) {
-      log.error("Error fetching phone number" + e);
+      log.error("Error fetching phone number", e);
     }
     return phoneNumber;
   }

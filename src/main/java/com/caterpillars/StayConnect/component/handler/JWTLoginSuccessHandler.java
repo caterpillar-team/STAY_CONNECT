@@ -71,7 +71,6 @@ public class JWTLoginSuccessHandler implements AuthenticationSuccessHandler {
   }
 
   private boolean isProduction() {
-    // 운영 환경인지 확인하는 로직 (profile 등을 확인)
     return "prod".equals(env.getProperty("spring.profiles.active"));
   }
 }

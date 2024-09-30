@@ -1,6 +1,7 @@
 package com.caterpillars.StayConnect.component.interceptor;
 
 import java.net.HttpCookie;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -11,12 +12,18 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class JwtHandshakeInterceptor implements HandshakeInterceptor {
 
@@ -29,6 +36,14 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
 
     String jwToken = getJwtTokenFromCookies(request);
     if (jwToken != null && jwTokenProvider.validateToken(jwToken)) {
+      String username = jwTokenProvider.extractUsername(jwToken);
+      String role = jwTokenProvider.extractRole(jwToken);
+      List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
+
+      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null,
+          authorities);
+
+      attributes.put("principal", authentication);
       return true;
     }
     response.setStatusCode(HttpStatus.UNAUTHORIZED);

@@ -68,7 +68,10 @@ public class WebSecurityConfig {
                                                 .anyRequest().authenticated())
 
                                 .exceptionHandling(
-                                                exception -> exception.defaultAuthenticationEntryPointFor(unauthorizedEntryPoint(), new AntPathRequestMatcher("/ws/**")))
+                                                exception -> exception.defaultAuthenticationEntryPointFor(
+                                                                unauthorizedEntryPoint(),
+                                                                new AntPathRequestMatcher("/ws/**")))
+
                                 .formLogin((formLogin) -> formLogin
                                                 .loginPage("/auth/signin")
                                                 .usernameParameter("username")

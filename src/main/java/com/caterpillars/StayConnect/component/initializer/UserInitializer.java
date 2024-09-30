@@ -43,6 +43,7 @@ public class UserInitializer implements CommandLineRunner {
                         .gender(true)
                         .phoneNumber("010-1234-5678")
                         .email(username + "@gmail.com")
+                        .messages(null)
                         .role(roleRepository.findByName("ROLE_USER").orElseGet(() -> createRole("ROLE_USER")))
                         .build());
             }
@@ -57,6 +58,7 @@ public class UserInitializer implements CommandLineRunner {
                     .gender(true)
                     .phoneNumber("010-1234-5678")
                     .email("admin@gmail.com")
+                    .messages(null)
                     .role(roleRepository.findByName("ROLE_ADMIN").orElseGet(() -> createRole("ROLE_ADMIN")))
                     .build());
         }

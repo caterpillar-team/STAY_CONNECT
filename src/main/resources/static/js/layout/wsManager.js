@@ -1,86 +1,78 @@
-document.addEventListener('DOMContentLoaded', () => {
-   const WebSocketManager = {
-      stompClient: null,
+const WebSocketManager = {
+   socket: null,
+   stompClient: null,
 
-      connect() {
-         if (typeof StompJs === 'undefined') {
-            console.error('STOMP.js is not loaded');
-            return;
-         }
+   connect() {
+      if (this.stompClient && this.stompClient.connected) {
+         return;
+      }
 
-         if (sessionStorage.getItem('isConnected')) {
-            console.log('WebSocket already connected in this session.');
-            return;
-         }
+      this.socket = new SockJS('/ws');
+      this.stompClient = new StompJs.Client({
+         webSocketFactory: () => this.socket,
+         reconnectDelay: 5000,
+         heartbeatIncoming: 4000,
+         heartbeatOutgoing: 4000,
 
-         const socket = new SockJS('/ws');
-         this.stompClient = new StompJs.Client({
-            webSocketFactory: () => socket,
-            reconnectDelay: 5000,
-         });
-
-         this.stompClient.onConnect = frame => {
+         onConnect: frame => {
             console.log('Connected: ' + frame);
-            sessionStorage.setItem('isConnected', 'true');
-         };
+            this.stompClient.subscribe('/inquiry/messages', function (messageOutput) {
+               showMessage(messageOutput.body);
+            });
+         },
 
-         this.stompClient.onDisconnect = () => {
-            console.log('Disconnected');
-            sessionStorage.removeItem('isConnected');
-         };
+         onStompError: frame => {
+            console.log('STOMP: ' + frame);
+         },
+      });
 
-         this.stompClient.onStompError = frame => {
-            console.error('STOMP error:', frame);
-            sessionStorage.removeItem('isConnected');
-            this.retryConnect();
-         };
+      this.stompClient.activate();
+   },
 
-         this.stompClient.activate();
-      },
+   publish(destination, message) {
+      if (this.stompClient && this.stompClient.connected) {
+         this.stompClient.publish({
+            destination: destination,
+            body: message,
+         });
+      }
+   },
+};
 
-      retryConnect() {
-         setTimeout(() => {
-            if (!sessionStorage.getItem('isConnected')) {
-               console.log('Retrying WebSocket connection...');
-               this.connect();
-            }
-         }, 5000);
-      },
+window.onload = function () {
+   WebSocketManager.connect();
 
-      disconnect() {
-         if (sessionStorage.getItem('isConnected')) {
-            sessionStorage.removeItem('isConnected');
-            if (this.stompClient) {
-               this.stompClient.deactivate();
-            }
-            console.log('WebSocket disconnected');
-         } else {
-            console.log('No active WebSocket connection.');
-         }
-      },
+   const chatInput = document.getElementById('chatInput');
+   const sendButton = document.getElementById('sendButton');
 
-      initialize() {
-         if (!sessionStorage.getItem('isConnected')) {
-            this.connect();
-         } else {
-            console.log('WebSocket already connected in this session.');
-         }
-      },
-   };
-
-   WebSocketManager.initialize();
-
-   const observer = new MutationObserver((mutations, obs) => {
-      const logoutButton = document.getElementById('logout');
-      if (logoutButton) {
-         logoutButton.addEventListener('click', () => WebSocketManager.disconnect());
-         console.log('Logout button found and event listener added.');
-         obs.disconnect();
+   // Enter 키로 메시지 전송
+   chatInput.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter' && chatInput.value.trim() !== '') {
+         sendMessage();
       }
    });
 
-   observer.observe(document.body, {
-      childList: true,
-      subtree: true,
+   // Send 버튼 클릭 시 메시지 전송
+   sendButton.addEventListener('click', function () {
+      sendMessage();
    });
-});
+};
+
+// 메시지 전송 함수
+function sendMessage() {
+   const chatInput = document.getElementById('chatInput');
+   const message = chatInput.value.trim();
+
+   if (message !== '') {
+      WebSocketManager.publish('/app/sendMessage', message);
+      chatInput.value = ''; // 전송 후 입력 필드 비우기
+   }
+}
+
+// 받은 메시지 표시 함수
+function showMessage(message) {
+   const chatMessages = document.getElementById('chatMessages');
+   const messageElement = document.createElement('div');
+   messageElement.innerText = message;
+   chatMessages.appendChild(messageElement);
+}

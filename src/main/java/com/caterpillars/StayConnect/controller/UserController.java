@@ -40,9 +40,6 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // @Autowired
-    // private ReservationRepository reservationRepository;
-
     @Autowired
     private ReservationService reservationService;
 
@@ -70,11 +67,10 @@ public class UserController {
             model.addAttribute("edit", user);
             model.addAttribute("userId", user.getId());
 
-            // 사용자의 예약 목록 추가하기
             List<ReservationDto> reservations = reservationService.getReservationsByUserId(user.getId());
             model.addAttribute("reservation", reservations);
         } else {
-            model.addAttribute("edit", new User()); // 빈 객체 추가
+            model.addAttribute("edit", new User());
             model.addAttribute("userId", null);
         }
 
@@ -98,7 +94,6 @@ public class UserController {
 
             user.setUsername(username);
 
-            // 비밀번호가 입력되었고 두 비밀번호가 일치하는 경우에만 비밀번호 변경
             if (password != null && !password.isEmpty() && password.equals(repassword)) {
                 user.setPassword(passwordEncoder.encode(password));
             }
@@ -125,16 +120,15 @@ public class UserController {
 
         if (optionalUser.isPresent() && optionalUser.get().getUsername().equals(currentUsername)) {
             userService.deleteUserById(id);
-            SecurityContextHolder.clearContext(); // 로그아웃 처리
+            SecurityContextHolder.clearContext();
 
-            // JWT 쿠키 삭제
             Cookie cookie = new Cookie("jwt", null);
             cookie.setPath("/");
             cookie.setHttpOnly(true);
-            cookie.setMaxAge(0); // 쿠키 유효 기간을 0으로 설정하여 즉시 만료
+            cookie.setMaxAge(0);
             response.addCookie(cookie);
 
-            return "redirect:/"; // 회원 탈퇴 후 메인 페이지로 리다이렉트
+            return "redirect:/";
         } else {
             model.addAttribute("error", "회원 탈퇴 중 오류가 발생했습니다.");
             return "pages/user/myPage";

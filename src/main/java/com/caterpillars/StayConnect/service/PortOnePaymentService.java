@@ -55,7 +55,6 @@ public class PortOnePaymentService {
         return portOneTokenResponse.toString();
     }
 
-    // AccessToken 발급 Class
     @Data
     private static class TokenResponse {
         public String access_token;

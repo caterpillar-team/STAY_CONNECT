@@ -27,5 +27,4 @@ public class OAuth2UserLoginFailureHandler extends SimpleUrlAuthenticationFailur
 
     request.getRequestDispatcher("/auth/signup").forward(request, response);
   }
-
 }

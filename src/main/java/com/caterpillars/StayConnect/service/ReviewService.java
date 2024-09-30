@@ -36,7 +36,6 @@ public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    // 리뷰 추가
     @Transactional(rollbackFor = Exception.class)
     public boolean addReview(ReviewDto dto, RoomInfo roomInfo) {
         if (roomInfo == null) {
@@ -53,19 +52,9 @@ public class ReviewService {
         review.setUser(user);
         review.setRoomInfo(roomInfo);
 
-        // String username = user != null ? user.getUsername() : "Unknown";
-        // Long roomId = roomInfo.getId();
-        // Long accId = roomInfo.getAccommodation() != null ? roomInfo.getAccommodation().getId() : null;
-
-        // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        // String formattedCreatedAt = review.getCreatedAt().format(formatter);
-
         try {
-            // 리뷰 저장
             review = reviewRepository.save(review);
-            // 리뷰id를 DTO에 설정
             dto.setReviewId(review.getId());
-
         } catch (Exception e) {
             log.error("Error saving review", e);
             return false;
@@ -74,7 +63,6 @@ public class ReviewService {
         return review != null && reviewRepository.existsById(review.getId());
     }
 
-    // 리뷰 수정
     @Transactional
     public Map<String, Object> updateReview(ReviewDto reviewDto) {
         Map<String, Object> result = new HashMap<>();
@@ -85,15 +73,13 @@ public class ReviewService {
         }
         Review review = reviewOptional.get();
 
-        // 리뷰 내용 및 평점 수정
         review.setContents(reviewDto.getContents());
         review.setRate(reviewDto.getRate());
-        // 리뷰 저장
+
         reviewRepository.save(review);
         return result;
     }
 
-    // 리뷰 조회
     @Transactional(readOnly = true)
     public ReviewDto getReviewDto(Long reviewId) {
         Optional<Review> optionalReview = reviewRepository.findById(reviewId);
@@ -106,7 +92,6 @@ public class ReviewService {
         }
     }
 
-    // 리뷰 삭제
     @Transactional(rollbackFor = Exception.class)
     public boolean deleteReview(Long reviewId) {
         Optional<Review> optionalReview = reviewRepository.findById(reviewId);
@@ -116,7 +101,7 @@ public class ReviewService {
             reviewRepository.delete(review);
             return !reviewRepository.existsById(reviewId);
         } else {
-            return false; // 삭제할 리뷰를 찾을 수 없음
+            return false;
         }
     }
 

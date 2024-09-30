@@ -74,12 +74,10 @@ public class ReviewController {
                 response.put("message", "리뷰가 성공적으로 삭제되었습니다.");
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
-                // 리뷰 삭제에 실패한 경우 처리
                 response.put("message", "리뷰 삭제에 실패했습니다.");
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
             }
         } catch (Exception e) {
-            // 리뷰를 찾을 수 없는 경우
             response.put("message", "리뷰 삭제 중 오류가 발생했습니다.");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }

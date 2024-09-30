@@ -1,200 +1,157 @@
 <!DOCTYPE html>
 <html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layouts/layout}"
->
-  <th:block layout:fragment="title">
-    <title>signUp page</title>
-  </th:block>
-  <th:block layout:fragment="css"
-    ><link rel="stylesheet" th:href="@{/css/pages/auth/signUp.css}" />
-    <link rel="stylesheet" th:href="@{/css/layouts/signup_mediaquery.css}"
-  /></th:block>
-  <th:block layout:fragment="main">
-    <div class="container">
-      <form
-        th:action="@{/auth/signup}"
-        method="post"
-        class="join-form"
-        th:object="${user}"
-      >
-        <div class="join__logo">
-          <img th:src="@{/img/logo.svg}" />
-        </div>
-        <div class="join__title"><h2>회원가입</h2></div>
-        <div class="top__join">
-          <!-- 이름 입력 -->
-          <div class="user__input">
-            <span class="listBox">
-              <h6 class="list">이름</h6>
-            </span>
-            <span>
-              <input
-                type="text"
-                id="name"
-                th:field="*{realName}"
-                class="input-blank"
-                placeholder="이름을 입력하세요"
-              />
-            </span>
-          </div>
-          <!-- 생년월일/성별 -->
-          <div class="user__input">
-            <span class="listBox">
-              <h6 class="list">생년월일/성별</h6>
-            </span>
-            <div class="id__no">
-              <div class="id-no-space">
-                <input
-                  type="date"
-                  class="input-blank"
-                  th:field="*{birth}"
-                  placeholder="생년월일 6자리"
-                />
-              </div>
-              <div class="id-no-space">-</div>
-              <div class="id-no-space">
-                <select class="fm" th:field="*{gender}">
-                  <option th:value="true">1</option>
-                  <option th:value="false">2</option>
-                </select>
-                <span>●●●●●●</span>
-              </div>
+   lang="en"
+   xmlns:th="http://www.thymeleaf.org"
+   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+   layout:decorate="~{layouts/layout}">
+   <th:block layout:fragment="title">
+      <title>signUp page</title>
+   </th:block>
+   <th:block layout:fragment="css"
+      ><link rel="stylesheet" th:href="@{/css/pages/auth/signUp.css}" />
+      <link rel="stylesheet" th:href="@{/css/layouts/signup_mediaquery.css}"
+   /></th:block>
+   <th:block layout:fragment="main">
+      <div class="container">
+         <form th:action="@{/auth/signup}" method="post" class="join-form" th:object="${user}">
+            <div class="join__logo">
+               <img th:src="@{/img/logo.svg}" />
             </div>
-          </div>
-          <!-- 전화번호 입력 -->
-          <div class="user__input">
-            <span class="listBox">
-              <h6 class="list">전화번호</h6>
-            </span>
-            <span
-              ><input
-                type="text"
-                id="phone"
-                th:field="*{phoneNumber}"
-                class="input-blank"
-                placeholder="전화번호를 입력하세요(- 제외)"
-            /></span>
-          </div>
-          <!-- 이메일 입력 -->
-          <div class="user__input">
-            <span class="list__box">
-              <h6 class="list">이메일</h6>
-            </span>
-            <span
-              ><input
-                type="text"
-                class="input-blank"
-                th:field="*{email}"
-                placeholder="이메일을 입력하세요"
-            /></span>
-          </div>
-          <!-- 아이디 입력 -->
-          <div class="user__input">
-            <span class="list__box">
-              <h6 class="list">아이디</h6>
-            </span>
-            <span
-              ><input
-                type="text"
-                class="input-blank"
-                th:field="*{username}"
-                placeholder="아이디를 입력하세요"
-            /></span>
-          </div>
-          <!-- 비밀번호 입력 -->
-          <div class="user__input">
-            <span class="list__box">
-              <h6 class="list">비밀번호</h6>
-            </span>
-            <span
-              ><input
-                type="password"
-                class="input-blank"
-                th:field="*{password}"
-                placeholder="영어, 숫자, 특수문자를 조합한 8자리 이상"
-            /></span>
-          </div>
-          <!-- 비밀번호 확인 입력 -->
-          <div class="user__input">
-            <span class="list__box">
-              <h6 class="list">비밀번호 확인</h6>
-            </span>
-            <span
-              ><input
-                type="password"
-                class="input-blank"
-                th:field="*{confirmPassword}"
-                placeholder="동일한 비밀번호를 입력하세요"
-            /></span>
-          </div>
-        </div>
-        <div class="mid__join">
-          <div class="all-agree">
-            <div class="agree-list"><h6 class="list">약관 동의</h6></div>
-            <div class="agree-list">
-              <input type="checkbox" id="id_a" /> 전체 약관 동의
+            <div class="join__title"><h2>회원가입</h2></div>
+            <div class="top__join">
+               <!-- 이름 입력 -->
+               <div class="user__input">
+                  <span class="listBox">
+                     <h6 class="list">이름</h6>
+                  </span>
+                  <span>
+                     <input
+                        type="text"
+                        id="name"
+                        th:field="*{realName}"
+                        class="input-blank"
+                        placeholder="이름을 입력하세요" />
+                  </span>
+               </div>
+               <!-- 생년월일/성별 -->
+               <div class="user__input">
+                  <span class="listBox">
+                     <h6 class="list">생년월일/성별</h6>
+                  </span>
+                  <div class="id__no">
+                     <div class="id-no-space">
+                        <input type="date" class="input-blank" th:field="*{birth}" placeholder="생년월일 6자리" />
+                     </div>
+                     <div class="id-no-space">-</div>
+                     <div class="id-no-space">
+                        <select class="fm" th:field="*{gender}">
+                           <option th:value="true">1</option>
+                           <option th:value="false">2</option>
+                        </select>
+                        <span>●●●●●●</span>
+                     </div>
+                  </div>
+               </div>
+               <!-- 전화번호 입력 -->
+               <div class="user__input">
+                  <span class="listBox">
+                     <h6 class="list">전화번호</h6>
+                  </span>
+                  <span
+                     ><input
+                        type="text"
+                        id="phone"
+                        th:field="*{phoneNumber}"
+                        class="input-blank"
+                        placeholder="전화번호를 입력하세요(- 제외)"
+                  /></span>
+               </div>
+               <!-- 이메일 입력 -->
+               <div class="user__input">
+                  <span class="list__box">
+                     <h6 class="list">이메일</h6>
+                  </span>
+                  <span
+                     ><input type="text" class="input-blank" th:field="*{email}" placeholder="이메일을 입력하세요"
+                  /></span>
+               </div>
+               <!-- 아이디 입력 -->
+               <div class="user__input">
+                  <span class="list__box">
+                     <h6 class="list">아이디</h6>
+                  </span>
+                  <span
+                     ><input type="text" class="input-blank" th:field="*{username}" placeholder="아이디를 입력하세요"
+                  /></span>
+               </div>
+               <!-- 비밀번호 입력 -->
+               <div class="user__input">
+                  <span class="list__box">
+                     <h6 class="list">비밀번호</h6>
+                  </span>
+                  <span
+                     ><input
+                        type="password"
+                        class="input-blank"
+                        th:field="*{password}"
+                        placeholder="영어, 숫자, 특수문자를 조합한 8자리 이상"
+                  /></span>
+               </div>
+               <!-- 비밀번호 확인 입력 -->
+               <div class="user__input">
+                  <span class="list__box">
+                     <h6 class="list">비밀번호 확인</h6>
+                  </span>
+                  <span
+                     ><input
+                        type="password"
+                        class="input-blank"
+                        th:field="*{confirmPassword}"
+                        placeholder="동일한 비밀번호를 입력하세요"
+                  /></span>
+               </div>
             </div>
-          </div>
-          <div class="agree">
-            <div class="agree-list">
-              <input type="checkbox" id="id_b" /> [필수] 이용 약관에 동의합니다.
+            <div class="mid__join">
+               <div class="all-agree">
+                  <div class="agree-list"><h6 class="list">약관 동의</h6></div>
+                  <div class="agree-list"><input type="checkbox" id="id_a" /> 전체 약관 동의</div>
+               </div>
+               <div class="agree">
+                  <div class="agree-list"><input type="checkbox" id="id_b" /> [필수] 이용 약관에 동의합니다.</div>
+                  <div class="agree-list">
+                     <input type="checkbox" id="id_c" /> [필수] 개인정보 수집 및 이용에 동의합니다.
+                  </div>
+                  <div class="agree-list-select">
+                     <input type="checkbox" id="id_d" /> [선택] 프로모션 수신에 동의합니다.
+                  </div>
+               </div>
             </div>
-            <div class="agree-list">
-              <input type="checkbox" id="id_c" /> [필수] 개인정보 수집 및 이용에
-              동의합니다.
+            <div class="bot__join">
+               <div class="join-kakao">
+                  <a th:href="@{#}" class="join-oth">
+                     <span><img th:src="@{/img/kakao_logo.png}" class="join-oth-logo" /></span>
+                     <span>카카오로 시작하기</span>
+                  </a>
+               </div>
+               <div class="join-naver">
+                  <a th:href="@{#}" class="join-oth">
+                     <span><img th:src="@{/img/naver_logo.png}" class="join-oth-logo" /></span>
+                     <span>네이버로 시작하기</span>
+                  </a>
+               </div>
+               <div class="join-google">
+                  <a th:href="@{#}" class="join-oth">
+                     <span><img th:src="@{/img/google_logo.png}" class="join-oth-logo" /></span>
+                     <span>구글로 시작하기</span>
+                  </a>
+               </div>
             </div>
-            <div class="agree-list-select">
-              <input type="checkbox" id="id_d" /> [선택] 프로모션 수신에
-              동의합니다.
+            <div class="foot__join">
             </div>
-          </div>
-        </div>
-        <div class="bot__join">
-          <div class="join-kakao">
-            <a th:href="@{#}" class="join-oth">
-              <span
-                ><img th:src="@{/img/kakao_logo.png}" class="join-oth-logo"
-              /></span>
-              <span>카카오로 시작하기</span>
-            </a>
-          </div>
-          <div class="join-naver">
-            <a th:href="@{#}" class="join-oth">
-              <span
-                ><img th:src="@{/img/naver_logo.png}" class="join-oth-logo"
-              /></span>
-              <span>네이버로 시작하기</span>
-            </a>
-          </div>
-          <div class="join-google">
-            <a th:href="@{#}" class="join-oth">
-              <span
-                ><img th:src="@{/img/google_logo.png}" class="join-oth-logo"
-              /></span>
-              <span>구글로 시작하기</span>
-            </a>
-          </div>
-        </div>
-        <div class="foot__join">
-          <div class="back-or-join"><a th:href="@{/static}">돌아가기</a></div>
-          <div class="back-or-join">
-            <a th:href="'#'" onclick="submitForm()"
-              >가입하기</a
-            >
-          </div>
-        </div>
-      </form>
-    </div>
-    <script th:src="@{/js/signUp/formatPhoneNumber.js}"></script>
-    <script th:src="@{/js/signUp/checkBoxConsent.js}"></script>
-    <script>
-      // 회원가입 전송 form
-      function submitForm() {
-        document.querySelector('.join-form').submit();
-      }
-    </script>
-  </th:block>
+            <button type="submit">가입</button>
+         </form>
+      </div>
+      <script th:src="@{/js/auth/formatPhoneNumber.js}"></script>
+      <script th:src="@{/js/auth/checkBoxConsent.js}"></script>
+   </th:block>
 </html>

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.custom.CustomUserDetails;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -134,12 +134,12 @@ public class JWTokenProvider {
    */
   private String createToken(Authentication authentication) {
 
-    User user = (User) authentication.getPrincipal();
+    CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
     return Jwts.builder()
-        .subject(user.getUsername())
+        .subject(userDetails.getUsername())
         .issuer(issuer)
-        .claim("role", user.getRole().getName())
+        .claim("role", userDetails.getRole().getName())
         .issuedAt(new Date())
         .expiration(new Date(System.currentTimeMillis() + expiration))
         .signWith(secretKey)

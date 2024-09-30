@@ -31,7 +31,6 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/user")
 @Slf4j
-// @RestController
 @RequiredArgsConstructor
 public class ReservationController {
 
@@ -44,26 +43,18 @@ public class ReservationController {
     @Autowired
     private RoomInfoService roomInfoService;
 
-    // @Autowired
-    // private PortOnePaymentService portOnePaymentService;
-
-    // private PortOneTokenResponse portOneTokenResponse;
-
     @Value("${PORTONE_API_KEY}")
     private String apiKey;
 
     @Value("${PORTONE_SECRET_KEY}")
     private String apiSecret;
 
-    // 결제 성공
     @PostMapping("/paySuccess")
     public @ResponseBody ResponseEntity<String> paySuccess(@ModelAttribute PaymentDto paymentDto) {
 
-        // userId와 roomInfoId를 사용하여 User와 RoomInfo 조회
         User user = userService.findById(paymentDto.getUserId());
         RoomInfo roomInfo = roomInfoService.findById(paymentDto.getRoomInfoId());
 
-        // Create and save reservation
         reservationService.createReservation(paymentDto.getImp_uid(), user, roomInfo, LocalDateTime.now(),
                 LocalDateTime.now().plusDays(1), paymentDto);
 
@@ -81,10 +72,10 @@ public class ReservationController {
         boolean result = reservationService.cancel_reservation(reservationId);
 
         if (result) {
-            return "redirect:/user/myPage"; // 성공 시 리다이렉트
+            return "redirect:/user/myPage";
         } else {
             model.addAttribute("cancelResult", false);
-            return "redirect:/user/errorPage"; // 실패 시 에러 페이지로 리다이렉트 (에러 페이지가 있는 경우)
+            return "redirect:/user/errorPage";
         }
     }
 

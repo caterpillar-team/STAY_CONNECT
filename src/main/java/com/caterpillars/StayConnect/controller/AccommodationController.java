@@ -43,7 +43,6 @@ public class AccommodationController {
         AccommodationDto accommodationDto = accommodationService.getAccommodationDto(accId, pageable);
 
         if (accommodationDto != null) {
-            // 현재 사용자 정보
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String currentUser = (authentication != null && authentication.isAuthenticated()) ? authentication.getName()
                     : "";
