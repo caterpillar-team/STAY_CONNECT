@@ -1,9 +1,9 @@
 package com.caterpillars.StayConnect.component.interceptor;
 
 import java.net.HttpCookie;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -13,13 +13,14 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
+import com.caterpillars.StayConnect.custom.CustomUserDetails;
+import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.model.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,21 +31,24 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
   @Autowired
   private JWTokenProvider jwTokenProvider;
 
+  @Autowired
+  private UserRepository userRepository;
+
   @Override
   public boolean beforeHandshake(@NonNull ServerHttpRequest request, @NonNull ServerHttpResponse response,
       @NonNull WebSocketHandler wsHandler, @NonNull Map<String, Object> attributes) throws Exception {
 
     String jwToken = getJwtTokenFromCookies(request);
     if (jwToken != null && jwTokenProvider.validateToken(jwToken)) {
-      String username = jwTokenProvider.extractUsername(jwToken);
-      String role = jwTokenProvider.extractRole(jwToken);
-      List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
-
-      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null,
-          authorities);
-
-      attributes.put("principal", authentication);
-      return true;
+      Long userId = jwTokenProvider.extractSubject(jwToken);
+      Optional<User> user = userRepository.findById(userId);
+      if (user.isPresent()) {
+        CustomUserDetails userDetails = new CustomUserDetails(user.get());
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
+            userDetails.getAuthorities());
+        attributes.put("principal", authentication);
+        return true;
+      }
     }
     response.setStatusCode(HttpStatus.UNAUTHORIZED);
     return false;

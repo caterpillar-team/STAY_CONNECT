@@ -16,16 +16,34 @@ const WebSocketManager = {
 
          onConnect: frame => {
             console.log('Connected: ' + frame);
-            this.stompClient.subscribe('/inquiry/messages', function (messageOutput) {
-               showMessage(messageOutput.body);
-            });
+            const role = localStorage.getItem('role');
+
+            if (role === 'ROLE_ADMIN') {
+               this.stompClient.subscribe('/user/chat/message', function (messageOutput) {
+                  showMessage(messageOutput.body);
+               });
+               this.stompClient.subscribe('/inquiry/self', function (messageOutput) {
+                  showMessage(messageOutput.body);
+               });
+               this.stompClient.subscribe('/inquiry/claims', function (messageOutput) {
+                  showMessage(messageOutput.body);
+               });
+            } else if (role === 'ROLE_USER') {
+               this.stompClient.subscribe('/user/chat/message', function (messageOutput) {
+                  showMessage(messageOutput.body);
+               });
+               this.stompClient.subscribe('/inquiry/self', function (messageOutput) {
+                  showMessage(messageOutput.body);
+               });
+            } else {
+               console.error('Unknown role: ' + role);
+            }
          },
 
          onStompError: frame => {
             console.log('STOMP: ' + frame);
          },
       });
-
       this.stompClient.activate();
    },
 
@@ -45,31 +63,27 @@ window.onload = function () {
    const chatInput = document.getElementById('chatInput');
    const sendButton = document.getElementById('sendButton');
 
-   // Enter 키로 메시지 전송
    chatInput.addEventListener('keydown', function (event) {
       if (event.key === 'Enter' && chatInput.value.trim() !== '') {
          sendMessage();
       }
    });
 
-   // Send 버튼 클릭 시 메시지 전송
    sendButton.addEventListener('click', function () {
       sendMessage();
    });
 };
 
-// 메시지 전송 함수
 function sendMessage() {
    const chatInput = document.getElementById('chatInput');
    const message = chatInput.value.trim();
 
    if (message !== '') {
-      WebSocketManager.publish('/app/sendMessage', message);
-      chatInput.value = ''; // 전송 후 입력 필드 비우기
+      WebSocketManager.publish('/app/inquiry/message', message);
+      chatInput.value = '';
    }
 }
 
-// 받은 메시지 표시 함수
 function showMessage(message) {
    const chatMessages = document.getElementById('chatMessages');
    const messageElement = document.createElement('div');

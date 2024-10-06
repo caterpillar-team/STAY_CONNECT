@@ -1,7 +1,6 @@
 package com.caterpillars.StayConnect.component.initializer;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -26,11 +25,9 @@ public class RoomInfoInitializer implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
     List<Accommodation> accommodations = accommodationRepository.findAll();
-    for (Accommodation accommodation : accommodations) {
-      for (int i = 1; i <= 3; i++) {
-        // Check if RoomInfo already exists
-        Optional<RoomInfo> room = roomInfoRepository.existsByAccommodationAndRoomType(accommodation, "Room Type " + i);
-        if (room.isEmpty()) {
+    if (roomInfoRepository.count() == 0) {
+      for (Accommodation accommodation : accommodations) {
+        for (int i = 1; i <= 3; i++) {
           RoomInfo roomInfo = RoomInfo.builder()
               .accommodation(accommodation)
               .roomType("Room Type " + i)

@@ -17,7 +17,9 @@
       <script th:src="@{/lib/jquery/jquery.min.js}"></script>
       <script th:src="@{/lib/jsdelivr/sockjs.min.js}"></script>
       <script th:src="@{/lib/jsdelivr/stomp.umd.min.js}"></script>
-      <script th:src="@{/js/layout/wsManager.js}" defer></script>
+      <script sec:authorize="isAuthenticated()" th:src="@{/js/layout/wsManager.js}"></script>
+      <script sec:authorize="isAuthenticated()" th:src="@{/js/layout/chatRoomManager.js}"></script>
+      <script sec:authorize="isAuthenticated()" th:src="@{/js/layout/roleManager.js}"></script>
       <!-- title -->
       <th:block layout:fragment="title"></th:block>
       <!-- css -->
@@ -39,8 +41,8 @@
                <th:block layout:fragment="rightAside"></th:block>
             </aside>
          </section>
-         <div th:insert="~{fragments/common/chatCard_frag::chatCard}"></div>
-         <script th:src="@{js/layout/sendMessage.js}"></script>
+         <div sec:authorize="hasRole('ROLE_USER')" th:insert="~{fragments/common/chatCard_frag::chatCard}"></div>
+         <div sec:authorize="hasRole('ROLE_ADMIN')" th:insert="~{fragments/common/adminChatRoomList_frag::adminChatRoomListCard}"></div>
          <footer>
             <div th:insert="~{fragments/common/footer_frag::footer}"></div>
          </footer>

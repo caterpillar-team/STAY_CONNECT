@@ -1,0 +1,63 @@
+<div class="ChatRoomListContainer" th:fragment="adminChatRoomListCard">
+   <div class="ChatRoomListHeader">
+      <h5>할당되지 않은 ChatRoom 목록</h5>
+   </div>
+   <div class="ChatRoomListBody">
+      <ul class="ChatRoomList">
+         <li class="ChatRoomListItem" th:each="chatRoom : ${unassignedChatRooms}">
+            <span th:text="${chatRoom.name}">ChatRoom Name</span>
+            <a class="AssignLink" th:href="@{/admin/assignChatRoom/{id}(id=${chatRoom.id})}">할당</a>
+         </li>
+      </ul>
+   </div>
+</div>
+
+<style>
+   .ChatRoomListContainer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+   }
+   .ChatRoomListHeader {
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: calc(33.333% - 20px);
+      box-sizing: border-box;
+   }
+   .ChatRoomListHeader h5 {
+      margin-top: 0;
+   }
+   .ChatRoomListBody {
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: calc(33.333% - 20px);
+      box-sizing: border-box;
+   }
+   .ChatRoomList {
+      list-style: none;
+      padding: 0;
+   }
+   .ChatRoomListItem {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+   }
+   .ChatRoomListItem:last-child {
+      border-bottom: none;
+   }
+   .AssignLink {
+      text-decoration: none;
+      color: #007bff;
+   }
+   .AssignLink:hover {
+      text-decoration: underline;
+   }
+</style>

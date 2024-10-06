@@ -1,6 +1,5 @@
 package com.caterpillars.StayConnect.controller;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
+import com.caterpillars.StayConnect.custom.CustomUserDetails;
 import com.caterpillars.StayConnect.model.dto.ReservationDto;
 import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
@@ -35,9 +34,6 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
-    private JWTokenProvider jwTokenProvider;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -48,19 +44,11 @@ public class UserController {
 
     @GetMapping("/myPage")
     public String editUser(Model model, HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        String token = null;
-        if (cookies != null) {
-            token = Arrays.stream(cookies)
-                    .filter(cookie -> "jwt".equals(cookie.getName()))
-                    .map(Cookie::getValue)
-                    .findAny()
-                    .orElse(null);
-        }
 
-        String username = jwTokenProvider.extractUsername(token);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        Optional<User> result = userRepository.findByUsername(username);
+        Optional<User> result = userRepository.findById(userDetails.getId());
 
         if (result.isPresent()) {
             User user = result.get();

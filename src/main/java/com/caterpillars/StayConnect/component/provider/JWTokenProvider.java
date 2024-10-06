@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import com.caterpillars.StayConnect.custom.CustomOAuth2UserDetails;
 import com.caterpillars.StayConnect.custom.CustomUserDetails;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -80,20 +82,10 @@ public class JWTokenProvider {
       log.error("JWT claims string is empty: {}", e.getMessage());
     } catch (SignatureException e) {
       log.error("Invalid JWT signature: {}", e.getMessage());
-    } catch (Exception e) {
+    } catch (JwtException e) {
       log.error("Invalid JWT: {}", e.getMessage());
     }
     return false;
-  }
-
-  /**
-   * JWT 토큰에서 사용자 이름을 추출합니다.
-   *
-   * @param token JWT 토큰
-   * @return 사용자 이름
-   */
-  public String extractUsername(String token) {
-    return extractClaim(token, Claims::getSubject);
   }
 
   /**
@@ -107,13 +99,13 @@ public class JWTokenProvider {
   }
 
   /**
-   * JWT 토큰에서 역할을 추출합니다.
+   * JWT 토큰에서 subject를 추출합니다.
    *
    * @param token JWT 토큰
-   * @return 역할
+   * @return subject
    */
-  public String extractRole(String token) {
-    return extractClaim(token, claims -> claims.get("role", String.class));
+  public Long extractSubject(String token) {
+    return Long.valueOf(extractClaim(token, Claims::getSubject));
   }
 
   /**
@@ -134,12 +126,23 @@ public class JWTokenProvider {
    */
   private String createToken(Authentication authentication) {
 
-    CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+    Object principal = authentication.getPrincipal();
 
+    if (principal instanceof CustomUserDetails) {
+      CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+      return buildJwToken(userDetails.getId().toString());
+    } else if (principal instanceof CustomOAuth2UserDetails) {
+      CustomOAuth2UserDetails userDetails = (CustomOAuth2UserDetails) authentication.getPrincipal();
+      return buildJwToken(userDetails.getId().toString());
+    } else {
+      throw new IllegalArgumentException("Invalid principal type");
+    }
+  }
+
+  private String buildJwToken(String subject) {
     return Jwts.builder()
-        .subject(userDetails.getUsername())
+        .subject(subject)
         .issuer(issuer)
-        .claim("role", userDetails.getRole().getName())
         .issuedAt(new Date())
         .expiration(new Date(System.currentTimeMillis() + expiration))
         .signWith(secretKey)
@@ -168,5 +171,4 @@ public class JWTokenProvider {
     final Claims claims = extractAllClaims(token);
     return claimsResolver.apply(claims);
   }
-
 }

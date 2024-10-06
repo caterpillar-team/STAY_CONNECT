@@ -10,11 +10,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.caterpillars.StayConnect.model.entities.Role;
 import com.caterpillars.StayConnect.model.entities.User;
 
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class CustomUserDetails implements UserDetails {
 
-  private final User user;
+  private User user;
 
-  public CustomUserDetails(User user) {
+  public CustomUserDetails(@NonNull User user) {
     this.user = user;
   }
 
@@ -39,5 +43,9 @@ public class CustomUserDetails implements UserDetails {
 
   public Long getId() {
     return user.getId();
+  }
+
+  public User getUser() {
+    return user;
   }
 }

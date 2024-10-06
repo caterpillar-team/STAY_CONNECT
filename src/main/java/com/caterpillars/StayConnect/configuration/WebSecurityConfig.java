@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -54,26 +55,25 @@ public class WebSecurityConfig {
                                                                 "script-src 'self' *.daumcdn.net;")))
                                 .csrf((csrf) -> csrf
                                                 .ignoringRequestMatchers("/ws/**")
-                                                .disable())
+                                                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                                 .cors(cors -> cors.configurationSource(
                                                 corsConfigurationSource()))
                                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                                                 .requestMatchers("/", "/accommodation/**", "/search").permitAll()
                                                 .requestMatchers("/ws/**").authenticated()
+                                                .requestMatchers("/api/**").authenticated()
                                                 .requestMatchers("/auth/**").not().authenticated()
                                                 .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/fonts/**")
                                                 .permitAll()
                                                 .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
-
-                                .exceptionHandling(
-                                                exception -> exception.defaultAuthenticationEntryPointFor(
-                                                                unauthorizedEntryPoint(),
+                                .exceptionHandling(exception -> exception
+                                                .defaultAuthenticationEntryPointFor(unauthorizedEntryPoint(),
                                                                 new AntPathRequestMatcher("/ws/**")))
-
                                 .formLogin((formLogin) -> formLogin
                                                 .loginPage("/auth/signin")
+                                                .loginProcessingUrl("/auth/signin")
                                                 .usernameParameter("username")
                                                 .passwordParameter("password")
                                                 .defaultSuccessUrl("/", true)
@@ -114,5 +114,4 @@ public class WebSecurityConfig {
                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 };
         }
-
 }

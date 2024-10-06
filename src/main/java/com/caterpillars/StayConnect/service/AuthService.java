@@ -92,6 +92,7 @@ public class AuthService implements UserDetailsService,
     if (requestURI.contains("/signin")) {
       return new CustomUserDetails(
           User.builder()
+              .id(user.getId())
               .username(user.getUsername())
               .password(user.getPassword())
               .role(user.getRole())

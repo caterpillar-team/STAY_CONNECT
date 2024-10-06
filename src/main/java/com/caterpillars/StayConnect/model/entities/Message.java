@@ -2,6 +2,8 @@ package com.caterpillars.StayConnect.model.entities;
 
 import java.time.LocalDateTime;
 
+import com.caterpillars.StayConnect.model.dto.MessageDto.MessageType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -46,8 +48,4 @@ public class Message {
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
   private MessageType type;
-
-  public enum MessageType {
-    TEXT, FILE
-  }
 }

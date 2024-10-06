@@ -1,5 +1,7 @@
 package com.caterpillars.StayConnect.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +25,8 @@ public class ChatRoomService {
     return chatRoomRepository.save(newChatRoom);
   }
 
-  public ChatRoom findChatRoomByUserId(Long userId) {
-    return chatRoomRepository.findByUserId(userId).orElse(null);
+  public Optional<ChatRoom> findChatRoomByUserId(Long userId) {
+    return chatRoomRepository.findByUserId(userId);
   }
 
   public ChatRoom assignAdminToChatRoom(Long chatRoomId, Long adminId) {
