@@ -237,25 +237,3 @@ li {
    margin-right: 1rem;
    font-weight: 500;
 }
-
-#chatListContainer {
-   position: fixed;
-   bottom: 20px;
-   right: 20px;
-   width: 300px;
-   height: 400px;
-   color: black;
-   background-color: white;
-   border: 1px solid #ccc;
-   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-   border-radius: 10px;
-   padding: 10px;
-   display: flex;
-   flex-direction: column;
-   justify-content: space-between;
-   z-index: 1000;
-}
-
-#chatListContainer.hidden {
-   display: none;
-}

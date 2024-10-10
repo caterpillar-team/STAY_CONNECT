@@ -4,10 +4,6 @@
    xmlns:th="http://www.thymeleaf.org"
    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
    layout:decorate="~{layouts/layout}">
-   <th:block layout:fragment="javascript">
-      <script th:src="@{/lib/swiper/swiper-bundle.min.js}"></script>
-      <script th:src="@{/lib/axios/axios.min.js}"></script>
-   </th:block>
    <th:block layout:fragment="title">
       <title>index page</title>
    </th:block>
@@ -17,7 +13,6 @@
    </th:block>
    <th:block layout:fragment="javascript">
       <script th:src="@{/lib/swiper/swiper-bundle.min.js}"></script>
-      <script th:src="@{/lib/axios/axios.min.js}"></script>
       <script th:src="@{/lib/kakao/kakao_map.js}"></script>
    </th:block>
    <th:block layout:fragment="leftAside"></th:block>

@@ -21,15 +21,16 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import com.caterpillars.StayConnect.custom.CustomOAuth2UserDetails;
-import com.caterpillars.StayConnect.custom.CustomUserDetails;
+import com.caterpillars.StayConnect.custom.PrincipalDetails;
 import com.caterpillars.StayConnect.model.dto.UserSignUpDto;
 import com.caterpillars.StayConnect.model.entities.Role;
 import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.RoleRepository;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -88,17 +89,16 @@ public class AuthService implements UserDetailsService,
     User user = userRepository.findByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException("user not found with username: " + username));
 
-    String requestURI = httpServletRequest.getRequestURI();
-    if (requestURI.contains("/signin")) {
-      return new CustomUserDetails(
-          User.builder()
-              .id(user.getId())
-              .username(user.getUsername())
-              .password(user.getPassword())
-              .role(user.getRole())
-              .build());
-    }
-    return new CustomUserDetails(user);
+    return new PrincipalDetails(
+        User.builder()
+            .id(user.getId())
+            .username(user.getUsername())
+            .password(user.getPassword())
+            .role(user.getRole())
+            .build(),
+        null);
+
+    // return new PrincipalDetails(user, null);
   }
 
   @Override
@@ -116,6 +116,8 @@ public class AuthService implements UserDetailsService,
     Map<String, Object> attributes = new HashMap<>(oAuth2User.getAttributes());
     attributes.put("phone_number", phoneNumber);
 
+    // log.info("OAuth2User attributes: {}", attributes);
+
     String realName = attributes.get("name").toString();
 
     httpServletRequest.setAttribute("realName", realName);
@@ -124,7 +126,7 @@ public class AuthService implements UserDetailsService,
     User user = userRepository.findByRealNameAndPhoneNumber(realName, phoneNumber)
         .orElseThrow(() -> new OAuth2AuthenticationException("DB에 일치하는 유저가 없습니다."));
 
-    return new CustomOAuth2UserDetails(user, attributes);
+    return new PrincipalDetails(user, attributes);
   }
 
   private String fetchGooglePhoneNumber(String accessToken) {
@@ -149,7 +151,7 @@ public class AuthService implements UserDetailsService,
         JsonNode firstPhoneNumberNode = phoneNumbersNode.get(0);
         phoneNumber = firstPhoneNumberNode.path("value").asText();
       }
-    } catch (Exception e) {
+    } catch (JsonProcessingException | RestClientException e) {
       log.error("Error fetching phone number", e);
     }
     return phoneNumber;

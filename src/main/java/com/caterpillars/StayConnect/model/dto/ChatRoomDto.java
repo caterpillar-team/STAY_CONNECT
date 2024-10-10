@@ -1,17 +1,25 @@
 package com.caterpillars.StayConnect.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+import com.caterpillars.StayConnect.model.entities.ChatRoom;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class ChatRoomDto {
 
-    private String id;
-    private String roomId;
+    private Long id;
 
+    private String userName;
+
+    private LocalDateTime createdAt;
+
+    public ChatRoomDto(ChatRoom chatRoom) {
+        this.id = chatRoom.getId();
+        this.userName = chatRoom.getUser().getUsername();
+        this.createdAt = chatRoom.getCreatedAt();
+    }
 }

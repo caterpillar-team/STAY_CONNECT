@@ -73,19 +73,27 @@
 
 환경 변수는 애플리케이션의 설정과 비밀 정보를 관리하는 데 사용됩니다. 아래는 사용되는 환경 변수 목록입니다.
 
-| **키 값**                       | **설명**                                      | **기본값**                |
-| ------------------------------ | -------------------------------------------- | ----------------------- |
-| `BASE_URL`                     | 애플리케이션의 기본 URL                            | `http://localhost:8080` |
-| `SERVER_PORT`                  | 애플리케이션이 실행되는 포트 번호             | `8080`                |
-| `JSON_WEB_TOKEN_SECRET_KEY`    | JWT 서명에 사용되는 비밀 키                   | `mysecret`            |
-| `JSON_WEB_TOKEN_EXPIRATION_TIME`| JWT 토큰의 만료 시간 (밀리초 단위)           | `3600000`             |
-| `MYSQL_SERVER_URL`             | 데이터베이스 연결 URL                         | `jdbc:mysql://localhost:3306/mydb` |
-| `MYSQL_SERVER_USERNAME`        | 데이터베이스 사용자 이름                      | `root`                |
-| `MYSQL_SERVER_PASSWORD`        | 데이터베이스 비밀번호                         | `password`            |
-| `GOOGLE_CLIENT_ID`             | Google OAuth 클라이언트 ID                    |                       |
-| `GOOGLE_CLIENT_SECRET`         | Google OAuth 클라이언트 비밀 키               |                       |
-| `KAKAO_CLIENT_ID`              | Kakao OAuth 클라이언트 ID                     |                       |
-| `KAKAO_CLIENT_SECRET`          | Kakao OAuth 클라이언트 비밀 키                |                       |
+| Key                             | Value                  | Description                                              |
+|----------------------------------|------------------------|----------------------------------------------------------|
+| BASE_URL                         | url                    | 애플리케이션의 기본 URL                                    |
+| SERVER_PORT                      | port_num               | 서버가 실행되는 포트 번호                                  |
+| JSON_WEB_TOKEN_SECRET_KEY        | secret_key             | JWT 토큰을 서명하기 위한 비밀 키                           |
+| JSON_WEB_TOKEN_EXPIRATION_TIME    | time                   | JWT 토큰의 만료 시간                                       |
+| JSON_WEB_TOKEN_ISSUER            | issuer                 | JWT 발행자 정보                                            |
+| MYSQL_SERVER_URL                 | mysql_server_url       | MySQL 데이터베이스 서버 URL                                 |
+| MYSQL_SERVER_USERNAME            | username               | MySQL 서버의 사용자 이름                                   |
+| MYSQL_SERVER_PASSWORD            | password               | MySQL 서버의 사용자 비밀번호                               |
+| GOOGLE_CLIENT_ID                 | google_client_id       | Google OAuth2 클라이언트 ID                                |
+| GOOGLE_CLIENT_SECRET             | google_client_secret   | Google OAuth2 클라이언트 시크릿 키                         |
+| PORTONE_API_URL                  | portone_api_url        | PortOne API 엔드포인트 URL                                 |
+| PORTONE_API_KEY                  | portone_api_key        | PortOne API를 사용하는 데 필요한 키                        |
+| PORTONE_SECRET_KEY               | portone_secret_key     | PortOne API 시크릿 키                                       |
+| PRODUCTION_MYSQL_URL             | production_mysql_url   | 프로덕션 환경에서의 MySQL 서버 URL                         |
+| PRODUCTION_MYSQL_ROOT_PASSWORD   | password               | 프로덕션 MySQL 서버의 루트 계정 비밀번호                   |
+| PRODUCTION_MYSQL_DATABASE        | database               | 프로덕션 환경에서 사용할 데이터베이스 이름                 |
+| PRODUCTION_MYSQL_USERNAME        | username               | 프로덕션 MySQL 서버의 사용자 이름                           |
+| PRODUCTION_MYSQL_PASSWORD        | password               | 프로덕션 MySQL 서버의 사용자 비밀번호                      |
+
 
 
 

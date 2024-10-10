@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
-import com.caterpillars.StayConnect.custom.CustomUserDetails;
+import com.caterpillars.StayConnect.custom.PrincipalDetails;
 import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
 
@@ -55,7 +55,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
       Long userId = jwTokenProvider.extractSubject(token);
       Optional<User> user = userRepository.findById(userId);
       if (user.isPresent()) {
-        CustomUserDetails userDetails = new CustomUserDetails(user.get());
+        PrincipalDetails userDetails = new PrincipalDetails(user.get(), null);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
             userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -2,24 +2,24 @@ package com.caterpillars.StayConnect.custom;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.caterpillars.StayConnect.model.entities.Role;
 import com.caterpillars.StayConnect.model.entities.User;
 
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
-@Slf4j
-public class CustomUserDetails implements UserDetails {
+  private final User user;
+  private final Map<String, Object> attributes;
 
-  private User user;
-
-  public CustomUserDetails(@NonNull User user) {
+  public PrincipalDetails(User user, Map<String, Object> attributes) {
     this.user = user;
+    this.attributes = attributes;
   }
 
   @Override
@@ -35,6 +35,16 @@ public class CustomUserDetails implements UserDetails {
   @Override
   public String getUsername() {
     return user.getUsername();
+  }
+
+  @Override
+  public Map<String, Object> getAttributes() {
+    return attributes;
+  }
+
+  @Override
+  public String getName() {
+    return attributes.get("name").toString();
   }
 
   public Role getRole() {

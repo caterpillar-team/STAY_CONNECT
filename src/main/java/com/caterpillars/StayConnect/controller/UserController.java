@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.caterpillars.StayConnect.custom.CustomUserDetails;
+import com.caterpillars.StayConnect.custom.PrincipalDetails;
 import com.caterpillars.StayConnect.model.dto.ReservationDto;
 import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
@@ -46,7 +46,7 @@ public class UserController {
     public String editUser(Model model, HttpServletRequest request) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
 
         Optional<User> result = userRepository.findById(userDetails.getId());
 

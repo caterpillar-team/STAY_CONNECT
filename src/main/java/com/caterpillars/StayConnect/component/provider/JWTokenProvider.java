@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import com.caterpillars.StayConnect.custom.CustomOAuth2UserDetails;
-import com.caterpillars.StayConnect.custom.CustomUserDetails;
+import com.caterpillars.StayConnect.custom.PrincipalDetails;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -125,23 +124,9 @@ public class JWTokenProvider {
    * @return 생성된 JWT 토큰
    */
   private String createToken(Authentication authentication) {
-
-    Object principal = authentication.getPrincipal();
-
-    if (principal instanceof CustomUserDetails) {
-      CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-      return buildJwToken(userDetails.getId().toString());
-    } else if (principal instanceof CustomOAuth2UserDetails) {
-      CustomOAuth2UserDetails userDetails = (CustomOAuth2UserDetails) authentication.getPrincipal();
-      return buildJwToken(userDetails.getId().toString());
-    } else {
-      throw new IllegalArgumentException("Invalid principal type");
-    }
-  }
-
-  private String buildJwToken(String subject) {
+    PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
     return Jwts.builder()
-        .subject(subject)
+        .subject(userDetails.getId().toString())
         .issuer(issuer)
         .issuedAt(new Date())
         .expiration(new Date(System.currentTimeMillis() + expiration))

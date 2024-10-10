@@ -98,59 +98,6 @@ width: 100px;
   font-size: 18px;
 }
 
-/* 카카오로 시작하기 */
-#kakao_customBtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #fee500;
-  color: #191919;
-  border-radius: 12px;
-  padding: 0.5em 1em;
-  margin: 5% 0;
-}
-#kakao_customBtn:hover {
-  cursor: pointer;
-}
-
-span.K_icon {
-  background: url('/img/kakao_logo.png');
-  background-size: contain;
-  display: inline-block;
-  vertical-align: middle;
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-}
-
-/* 네이버로 시작하기 */
-
-#naver_customBtn {
-  padding: 0.5em 1em;
-  border-radius: 0.25em;
-  font-size: 0.8rem;
-  margin: 5% 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 400;
-  box-shadow: var(--shadow-1);
-  background-color: #03c75a;
-  color: white;
-}
-#naver_customBtn:hover {
-  cursor: pointer;
-}
-
-span.N_icon {
-  background: url('/img/naver_logo.png');
-  background-size: contain;
-  display: inline-block;
-  vertical-align: middle;
-  width: 42px;
-  height: 42px;
-}
-
 /* 구글로 시작하기 */
 
 #google_customBtn {

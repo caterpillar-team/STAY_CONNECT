@@ -1,5 +1,6 @@
 package com.caterpillars.StayConnect.model.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,8 @@ import com.caterpillars.StayConnect.model.entities.ChatRoom;
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 
   Optional<ChatRoom> findByUserId(Long userId);
+
+  Optional<List<ChatRoom>> findAllByAdminId(Long id);
+
+  Optional<List<ChatRoom>> findAllByAdminIdIsNull();
 }

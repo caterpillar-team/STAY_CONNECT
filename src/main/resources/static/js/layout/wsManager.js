@@ -1,3 +1,5 @@
+const role = localStorage.getItem('role');
+
 const WebSocketManager = {
    socket: null,
    stompClient: null,
@@ -16,7 +18,6 @@ const WebSocketManager = {
 
          onConnect: frame => {
             console.log('Connected: ' + frame);
-            const role = localStorage.getItem('role');
 
             if (role === 'ROLE_ADMIN') {
                this.stompClient.subscribe('/user/chat/message', function (messageOutput) {
@@ -60,18 +61,20 @@ const WebSocketManager = {
 window.onload = function () {
    WebSocketManager.connect();
 
-   const chatInput = document.getElementById('chatInput');
-   const sendButton = document.getElementById('sendButton');
+   if (role === 'ROLE_USER') {
+      const chatInput = document.getElementById('chatInput');
+      const sendButton = document.getElementById('sendButton');
 
-   chatInput.addEventListener('keydown', function (event) {
-      if (event.key === 'Enter' && chatInput.value.trim() !== '') {
+      chatInput.addEventListener('keydown', function (event) {
+         if (event.key === 'Enter' && chatInput.value.trim() !== '') {
+            sendMessage();
+         }
+      });
+
+      sendButton.addEventListener('click', function () {
          sendMessage();
-      }
-   });
-
-   sendButton.addEventListener('click', function () {
-      sendMessage();
-   });
+      });
+   }
 };
 
 function sendMessage() {

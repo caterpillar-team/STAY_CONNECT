@@ -3,7 +3,6 @@ package com.caterpillars.StayConnect.component.interceptor;
 import java.net.HttpCookie;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -18,15 +17,11 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import com.caterpillars.StayConnect.component.provider.JWTokenProvider;
-import com.caterpillars.StayConnect.custom.CustomUserDetails;
-import com.caterpillars.StayConnect.model.entities.User;
+import com.caterpillars.StayConnect.custom.PrincipalDetails;
 import com.caterpillars.StayConnect.model.repository.UserRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Component
-public class JwtHandshakeInterceptor implements HandshakeInterceptor {
+public class JwtHandShakeInterceptor implements HandshakeInterceptor {
 
   @Autowired
   private JWTokenProvider jwTokenProvider;
@@ -35,18 +30,19 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
   private UserRepository userRepository;
 
   @Override
-  public boolean beforeHandshake(@NonNull ServerHttpRequest request, @NonNull ServerHttpResponse response,
-      @NonNull WebSocketHandler wsHandler, @NonNull Map<String, Object> attributes) throws Exception {
+  public boolean beforeHandshake(@NonNull ServerHttpRequest request,
+      @NonNull ServerHttpResponse response,
+      @NonNull WebSocketHandler wsHandler,
+      @NonNull Map<String, Object> attributes) throws Exception {
 
-    String jwToken = getJwtTokenFromCookies(request);
-    if (jwToken != null && jwTokenProvider.validateToken(jwToken)) {
-      Long userId = jwTokenProvider.extractSubject(jwToken);
-      Optional<User> user = userRepository.findById(userId);
-      if (user.isPresent()) {
-        CustomUserDetails userDetails = new CustomUserDetails(user.get());
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
-            userDetails.getAuthorities());
-        attributes.put("principal", authentication);
+    String jwt = getJwtCookie(request);
+    if (jwt != null && jwTokenProvider.validateToken(jwt)) {
+      Long userId = jwTokenProvider.extractSubject(jwt);
+      if (userRepository.findById(userId).isPresent()) {
+        PrincipalDetails principalDetails = new PrincipalDetails(userRepository.findById(userId).get(), null);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+            principalDetails.getUsername(), null, principalDetails.getAuthorities());
+        attributes.put("authentication", authentication);
         return true;
       }
     }
@@ -55,11 +51,15 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
   }
 
   @Override
-  public void afterHandshake(@NonNull ServerHttpRequest request, @NonNull ServerHttpResponse response,
-      @NonNull WebSocketHandler wsHandler, @Nullable Exception exception) {
+  public void afterHandshake(
+      @NonNull ServerHttpRequest request,
+      @NonNull ServerHttpResponse response,
+      @NonNull WebSocketHandler wsHandler,
+      @Nullable Exception exception) {
+    throw new UnsupportedOperationException("Unimplemented method 'afterHandshake'");
   }
 
-  private String getJwtTokenFromCookies(@NonNull ServerHttpRequest request) {
+  private String getJwtCookie(@NonNull ServerHttpRequest request) {
     List<String> cookieHeaders = request.getHeaders().get(HttpHeaders.COOKIE);
     if (cookieHeaders != null) {
       return cookieHeaders.stream()
@@ -69,6 +69,6 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
           .findFirst()
           .orElse(null);
     }
-    return null;
+    throw (new RuntimeException("No cookie found"));
   }
 }
