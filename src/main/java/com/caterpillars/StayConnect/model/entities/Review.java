@@ -34,11 +34,13 @@ public class Review {
     @JoinColumn(name = "roomInfo_id", nullable = false)
     private RoomInfo roomInfo;
 
+    @Column(nullable = false)
     private String contents;
 
-    @Column(columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @Column(columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", nullable = false)
     private LocalDateTime createdAt;
 
+    @Column(nullable = false)
     private int rate;
 
 }

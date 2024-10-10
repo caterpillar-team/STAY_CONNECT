@@ -98,54 +98,22 @@
   height: 40px;
   line-height: 50px;
 }
-.bot__join > .join-kakao {
-  background-color: #f9e000;
-}
-.bot__join > .join-kakao span {
-  color: #3c1e1e;
-}
-.bot__join > .join-naver {
-  background-color: #00c73c;
-  color: white;
-}
-.bot__join > .join-naver span {
-  color: white;
-}
-.bot__join > .join-google {
-  background-color: white;
-  border: 1px solid lightgray;
-  color: #3c1e1e;
-}
-.bot__join > .join-google span {
-  color: gray;
-}
-.bot__join > .join-google .join-oth-logo {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
-}
-.join-oth {
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-  display: flex;
-  color: black;
-}
 .foot__join {
   display: flex;
   height: 70px;
   border-top: 2px solid #a7d0de;
 }
-.foot__join > .back-or-join {
-  width: 50%;
-  text-align: center;
-}
 
-.foot__join > .back-or-join a {
-  text-decoration: none;
+.foot__join > .register {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
   font-weight: bold;
-  font-size: 1.4rem;
   color: #a7d0de;
-  line-height: 70px;
 }

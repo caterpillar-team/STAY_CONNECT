@@ -16,8 +16,10 @@ import com.caterpillars.StayConnect.model.entities.RoomInfo;
 import com.caterpillars.StayConnect.model.repository.AccommodationRepository;
 import com.caterpillars.StayConnect.model.repository.ReviewRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
-// @Slf4j
 public class AccommodationService {
 
     @Autowired
@@ -72,7 +74,6 @@ public class AccommodationService {
         return reviewService.findReviewsByAccommodationId(accommodationId, pageable);
     }
 
-    // 별점 평균 계산
     public int calculateAverageRating(List<Review> reviews) {
         if (reviews == null || reviews.isEmpty()) {
             return 0;
@@ -143,7 +144,6 @@ public class AccommodationService {
         return accommodationDtos;
     }
 
-    // 키워드 검색
     @Transactional(readOnly = true)
     public List<AccommodationDto> search(String searchText) {
         List<Accommodation> searchResult = accommodationRepository.findAllByNameContaining(searchText);

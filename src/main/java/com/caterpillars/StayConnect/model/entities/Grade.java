@@ -3,6 +3,7 @@ package com.caterpillars.StayConnect.model.entities;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +28,7 @@ public class Grade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String grade;
 
     @OneToMany(mappedBy = "grade", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })

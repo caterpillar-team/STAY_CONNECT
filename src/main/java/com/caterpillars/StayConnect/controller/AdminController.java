@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.service.ChartDataService;
-import com.caterpillars.StayConnect.service.InquiryService;
 import com.caterpillars.StayConnect.service.ReservationService;
 import com.caterpillars.StayConnect.service.ReviewService;
 import com.caterpillars.StayConnect.service.UserService;
@@ -39,14 +38,7 @@ public class AdminController {
   private ChartDataService chartDataService;
 
   @Autowired
-  private InquiryService inquiryService;
-
-  @Autowired
   private ObjectMapper objectMapper;
-
-  private void addCommonAttributes(Model model) {
-    model.addAttribute("lastMessages", inquiryService.getLastMessages());
-  }
 
   @GetMapping("/dashBoard")
   public String getCharts(Model model) throws JsonProcessingException {
@@ -59,8 +51,6 @@ public class AdminController {
     model.addAttribute("reservationStats", reservationStatsJson);
     model.addAttribute("ageStats", ageStats);
     model.addAttribute("reservationsByRegion", regionStats);
-
-    addCommonAttributes(model);
 
     return "pages/admin/dashBoard";
   }
@@ -75,11 +65,8 @@ public class AdminController {
     }
 
     model.addAttribute("userList", users);
-    model.addAttribute("lastMessages", inquiryService.getLastMessages());
-    addCommonAttributes(model);
 
     return "pages/admin/userList";
-
   }
 
   @GetMapping("/deleteUser/{id}")
@@ -92,8 +79,6 @@ public class AdminController {
   public String getAdminReviewList(Model model) throws JsonProcessingException {
 
     model.addAttribute("reviewList", reviewService.findAllReviews());
-    model.addAttribute("lastMessages", inquiryService.getLastMessages());
-    addCommonAttributes(model);
 
     return "pages/admin/reviewList";
   }
@@ -111,21 +96,4 @@ public class AdminController {
 
     return ResponseEntity.ok(response);
   }
-
-  // @GetMapping("/totalReservations")
-  // public ResponseEntity<Map<String, Integer>> getTotalReservations() {
-  // int totalReservations = reservationService.getTotalReservations();
-  // Map<String, Integer> response = new HashMap<>();
-  // response.put("totalReservations", totalReservations);
-  // return ResponseEntity.ok(response);
-  // }
-
-  // @GetMapping("/totalSales")
-  // public ResponseEntity<Map<String, Integer>> getTotalSales() {
-  // int totalSales = reservationService.getTotalSales();
-  // Map<String, Integer> response = new HashMap<>();
-  // response.put("totalSales", totalSales);
-  // return ResponseEntity.ok(response);
-  // }
-
 }

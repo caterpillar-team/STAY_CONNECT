@@ -1,12 +1,12 @@
 package com.caterpillars.StayConnect.component.initializer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.caterpillars.StayConnect.model.entities.Accommodation;
 import com.caterpillars.StayConnect.model.entities.Category;
@@ -23,41 +23,40 @@ public class AccommodationInitializer implements CommandLineRunner {
   private AccommodationRepository accommodationRepository;
 
   @Autowired
-  private GradeRepository gradeRepository;
-
-  @Autowired
   private CategoryRepository categoryRepository;
 
-  private List<Grade> grades;
-  private List<Category> categories;
+  @Autowired
+  private GradeRepository gradeRepository;
 
   @Override
-  @Transactional
   public void run(String... args) throws Exception {
-    grades = gradeRepository.findAll();
-    categories = categoryRepository.findAll();
-
-    final int TOTAL_ACCOMMODATIONS = 30;
-    for (int i = 1; i <= TOTAL_ACCOMMODATIONS; i++) {
-      Accommodation accommodation = Accommodation.builder()
-          .category(getRandomCategory())
-          .grade(getRandomGrade())
-          .name("Accommodation " + i)
-          .address("Location " + i)
-          .latitude(37.5665 + (Math.random() * 0.1 - 0.05)) // 서울을 기준으로 ±0.05도
-          .longitude(126.978 + (Math.random() * 0.1 - 0.05)) // 서울을 기준으로 ±0.05도
-          .build();
-      accommodationRepository.save(accommodation);
+    if (accommodationRepository.count() == 0) {
+      saveTestData();
     }
   }
 
-  private Grade getRandomGrade() {
-    int randomIndex = (int) (Math.random() * grades.size());
-    return grades.get(randomIndex);
+  private List<Accommodation> createTestData() {
+    List<Accommodation> accommodations = new ArrayList<>();
+    Category category = categoryRepository.findById((long) (Math.random() * 8) + 1).orElseThrow();
+    Grade grade = gradeRepository.findById((long) (Math.random() * 5) + 1).orElseThrow();
+
+    for (int i = 1; i <= 30; i++) {
+      Accommodation accommodation = Accommodation.builder()
+          .name("Accommodation " + i)
+          .address("Address " + i)
+          .latitude(37.0 + i)
+          .longitude(127.0 + i)
+          .category(category)
+          .grade(grade)
+          .build();
+      accommodations.add(accommodation);
+    }
+    return accommodations;
   }
 
-  private Category getRandomCategory() {
-    int randomIndex = (int) (Math.random() * categories.size());
-    return categories.get(randomIndex);
+  private void saveTestData() {
+    List<Accommodation> accommodations = createTestData();
+    accommodationRepository.saveAll(accommodations);
   }
+
 }

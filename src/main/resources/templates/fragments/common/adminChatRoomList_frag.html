@@ -1,0 +1,19 @@
+<div id="ChatRoomListContainer" class="hidden" th:fragment="adminChatRoomListCard">
+   <div class="ChatRoomListHeader">
+      <h5>ChatRoom 목록</h5>
+   </div>
+   <div class="ChatRoomListBody">
+      <div class="UnassignedChatRooms"></div>
+         <h6>할당되지 않은 ChatRoom</h6>
+         <ul class="ChatRoomList" id="unassignedChatRoomList">
+            <!-- Unassigned chat rooms will be dynamically inserted here by JavaScript -->
+         </ul>
+      </div>
+      <div class="AssignedChatRooms">
+         <h6>할당된 ChatRoom</h6>
+         <ul class="ChatRoomList" id="assignedChatRoomList">
+            <!-- Assigned chat rooms will be dynamically inserted here by JavaScript -->
+         </ul>
+      </div>
+   </div>
+</div>

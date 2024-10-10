@@ -29,11 +29,9 @@ public class URIController {
 
     @GetMapping("/")
     public String index(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
-        log.info("/ 실행");
 
         Pageable pageable = PageRequest.of(page, 8);
 
-        // 숙소 목록 조회 및 DTO 변환
         Page<Accommodation> accommodationPage = accommodationService.findAllAccommodations(pageable);
         List<AccommodationDto> accommodationDtos = accommodationService.getAccommodationDtos(accommodationPage);
 
@@ -54,7 +52,6 @@ public class URIController {
             @RequestParam(name = "page", defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, 8);
 
-        // 숙소 목록 조회 및 DTO 변환
         Page<Accommodation> accommodationPage = accommodationService.findAllAccommodations(pageable);
         List<AccommodationDto> accommodationDtos = accommodationService.getAccommodationDtos(accommodationPage);
 

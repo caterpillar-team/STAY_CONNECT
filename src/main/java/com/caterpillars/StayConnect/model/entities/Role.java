@@ -28,7 +28,7 @@ public class Role {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(unique = true)
+  @Column(unique = true, nullable = false)
   private String name;
 
   @OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
