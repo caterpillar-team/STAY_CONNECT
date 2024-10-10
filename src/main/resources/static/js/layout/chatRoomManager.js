@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (isChatVisible) {
                axios
-                  .post('/api/chatRoom')
+                  .post('/api/user/chatRoom')
                   .then(function (response) {
                      console.log(response.data);
                   })
