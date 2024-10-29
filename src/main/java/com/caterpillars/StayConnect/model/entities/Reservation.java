@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -38,16 +39,28 @@ public class Reservation {
   @JoinColumn(name = "room_info_id", nullable = false)
   private RoomInfo roomInfo;
 
+  @Column(nullable = false)
   private LocalDateTime checkIn;
+
+  @Column(nullable = false)
   private LocalDateTime checkOut;
 
+  @Column(nullable = false)
   private LocalDateTime reservationAt;
 
+  @Column(nullable = false)
   private String imp_uid;
+
+  @Column(nullable = false)
   private int price;
+
+  @Column(nullable = false)
   private String pay_method;
+
+  @Column(nullable = false)
   private String merchant_uid;
 
+  @Column(nullable = false)
   private String reservationType;
 
 }

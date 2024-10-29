@@ -5,8 +5,8 @@ import java.util.List;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import groovy.util.logging.Slf4j;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +23,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Slf4j
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -38,22 +37,31 @@ public class RoomInfo {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Accommodation accommodation;
 
+    @Column(nullable = false)
     private String roomType;
 
+    @Column(nullable = false)
     private String bedType;
 
+    @Column(nullable = false)
     private String stayType;
 
+    @Column(nullable = false)
     private int numberOfPeopleStandard;
 
+    @Column(nullable = false)
     private int numberOfPeopleMax;
 
+    @Column(nullable = false)
     private String checkInTime;
 
+    @Column(nullable = false)
     private String checkOutTime;
 
+    @Column(nullable = false)
     private int count;
 
+    @Column(nullable = false)
     private int price;
 
     @OneToMany(mappedBy = "roomInfo", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })

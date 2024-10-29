@@ -44,9 +44,9 @@ public class JWTLogoutSuccessHandler implements LogoutSuccessHandler {
   private Cookie createLogoutCookie() {
     Cookie cookie = new Cookie("jwt", null);
     cookie.setHttpOnly(true);
-    cookie.setSecure(false); // HTTPS 환경에서만 작동하도록 설정
-    cookie.setPath("/"); // 모든 경로에서 쿠키 접근 가능
-    cookie.setMaxAge(0); // 쿠키 제거
+    cookie.setSecure(false);
+    cookie.setPath("/");
+    cookie.setMaxAge(0);
     return cookie;
   }
 }

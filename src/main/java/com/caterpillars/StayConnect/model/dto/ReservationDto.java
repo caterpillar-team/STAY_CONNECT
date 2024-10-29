@@ -1,8 +1,12 @@
 package com.caterpillars.StayConnect.model.dto;
 
-import lombok.*;
-
 import java.time.LocalDateTime;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Getter
@@ -20,6 +24,4 @@ public class ReservationDto {
     private String payMethod;
     private LocalDateTime checkIn;
     private LocalDateTime checkOut;
-
-
 }
