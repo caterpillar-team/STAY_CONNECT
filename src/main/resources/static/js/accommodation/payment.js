@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
    // 결제 버튼
    confirmBtns.forEach(function (button) {
       button.addEventListener('click', function () {
-
          var modal = button.closest('.modal');
 
          var merchantUid = new Date().getTime();
@@ -59,17 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
                buyer_tel: buyerTel,
             },
             function (resp) {
-
                if (resp.success) {
-                  const paymentData = {
-                     imp_uid: resp.imp_uid,
-                     merchant_uid: resp.merchant_uid,
-                     paid_amount: resp.paid_amount,
-                     pay_method: resp.pay_method,
-                     userId: userId,
-                     roomInfoId: roomInfoId,
-                  };
-
                   const formData = new FormData();
                   formData.append('imp_uid', resp.imp_uid);
                   formData.append('merchant_uid', resp.merchant_uid);
@@ -78,29 +67,24 @@ document.addEventListener('DOMContentLoaded', function () {
                   formData.append('userId', userId);
                   formData.append('roomInfoId', roomInfoId);
 
-                  function logFormData(formData) {
-                     for (const entry of formData.entries()) {
-                        const [key, value] = entry;
-                     }
-                  }
-
-                  logFormData(formData);
-
                   axios
                      .post('/user/paySuccess', formData, {
                         headers: { 'Content-Type': 'x-www-form-urlencoded' },
                      })
                      .then(response => {
+                        if (response.data) {
+                           modal.style.display = 'none';
+                           var modalBackdrop = document.querySelector('.modal-backdrop');
+                           if (modalBackdrop) {
+                              modalBackdrop.parentNode.removeChild(modalBackdrop);
+                           }
+                           document.body.classList.remove('modal-open');
+                           document.body.style = '';
 
-                        modal.style.display = 'none';
-                        var modalBackdrop = document.querySelector('.modal-backdrop');
-                        if (modalBackdrop) {
-                           modalBackdrop.parentNode.removeChild(modalBackdrop);
+                           window.location.href = '/user/myPage';
+                        } else {
+                           alert('결제는 완료되었으나 예약 생성 중 오류가 발생했습니다.');
                         }
-                        document.body.classList.remove('modal-open');
-                        document.body.style = '';
-
-                        window.location.href = '/user/myPage';
                      })
                      .catch(error => {
                         console.error('Error creating reservation:', error);

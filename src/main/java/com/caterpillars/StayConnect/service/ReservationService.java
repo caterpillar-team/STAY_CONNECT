@@ -87,6 +87,7 @@ public class ReservationService {
                 .reservationAt(LocalDateTime.now())
                 .price(paymentDto.getPaid_amount())
                 .reservationType(paymentDto.getMerchant_uid())
+                .merchant_uid(paymentDto.getMerchant_uid())
                 .pay_method(paymentDto.getPay_method())
                 .build();
 

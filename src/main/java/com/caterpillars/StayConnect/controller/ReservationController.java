@@ -52,13 +52,18 @@ public class ReservationController {
     @PostMapping("/paySuccess")
     public @ResponseBody ResponseEntity<String> paySuccess(@ModelAttribute PaymentDto paymentDto) {
 
-        User user = userService.findById(paymentDto.getUserId());
-        RoomInfo roomInfo = roomInfoService.findById(paymentDto.getRoomInfoId());
+        try {
+            User user = userService.findById(paymentDto.getUserId());
+            RoomInfo roomInfo = roomInfoService.findById(paymentDto.getRoomInfoId());
 
-        reservationService.createReservation(paymentDto.getImp_uid(), user, roomInfo, LocalDateTime.now(),
+            reservationService.createReservation(paymentDto.getImp_uid(), user, roomInfo, LocalDateTime.now(),
                 LocalDateTime.now().plusDays(1), paymentDto);
 
-        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+            return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Reservation creation failed", e);
+            return new ResponseEntity<>("FAILURE", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/reservation/{reservationId}")
