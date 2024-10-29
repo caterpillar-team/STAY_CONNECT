@@ -21,10 +21,8 @@ public class SearchController {
 
     @GetMapping("/search")
     public @ResponseBody ResponseEntity<List<AccommodationDto>> search(String searchText) {
-        log.info("get /search 실행 : " + searchText);
         List<AccommodationDto> result = accommodationService.search(searchText);
-        log.info("result : " + result);
+
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-    
 }

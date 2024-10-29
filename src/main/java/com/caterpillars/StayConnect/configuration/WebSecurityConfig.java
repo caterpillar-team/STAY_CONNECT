@@ -1,26 +1,33 @@
 package com.caterpillars.StayConnect.configuration;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.caterpillars.StayConnect.component.filter.JWTAuthenticationFilter;
 import com.caterpillars.StayConnect.component.handler.JWTLoginSuccessHandler;
 import com.caterpillars.StayConnect.component.handler.JWTLogoutSuccessHandler;
 import com.caterpillars.StayConnect.component.handler.OAuth2UserLoginFailureHandler;
 
-@Profile("prod")
+import jakarta.servlet.http.HttpServletResponse;
+
 @Configuration
 @EnableWebSecurity
-public class ProdSecurityConfig {
+public class WebSecurityConfig {
 
         @Autowired
         private JWTAuthenticationFilter jwtAuthenticationFilter;
@@ -42,40 +49,69 @@ public class ProdSecurityConfig {
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 http
-                                .csrf((csrf) -> csrf.disable())
-
+                                .headers(headers -> headers.contentSecurityPolicy(
+                                                csp -> csp.policyDirectives(
+                                                                "script-src 'self' *.daumcdn.net;")))
+                                .csrf((csrf) -> csrf
+                                                .ignoringRequestMatchers("/ws/**")
+                                                .disable())
+                                .cors(cors -> cors.configurationSource(
+                                                corsConfigurationSource()))
                                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                                                 .requestMatchers("/", "/accommodation/**", "/search").permitAll()
+                                                .requestMatchers("/ws/**").authenticated()
+                                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                                                .requestMatchers("/api/user/**").authenticated()
                                                 .requestMatchers("/auth/**").not().authenticated()
                                                 .requestMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/fonts/**")
                                                 .permitAll()
-                                                .requestMatchers("/user/**", "/chat/**").hasAnyRole("USER", "ADMIN")
+                                                .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
-
+                                .exceptionHandling(exception -> exception
+                                                .defaultAuthenticationEntryPointFor(unauthorizedEntryPoint(),
+                                                                new AntPathRequestMatcher("/ws/**")))
                                 .formLogin((formLogin) -> formLogin
                                                 .loginPage("/auth/signin")
+                                                .loginProcessingUrl("/auth/signin")
                                                 .usernameParameter("username")
                                                 .passwordParameter("password")
                                                 .defaultSuccessUrl("/", true)
-                                                .successHandler(jwtLoginSuccessHandler))
-
+                                                .successHandler(jwtLoginSuccessHandler)
+                                                .permitAll())
                                 .oauth2Login(oauth -> oauth
                                                 .defaultSuccessUrl("/", true)
                                                 .failureUrl("/auth/signin?error=true")
                                                 .successHandler(jwtLoginSuccessHandler)
-                                                .failureHandler(oAuth2UserLoginFailureHandler))
-
+                                                .failureHandler(oAuth2UserLoginFailureHandler)
+                                                .permitAll())
                                 .logout(logout -> logout
                                                 .logoutUrl("/user/logout")
                                                 .logoutSuccessUrl("/")
-                                                .logoutSuccessHandler(jwtLogoutSuccessHandler))
-
+                                                .logoutSuccessHandler(jwtLogoutSuccessHandler)
+                                                .permitAll())
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-                                // .requiresChannel(channel -> channel.anyRequest().requiresSecure());
-
                 return http.build();
+        }
+
+        @Bean
+        public CorsConfigurationSource corsConfigurationSource() {
+                CorsConfiguration configuration = new CorsConfiguration();
+                configuration.setAllowedOrigins(List.of("https://stayconnect.shop", "http://localhost:8080"));
+                configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                configuration.setAllowedHeaders(List.of("*"));
+                configuration.setAllowCredentials(true);
+
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                source.registerCorsConfiguration("/**", configuration);
+                return source;
+        }
+
+        private AuthenticationEntryPoint unauthorizedEntryPoint() {
+                return (request, response, authException) -> {
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                };
         }
 }

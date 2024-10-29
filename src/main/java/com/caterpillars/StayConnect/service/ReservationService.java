@@ -87,6 +87,7 @@ public class ReservationService {
                 .reservationAt(LocalDateTime.now())
                 .price(paymentDto.getPaid_amount())
                 .reservationType(paymentDto.getMerchant_uid())
+                .merchant_uid(paymentDto.getMerchant_uid())
                 .pay_method(paymentDto.getPay_method())
                 .build();
 
@@ -122,9 +123,9 @@ public class ReservationService {
 
     @Transactional(readOnly = true)
     public List<ReservationDto> getReservationsByUserId(Long userId) {
-        return reservationRepository.findByUserId(userId).stream() // stream : 컬렉션 데이터를 처리할 때 사용할 수 있는 유연한 API를 제공
-                .map(this::convertToDto) // convertToDto(Reservation 객체를 ReservationDto 객체로 변환) 메서드를 사용하여 Dto객체로 변환.
-                .collect(Collectors.toList()); // 변환된 ReservationDto 객체들을 리스트로 수집하여 반환
+        return reservationRepository.findByUserId(userId).stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     private ReservationDto convertToDto(Reservation reservation) {
@@ -147,60 +148,46 @@ public class ReservationService {
 
     @Transactional
     public void deleteReservationById(Long reservationId) {
-        System.out.println("(ReservationService) Deleting reservation with ID: " + reservationId); // 디버깅 로그 추가
         reservationRepository.deleteById(reservationId);
     }
 
-    // 토큰 발급 메서드
     @Transactional
     public @ResponseBody void getToken() {
-        log.info("GET /portOne/getToken..");
 
-        // URL
         String url = "https://api.iamport.kr/users/getToken";
-        // HEADER
+
         HttpHeaders headers = new HttpHeaders();
 
-        // PARAMS
-        MultiValueMap params = new LinkedMultiValueMap();
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("imp_key", apiKey);
         params.add("imp_secret", apiSecret);
 
-        // ENTITY
-        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity(params, headers);
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
 
-        // REQUEST
         RestTemplate rt = new RestTemplate();
         ResponseEntity<PortOneTokenResponse> response = rt.exchange(url, HttpMethod.POST, entity,
                 PortOneTokenResponse.class);
-        // RESPONSE
-        System.out.println(response.getBody());
+
         this.portOneTokenResponse = response.getBody();
 
     }
 
-    // 결제취소 시 DB를 삭제하는 메서드
     @Transactional
     public Map<String, Object> cancelReservation(Long reservationId) {
         System.out.println("received request : delete");
 
-        // String reservationIdStr = request.get("reservationId");
-        // Long reservationId = Long.parseLong(reservationIdStr);
         Map<String, Object> response = new HashMap<>();
 
         try {
-            log.info("Deleting reservation with ID: " + reservationId);
             deleteReservationById(reservationId);
             response.put("success", true);
         } catch (Exception e) {
-            log.info("Error while deleting reservation: " + e.getMessage());
             response.put("success", false);
             response.put("message", "예약 삭제 중 오류 발생: " + e.getMessage());
         }
         return response;
     }
 
-    // 결제취소 메서드
     @Transactional
     public boolean cancel_reservation(Long reservationId) {
 
@@ -213,34 +200,26 @@ public class ReservationService {
         String imp_uid = reservation.getImp_uid();
         String merchant_uid = reservation.getMerchant_uid();
 
-        // URL
         String url = "https://api.iamport.kr/payments/cancel";
 
-        // Request Header
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + portOneTokenResponse.getResponse().getAccess_token());
         headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
 
-        // Request Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("imp_uid", imp_uid);
         params.add("merchant_uid", merchant_uid);
 
-        // Header+Body
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
 
-        // 요청
         RestTemplate restTemplate = new RestTemplate();
 
-        // 반환값확인
         ResponseEntity<String> resp = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
         System.out.println(resp);
         System.out.println(resp.getBody());
 
-        // JSON 파싱
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> responseMap = new HashMap<>();
 
         try {
             JsonNode rootNode = objectMapper.readTree(resp.getBody());

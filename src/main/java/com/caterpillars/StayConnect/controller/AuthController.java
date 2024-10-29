@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.caterpillars.StayConnect.model.dto.UserSignUpDto;
-import com.caterpillars.StayConnect.model.entities.User;
 import com.caterpillars.StayConnect.service.AuthService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,9 +49,6 @@ public class AuthController {
                 ? httpServletRequest.getAttribute("phoneNumber").toString()
                 : "";
 
-        log.info(realName);
-        log.info(phoneNumber);
-
         UserSignUpDto userSignUpDto = new UserSignUpDto();
 
         if (realName != null && phoneNumber != null) {
@@ -69,13 +65,12 @@ public class AuthController {
     public String signUp(@ModelAttribute("user") @Valid UserSignUpDto signUpDto, BindingResult result, Model model,
             RedirectAttributes redirectAttributes) {
 
-        if (result.hasErrors()) { // @Valid에 오류가 있을 시 formErrors 키워드로 에러 메시지들을 signUp에 반환
+        if (result.hasErrors()) {
             model.addAttribute("formErrors", result.getAllErrors());
             return "pages/auth/signup";
         }
 
-        User user = authService.signUp(signUpDto);
-        log.info(user.toString());
+        authService.signUp(signUpDto);
 
         redirectAttributes.addFlashAttribute("success", true);
         return "redirect:/auth/signIn";

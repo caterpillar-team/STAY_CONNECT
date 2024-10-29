@@ -40,7 +40,6 @@ public class UserService {
 
     @Transactional
     public void deleteUserById(Long id) {
-        log.info("Deleting user with ID: " + id);
         userRepository.deleteById(id);
     }
 

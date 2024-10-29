@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.caterpillars.StayConnect.model.entities.Accommodation;
 
-import groovy.util.logging.Slf4j;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Slf4j
 public class RoomInfoDto {
 
     private long id;
