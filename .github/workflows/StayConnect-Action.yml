@@ -198,18 +198,10 @@ jobs:
               key: ${{ secrets.EC2_SSH_KEY }}
               port: ${{ secrets.EC2_PORT }}
               script: |
-                 if [ -f /home/${{ secrets.EC2_USER }}/docker/docker-compose-prod.yml ]; then
-                   echo "File exists"
-                   chmod 644 /home/${{ secrets.EC2_USER }}/docker/docker-compose-prod.yml
-                   chmod +x init-letsencrypt.sh
-                 else
-                   echo "File does not exist"
-                   exit 1
-                 fi
-                 docker-compose --env-file /home/${{ secrets.EC2_USER }}/.env -f /home/${{ secrets.EC2_USER }}/docker/docker-compose-prod.yml down
                  docker stop $(docker ps -aq)
                  docker rm $(docker ps -aq)
                  docker rmi -f $(docker images -q)
+                 docker-compose --env-file /home/${{ secrets.EC2_USER }}/.env -f /home/${{ secrets.EC2_USER }}/docker/docker-compose-prod.yml down
                  docker-compose --env-file /home/${{ secrets.EC2_USER }}/.env -f /home/${{ secrets.EC2_USER }}/docker/docker-compose-prod.yml pull
                  docker-compose --env-file /home/${{ secrets.EC2_USER }}/.env -f /home/${{ secrets.EC2_USER }}/docker/docker-compose-prod.yml up -d
 
